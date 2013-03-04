@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>WikiComponents</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1269016891000</creationDate>
+  <date>1360950323000</date>
+  <contentUpdateDate>1360950323000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Design: wiki based components</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.WikiComponents</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>32d2336b-7ad6-4b31-88e3-5284212cda92</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.WikiComponents</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>544bd834-3adc-43d9-85dd-5fcd56dce4ad</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+= Goal =
+
+Be able to implements any component in a wiki page like we implement wiki macro in a wiki page.
+
+Prototype in contrib's sandbox : http://svn.xwiki.org/svnroot/xwiki/contrib/sandbox/xwiki-wiki-components/
+
+= Descriptor =
+
+== ComponentClass (1 object) ==
+
+Indicate the page is a component.
+
+* implemented role
+* role hint
+
+== ComponentRequirementClass (several objects) ==
+
+Indicate which components the page require
+
+* role
+* role hint
+* binding name
+* type (single, list, map)
+
+== ComponentMethod (several objects) ==
+
+Describe one method of the component, that's the tricky part. This object contains the actual implementation of the method (like wiki macro object contains the implementation of Macro#execute component method).
+
+* method name
+* method implementation
+
+A method is not more than input and output so the idea is to have something like:
+
+{{code}}
+{{velocity}}
+#set($param1 = $xcontext.method.input.1)
+$xcontext.method.output.returnValue("return first param ${param} as string")
+{{/velocity}}
+{{/code}}
+
+If {{code}}$xcontext.method.output.returnValue(){{/code}} as not been called rendering the resulting XDOM with plain/1.0 renderer and return it if the return type is a string.
+
+Access to an equivalent of ##this## is made available through the binding ##xcontext.method.component##.
+
+= Implementation =
+
+Use a proxy to implement the component role and execute proper wiki content for each method.</content>
+</xwikidoc>

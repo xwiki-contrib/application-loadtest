@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>InstallationViaAPT</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Installation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1326963791000</creationDate>
+  <date>1360853365000</date>
+  <contentUpdateDate>1360853365000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Installation using Debian (.DEB) packages</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+Starting with XWiki 3.3, it's possible to download and install automatically XWiki and every component needed for a production instance in a one shot, with the help of our new .deb packages, into our repository.
+
+This method should work on every Debian-based linux distribution. Feel free to use [[the user Mailing List&gt;&gt;dev:Community.MailingLists]] to report an issue, or discuss about it.
+
+Before you start make sure you've checked the [[System Requirements&gt;&gt;AdminGuide.Installation#HPrerequisites]].
+
+= First Step : APT Configuration =
+
+First, you have to configure your package manager in order to use xwiki's repository. This can be done simply, using this command:
+
+{{code language="bash"}}
+wget -q "http://maven.xwiki.org/public.gpg" -O- | sudo apt-key add -
+sudo wget "http://maven.xwiki.org/stable/xwiki-stable.list" -P /etc/apt/sources.list.d/
+{{/code}}
+
+Now you can update the packages database to read the data from this repository.
+
+{{code language="bash"}}
+sudo apt-get update
+{{/code}}
+
+{{info}}
+I'll assume you're using APT tools. You can use Aptitude as well.
+{{/info}}
+
+Now you can make a little search to see what this repo offers.
+
+{{code language="bash"}}
+apt-cache search xwiki
+{{/code}}
+
+It shows the following packages:
+
+* xwiki-enterprise-common - XWiki enterprise common package
+* xwiki-enterprise-mysql-common - XWiki enterprise MySQL common package
+* xwiki-enterprise-pgsql-common - XWiki enterprise PostgreSQL common package
+* xwiki-enterprise-tomcat-common - XWiki enterprise Tomcat common pcakge
+* xwiki-enterprise-tomcat5-mysql - XWiki enterprise Tomcat/MySQL based package
+* xwiki-enterprise-tomcat6-mysql - XWiki enterprise Tomcat/MySQL based package
+* xwiki-enterprise-tomcat7-mysql - XWiki enterprise Tomcat/MySQL based package
+* xwiki-enterprise-tomcat5-pgsql - XWiki enterprise Tomcat/PostgreSQL
+* xwiki-enterprise-tomcat6-pgsql - XWiki enterprise Tomcat/PostgreSQL
+* xwiki-enterprise-tomcat7-pgsql - XWiki enterprise Tomcat/PostgreSQL
+
+= Second Step : Complete Installation =
+
+== Using MySQL ==
+
+As you may now, you only have to run this command to install all the interesting components.
+
+{{code language="bash"}}
+apt-get install xwiki-enterprise-tomcat6-mysql
+{{/code}}
+
+This virtual package depends on xwiki-enterprise-common, xwiki-enterprise-tomcat-common, xwiki-enterprise-mysql-common, mysql-server, tomcat6 and libmysql-java.
+
+During the installation, you may have some questions from dbconfig, in charge of the configuration of the database. Don't confuse it with the MySQL root password prompt, which beg you to put a password for the superuser. 
+DBconfig prompt is about the configuration of xwiki and mysql. If you haven't any mysql already installed and you aren't familiar with it, you should let dbconfig handle this.
+
+DBconfig is then asking you for the mysql root password (you may have entered before). Then, you can choose the password for the "xwiki" mysql user. This user will be used to connect from XWiki application, choose is wisely, but you don't have to pay a lot of attention to it, because after that, dbconfig is configuring XWiki automatically with these credentials.
+
+The installation now ends, with the automatic start of tomcat daemon ("Starting Tomcat servlet engine tomcat6      [OK]").
+
+You can now point your favorite browser to the following URL to use your wiki: http://localhost:8080/xwiki
+
+{{warning}}
+Note that your wiki is absolutely empty, like a WAR installation. You have to go to the administration and import the default XAR package (link above the upload form) or you can import a wiki from another instance (XAR export/import).
+{{/warning}}
+
+== Using PostgreSQL ==
+
+It's as simple as the MySQL installation, you only need to choose the right virtual package.
+
+{{code language="bash"}}
+apt-get install xwiki-enterprise-tomcat6-pgsql
+{{/code}}
+
+You can now point your favorite browser to the following URL to use your wiki: http://localhost:8080/xwiki
+
+PostgreSQL is slightly different than MySQL in the handling of databases and in the manual configuration, but everything should work on the first try.
+
+{{warning}}
+There is a configuration problem in the 3.1.1 .deb release. Go to ##/etc/xwiki/hibernate.cfg.xml## and replace "com.mysql.jdbc.Driver" with "org.postgresql.Driver" in the uncommented part.
+{{/warning}}
+
+== Concluding Step ==
+
+The final step is to fill your Wiki with initial content. This can be done in four ways:
+
+* Create new pages by hand
+* Import the default Wiki that we are providing as a [[XAR file&gt;&gt;xwiki:Main.Download]] by using the [[Import feature&gt;&gt;AdminGuide.ImportExport]]
+* Import the default Wiki by the new Distribution Wizard. Since version 4.2 this is the first thing you see after browsing to your new XWiki instance
+* Extend your installation to [[XWiki Enterprise Manager with the Extension Manager&gt;&gt;manager:AdminGuide.Installation#HInstallXEMusingDebian28.DEB29PackagesandExtensionManager]].
+
+The default wiki is a fully configured wiki that you can use as a starting point for creating your own wiki content. It provides the following:
+
+* A Blog
+* A "Recent Changes" page
+* The [[Panels Application&gt;&gt;extensions:Extension.Panels Application]]
+* Search
+* Administration page (Access rights, Group and users management, etc)
+* ... and much more
+
+{{info}}
+The wiki comes configured with an "Admin" user (the password is "admin" in lowercase). You'll need that username/password to log in once you've imported the default wiki.
+{{/info}}
+
+== Tomcat Usability ==
+
+The script to command tomcat daemon is ##/etc/init.d/tomcat6##.
+
+{{code language="bash"}}
+/etc/init.d/tomcat6 start
+/etc/init.d/tomcat6 stop
+/etc/init.d/tomcat6 restart
+{{/code}}
+
+To customize your Tomcat instance (and thus, XWiki) you have to modify the ##/etc/default/tomcat6## file. The most important thing to do is to modify the memory value allocated to Tomcat. Indeed, Tomcat is by default configured to use 128Mb of RAM, which is clearly a low value likely to create a memory leak and crash. We advise to uncomment and modify the CATALINA_OPTS line in the tomcat6 file, replacing it by:
+
+{{code language="none"}}
+JAVA_OPTS="-Djava.awt.headless=true -Xmx512m -XX:MaxPermSize=192m"
+{{/code}}
+
+You can set the Xmx value to which one you want, according to your needs and your hardware. 1024Mb should be enough for a medium/large wiki.
+
+= Uninstallation =
+
+If you want to remove XWiki from your system, you only have to uninstall the package you've installed at the beginning of this documentation. For example:
+{{code language="bash"}}apt-get --purge remove xwiki-enterprise-tomcat6-mysql{{/code}}
+and
+{{code language="bash"}}apt-get --purge remove xwiki-enterprise-common{{/code}}
+
+Attention, these commands do not remove mysql nor tomcat from your system. To do so, if you don't use these applications for another purpose, you can make some cleaning with
+{{code language="bash"}}
+apt-get --purge autoremove
+{{/code}}
+
+= Overview of the important files =
+
+Here is a list of a different tree. The point is to help you find useful files easily. This list is showing a few files and directories, to keep it simple and clear. The '-&gt;' is used to show a link to another file/directory.
+
+== XWiki ==
+
+**/etc/xwiki/**
+_ hibernate.cfg.xml        //Hibernate configuration, helping to configure the database resources//
+_ xwiki.cfg            
+_ xwiki.properties
+
+**/usr/lib/xwiki/**
+_ META-INF
+_ resources
+_ skins
+_ templates
+_ WEB-INF
+    _ hibernate.cfg.xml -&gt; /etc/xwiki/hibernate.cfg.xml
+    _ xwiki.cfg -&gt; /etc/xwiki/xwiki.cfg
+    _ xwiki.properties -&gt; /etc/xwiki/xwiki.properties
+
+== Tomcat ==
+
+**/etc/tomcat6/**
+_ context.xml
+_ logging.properties
+_ server.xml
+_ tomcat-users.xml
+_ web.xml
+
+**/etc/default/**
+_ tomcat6                 //This file helps configuring the Tomcat daemon. Every change needs a restart to be effective//
+
+**/etc/init.d/**
+_ tomcat6                 //Daemon start/stop script//
+
+**/var/lib/tomcat6/**
+_ common
+_ conf -&gt; /etc/tomcat6
+_ logs -&gt; ../../log/tomcat6
+_ server
+_ shared
+_ webapps
+
+**/var/log/tomcat6/**
+_ catalina.out            //First logging file. Check this one if you're experiencing troubles with Tomcat/XWiki.//
+
+== MySQL ==
+
+**/etc/mysql/**
+_ debian.cnf
+_ my.cnf                  //Database configuration. Max_allowed_packet is the parameter you  need to change to improve upload data size.// permitted.
+
+**/var/lib/mysql/**
+_ mysql
+_ xwiki                   //This is the xwiki database. You may want to backup this directory from time to time.//
+
+**/var/log/**
+_ syslog
+_ mysql
+    _ error.log
+
+== PostgreSQL ==
+
+**/etc/postgresql/**
+_ &lt;version&gt;
+    _ main
+        _ postgresql.conf
+        _ pg_hba.conf
+
+**/var/lib/postgresql/8.4/main/**
+_ base</content>
+</xwikidoc>

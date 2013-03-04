@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>IRC</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1165957905000</creationDate>
+  <date>1360950286000</date>
+  <contentUpdateDate>1322756473000</contentUpdateDate>
+  <version>1.1</version>
+  <title>IRC</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.IRC</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>12cff9cd-813f-4cfa-b677-3fe918d9777f</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+All Serious decisions are made on the [[mailing lists&gt;&gt;Community.MailingLists]]. However if you have a question or want to drop by for a chat, we have an IRC channel.
+
+{{warning}}The chat channel is publicly logged, you can find the [[XWiki chat archives&gt;&gt;IRC.WebHome]] here.{{/warning}}
+
+= Etiquette =
+If you are new to asking for help via chat medium, there are a few things you can do which will get you an answer faster and be make it a more pleasant experience for the developers.
+
+* Join and ask your question into the channel, that's what it's for. We are not available all the time and with volunteer support you will need to make your question easy to answer. If you ask a specific question then the developer who is most knowledgeable in the area of your question will see it and be able to help you.
+** **Good:** "Hi, I am having a problem registering new users on XWiki-2.1"
+** **Bad:** "Is anyone around to help me?"
+
+* Don't ask and run, just because you didn't get an answer doesn't mean you won't ever get one. It's perfectly fine to idle in the channel for as long as you want.
+
+* Provide any relevant information from the logs, paste it to one of the numerous pastebins on the web then provide the link with your question. {{error}}If you see this{{/error}} in your wiki, click on it and it will likely expand to provide you with more information which you can paste to a pastebin.
+
+* Sending private messages to people who you don't know is rude. It amounts to demanding their immediate attention and it will often be ignored.
+
+If you are interested in how to ask better questions which will get you better answers, you should read [[How To Ask Questions The Smart Way&gt;&gt;http://www.catb.org/~esr/faqs/smart-questions.html]].
+
+= IRC =
+
+You can connect to our IRC channel through this webpage.
+
+**If you ask a question and don't get a response, please wait (maybe for a number of hours.) We're not at the computer all the time but when we do see your question we will try to answer.**
+
+{{html}}
+&lt;iframe src="http://webchat.freenode.net?randomnick=1&amp;channels=xwiki&amp;prompt=1&amp;uio=d4" width="647" height="400"&gt;&lt;/iframe&gt;
+{{/html}}
+
+Or you can connect with your favorite chat client.
+
+The IRC channel is available on FreeNode:
+* Server: irc.freenode.org
+* Port: 6667 (SSL on port 7000)
+* Channel: #xwiki
+
+You can use any IRC client. Examples of IRC clients are:
+
+* [[Pidgin&gt;&gt;http://pidgin.im/]]
+* [[Irssi&gt;&gt;http://irssi.org/]]
+* [[Chatzilla&gt;&gt;https://addons.mozilla.org/firefox/addon/16]]
+** If you have chatzilla, use this direct link to our channel: ##ircs:~//irc.freenode.net:7000/xwiki##
+* [[KVirc&gt;&gt;http://www.kvirc.net/]]
+* [[Colloquy&gt;&gt;http://colloquy.info]]
+* [[Adium&gt;&gt;http://adium.im/]]
+
+
+= Jabber ==
+
+{{warning}}The jabber channel is no longer used nor bridged to the IRC channel. If you join you will probably find it empty.{{/warning}}
+
+The Jabber group chart is available at:
+* Server: conference.jabber.org
+* Room name: xwiki
+
+Example of Jabber clients:
+* [[Adium&gt;&gt;http://adium.im/]] (Mac)
+* [[Pidgin&gt;&gt;http://pidgin.im/]]
+* [[Psi&gt;&gt;http://psi-im.org/]]
+
+= Archives =
+
+The IRC chat is archived and the archives are located [[here&gt;&gt;IRC.WebHome]].
+</content>
+</xwikidoc>

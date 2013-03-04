@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>InstallationGeronimo</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>platform:AdminGuide.Installation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1275544602000</creationDate>
+  <date>1361190305000</date>
+  <contentUpdateDate>1361190305000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Geronimo Installation</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.InstallationGeronimo</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>2649fb3c-7aef-47d0-8765-3dc2f59b1466</guid>
+    <property>
+      <tags>
+        <value>Apache</value>
+        <value>Geronimo</value>
+        <value>Jetty</value>
+        <value>common-lang</value>
+        <value>replaceEach</value>
+      </tags>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}{{toc/}}{{/box}}
+
+=Apache Geronimo Installation=
+
+{{info}}
+* This was written for version **//2.2//**. There is no reason why it wouldn't work on other platforms.
+* The default username for Geronimo is **//system//** and the default password is **//manager//**.
+{{/info}}
+
+Out of the box you will have issues with Geronimo, but these are not hard to fix. This was the error I got that lead me down the path to writing this deployment guide for Geronimo:
+
+{{error}}
+Error 500 org.apache.commons.lang.StringUtils.replaceEach(Ljava/lang/String;[Ljava/lang/String;[Ljava/lang/String;
+{{/error}}
+
+== Quick Steps ==
+
+For the impatient, the steps to get it working are:
+* Add Apache commons language to the repository
+* Create a ##geronimo-web.xml## file and add it to your war file
+* Make your changes as per a normal installation (i.e., to the ##xwiki.cfg##, ##hibernate.cfg.xml##, etc.)
+The optional steps I did were:
+* Add a higher version of commons-beanutils to repository
+* Add a higher version of commons-fileupload to repository
+* Add a higher version of commons-io to repository
+
+=== Minimum XML Changes ===
+
+Modify your ##geronimo-web.xml## and add the following library to match how you installed the library into the repository:
+
+{{code language="xml"}}
+&lt;dependency&gt;
+   &lt;groupId&gt;apache-commons&lt;/groupId&gt;
+   &lt;artifactId&gt;commons-lang&lt;/artifactId&gt;
+   &lt;version&gt;2.5&lt;/version&gt;
+   &lt;type&gt;jar&lt;/type&gt;
+&lt;/dependency&gt;
+{{/code}}
+
+= All Changes =
+
+== geronimo-web.xml ==
+
+Here is a sample deployment resource xml file:
+
+{{code language="xml"}}
+
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;web-app xmlns="http://geronimo.apache.org/xml/ns/j2ee/web-2.0.1"&gt;
+    &lt;dep:environment xmlns:dep="http://geronimo.apache.org/xml/ns/deployment-1.2"&gt;
+	    &lt;!--
+		  ** GroupID : The grouping you put xwiki in, like your parent container I guess.
+		  ** ArtifactID : Same as the war name, full name + version.
+		  ** Version : A version of the software.
+		  ** Type : Type of deployment. In this case a WAR archive.
+		--&gt;
+        &lt;dep:moduleId&gt;
+            &lt;dep:groupId&gt;default&lt;/dep:groupId&gt;
+            &lt;dep:artifactId&gt;xwiki-enterprise-web-2.3.1&lt;/dep:artifactId&gt;
+            &lt;dep:version&gt;1275530872796&lt;/dep:version&gt;
+            &lt;dep:type&gt;war&lt;/dep:type&gt;
+        &lt;/dep:moduleId&gt;
+		&lt;!-- 
+		   ** Configure the JDBC connection pool, in this case the pool is based on H2 database.
+		   ** It is here you would configure your oracle, postgres, mysql, sqlserver, etc pool drivers.
+		  --&gt;
+        &lt;dep:dependencies&gt;
+            &lt;dep:dependency&gt;
+                &lt;dep:groupId&gt;jdbc&lt;/dep:groupId&gt;
+                &lt;dep:artifactId&gt;h2&lt;/dep:artifactId&gt;
+                &lt;dep:version&gt;1.2.136&lt;/dep:version&gt;
+                &lt;dep:type&gt;jar&lt;/dep:type&gt;
+            &lt;/dep:dependency&gt;
+			&lt;!-- The location of the pool --&gt;
+			&lt;dependency&gt;
+                &lt;groupId&gt;console.dbpool&lt;/groupId&gt;
+                &lt;artifactId&gt;XWikiDS&lt;/artifactId&gt;
+            &lt;/dependency&gt;
+        &lt;/dep:dependencies&gt;
+		&lt;!-- Libraries 
+		  ** This is where I specified the libraries that were out of date in geronimo
+		  ** that lead to it not working.  There might be better ways, but this was how
+		  ** I did it to get it working quickly.
+		--&gt;
+		&lt;!-- Required --&gt;
+		&lt;dependency&gt;
+                &lt;groupId&gt;apache-commons&lt;/groupId&gt;
+                &lt;artifactId&gt;commons-lang&lt;/artifactId&gt;
+                &lt;version&gt;2.5&lt;/version&gt;
+                &lt;type&gt;jar&lt;/type&gt;
+        &lt;/dependency&gt;
+		&lt;!-- Optional --&gt;
+		&lt;dependency&gt;
+                &lt;groupId&gt;apache-commons&lt;/groupId&gt;
+                &lt;artifactId&gt;commons-beanutils&lt;/artifactId&gt;
+                &lt;version&gt;1.8.3&lt;/version&gt;
+                &lt;type&gt;jar&lt;/type&gt;
+        &lt;/dependency&gt;
+		&lt;!-- Optional --&gt;
+		&lt;dependency&gt;
+			&lt;groupId&gt;apache-commons&lt;/groupId&gt;
+            &lt;artifactId&gt;commons-fileupload&lt;/artifactId&gt;
+            &lt;version&gt;1.2.1&lt;/version&gt;
+            &lt;type&gt;jar&lt;/type&gt;
+        &lt;/dependency&gt;
+		&lt;!-- Optional --&gt;	
+		&lt;dependency&gt;
+            &lt;groupId&gt;apache-commons&lt;/groupId&gt;
+            &lt;artifactId&gt;commons-io&lt;/artifactId&gt;
+            &lt;version&gt;1.4&lt;/version&gt;
+            &lt;type&gt;jar&lt;/type&gt;
+        &lt;/dependency&gt;
+		
+    &lt;/dep:environment&gt;
+	&lt;!-- Whatever the webroot you want, ie http://127.0.0.1/xwiki --&gt;
+    &lt;context-root&gt;xwiki&lt;/context-root&gt;
+	&lt;!--
+	  ** Map the reference to the JDBC pool located at resource-link to the jndi location ref-name
+	--&gt;
+    &lt;resource-ref&gt;
+        &lt;ref-name&gt;jdbc/XWikiDS&lt;/ref-name&gt;
+        &lt;resource-link&gt;XWikiDS&lt;/resource-link&gt;
+    &lt;/resource-ref&gt;
+    
+&lt;/web-app&gt;
+
+{{/code}}
+
+== Warnings In The Log File ==
+
+{{warning}}
+* 37866:  2010-06-03 15:12:03,484 WARN [RequestUtils] No FormBeanConfig found under 'download'
+* 39221:  2010-06-03 15:12:18,062 WARN [RequestUtils] No FormBeanConfig found under 'get'
+* 39804:  2010-06-03 15:12:21,046 WARN [RequestUtils] No FormBeanConfig found under 'view'
+{{/warning}}
+
+I saw these in the log files and apparently you can just ignore them.
+
+== Using a JDBC Datasource ==
+
+Navigate to Geronimo -&gt; Services -&gt; Database Pools and click the //Using the Geronimo database pool wizard// link.
+
+=== Step 1: Select Name and Database ===
+
+Name of Database Pool: {{box}}&lt;Pool Name&gt;{{/box}}
+A name that is different than the name of any other database pools in the server (no spaces in the name please).
+
+Database Type: {{box}}&lt;Database Version&gt;{{/box}}
+The type of database the pool will connect to.
+
+=== Step 2: Select Driver, JAR, Parameters ===
+
+JDBC Driver Class: {{box}}&lt;driver&gt;{{/box}} (e.g. //org.h2.Driver//)
+Driver JAR: {{box}}&lt;jarfile for the driver&gt;{{/box}} (e.g. //jdbc/h2/1.2.136/jar//)
+DB User Name: {{box}}&lt;username&gt;{{/box}}
+DB Password: {{box}}&lt;password&gt;{{/box}}
+Confirm Password: {{box}}&lt;password&gt;{{/box}}
+
+=== Step 3: Final Pool Configuration ===
+
+JDBC Connect URL: {{box}}&lt;url&gt;{{/box}}  (e.g. //jdbc:h2:tcp:~/~/localhost~/xwiki23//)
+Make sure the generated URL fits the syntax for your JDBC driver.
+Driver Status: Loaded Successfully
+Connection Pool Parameters
+Transaction Type: {{box}}LOCAL{{/box}}
+
+Type of transactions that this connection pool supports.
+Pool Min Size: {{box}}0{{/box}}
+
+The minimum number of connections in the pool. Leave blank for default.
+Pool Max Size: {{box}}10{{/box}}
+
+The maximum number of connections in the pool. Leave blank for default.
+Blocking Timeout: {{box}}&lt;default&gt;{{/box}} (in milliseconds)
+
+The length of time a caller will wait for a connection. Leave blank for default.
+Idle Timeout: {{box}}&lt;default&gt;{{/box}} (in minutes)</content>
+</xwikidoc>

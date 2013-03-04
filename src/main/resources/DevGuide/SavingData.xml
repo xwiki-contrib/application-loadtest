@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>SavingData</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1345446036000</creationDate>
+  <date>1360853405000</date>
+  <contentUpdateDate>1360853405000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Saving Data</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+There are times when you wish to save data. The XWiki platform offers various places that you can use depending on your needs. Here's a rundown of all the options you have.
+
+= Transient Saves =
+
+== Execution Context ==
+
+If the data to be saved should only be saved for the duration of a request (i.e. a call to an XWiki URL) then you should declare a property in the **Execution Context**.
+
+For example, from Java in a Component:
+
+{{code language="java"}}
+import org.xwiki.execution.*;
+
+@Inject Execution execution;
+...
+// Declaring
+ExecutionContext ec = execution.getContext();
+ec.newProperty("mykey").initial(initialValue).declare();
+...
+// Updating
+ec.setProperty("mykey", newValue);
+...
+// Retrieving
+Object myvalue = e.getProperty("mykey");
+{{/code}}
+
+=== Execution Context Property Declaration ===
+
+The declaration is currently optional, the property will be implicitly declared when set the first time. The declaration can be made in an ##ExecutionContextInitializer## component.  The initialize method of all such components that are available in the classpath and have been specified in a ##components.txt## file will be called when the execution context is first initialized during the request.
+
+{{code language="java"}}
+import org.xwiki.context.ExecutionContext;
+import org.xwiki.context.ExecutionContextInitializer;
+import org.xwiki.context.ExecutionContextException;
+import org.xwiki.component.annotation.Component;
+
+@Component
+public class DeclareMyPropertyExecutionContextInitializer implements ExecutionContextInitializer
+{
+    @Override
+    public void initialize(ExecutionContext executionContext)
+    {
+        if (!executionContext.hasProperty("mykey")) {
+            executionContext.newProperty("mykey").type(String.class).nonNull().initial("").declare();
+        }
+    }
+}
+{{/code}}
+
+In the above example you can see that it is possible to set various attributes on the property when it is beeing declared. The attributes currently supported are listed in the table below.
+
+During a request cycle, some components may activate a //clean// or a //cloned// execution context by pushing to the execution context stack.  You can control how you want your property to be managed in these situations by setting attributes.
+
+|=(% style="width:25%" %)Attribute |=Parameters |=Description
+|cloneValue()| - |Indicate that you want the value to be cloned when the execution context is cloned or when your property is inherited from a parent execution context
+|makeFinal()| - |Indicate that an exception should be thrown if someone tries to replace the initial value object
+|inherited()| - |Indicate that the property should be inherited by any new execution context that is pushed within the current request
+|nonNull()| - |Indicate that an exception should be thrown if ##null## is set as the property value
+|type(Class&lt;?&gt; type)|(((
+; type
+: the class that the value object should be typechecked against
+)))|Set a type for performing typechecking when updating the value object. 
+
+=== Wiki Page Access to Execution Context ===
+
+{{info}}
+We currently [[cannot access easily the Execution Context from a wiki page&gt;&gt;http://jira.xwiki.org/browse/XCOMMONS-242]]  but this should be improved. Currently it's not available from Velocity, but it is from Groovy.
+{{/info}}
+
+From a wiki page:
+
+{{code}}
+{{groovy}}
+import org.xwiki.context.*
+
+def ec = services.component.getInstance(Execution.class).getContext()
+ec.setProperty("mykey", myvalue)
+{{/groovy}}
+{{/code}}
+
+{{info}}
+From a wiki page it's much easier to use the older **XWiki Context** (which is supposed to be fully replaced by the Execution Context at some point in the future).
+{{/info}}
+
+For example:
+
+{{code}}
+{{velocity}}
+$xcontext.put("mykey", value)
+{{/velocity}}
+{{/code}}
+
+{{info}}
+It's also possible to save data in the HTTP Request even though it's recommended to use the Execution Context instead (since the Execution Context is independent of the execution environment and will work everywhere: Servlets, Portlets, JavaSE, etc).
+{{/info}}
+
+For example from Velocity in a wiki page:
+
+{{code}}
+{{velocity}}
+$request.setAttribute("mykey", value)
+{{/velocity}}
+{{/code}}
+
+== Servlet Session ==
+
+If the data should last a little longer (i.e. for example span more than 1 request), you could save it in the Servlet Session (note that in this case your code will only work in a Servlet Environment).
+
+For example, from Java in a Component:
+
+{{code language="java"}}
+import org.xwiki.container.*;
+
+@Inject Container container;
+...
+Request request = container.getRequest();
+// Note that this is a bit of a hack and the notion of Session exists in the Container class (getSession()) but the Session interface is empty at the moment, making it useless)
+if (request instanceof ServletRequest) {
+  HttpServletRequest servletRequest = (ServletRequest) request;
+  HttpSession session = servletRequest.getSession();
+  session.setAttribute("mykey", myvalue);
+}
+{{/code}}
+
+Example from a wiki page:
+
+{{code}}
+{{velocity}}
+$request.getSession().setAttribute("mykey", myvalue)
+{{/velocity}}
+{{/code}}
+
+== Temporary Directory ==
+
+If the data should last even a little longer than a session, you could save it in a file in the environment's temporary directory.
+
+For example, from Java in a Component:
+
+{{code language="java"}}
+import org.xwiki.environment.*;
+import org.apache.commons.io.*;
+
+@Inject Environment environment;
+...
+File tmpDir = environment.getTemporaryDirectory();
+FileUtils.write(tmpDir, "something");
+{{/code}}
+
+== Servlet Context ==
+
+If the Data should last as long as the web application is up, you could use the Servlet Context. It's not very easy to access it but it's possible (note that in this case your code will only work in a Servlet Environment).
+
+For example, from Java in a Component:
+
+{{code language="java"}}
+import org.xwiki.container.*;
+import com.xpn.xwiki.*;
+import com.xpn.xwiki.web.*;
+
+@Inject Execution execution;
+...
+// Get the older XWiki Context
+XWikiContext xc = (XWikiContext) execution.getContext().getProperty("xwikicontext");
+XWikiEngineContext ec = xc.getEngineContext();
+ec.setAttribute("mykey", myvalue);
+{{/code}}
+
+= Permanent Saves =
+
+== Wiki Model ==
+
+The best place to save data is usually in the wiki itself (See the [[Data Model&gt;&gt;DevGuide.DataModel]] and the [[API Guide&gt;&gt;DevGuide.APIGuide]] for some examples). There are several places where you can store data in the model:
+
+* In the document content itself
+* In an XObject attached to a document
+* In an attachment
+
+== Permanent Directory ==
+
+Another possibility is to use the environment's permanent directory.
+
+For example, from Java in a Component:
+
+{{code language="java"}}
+import org.xwiki.environment.*;
+import org.apache.commons.io.*;
+
+@Inject Environment environment;
+...
+File permDir = environment.getPermanentDirectory();
+FileUtils.write(permDir, "something");
+{{/code}}</content>
+</xwikidoc>

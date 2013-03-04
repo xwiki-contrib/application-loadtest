@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Main.Documentation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1165442740000</creationDate>
+  <date>1361276758000</date>
+  <contentUpdateDate>1361276758000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Administrator's Guide</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>Panels.PanelClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <category>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>category</name>
+        <number>5</number>
+        <prettyName>Category</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>Information|Navigation|Tools|Administration|Other</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </category>
+      <content>
+        <disabled>0</disabled>
+        <editor>Text</editor>
+        <name>content</name>
+        <number>4</number>
+        <prettyName>Content</prettyName>
+        <rows>25</rows>
+        <size>60</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </content>
+      <description>
+        <disabled>0</disabled>
+        <editor>Text</editor>
+        <name>description</name>
+        <number>3</number>
+        <prettyName>Description</prettyName>
+        <rows>5</rows>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </description>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>40</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <type>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>type</name>
+        <number>2</number>
+        <prettyName>Panel type</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>view|edit</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </type>
+    </class>
+    <name>AdminGuide.WebHome</name>
+    <number>0</number>
+    <className>Panels.PanelClass</className>
+    <guid>4d3b25e8-c318-4308-a6c3-d280727c5d3b</guid>
+    <property>
+      <category/>
+    </property>
+    <property>
+      <content>User Defined Object</content>
+    </property>
+    <property>
+      <description>User Extra Object</description>
+    </property>
+    <property>
+      <name>Extra</name>
+    </property>
+    <property>
+      <type>view</type>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.WebHome</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>9da2994e-af99-4636-8387-36ed63b55117</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>Everything you want to know about administrating XWiki, from Installation to backups and more.
+
+== Admin Topics ==
+
+; **[[Installation&gt;&gt;Installation]]**
+: Learn how to install XWiki on your machine or upgrade an existing installation.
+
+; **[[Upgrade&gt;&gt;Upgrade]]**
+: Learn how to upgrade your XWiki installation to keep it up-to-date.
+
+; **[[Configuration&gt;&gt;Configuration]]**
+: Learn how to configure and tune XWiki in various ways.
+
+; **[[Backup/Restore&gt;&gt;Backup]]**
+: Learn how to backup and restore your wiki.
+
+; **[[Virtual Wikis&gt;&gt;Virtualization]]**
+: You can run multiple XWiki services on a single XWiki server using a Virtual configuration; without needing a supercharged server.  Here's how to do it.
+
+; **[[Access a wiki&gt;&gt;AccessWiki]]**
+: Learn the different ways to target a wiki in the url.
+
+; **[[Applications installation into wiki-farm&gt;&gt;ApplicationInstallationIntoWikiFarm]]**
+: Learn the peculiarities of application installation on wiki-farm
+
+; **[[Import/Export&gt;&gt;ImportExport]]**
+: Import and Export pages to and from your wikis.
+
+; **[[Security]]**
+: Tune the configuration to secure your wiki.
+
+; **[[Access Rights]]**
+: Define which users should be allowed to view and interact with your wiki.
+
+; **[[User Management]]**
+: Add, Edit, Delete and manage users.
+
+; **[[Group Management]]**
+: Add, Edit, Delete and manage groups.
+
+; **[[Skins&gt;&gt;Skins]]**
+: Learn how to use a different skin and even how to create a complete new one.
+
+; **[[Encoding]]**
+: Learn how to configure XWiki for UTF-8 or any other non-default encoding.
+
+; **[[Authentication]]**
+: Configure XWiki's authentication mechanism (Database, LDAP, custom implementation, etc).
+
+; **[[Logging]]**
+: Configure XWiki's logging system.
+
+; **[[Database Administration]]**
+: Administer your XWiki database.
+
+; **[[Attachments]]**
+: Configure how attachments are stored, whether version history will be kept and set size limits.
+
+; **[[Performance Tuning&gt;&gt;Performances]]**
+: Improve your wiki's performance.
+
+; **[[URL resolution]]**
+: Learn how XWiki parse and interpret given URL.
+
+; **[[Clustering&gt;&gt;Clustering]]**
+: You can run multiple instances of XWiki on the same database to be able to do load balancing. Here's how to do it.
+
+; **[[Monitoring]]**
+: Monitor a running instance using JMX</content>
+</xwikidoc>

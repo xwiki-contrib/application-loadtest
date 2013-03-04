@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>DistributedEventClusterSetup</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Clustering</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1251803561000</creationDate>
+  <date>1360853362000</date>
+  <contentUpdateDate>1360853362000</contentUpdateDate>
+  <version>1.1</version>
+  <title>How to setup a cluster of XWiki instance based on distributed events</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <attachment>
+    <filename>tcp1.xml</filename>
+    <filesize>786</filesize>
+    <author>xwiki:XWiki.ThomasMortagne</author>
+    <date>1252080603000</date>
+    <version>1.1</version>
+    <comment/>
+    <content>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGNvbmZpZz4KICAgIDxUQ1Ag
+YmluZF9hZGRyPSJsb2NhbGhvc3QiCiAgICAgICAgIGJpbmRfcG9ydD0iNzgwMCIvPgogICAgICAg
+ICAgICAgICAgICAgICAgICAgCiAgICA8VENQUElORyB0aW1lb3V0PSIzMDAwIgogICAgICAgICAg
+ICAgaW5pdGlhbF9ob3N0cz0ibG9jYWxob3N0Wzc5MDBdIgogICAgICAgICAgICAgcG9ydF9yYW5n
+ZT0iMSIKICAgICAgICAgICAgIG51bV9pbml0aWFsX21lbWJlcnM9IjIiLz4KICAgIDxwYmNhc3Qu
+TkFLQUNLCiAgICAgICAgICAgICAgICAgICB1c2VfbWNhc3RfeG1pdD0iZmFsc2UiIGdjX2xhZz0i
+MCIKICAgICAgICAgICAgICAgICAgIHJldHJhbnNtaXRfdGltZW91dD0iMzAwLDYwMCwxMjAwLDI0
+MDAsNDgwMCIKICAgICAgICAgICAgICAgICAgIGRpc2NhcmRfZGVsaXZlcmVkX21zZ3M9InRydWUi
+Lz4KICAgIDxVTklDQVNUIHRpbWVvdXQ9IjMwMCw2MDAsMTIwMCIgLz4KICAgIDxwYmNhc3QuU1RB
+QkxFIHN0YWJpbGl0eV9kZWxheT0iMTAwMCIgZGVzaXJlZF9hdmdfZ29zc2lwPSI1MDAwMCIKICAg
+ICAgICAgICAgICAgICAgIG1heF9ieXRlcz0iNDAwMDAwIi8+CiAgICA8VklFV19TWU5DIGF2Z19z
+ZW5kX2ludGVydmFsPSI2MDAwMCIvPgogICAgPHBiY2FzdC5HTVMgcHJpbnRfbG9jYWxfYWRkcj0i
+dHJ1ZSIgam9pbl90aW1lb3V0PSIzMDAwIgogICAgICAgICAgICAgICAgc2h1bj0idHJ1ZSIKICAg
+ICAgICAgICAgICAgIHZpZXdfYnVuZGxpbmc9InRydWUiLz4KPC9jb25maWc+
+</content>
+  </attachment>
+  <attachment>
+    <filename>tcp2.xml</filename>
+    <filesize>786</filesize>
+    <author>xwiki:XWiki.ThomasMortagne</author>
+    <date>1252080609000</date>
+    <version>1.1</version>
+    <comment/>
+    <content>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4KPGNvbmZpZz4KICAgIDxUQ1Ag
+YmluZF9hZGRyPSJsb2NhbGhvc3QiCiAgICAgICAgIGJpbmRfcG9ydD0iNzkwMCIvPgogICAgICAg
+ICAgICAgICAgICAgICAgICAgCiAgICA8VENQUElORyB0aW1lb3V0PSIzMDAwIgogICAgICAgICAg
+ICAgaW5pdGlhbF9ob3N0cz0ibG9jYWxob3N0Wzc4MDBdIgogICAgICAgICAgICAgcG9ydF9yYW5n
+ZT0iMSIKICAgICAgICAgICAgIG51bV9pbml0aWFsX21lbWJlcnM9IjIiLz4KICAgIDxwYmNhc3Qu
+TkFLQUNLCiAgICAgICAgICAgICAgICAgICB1c2VfbWNhc3RfeG1pdD0iZmFsc2UiIGdjX2xhZz0i
+MCIKICAgICAgICAgICAgICAgICAgIHJldHJhbnNtaXRfdGltZW91dD0iMzAwLDYwMCwxMjAwLDI0
+MDAsNDgwMCIKICAgICAgICAgICAgICAgICAgIGRpc2NhcmRfZGVsaXZlcmVkX21zZ3M9InRydWUi
+Lz4KICAgIDxVTklDQVNUIHRpbWVvdXQ9IjMwMCw2MDAsMTIwMCIgLz4KICAgIDxwYmNhc3QuU1RB
+QkxFIHN0YWJpbGl0eV9kZWxheT0iMTAwMCIgZGVzaXJlZF9hdmdfZ29zc2lwPSI1MDAwMCIKICAg
+ICAgICAgICAgICAgICAgIG1heF9ieXRlcz0iNDAwMDAwIi8+CiAgICA8VklFV19TWU5DIGF2Z19z
+ZW5kX2ludGVydmFsPSI2MDAwMCIvPgogICAgPHBiY2FzdC5HTVMgcHJpbnRfbG9jYWxfYWRkcj0i
+dHJ1ZSIgam9pbl90aW1lb3V0PSIzMDAwIgogICAgICAgICAgICAgICAgc2h1bj0idHJ1ZSIKICAg
+ICAgICAgICAgICAgIHZpZXdfYnVuZGxpbmc9InRydWUiLz4KPC9jb25maWc+
+</content>
+  </attachment>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.DistributedEventClusterSetup</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>36add898-1eb0-4555-9aeb-39070a6b0ecf</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{warning}}
+This tutorial is a simple way to setup a XWiki clustering for test purpose.
+{{/warning}}
+
+The goal of a cluster of XWiki instance is to provide several XWiki in different servers accessing the same database server to be able to do load balancing.
+
+= Install two instances of XWiki on the same MySQL database =
+
+Here we will use the XWiki standard distribution but instead of using the embedded hsqldb database we will use a MySql database. For this you need to:
+
+* modify the ##hibernate.cfg.xml## file to change hsqldb configuration by a proper MySQL configuration
+* copy your database driver JAR in WEB-INF/lib or in some shared lib directory
+
+See http://www.xwiki.org/xwiki/bin/view/AdminGuide/Installation for more details on how to install XWiki.
+
+At this point you almost have a XWiki cluster: you have two instances of XWiki which are using the same datas. But there is a remaining "detail": the problem is that for performance reason XWiki is using lots of different caches which mean that even if one instance of XWiki modify a document it's possible the other XWiki instance will not see it and keep showing the document from its cache.
+
+= Configure event distribution =
+
+To handle this we will use the network event distribution system. When anything happens in a XWiki instances it generate a local event which is used to update caches. Here we will make theses events send to other XWiki instances as well and emulate local events. This way all the code updating its cache each time something changed in a particular document for example will also be notified if it has been done by another instance of XWiki.
+
+== Enable remote observation ==
+
+First you need to enable remote observation system.
+
+For this go to xwiki.properties file and set the property ##observation.remote.enabled## to ##true##.
+
+== Set the channels ==
+
+Then you need to indicate to remote observation manager which communications channels it should start when XWiki starts.
+
+For this you need to list in property ##observation.remote.channels## the names of the channels.
+
+Here we set ##udp## in both instances to use embedded JGroups udp.xml configuration file which auto discover cluster members.
+
+= Start XWiki instance on different ports =
+
+For this tutorial we run two instance of XWiki in the same server. So we need each instance to use different ports.
+
+To run a XWik instance if a custom port you can provide it in parameter of the script start_xwiki.sh.
+
+Here we start the first instance with:
+
+{{code}}
+sh start_xwiki.sh 8080 8070
+{{/code}}
+
+and the second one with:
+
+{{code}}
+sh start_xwiki.sh 8081 8071
+{{/code}}
+
+The second port is the port used to stop jetty server, it's not mandatory to run XWiki but it's better to have differents ports if you don't want to have to kill the java process instead of using the stop_xwiki.sh script ;)
+
+Sometimes you have to force the bind address, you can do it using ##-Djgroups.bind_addr=localhost##
+
+= Check the clustering setup =
+
+* Load a page in both instances
+* Modify a page in one instance
+* Reload it in the other instance
+* It should have taken into account the modification made on the other instance
+
+= Add load balancing with apache2 ##mod_proxy_balancer## =
+
+You probably want to do load-balancing in front of the clustered XWiki instances. This section provides sample configurations to do that.
+
+Replace if you have one your apache proxy configuration by the following one, or set it as proxy of your apache site configuration if you don't have one yet :
+
+{{code language="apacheconf"}}
+ProxyRequests Off
+ProxyPreserveHost On
+
+&lt;Proxy balancer://mycluster&gt;
+BalancerMember ajp://127.0.0.1:8009 route=jvm1
+BalancerMember ajp://127.0.0.1:9009 route=jvm2
+ProxySet stickysession=JSESSIONID
+&lt;/Proxy&gt;
+ProxyPass /xwiki balancer://mycluster/xwiki
+{{/code}}
+
+You need also to precise the name of the JVM route for each member of the balancer. On Tomcat, in  ##conf/server.xml##, edit the ##Engine## node as follow :
+{{code language="apacheconf"}}    &lt;Engine name="Catalina" defaultHost="localhost" jvmRoute="jvm1"&gt;{{/code}}
+
+On GlassFish and Tomcat and probably others, you can set the system property jvmRoute to the same value.
+
+Where you replace ##jvm1## by the name of the route you have precised in the Apache configuration.
+
+This setting will complement the JSESSIONID with a suffix made by this jvmRoute: thus any session will contain the node name and this will instruct Apache to choose that route the next time a request comes. Thus, the browser will remain hooked to that server as long as the session remains.
+
+== Testing the clustered setup ==
+To test the load-balancing setup, you can edit the ##version.properties## file of your wiki to add a suffix to be able to recognize each member of the cluster. For example ##version=2.6.33077-node1## for the first node of a cluster of XWiki 2.6 nodes. Then, connect to the wiki via the URL that points to the load-balancer with a first browser, and look at which node is being used. Just after connect with a second browser (to have a different session), and make sure the node used is the other one (since mod_proxy_rewrite affects balancing members sequentially.
+
+You can also verify the JSESSIONID cookie value which will end with the route name.
+
+Finally, to test that clustering works you can either:
+
+* set-up a dedicated virtual host to each cluster node so that you can check that, for example, a changed document, is changed on every node
+* force the route by adding the URL parameter JSESSIOND=jvm1: this will make sure that this route is used which, in turn, will set the cookie to a session-identifier suffixed with jvm1.
+
+= Monitoring and Troubleshooting =
+
+The error log of Apache reports an amount of details about the choice of load-balancing if the log-level is sufficient.
+
+The balancer-manager is also precious:
+
+{{code language="apacheconf"}}
+&lt;Location /balancer-manager&gt;
+     SetHandler balancer-manager
+    AuthType digest
+    AuthName "XWiki Cluster Management"
+    AuthType Digest
+    AuthDigestDomain http://example.com
+    AuthDigestFile /path/to/file.htdigest
+    Require valid-user
+&lt;/Location&gt;
+{{/code}}
+
+Using this configuration, properly specialized, provides a small interface at /balancer-manager where you can see the cluster nodes which are active, their load, and where you can disable them to take them offline for a bit.
+
+== Debugging ==
+
+See [[Debugging Section&gt;&gt;extensions:Extension.Observation Module Remote#HDebugging]] in the Observation Reference documentation.
+
+You can also easily include the following HTML to force your browser to change from one node of the cluster to the other. This is extremely important to verify that clustering works:
+
+
+{{code language="html"}}
+&lt;a href="$doc.name" 
+   onclick="d = new Date(); d.setDate(d.getDate()+7); document.cookie='JSESSIONID=xxx.$hostname; ' + d.toUTCString()" ##
+        &gt;$hostname&lt;/a&gt;
+{{/code}}
+
+(where you replace $hostname (twice) and $doc.name appropriately.</content>
+</xwikidoc>

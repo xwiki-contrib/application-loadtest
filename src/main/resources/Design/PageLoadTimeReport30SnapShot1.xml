@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>PageLoadTimeReport30SnapShot1</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.PageLoadTime</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1299342851000</creationDate>
+  <date>1360854893000</date>
+  <contentUpdateDate>1360854893000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Sample Performance Report</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>== Table of Content ==
+
+{{toc level="2" start="2"/}}
+
+== Report Overview ==
+
+* Date of the report: 05/03/2011
+* XWiki Version: 3.0 Snapshot r35151
+* Content included: 200 dummy users + animal pages (snippers from xwiki.org)
+* User: connected as Admin user
+* Server used for testing: local machine CPU Dual Core i7
+* Client used for testing: local machine CPU Dual Core i7 Firefox 3.6
+* System to measure time: Firebug
+* System to measure server load: ?
+
+== Performance Results ==
+
+* Time to display the home page of XWiki on fresh loading:  1 second for HTML, 3 seconds for all resources
+* Total load time including content post display: 3.5 seconds
+* Time to display an additional page: 0,7 seconds
+* Total load on the server to load the home page: ? 
+* Total kilobytes transfered  to load the home page: 390 KB
+* Total load on the server to load an additional page: ? 
+* Total kilobytes transfered  to load an additional page: 33 KB
+* Time to open the edit mode (wysiwyg in particular): 4.46 seconds
+* Time to render 1 time the sample Syntax 2.0 page: 130 ms (4 pages, XAR attached)
+* Time to render 1 time the velocity script: 115 ms (using 3 standard XWiki templates, XAR attached)
+
+Velocity script used:
+
+{{code}}
+{{velocity output=false}}
+#set($time1 = $xwiki.date.time)
+#template("xwikivars.vm")
+#template("startpage.vm")
+#template("endpage.vm")
+#set($time2 = $xwiki.date.time)
+#set($dtime = $time2 - $time1)
+{{/velocity}}
+{{velocity}}
+Time: $dtime ms
+{{/velocity}}
+{{/code}}
+
+== List of URLs loaded for Home page ==
+
+CSS
+    * http://localhost:8080/xwiki/bin/skin/resources/js/xwiki/lightbox/lightbox.css
+    * http://localhost:8080/xwiki/bin/skin/resources/js/xwiki/viewers/attachments.css
+    * http://localhost:8080/xwiki/bin/skin/resources/js/xwiki/widgets/jumpToPage.css?language=en
+    * http://localhost:8080/xwiki/bin/skin/resources/js/xwiki/widgets/modalPopup.css
+    * http://localhost:8080/xwiki/bin/skin/resources/uicomponents/container/columns.css?columns=2
+    * http://localhost:8080/xwiki/bin/skin/resources/uicomponents/dashboard/dashboard.css
+    * http://localhost:8080/xwiki/bin/skin/resources/uicomponents/pagination/pagination.css
+    * http://localhost:8080/xwiki/bin/skin/resources/uicomponents/suggest/suggest.css
+    * http://localhost:8080/xwiki/bin/skin/resources/uicomponents/viewers/comments.css
+    * http://localhost:8080/xwiki/bin/skin/resources/uicomponents/widgets/confirmationBox.css
+    * http://localhost:8080/xwiki/bin/skin/resources/uicomponents/widgets/notification.css
+    * http://localhost:8080/xwiki/bin/skin/skins/albatross/resources/uicomponents/viewers/tags.css
+    * http://localhost:8080/xwiki/bin/skin/skins/colibri/colibri.css?colorTheme=ColorThemes.DefaultColorTh...
+    * http://localhost:8080/xwiki/bin/skin/skins/colibri/print.css
+    * http://localhost:8080/xwiki/bin/skin/skins/colibri/style.css?colorTheme=ColorThemes.DefaultColorThem...
+    * http://localhost:8080/xwiki/bin/ssx/AnnotationCode/Settings?language=en
+    * http://localhost:8080/xwiki/bin/ssx/AnnotationCode/Style?language=en
+    * http://localhost:8080/xwiki/bin/ssx/Main/Activity?language=en
+    * http://localhost:8080/xwiki/bin/ssx/Main/Spaces?language=en
+    * http://localhost:8080/xwiki/bin/ssx/XWiki/SharePage?language=en
+    * http://localhost:8080/xwiki/bin/ssx/XWiki/TagCloud?language=en
+    * http://localhost:8080/xwiki/resources/css/microformats.css
+
+JS
+
+    * http://localhost:8080/xwiki/bin/jsx/AnnotationCode/Script?language=en
+    * http://localhost:8080/xwiki/bin/jsx/AnnotationCode/Settings?language=en
+    * http://localhost:8080/xwiki/bin/jsx/Main/Activity?language=en
+    * http://localhost:8080/xwiki/bin/jsx/XWiki/SharePage?language=en
+    * http://localhost:8080/xwiki/bin/jsx/XWiki/WebDAV?language=en
+    * http://localhost:8080/xwiki/bin/skin/resources/js/scriptaculous/effects.js
+    * http://localhost:8080/xwiki/bin/skin/resources/js/xwiki/viewers/attachments.js?language=en
+    * http://localhost:8080/xwiki/bin/skin/resources/js/xwiki/widgets/jumpToPage.js
+    * http://localhost:8080/xwiki/bin/skin/resources/js/xwiki/widgets/modalPopup.js
+    * http://localhost:8080/xwiki/bin/skin/resources/js/xwiki/xwiki.js
+    * http://localhost:8080/xwiki/bin/skin/resources/uicomponents/search/searchSuggest.js?h=-2136443712
+    * http://localhost:8080/xwiki/bin/skin/resources/uicomponents/viewers/comments.js?language=en
+    * http://localhost:8080/xwiki/bin/skin/resources/uicomponents/widgets/confirmationBox.js
+    * http://localhost:8080/xwiki/bin/skin/resources/uicomponents/widgets/confirmedAjaxRequest.js
+    * http://localhost:8080/xwiki/bin/skin/resources/uicomponents/widgets/notification.js
+    * http://localhost:8080/xwiki/bin/skin/skins/albatross/resources/uicomponents/viewers/tags.js
+    * http://localhost:8080/xwiki/resources/js/prototype/prototype.js
+    * http://localhost:8080/xwiki/resources/js/xwiki/compatibility.js
+    * http://localhost:8080/xwiki/resources/uicomponents/suggest/suggest.js
+    * http://localhost:8080/xwiki/resources/uicomponents/widgets/list/xlist.js
+
+== List of URLs loaded for additional page ==
+
+One page and comment page
+
+== Manual/Tools findings on performance ==
+
+* 22 CSS
+* 20 JS
+* Compression is not used in tomcat/jetty by default
+* Minifying the following CSS resources could reduce their size by 21.5KB (34% reduction). 
+* expiration not set on resources coming from /resources/
+* View mode for empty page costs 160ms
+* Plain (xpage=plain) mode for empty page costs 24ms
+
+== Velocity Template Timing ==
+
+Measured on Sandbox.WebHome
+
+Time frequentlyUsedDocs.vm: 3
+Time deprecatedVars.vm: 1
+Time xwikivars.vm: 11
+Time layoutExtraVars.vm: 1
+Time layoutvars.vm: 7
+Time colorThemeInit.vm: 2
+Time stylesheets.vm: 5
+Time analytics.vm: 0
+Time javascript.vm: 9
+Time htmlheader.vm: 36
+Time menuview.vm: 19
+Time global.vm: 3
+Time header.vm: 4
+Time startpage.vm: 78
+Time contentmenu.vm: 6
+Time frequentlyUsedDocs.vm: 1
+Time deprecatedVars.vm: 1
+Time xwikivars.vm: 7
+Time hierarchy.vm: 25
+Time titlevars.vm: 2
+Time shortcuts.vm: 2
+Time contentview.vm: 37
+Time frequentlyUsedDocs.vm: 1
+Time deprecatedVars.vm: 1
+Time xwikivars.vm: 7
+Time documentTags.vm: 12
+Time frequentlyUsedDocs.vm: 1
+Time deprecatedVars.vm: 1
+Time xwikivars.vm: 9
+Time commentsinline.vm: 12
+Time docextra.vm: 15
+Time leftpanels.vm: 1
+Time rightpanels.vm: 50
+Time footer.vm: 2
+Time htmlfooter.vm: 0
+Time endpage.vm: 54
+Time view.vm: 216</content>
+</xwikidoc>

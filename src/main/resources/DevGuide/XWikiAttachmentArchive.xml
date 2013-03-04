@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>XWikiAttachmentArchive</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.DatabaseSchema</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1234393144000</creationDate>
+  <date>1361190309000</date>
+  <contentUpdateDate>1361190309000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki Attachment Archive (xwikiattachment_archive)</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.XWikiAttachmentArchive</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>82f4aafe-2a59-4112-9fa0-fb0e9b2893b8</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>This table stores the attachment archive in RCS format:
+
+|=|=Column Name|=Datatype|=Not null|=auto inc|=flags|=Default Value|=Comments
+|[[image:DevGuide.XWikiAttachmentArchive@DevGuide.DatabaseSchema@db_key.gif]]|XWA_ID|BIG_INT(20)|[[image:DevGuide.XWikiAttachmentArchive@DevGuide.DatabaseSchema@db_check.gif]]|| |0| 
+|[[image:DevGuide.XWikiAttachmentArchive@DevGuide.DatabaseSchema@db_field.gif]]|XWA_ARCHIVE|LONGBLOB||| |null| </content>
+</xwikidoc>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>LiveValidation</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>platform:DevGuide.FrontendResources</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1268868336000</creationDate>
+  <date>1360853405000</date>
+  <contentUpdateDate>1360853405000</contentUpdateDate>
+  <version>1.1</version>
+  <title>LiveValidation UI Component</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.LiveValidation</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>bef7bdfc-8be2-47e9-a1de-6b06311c1611</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>XWiki bundles the LiveValidation library. You can read its [[examples&gt;&gt;http://livevalidation.com/examples]] or the [[full documentation&gt;&gt;http://livevalidation.com/documentation]] on their website.
+
+= Exemple of use in XWiki =
+
+{{code}}
+{{velocity output=false}}
+$xwiki.jsfx.use('uicomponents/widgets/validation/livevalidation_prototype.js')
+$xwiki.ssfx.use('uicomponents/widgets/validation/livevalidation.css')
+{{/velocity}}
+{{html}}
+&lt;form&gt;
+ &lt;div&gt;
+   &lt;input type="text" name="fruits" class="mandatory"&gt;  
+ &lt;/div&gt;
+&lt;/form&gt;
+&lt;script type="text/javascript"&gt;
+// &lt;![CDATA[
+document.observe("dom:loaded", function(){
+   var mandatoryInputs = $('mainContentArea').select('input.mandatory');
+   for (var i=0;i&amp;lt;mandatoryInputs.length;i++) {
+     var input = mandatoryInputs[i];
+     var valid = new LiveValidation( input, { validMessage: "OK!", wait: 500 } );
+     valid.add( Validate.Presence, 
+              { failureMessage: "Mandatory" } );
+   }
+});
+// ]]&gt;
+});
+&lt;/script&gt;
+{{/html}}
+{{/code}}</content>
+</xwikidoc>

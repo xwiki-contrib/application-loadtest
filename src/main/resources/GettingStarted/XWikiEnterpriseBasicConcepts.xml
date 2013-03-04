@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>GettingStarted</web>
+  <name>XWikiEnterpriseBasicConcepts</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>GettingStarted.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1235385760000</creationDate>
+  <date>1360853978000</date>
+  <contentUpdateDate>1360853978000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Basic concepts</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>GettingStarted.XWikiEnterpriseBasicConcepts</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>4aef0670-da66-4ae0-919a-f0002057b814</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>XWiki Enterprise is divided into Spaces and Pages. Lateral menus are handled using Panels.
+
+{{box cssClass="floatinginfobox" title="**Contents**"}}{{toc/}}{{/box}}
+
+= Space =
+
+XWiki Enterprise is divided into spaces. A space is a collection of wiki pages. Grouping pages in a space makes them easier to find and browse.
+
+You can create as many spaces as you want in your wiki and as many pages as you want in every space.
+
+Putting pages in the same space can be useful for the following reasons:
+
+* Pages located in the same space are displayed together in the navigation treeview
+* XWiki Enterprise lets you easily create an index of all the pages in a space
+* The wiki's look &amp; feel can be set at the space level (skin + panels)
+* User rights can be set at the space level
+* Search scope can be limited to a specific space
+* The wiki can be browsed by space in the WebDAV view
+
+The homepage of a space is usually created at SpaceName/WebHome.
+
+= Page =
+
+A page is the basic unit of content in XWiki Enterprise. A page is usually divided in 4 areas:
+
+* **Action bar** (located at the top): allows you to interact with the current page
+* **Content area** 
+* **Panels** (either on the left or right of the page, on both sides or hidden)
+* **Tabbed area at the bottom of the page** featuring:
+** Comments (what people have to say about the page)
+** Annotations (content that people have annotated)
+** Attachments (files that have been uploaded to the page)
+** Page history (every version of the current page)
+** Document information (parents, children, tags, included pages, backlinks)
+
+The following actions can be performed on any wiki page, provided the current user has the rights to do it:
+
+* Edit the page
+** Using the WYSIWYG editor: this is a rich text editor that allows you to modify the contents of your wiki page easily
+** Using the wiki editor: for users accustomed to writing in wiki syntax
+* Print &amp; export the page
+** Using the More Actions menu, the user can display a print preview of the current page
+** Using the Export menu, each page can be exported in the following formats: HTML, PDF, RTF (for MS Office) and XAR (XWiki Archive)
+* Watch the page
+** The user can choose to add the current page to his watchlist
+** Whenever the page gets modified, he will receive an email notification
+
+Additionally, administrators can perform the following actions:
+
+* Change page access rights
+* Edit the page's objects and classes (You can find out more about these concepts on [[XWiki.org&gt;&gt;http://www.xwiki.org/]])
+* Rename, copy and delete the page
+
+= Panels =
+
+A panel is a rounded widget you can see on the right of every page of your wiki in the standard version of XWiki Enterprise. Panels are displayed within columns.
+
+You can control panels in two ways:
+
+* Choose which columns to display (right column, left column, both columns, none)
+* Choose which panels to put in your side columns
+
+Panels are useful for building menus or adding features to your pages. You can set different panels for each space in your wiki. Step to the next section to find out more about modifying your wiki's columns and panels.
+
+= Dashboard =
+
+A dashboard allows users to customize their pages (like the homepage of a space) by adding gadgets.
+
+You can edit/modify you dashboard by editing the page which contains the dashboard.
+
+
+* Next: [[First steps with XWiki Enterprise&gt;&gt;FirstStepsWithXWikiEnterprise]]</content>
+</xwikidoc>

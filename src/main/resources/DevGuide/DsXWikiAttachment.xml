@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>DsXWikiAttachment</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.DatabaseSchema</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1234392770000</creationDate>
+  <date>1361190314000</date>
+  <contentUpdateDate>1361190314000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki Attachment (xwikiattachment)</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.DsXWikiAttachment</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>a4f14d10-8b05-4ae0-a287-1af7cb52f2bc</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>This table contains attachment information (not including the content and versions):
+
+|=|=Column Name|=Datatype|=Not null|=auto inc|=flags|=Default Value|=Comments
+|[[image:DevGuide.DsXWikiAttachment@DevGuide.DatabaseSchema@db_key.gif]]|XWA_ID|BIG_INT(20)|[[image:DevGuide.DsXWikiAttachment@DevGuide.DatabaseSchema@db_check.gif]]|| |0| 
+|[[image:DevGuide.DsXWikiAttachment@DevGuide.DatabaseSchema@db_field.gif]]|XWA_DOC_ID|BIG_INT(20)| || |null| 
+|[[image:DevGuide.DsXWikiAttachment@DevGuide.DatabaseSchema@db_field.gif]]|XWA_FILENAME|VARCHAR(255)|[[image:DevGuide.DsXWikiAttachment@DevGuide.DatabaseSchema@db_check.gif]]|| | | 
+|[[image:DevGuide.DsXWikiAttachment@DevGuide.DatabaseSchema@db_field.gif]]|XWA_SIZE|INTEGER| || |null| 
+|[[image:DevGuide.DsXWikiAttachment@DevGuide.DatabaseSchema@db_field.gif]]|XWA_DATE|DATETIME|[[image:DevGuide.DsXWikiAttachment@DevGuide.DatabaseSchema@db_check.gif]]|| |0000-00-00 00:00:00| 
+|[[image:DevGuide.DsXWikiAttachment@DevGuide.DatabaseSchema@db_field.gif]]|XWA_AUTHOR|VARCHAR(255)| || |null| 
+|[[image:DevGuide.DsXWikiAttachment@DevGuide.DatabaseSchema@db_field.gif]]|XWA_VERSION|VARCHAR(255)|[[image:DevGuide.DsXWikiAttachment@DevGuide.DatabaseSchema@db_check.gif]]| || | 
+|[[image:DevGuide.DsXWikiAttachment@DevGuide.DatabaseSchema@db_field.gif]]|XWA_COMMENT|VARCHAR(255)| | ||null| </content>
+</xwikidoc>

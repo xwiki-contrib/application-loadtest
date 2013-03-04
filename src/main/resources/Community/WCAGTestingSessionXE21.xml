@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>WCAGTestingSessionXE21</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.WCAGTesting</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1258705864000</creationDate>
+  <date>1360950280000</date>
+  <contentUpdateDate>1258709650000</contentUpdateDate>
+  <version>1.1</version>
+  <title>WCAG Testing Session for XE 2.1</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.WCAGTestingSessionXE21</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>673c2687-a653-45ef-94b3-221fd5dd0f21</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>This page summarizes the status of the WCAG testing session for XE 2.1.
+
+= Issues Fixed =
+
+[[Issue tagged with WCAG in JIRA&gt;&gt;http://jira.xwiki.org/jira/secure/IssueNavigator.jspa?mode=hide&amp;requestId=10549]]
+
+= Passing =
+
+The following pages have been verified to pass with the [[Dutch Guidelines validator&gt;&gt;http://www.webrichtlijnen.nl/english/test/]]:
+* Main.WebHome (view - logged as Admin)
+* Main.AllDocs (view - logged as Admin)
+
+= Todo =
+
+* Wiki edit mode on home page [Vincent]
+* WYSIWYG edit mode on home page
+* Object edit mode on home page
+* Class edit mode on home page
+* Rights view on home page
+* Inline form view on home page
+* View source on home page
+* Delete/rename/copy on home page
+* Attachment tab open on home page
+* History tab open on home page
+* Information tab open on homr page
+* Blog home page (view)
+* Blog edit in inline mode
+* Sandbox home page (view) [Sergiu]
+* Register page (view)
+* Main admin page (view)
+* Login page (view) [Sergiu]
+* Create page/create space page (view) [Sergiu]
+* Open office import page (view)
+
+</content>
+</xwikidoc>

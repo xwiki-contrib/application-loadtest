@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>GettingStarted</web>
+  <name>PageHistory</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>GettingStarted.FirstStepsWithXWikiEnterprise</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1233675724000</creationDate>
+  <date>1360853982000</date>
+  <contentUpdateDate>1360853982000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Page History</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>GettingStarted.PageHistory</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>c2e8a79a-3be4-47eb-8e86-2d86ad878a0c</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>Whenever your make a modification to a page in XWiki Enterprise, it is stored in that page's version history. This means that you can compare always any 2 versions of a page to see what has been changed between them. No content is ever lost all the content you add to your wiki throughout time is always saved. You can also rollback to a previous version of a page if one of the latest modifications appears to be wrong.
+
+To compare 2 versions of a page, put you mouse cursor over the "Show" button at the top left of the page. Wait for the drop-down menu to appear and click on "History":
+
+* To compare any 2 versions of a page, select those 2 versions and click on the "Compare selected versions" button located at the bottom of the page
+** A page will show you the differences in content, attachments and comments between the 2 versions of the page
+** Click on your browser's back button to come back where you were
+* To view the contents of an earlier version of the page, click on that page version number in the "Version" column
+* To rollback to a previous version of the page, click on the "Rollback" button 
+
+{{info}}Find out more about XWiki Enterprise's page history feature [[on the Version Control page on XWiki.org.&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/Features/VersionControl]]{{/info}}
+
+* Next: [[Going further with XWiki Enterprise&gt;&gt;GettingStarted.GoingFurther]]</content>
+</xwikidoc>

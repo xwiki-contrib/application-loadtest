@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>XWikiintheCloud</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1352992472000</creationDate>
+  <date>1360950329000</date>
+  <contentUpdateDate>1352992723000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki in the Cloud</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.XWikiintheCloud</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>cfa21c96-e442-4b5d-b854-9573973d6505</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.XWikiintheCloud</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>8996fa3d-095c-4694-ac87-14b9adbb1a75</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+The goal here is to list all implementation stuff that need to be modified to make XWiki work in the Cloud. As an example, let's take Google App Engine:
+
+* Change the Environment API so that it doesn't work on File since GAE doesn't support the file API but has its own abstraction for files. We need an interface that doesn't use the java.io.File API so that we can provide an implementation for GAE. More generally introduce the notion of VFS.
+* Scheduler: use the service provided by GAE
+* Caching: use memcache since it's supported by GAE and the cache needs to be distributed: GAE will kill instances every few minutes and restar them elsewhere and we need the cache to stay alive
+
+Note that GAE does support transparently:
+* MySQL
+* Threads
+</content>
+</xwikidoc>

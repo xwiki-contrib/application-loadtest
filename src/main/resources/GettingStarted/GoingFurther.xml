@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>GettingStarted</web>
+  <name>GoingFurther</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>GettingStarted.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1233674939000</creationDate>
+  <date>1360853981000</date>
+  <contentUpdateDate>1360853981000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Going further</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>GettingStarted.GoingFurther</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>0fd1a361-eb88-4aa2-9d49-d120288bab43</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>This guide aims at providing you with the very basics of setting up and using XWiki Enterprise. XWiki Enterprise is a really powerful tool and there's much more to it than meets the eye. Here are a couple places you may want to give a look to in order to find out more about what you can do with XWiki Enterprise:
+
+* **For everyone:**
+** [[XWiki Enterprise documentation on XWiki.org:&gt;&gt;http://enterprise.xwiki.org/xwiki/bin/view/Main/Documentation]] basically what it says it is :-)
+* **If you're an user:**
+** [[The XWiki Enterprise feature list on XWiki.org:&gt;&gt;http://enterprise.xwiki.org/xwiki/bin/view/Main/Features]] discover the various features XWiki Enterprise has to offer and how to use them.
+** [[XWiki Enteprise User Guide:&gt;&gt;http://enterprise.xwiki.org/xwiki/bin/view/UserGuide/]] a couple videos on how to use XWiki Enterprise
+* **If you're an admin:**
+** [[XWiki Enterprise Administration Guide:&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/]] everything you need to know in order to manage your wiki effectively
+** [[XWiki Enterprise Configuration:&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/Configuration]] most of your first questions will find an answer here
+* **If you're a developer:**
+** [[XWiki Enterprise, the second-generation wiki:&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/Main/SecondGenerationWiki]] discover why XWiki Enterprise is such a powerful tool
+** [[XWiki Enterprise Developer Guide:&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/DevGuide/]] many resources about how you can take advantage of XWiki Enterprise as an application platform
+
+Thanks for your interest in XWiki Enterprise! We look forward to seeing your project on [[our References page&gt;&gt;http://www.xwiki.org/xwiki/bin/view/References/]] soon ;-)</content>
+</xwikidoc>

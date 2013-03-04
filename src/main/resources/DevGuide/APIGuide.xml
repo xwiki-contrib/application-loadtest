@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>APIGuide</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>DevGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1191418623000</creationDate>
+  <date>1360950275000</date>
+  <contentUpdateDate>1360950275000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki Scripting API Guide</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.APIGuide</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>38180c64-3334-4729-8e6b-07f5a4512247</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+This guide covers the main XWiki APIs that you can use from scripts in wiki pages. It's not meant to be comprehensive. For that you'll need to check the [[XWiki Reference API page&gt;&gt;API]].
+
+Note that while most examples are written in Velocity you can use [[any other scripting language&gt;&gt;DevGuide.Scripting]] to access the same APIs.
+
+= Querying documents =
+
+See the [[Query Module&gt;&gt;extensions:Extension.Query Module]] for examples on how to perform queries on the wiki using a scripting language.
+
+= Create a new Document =
+
+For example in Velocity:
+
+{{code}}
+#set ($newDoc = $xwiki.getDocument('MySpace.MyPage'))
+## The second parameter to save() indicates whether the save is a minor edit or not
+#set ($discard = $newDoc.save("some comment explaining the save", true)
+{{/code}}
+
+= Accessing the request =
+
+You can access the HTTP Request by accessing the  ##com.xpn.xwiki.web.XWikiServletRequest## object through the ##request## script variable.
+
+For example in Velocity, to access an ##action## HTTP parameter passed in the request you would write:
+
+{{code language="velocity"}}
+$request.action
+{{/code}}
+
+Note that this is a shortcut to:
+
+{{code language="velocity"}}
+$request.get("action")
+{{/code}}
+
+= Getting external content =
+
+You can use the following APIs to get content located at external URLs:
+
+{{code language="java"}}
+public String getURLContent(String surl, String username, String password) throws IOException
+public String getURLContent(String surl) throws IOException
+public String getURLContent(String surl, String username, String password, int timeout) throws IOException
+public String getURLContent(String surl, int timeout) throws IOException
+public byte[] getURLContentAsBytes(String surl, String username, String password)
+public byte[] getURLContentAsBytes(String surl) throws IOException
+{{/code}}
+
+For example in Velocity:
+
+{{code language="velocity"}}
+$xwiki.getURLContent("http://google.com")
+{{/code}}
+
+= Add objects to a page =
+
+Here is a piece of Velocity script to show how is possible to store a new object in one page:
+
+{{code language="velocity"}}
+## Create an object
+#set($obj = $doc.newObject("XWiki.SomeClass"))
+$obj.set("field1",$value1)
+$obj.set("field2",$value2)
+
+## Save the object in the page
+$doc.save()
+{{/code}}
+
+The "XWiki.SomeClass" class has to be created (through the class editor): field1 and field2 are property of the class. At the moment, this code works fine only if the user currently logged in has editing rights on the page, otherwise the Document.save() will not work.
+
+= Access objects in a page =
+
+Here is a piece of Velocity script to show how it is possible to access an object attached to the page, and read its fields :
+
+{{code language="velocity"}}
+## Retrieve the first object (index [0]) among all objects attached to this page and of a certain class 
+#set($obj = $doc.getObject("SomeSpace.SomeClass"))
+
+## Retrieve the value of the propertty "field1" for this object, provided a property called "field1" is actually defined in the class of this object
+#set($field1 = $obj.get("field1"))
+SomeSpace.SomeClass[0] : field1 = "$field1"
+{{/code}}
+
+You can also go through all the properties of an object, without knowing their respective names. That's how the default Class Sheet works, when you create a class using the Class Wizard.
+
+{{code language="velocity"}}
+#set($class = $obj.xWikiClass) ## access the class object representing SomeSpace.SomeClass
+ #foreach($prop in $class.properties) ## go through all properties
+ &lt;dt&gt; *${prop.prettyName}* &lt;/dt&gt;
+ &lt;dd&gt;$doc.display($prop.getName())&lt;/dd&gt;
+#end
+{{/code}}
+
+Actually the line {{code}}$doc.display(propertyName){{/code}} can either display the property value, or generate an input field in the page, mapped to the property whose name is passed as argument (when you edit the page in inline mode). If you have a Velocity script that uses the ##display(propertyName)## method to access properties of an object attached to the including page and you want to include it somewhere else you have to use the ##includeForm()## Velocity macro in the including script:
+
+{{code language="velocity"}}
+#includeForm("spacename.docname")
+{{/code}}
+
+See [[the includeForm() macro&gt;&gt;extensions:Extension.Include Form Macro]] for more information.
+
+= Include a Velocity page into another Velocity page =
+
+See the [[Include In Velocity tutorial&gt;&gt;DevGuide.IncludeInVelocity]].
+
+= Redirecting to another page =
+
+It's possible to redirect the user to another page. This is useful for example when a page has been removed and you have given the URL to someone so you want the old page to redirect to the new page.
+
+Example:
+
+{{code language="velocity"}}
+$response.sendRedirect($xwiki.getURL("Space.Page"))
+{{/code}}
+
+For more examples, see the [[Redirect Snippet&gt;&gt;extensions:Extension.Redirect]].
+
+= Add an Attachment to a page =
+
+For example, in Velocity:
+
+{{code}}
+{{velocity}}
+#set($content = "This is some small arbitrary content")
+#set($discard = $doc.addAttachment("myfile.txt", $content.getBytes()))
+#set($discard = $doc.save("some comment"))
+{{/velocity}}
+{{/code}}</content>
+</xwikidoc>

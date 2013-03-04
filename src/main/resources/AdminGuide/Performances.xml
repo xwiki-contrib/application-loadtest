@@ -1,0 +1,335 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>Performances</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1190282920000</creationDate>
+  <date>1360950261000</date>
+  <contentUpdateDate>1360950261000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Performance</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.Performances</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>925f9bea-0dd6-4228-bddc-1966592cce8b</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+Here are some tips to increase XWiki's performance.
+
+= Gzip compression and caching of static pages =
+
+We're working on making these features part of the XWiki core (see [[XWIKI-2022&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-2022]]). While waiting for this to be natively implemented, the recommended solution is to set up an Apache Web Server in front of your servlet container and install/configure the following modules:
+
+* [[mod-deflate&gt;&gt;http://httpd.apache.org/docs/2.0/mod/mod_deflate.html]]
+* [[mod-expire&gt;&gt;http://httpd.apache.org/docs/2.0/mod/mod_expires.html]]
+* [[mod-proxy-ajp&gt;&gt;http://httpd.apache.org/docs/2.2/mod/mod_proxy_ajp.html]] (note that this depends on [[mod-proxy&gt;&gt;http://httpd.apache.org/docs/2.2/mod/mod_proxy.html]] that you also need to install)
+
+Modify your Apache configuration file to load the different modules:
+
+{{code language="none"}}
+LoadModule expires_module /usr/lib/apache2/modules/mod_expires.so
+LoadModule deflate_module /usr/lib/apache2/modules/mod_deflate.so
+LoadModule proxy_module /usr/lib/apache2/modules/mod_proxy.so
+# Depends: proxy
+LoadModule proxy_ajp_module /usr/lib/apache2/modules/mod_proxy_ajp.so
+{{/code}}
+
+and configure your different modules as described below:
+
+== Mod Deflate Configuration ==
+
+{{code language="none"}}
+vwwwpro-1:~# cat /etc/apache2/conf.d/deflate 
+&lt;Location /&gt;
+   # Insert filter
+   SetOutputFilter DEFLATE
+
+   # Netscape 4.x has some problems...
+   BrowserMatch ^Mozilla/4 gzip-only-text/html
+
+   # Netscape 4.06-4.08 have some more problems
+   BrowserMatch ^Mozilla/4.0[678] no-gzip
+
+   # MSIE masquerades as Netscape, but it is fine
+   # BrowserMatch bMSIE !no-gzip !gzip-only-text/html
+
+   # NOTE: Due to a bug in mod_setenvif up to Apache 2.0.48
+   # the above regex won't work. You can use the following
+   # workaround to get the desired effect:
+   BrowserMatch bMSI[E] !no-gzip !gzip-only-text/html
+
+   # Don't compress images
+   SetEnvIfNoCase Request_URI .(?:gif|jpe?g|png)$ no-gzip dont-vary
+
+   # Make sure proxies don't deliver the wrong content
+   #Header append Vary User-Agent env=!dont-vary
+&lt;/Location&gt;
+{{/code}}
+
+== Mod Expire Configuration ==
+
+{{code language="none"}}
+vwwwpro-1:~# cat /etc/apache2/conf.d/expires 
+&lt;Location /xwiki/skins/&gt;
+       ExpiresActive on
+       ExpiresDefault "access plus 1 day"
+&lt;/Location&gt;
+
+&lt;Location /xwiki/bin/skin/&gt;
+       ExpiresActive on
+       ExpiresDefault "access plus 1 day"
+&lt;/Location&gt;
+{{/code}}
+
+== Mod Proxy AJP Configuration ==
+
+{{code language="none"}}
+ProxyRequests Off
+   &lt;Proxy *&gt;
+       Order deny,allow
+       Allow from all
+   &lt;/Proxy&gt;
+   ProxyPreserveHost On
+   ProxyPass /xwiki ajp://192.168.1.181:8009/xwiki
+{{/code}}
+
+where ##ajp:~/~/192.168.1.181:8009/xwiki## is the internal address of your Servlet container where XWiki is running.
+
+= Memory =
+
+You need to configure your Servlet container so that XWiki has enough memory. You'll need to tune the value to your need. You should check the logs and see if there are any "out of memory" errors. A good default value is 384MB (-Xmx384m).
+
+Here are the values used for xwiki.org's web site:
+
+{{code language="none"}}
+CATALINA_OPTS="-server -Xms1024m -Xmx1024m -XX:MaxPermSize=192m -Dfile.encoding=utf-8 -Djava.awt.headless=true -XX:+UseParallelGC -XX:MaxGCPauseMillis=100"
+{{/code}}
+
+= Database Indexes =
+
+Make sure you've set [[Database indexes&gt;&gt;Database Administration]]. This is especially important when you start having lots of documents.
+
+= Panels =
+
+Some panels take more resources than others. For example the Navigation panel should NOT be used for wikis with a lot of documents since it displays all documents in the wiki. In the future that panel should be improved for performance but that's not the case right now. Originally this panel was only meant as a starting point. A better approach is to use a "Quick Links Panel" as we've now set up in the default XWiki Enterprise wiki version 1.1 (we've removed the default usage of the Navigation Panel in that version).
+
+= Robots.txt =
+
+If your wiki is open on the Internet, it'll be crawled by search robots (like GoogleBot, etc). They will call all the URLs and especially the ones that are resource hungry like exports (PDF/RTF). You need to protect against this. To do so configure a ##robots.txt## file like this one and put it in your webserver configuration:
+
+{{code language="none"}}
+User-agent: *
+Disallow: /xwiki/bin/attach/
+Disallow: /xwiki/bin/cancel/
+Disallow: /xwiki/bin/commentadd/
+Disallow: /xwiki/bin/delattachment/
+Disallow: /xwiki/bin/delete/
+Disallow: /xwiki/bin/dot/
+Disallow: /xwiki/bin/download/
+Disallow: /xwiki/bin/downloadrev/
+Disallow: /xwiki/bin/edit/
+Disallow: /xwiki/bin/export/
+Disallow: /xwiki/bin/get/
+Disallow: /xwiki/bin/inline/
+Disallow: /xwiki/bin/lifeblog/
+Disallow: /xwiki/bin/login/
+Disallow: /xwiki/bin/loginerror/
+Disallow: /xwiki/bin/logout/
+Disallow: /xwiki/bin/objectremove/
+Disallow: /xwiki/bin/pdf/
+Disallow: /xwiki/bin/preview/
+Disallow: /xwiki/bin/propadd/
+Disallow: /xwiki/bin/propdelete/
+Disallow: /xwiki/bin/propupdate/
+Disallow: /xwiki/bin/register/
+Disallow: /xwiki/bin/save/
+Disallow: /xwiki/bin/skin/
+Disallow: /xwiki/bin/status/
+Disallow: /xwiki/bin/upload/
+Disallow: /xwiki/bin/viewattachrev/
+Disallow: /xwiki/bin/viewrev/
+Disallow: /xwiki/bin/xmlrpc/
+# It could be also usefull to block certain spaces from crawling,
+# especially if this spaces doesn't provide new content
+Disallow: /xwiki/bin/view/Main/
+Disallow: /xwiki/bin/view/XWiki/
+# on the other hand you would like to have your recent (public) changes included
+Allow: /xwiki/bin/view/Main/Dashboard
+{{/code}}
+
+
+**Note:**
+
+For Tomcat6 the placement of the ##robots.txt## file should be within the //$TOMCAT/webapps/ROOT// folder and should have permission 644 applied.
+
+{{code}}
+-rw-r--r--  1 root  www  1478 Jan  8 15:52 robots.txt
+{{/code}}
+
+In order to test if the ##robots.txt## file is either accessable or working as desired use this [[checker&gt;&gt;http://www.frobee.com/robots-txt-check]].
+
+= Statistics =
+
+{{info}}
+This is no longer true starting with XE 1.4M2 since statistics are now put on a queue and written in a different thread in the database in one go, thus reducing the overhead to a maximum.
+{{/info}}
+
+The statistics module is off by default since it's quite database intensive. If you don't need it you should turn it off.
+
+= Monitoring =
+
+More a developer-oriented feature, XWiki can monitor its own code, reporting the time spent for each sub-component activated during a request. While the monitoring code isn't time consuming, it increases the memory consumption a bit, and the create/start/stop/log/destroy calls are spread all around the code, so you will save a lot of method calls by disabling this. You can do that by setting the following line in ##xwiki.cfg##:
+
+{{code language="null"}}
+xwiki.monitor=0
+{{/code}}
+
+= Cache sizes =
+
+Tune the document cache in ##xwiki.cfg##. The value depends on how much memory you have. The higher the better. A good reasonable value is 1000.
+
+{{code language="none"}}
+xwiki.store.cache.capacity=1000
+{{/code}}
+
+= Cache Macro =
+
+It's possible to perform selective content caching by using the [[Cache Macro&gt;&gt;extensions:Extension.Cache Macro]].
+
+= Rendering cache =
+
+Some pages are complex to render (they may aggregate outside data for example or do complex and slow queries). For theses pages you can use rendering cache.
+
+== Configuration based ==
+
+Pages can be cached (i.e. their rendered content cached) to speed up displaying. The configuration is done in ##xwiki.properties## with the following configuration options:
+
+{{code language="none"}}
+#-# [Since 2.4M1]
+#-# Indicate if the rendering cache is enabled.
+#-# Default value is false.
+# core.renderingcache.enabled=true
+
+#-# [Since 2.4M1]
+#-# A list of Java regex patterns matching full documents reference.
+# core.renderingcache.documents=wiki:Space\.Page
+# core.renderingcache.documents=wiki:Space\..*
+
+#-# [Since 2.4M1]
+#-# The time (in seconds) after which data should be removed from the cache when not used.
+#-# Default value is 300 (5 min).
+# core.renderingcache.duration=300
+
+#-# [Since 2.4M1]
+#-# The size of the rendering cache. Not that it's not the number of cached documents but the number of cached results.
+#-# (For a single document several cache entries are created, because each action, language and request query string
+#-# produces a unique rendering result)
+#-# Default value is 100.
+# core.renderingcache.size=100
+{{/code}}
+
+You can force a page to refresh using ##refresh=1## in the URL.
+
+== Enabled using velocity in document content itself (XWiki 1.0 syntax only) ==
+
+You can add the following to their content to cache them after they are rendered. Note that the document is refreshed whenever the content of the document changes, and the cache takes into account the URL, so it is pretty safe to add a long cache duration for all documents that don't contain scripts gathering data from the wiki. For example to cache the rendered content for 60 seconds you would add:
+
+{{code language="none"}}
+$context.setCacheDuration(60)
+{{/code}}
+
+Since 1.5M2, you can set the default rendering cache duration for all pages in ##xwiki.cfg##:
+
+{{code language="none"}}
+## cache all rendered documents for one hour
+xwiki.rendering.defaultCacheDuration=3600
+{{/code}}
+
+Setting the default cache duration to a large value, and manually disabling the cache in dynamic pages would really speed up the wiki, since the rendering is one of the most time consuming processes.
+
+= Merge the CSS files =
+
+In order to reduce the number of requests and files that are downloaded from the browser or client, it could help to merge all XWiki CSS files into a single one. See the [[Merge CSS Script&gt;&gt;extensions:Extension.Merge CSS]].
+
+= Set up NginX =
+
+If you experience //__heavy loads__// on your wiki, you could try using NginX.
+
+NginX is used to fetch static content: images, javascript, styles, etc.
+
+Unlike Apache, which instantiates a new process per every static file, NginX uses the same process to fetch all the static data, and thus gives you extra perfomance "for free". 
+
+For more info on setting up NginX check [[this guide&gt;&gt;NginX]].
+
+= Backlinks =
+
+While a pretty neat feature, keeping track of the backlinks has a medium impact on the document saving time and a minor impact on the document loading time. If you feel that your wiki does not need backlinks, you can safely disable them with the following line in ##xwiki.cfg##:
+
+{{code language="none"}}
+xwiki.backlinks=0
+{{/code}}
+
+= Versioning =
+
+One of the key features of any wiki system, versioning greatly affects the database size and the document update time. If you are sure your wiki does not need to keep track of all the changes and you will never need to revert documents to a previous version, then you can add the following line in ##xwiki.cfg##:
+
+{{code language="none"}}
+xwiki.store.versioning=0
+{{/code}}
+
+= Custom Mapping =
+
+In some cases you may not want to rely on XWiki's generic database schema for storing XClass data and instead you'd like to provide your own optimized table. For these use cases you can use [[Custom Mapping&gt;&gt;platform:DevGuide.CustomMapping]].
+
+= Wiki syntax features for XWiki Syntax 1.0 =
+
+If you don't plan to use all of the wiki features, like the --strikethrough-- filter, the automatic http links filter, the SVG, Laszlo or style macros, you can disable them in ##xwiki-core-*.jar/META-INF/services/com.xpn.xwiki.render.*##. The wiki rendering is the most costly operation in the rendering process, so any disabled feature counts.</content>
+</xwikidoc>

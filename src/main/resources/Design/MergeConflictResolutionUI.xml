@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>MergeConflictResolutionUI</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>ExtensionManagerUI</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1332333031000</creationDate>
+  <date>1360950317000</date>
+  <contentUpdateDate>1360950317000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Merge Conflict Resolution UI</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.MergeConflictResolutionUI</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>7c234f01-ad08-439a-a7fe-7e40981ae61e</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+= Functional Specification =
+
+== Context ==
+
+The Extension Manager is asked to upgrade an XWiki application. It iterates through all the documents from the new version of the application XAR and tries to do a 3-way merge between:
+
+* the current version of the document from the wiki (which might have been modified by the user)
+* the new version from the upgrade XAR
+* the previous version from the installed XAR (the base)
+
+If the merge fails then the EM pauses the upgrade process and asks the user to resolve the merge conflict.
+
+== Displayed Information ==
+
+We display the diff between the current version of the document from the wiki and the version from the upgrade XAR. The current version is used as the source, meaning that we mark:
+
+* with + and/or green color the lines to be added to the current version from the wiki
+* with - and/or red color the lines to be removed from the current version available in the wiki.
+
+The user should be able to toggle between full diff and compact diff. The former displays the entire content while the later displays only a few lines before and after each change (+/- lines). The compact diff should be displayed by default.
+
+We should mark changes inside a line of text when possible. Lines of text are numbered.
+
+== Local Actions ==
+
+Local actions target individual changes. A change is either an //addition// (+/green) or a //removal// (-/red). Each change affects at least one line of text. The user can **select** the changes that she wants to be applied and **unselect** the changes that she doesn't want to be applied. Selected changes should be displayed differently than unselected changes. The user can **edit** only the //addition// changes (+/green). //Addition// changes that have been edited should be displayed differently than normal ones (only if the text differs). The user can also **restore** the changes made to an //addition// change.
+
+== Global Actions ==
+
+Global actions target all the changes. The user can:
+
+* select all changes, which means a complete overwrite of the current version with the version from the upgrade XAR
+* unselect all changes, which means keeping the current version of the document from the wiki
+* restore all modifications made to the //addition// changes (+/green)
+* apply changes, which resumes the upgrade process
+
+By default all changes are selected, meaning that the default behaviour is to overwrite the current version with the version from the upgrade XAR.
+
+= Prototype =
+
+I think the diff should be displayed as on GitHub. The problem with [[side-by-side layout&gt;&gt;attach:sideBySideLayout.png]] is that it takes a lot of horizontal space and we can have pretty long lines of Velocity code. Wrapping the lines doesn't fix the problem: it makes the diff harder to read.
+
+
+
+Global actions can be displayed at the top of the diff, while local actions should be displayed when a change is hovered. For editing an //addition// change we can insert a text area just below the //addition// change, like when we comment a line of code in GitHub.</content>
+</xwikidoc>

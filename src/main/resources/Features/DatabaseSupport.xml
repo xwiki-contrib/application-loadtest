@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Features</web>
+  <name>DatabaseSupport</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Features.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1165959798000</creationDate>
+  <date>1360853281000</date>
+  <contentUpdateDate>1360853281000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Database Support</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Features.DatabaseSupport</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>f4efd099-23d2-4e4d-a66a-aa0ad4d27b84</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>All XWiki pages are saved in a relational database for better efficiency. This allows XWiki to be fast and scalable. It also allows you to use the [[Programming&gt;&gt;Features.Programming]] features to perform queries in your pages on any data contained in other pages.
+
+Theoretically XWiki supports the [[same databases Hibernate supports&gt;&gt;https://community.jboss.org/wiki/SupportedDatabases2]]. This means that if you provide the correct Hibernate mapping file all those databases should work fine with XWiki.
+
+More specifically the [[XWiki Development Team officially supports a subset of all those databases&gt;&gt;dev:Community.DatabaseSupportStrategy]].</content>
+</xwikidoc>

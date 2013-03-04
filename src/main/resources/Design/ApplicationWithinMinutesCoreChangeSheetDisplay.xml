@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ApplicationWithinMinutesCoreChangeSheetDisplay</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.ApplicationWithinMinutes</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1302871226000</creationDate>
+  <date>1360950297000</date>
+  <contentUpdateDate>1360950297000</contentUpdateDate>
+  <version>1.1</version>
+  <title>ApplicationWithinMinutes Core Change Sheet Display</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>In order to support the Application Within Minutes Project we need an XWiki core change to automate the display of a sheet on specific pages without having the use the "include" mecanism.
+
+The benefits of this is to make wiki page with and without objects be the same. This will remove the "inline" editing mecanism.
+
+The proposed approach is to have a notion of "views". These views can be applied in VIEW or EDIT, but also possible SEARCH, or CHANGES display.
+
+A view can be then applied whenever data of a specific type of page (containing a specific object for instance) is displayed.
+
+== View Resolution ==
+
+View resolution can be a bit complex as we could have cases of conflicts. In order to have an efficient view resolution we need to implement it in an XWiki API. This API acts as a resolver and can implement a cache for more efficiency.
+
+It could be the resolveView API which returns an object structure
+
+{{code}}
+#set($docview = $doc.resolveView())
+{{/code}}
+
+The VIEW structure would have the following apis:
+
+* getCreateSheet() (for create)
+* getViewSheet() (for view)
+* getEditSheet() (for edit)
+* getSearchSheet() (for custom search display) This could only apply to displaying ONE search result of the matching type 
+* getChangesSheet() (for custom changes display) This could only apply for the changes display of a specific OBJECT or the full changes page, or there could be 2 sheets one for the full changes page and one for an individual change.
+* getListSheet() (for custom list/livetable display)
+
+The return is an page name. The page contains the script with the view code, but also can contain additional parameters including:
+
+* display of each tab in the view mode
+* display of editable title in edit/create mode
+* display of version summary in edit mode
+* display of editable breadcrumb in edit mode
+* configuration of the action buttons in edit mode
+* configuration of panels in edit mode
+
+The options should allow to have about the same possibilities as the one we had with the two edit modes ("wiki edit"/"inline edit").
+
+== View Resolution Rules ==
+
+The resolution rules proposed are:
+
+* Look in the document if any custom view is declared. If yes use it.
+* Look in the document objects if their object type declare a view. If yes use the first one.
+* If multiple ones, use an optional rule precedence declared in the preferences
+* If none found use the standard view
+
+== View Resolution Rules Storage ==
+
+The XWiki Document and XWiki Class already contain some fields for VIEW/EDIT/SEARCH sheet declaration. Additional fields might be needed.
+
+== Changes needed in the templates ==
+
+The templates handling view/edit/changes/search will have to call the resolver to decide which sheet to use. If none is found the standard view template will be used.
+The rendering of the EDIT button will not need any specific handling anymore as the inline mode would go away.</content>
+</xwikidoc>

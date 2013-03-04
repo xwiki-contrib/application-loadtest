@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>NewMacros</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1243322690000</creationDate>
+  <date>1360950305000</date>
+  <contentUpdateDate>1320306658000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Wanted XWiki Syntax 2.0 Macros</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.NewMacros</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>7b593aa5-684b-42dd-b978-f18b1e51fab5</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.NewMacros</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>eba0a723-0f44-4967-9aff-428e83587ea3</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+The aim of this proposal is to list **XWiki Syntax 2.0 Macros** that we need to have bundled by default in XWiki Enterprise. These need to be implemented either as Wiki Macro or Java macros. The decision to implement them in Java or in a wiki page is done on a case by case basis and requires discussion on the XWiki devs list.
+
+= Needed Macros =
+
+{{info}}
+Priority order to be defined.
+{{/info}}
+
+|=Macro Name|=Wiki Macro (W) or Java Macro (J)|=Comments|=Priority
+|Livetable macro||See [[Design.LiveTable20Macro]]|1
+|Form macro|J|In order to be able to avoid using the HTML macro|1\\
+|--[[Symbol/Emoticon macro&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-2964]]--||--Now included in the syntax--|3\\
+|Blog Post macro|W (or we move the Blog velocity code to Java code and do a Java macro)||2
+|Children Display macro|||2
+|Search macro|||2
+|--Office preview macro--||--Done: [[extensions:Extension.Office Macro]]--|1
+|--[[Column macro&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-2963]]--|J|--Done in the [[Container Macro&gt;&gt;extensions:Extension.Container Macro]]--|3
+|[[Treeview macro&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-2966]]|||3
+|[[Lightbox macro&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-1689]]|||2
+|[[Map macro&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-2784]]|W|A wiki macro was [[contributed&gt;&gt;extensions:Extension.Map Macro]]|2
+|[[Generic macros for applications&gt;&gt;Design.GenericMacrosforApplications]]|||2
+|JIRA macro||A wiki macro was [[contributed&gt;&gt;extensions:Extension.JIRA Macro]]|1
+|[[Tabbed display macro&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-2965]]|W|A wiki macro was [[contributed&gt;&gt;extensions:Extension.Tabs Macro]]|4
+|[[Lua macro&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-2848]]|J (like any other script macro)||?
+|[[What's new macro&gt;&gt;CustomizedWhatsNewMacro]]|W|--Done, see [[Activity Macro&gt;&gt;extensions:Extension.Activity Macro]]--|2
+|Attachment macro|W|Display a list of attachments attached to a page. Also be able to group them by extension (.pdf, .doc, .xls).|2
+|Youtube macro | ||1
+|Dailymotion macro | ||1
+|Iframe macro | |May be a javascript hazard.|2
+|Gallery macro | |Display scrolling images from a given gallery|2
+|Syntax macro| |The idea is to be able to put some content in any syntax in a page which is in another syntax. For example a piece of mediawiki inside a xwiki/2.0 document. Useful for pages like XWikiSyntax for example to put examples.|4\\
+|Menu Macro| |A macro that would display a menu which would be stored and editable in a structured way. Different menu styles could be available (tree, drop down, etc..)|5\\
+|Live Search Macro| |This macro would allow to display a live ajax search of all pages, space pages, specific class pages|2\\
+|Google Macros| |Macros for different google services: googles docs, calendar, chart, etc.. Some macros have already been contributed|2\\
+|Members Macros| |List users with avatar that have explicit rights to view the page/space (direct rights or rights through groups) or display members of a group|2\\
+|Contributors macro | |List all the contributors of the current page|2\\
+|Display macro| |To display document fields without velocity (and most of all without escaping hack since using macro directly produce XDOM)|3\\
+
+
+
+= Sources of inspiration =
+
+* http://confluence.atlassian.com/display/DOC/Working+with+Macros#WorkingwithMacros-MacrosShippedwithyourConfluenceInstallation
+* {{scm path="xwiki-platform-core/xwiki-platform-web/src/main/webapp/templates/macros.vm"/}}</content>
+</xwikidoc>

@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>JavaCodeStyle</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.CodeStyle</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1257342330000</creationDate>
+  <date>1360950291000</date>
+  <contentUpdateDate>1358431242000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Java Code Style</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.JavaCodeStyle</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>295efb91-8e6c-44c1-8ef4-95d8bcf23c4e</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}{{toc/}}{{/box}}
+
+The XWiki project is following a specific coding style for Java code. We're using [[Checkstyle&gt;&gt;http://checkstyle.sourceforge.net]] ([[checkstyle.xml&gt;&gt;https://github.com/xwiki/xwiki-commons/raw/master/xwiki-commons-tools/xwiki-commons-tool-verification-resources/src/main/resources/checkstyle.xml]]) to ensure compliance of the code. Our build (the Maven2 one) is configured to fail on violations. However the decision to follow this code style and enforce it was only made recently and not all the code base has been moved to this new code style. Hence:
+
+* We're only enforcing the code style in the code that has been moved to the new code style. The checked files are defined in //xwiki/core/pom.xml// (bottom of file).
+* We're asking new code to follow the new style and then once a Java file is compliant, to edit //xwiki/core/pom.xml// and add it there so that we cannot regress...
+
+For examples of "clean" class see the following example and its unit tests:
+
+* DefaultObservationManager.java ([[main sources&gt;&gt;https://github.com/xwiki/xwiki-commons/blob/master/xwiki-commons-core/xwiki-commons-observation/xwiki-commons-observation-local/src/main/java/org/xwiki/observation/internal/DefaultObservationManager.java]]|[[tests&gt;&gt;https://github.com/xwiki/xwiki-commons/blob/master/xwiki-commons-core/xwiki-commons-observation/xwiki-commons-observation-local/src/test/java/org/xwiki/observation/ObservationManagerTest.java]])
+
+= Configuring your IDE to use the XWiki code style =
+
+== Eclipse 3.x ==
+
+Download [[codestyle-eclipse-java.xml&gt;&gt;https://github.com/xwiki/xwiki-commons/raw/master/xwiki-commons-tools/xwiki-commons-tool-verification-resources/src/main/resources/codestyle-eclipse-java.xml]].
+
+After this, select //Window &gt; Preferences//, and open up the configuration for //Java &gt; Code Style &gt; Code Formatter//. Click on the button labeled //Import...// and select the file you downloaded. Give the style a name, and click OK.
+
+To reformat a file, press ##Ctrl+Shift+F## while inside that file. To format only a portion of the file, select it and press the same key combination.
+
+In recent versions of Eclipse (?3.3) there is the possibility to configure Eclipse to automatically format a file when saving it. To do this, open //Window &gt; Preferences//, select //Java &gt; Editor &gt; Save Actions// and enable //Perform the selected actions on save// and //Format source code//.
+
+Download [[codetemplates-eclipse.xml&gt;&gt;https://github.com/xwiki/xwiki-commons/raw/master/xwiki-commons-tools/xwiki-commons-tool-verification-resources/src/main/resources/codetemplates-eclipse.xml]].
+
+After this, select //Window &gt; Preferences//, and open up the configuration for //Java &gt; Code Style &gt; Code Templates//. Click on the button labeled //Import...// and select the file you downloaded. You can enable "Automatically add comments for new methods and types" if you want.
+
+To generate a javadoc, press ##Meta+Shift+J## while on the element you want to document.
+
+== IntelliJ IDEA 4.5+ ==
+
+Download [[codestyle-idea.xml&gt;&gt;https://github.com/xwiki/xwiki-commons/raw/master/xwiki-commons-tools/xwiki-commons-tool-verification-resources/src/main/resources/codestyle-idea.xml]].
+
+Close IntelliJ IDEA. Place the file in your [[IntelliJ IDEA user configuration directory&gt;&gt;http://www.jetbrains.com/idea/webhelp/project-and-ide-settings.html]]:
+* For example for Windows Vista users of IntelliJ IDEA v6.x, it's in ##C:\Users\username\.IntelliJIdea60\config\codestyles##. Then open IntelliJ IDEA again, select ##File &gt; Project Settings &gt; Project Code Style##, select ##Use per-project code style scheme##, click on ##Import...## and select ##XWiki##.
+* On Mac it's in ##~~/Library/Preferences/IntelliJIdeaXX/codestyles##
+
+= Interface best practices =
+
+== Do not use 'public' in interfaces ==
+
+Public is always implied in interfaces. Do not write:
+
+{{code}}
+public interface Page
+{
+    public String getParentSpaceKey();
+}
+{{/code}}
+
+But instead, write
+
+{{code}}
+public interface Page
+{
+    String getParentSpaceKey();
+}
+{{/code}}
+
+= Javadoc Best Practices =
+
+We are following the [[Sun Javadoc coding conventions&gt;&gt;http://java.sun.com/j2se/javadoc/writingdoccomments/]]. Please make sure you're familiar with them when you write javadoc.
+
+== Write useful comments ==
+
+Do not repeat name of method or any useless information. For example, if you have:
+
+{{code}}
+/**
+ * @return the id
+ */
+public String getId()
+{
+    return this.id;
+}
+{{/code}}
+
+Instead, write:
+
+{{code}}
+/**
+ * @return the attachment id (the id is the filename of the XWikiAttachment object used to construct this Attachment object)
+ */
+public String getId()
+{
+    return this.id;
+}
+{{/code}}
+
+== Do not duplicate Javadoc ==
+
+If you inherit from an interface/class then you shouldn't copy the Javadoc from the super type. Instead you should reference it or add more fine-tuned explanations. For example if //getSomething()// is the implementation of a method defined in an inherited //Something// interface or parent class, you shouldn't write:
+
+{{code}}
+/**
+ * Do something blah blah.
+ */
+public void doSomething()
+{
+
+[...]
+{{/code}}
+
+Instead, write either the following:
+
+{{code}}
+/**
+ * {@inheritDoc}
+ *
+ * &lt;p&gt;Optionally add here javadoc additional to the one inherited from the parent javadoc.&lt;/p&gt;
+ */
+@Override
+public void doSomething()
+{
+[...]
+{{/code}}
+
+or (it you don't have anything else to add in the javadoc):
+
+{{code}}
+@Override
+public void doSomething()
+{
+[...]
+{{/code}}
+
+{{warning}}Don't forget the {{{@Override}}} annotation!{{/warning}}
+
+== Do not duplicate method comments with parameters comments ==
+
+Instead of writing:
+
+{{code}}
+/**
+ * Returns the key of the space to which this page belongs to.
+ * 
+ * @return - Parent space's key as String.
+ */
+public String getParentSpaceKey();
+{{/code}}
+
+Write:
+
+{{code}}
+/**
+ * @return the key of the space to which this page belongs to. For example "Main".
+ */
+public String getParentSpaceKey();
+{{/code}}
+
+== Use version and since javadoc tags ==
+
+For example:
+
+{{code}}
+/**
+ * Something, blah blah...
+ *
+ * @version $Id: $ 
+ * @since 1.6M1
+ */
+{{/code}}
+
+{{warning}}Do not use author javadoc tags.{{/warning}}
+
+= Trailing Whitespace =
+
+Trailing whitespace is prohibited except for one case.
+In empty lines in a javadoc comment, a single trailing space character is acceptable but not required.
+
+{{code language=java}}
+/**
+ * The Constructor.
+ * 
+ * $param something...
+ */
+{{/code}}
+
+The trailing whitespace in the center line in that comment is permissible.
+see [[proposal&gt;&gt;http://lists.xwiki.org/pipermail/devs/2010-October/020439.html]] for more information.
+
+= Class/Interface names =
+
+* Prefix class names with ##Abstract## for abstract classes
+* Class names should start with an uppercase letter
+* The interface name should be as short and expressive as possible with no technical prefix or suffix. For example "Parser".
+** As a consequence interfaces shouldn't be prefixed with "I" (as in "IParser") or suffixed with "Interface" (as in "ParserInterface"), nor suffixed with "IF" (as in "ParserIF).
+* Classes implementing interfaces should extend the interface name by prefixing it with a characteristic of the implementation. For example "XWikiParser".
+** As a consequence implementation classes shouldn't be suffixed with "Impl", "Implementation", etc.
+* Default implementation classes where there's only one implementation provided by XWiki should be prefixed with "Default". As in "DefaultParser".
+
+= Members and fields names =
+
+* All methods and fields names should be camelCase, starting with a lower letter (##someProperty##, ##getSomeProperty()##)
+* The names should be understandable and short, avoiding abbreviations (##parentDocument## instead of ##pdoc##, for example)
+* Constants should all be uppercase, with underscores as word separators, and no prefix letter (##WIKI_PAGE_CREATOR## instead of ##WIKIPAGECREATOR##)
+* Constants should be ##public/private static final## in classes (##public static final String CONTEXT_KEY = "theKey"##) and without any modifiers in interfaces, since ##public##, ##static## and ##final## are implied and enforced (##String PREFERENCES_DOCUMENT_NAME = "XWiki.XWikiPreferences"##)
+
+= Package names =
+
+* All code that is not located in the oldcore module should use ##org.xwiki##.
+* The package name for code using the component-based architecture must be of the format ##org.xwiki.(module name).*##. For example ##org.xwiki.rendering##.
+* Non user-public code must be located in an ##internal## package just after the module name. For example: ##org.xwiki.rendering.internal.parser.##**. General rule is ##org.xwiki.(module name).internal.##**
+
+= Logging Best Practices =
+
+* Your component must get a Logger using the following construct:(((
+{{code}}
+import org.slf4j.Logger;
+...
+@Inject
+private Logger logger;
+{{/code}}
+)))
+* You should use the severity according to the following rules:
+** **info**: used for logs that should be printed by default (default logging configuration)
+** **debug**: logs that are informational but that shouldn't be printed by default should be debug logs
+** **warning**: they are for not critical problems but raised so that the users see them and remedy the problem, shown by default too
+** **error**: they are for critical problems that cause the application to misbehave and should most of the time have an associated stack trace
+* If you need to perform computations for passing parameters to the logging calls you should instead use the appropriate SLF4J signature [[to not incur performance penalty&gt;&gt;http://www.slf4j.org/faq.html#logging_performance]]. For example:(((
+{{code}}
+this.logger.debug("Test message with {} and {}", param1, param2);
+{{/code}}
+)))
+
+= Imports =
+
+* imports should be added individually for each class/interface
+* individual imports should be grouped together and separated by blank lines following this model:(((
+{{code}}
+import java.*
+
+import javax.*
+
+import org.*
+
+import com.*
+
+import &lt;any other imports&gt;
+
+import static &lt;any static imports&gt;
+{{/code}}
+)))
+* The default configuration of Eclipse, and the above code style settings for IntelliJ IDEA will automatically follow these rules, so you usually do not have to take care (Be careful that the default configuration for IntelliJ IDEA is not appropriate).
+
+= Equals/HashCode and ToString implementations =
+
+We've decided to standardize on using Apache Commons Lang [[HashCodeBuilder&gt;&gt;http://commons.apache.org/lang/api-release/org/apache/commons/lang3/builder/HashCodeBuilder.html]], [[EqualsBuilder&gt;&gt;http://commons.apache.org/lang/api-release/org/apache/commons/lang3/builder/EqualsBuilder.html]] and [[ToStringBuilder&gt;&gt;http://commons.apache.org/lang/api-release/org/apache/commons/lang3/builder/ToStringBuilder.html]].
+
+For example:
+
+{{code language="java"}}
+...
+    @Override
+    public boolean equals(Object object)
+    {
+        if (object == null) {
+            return false;
+        }
+        if (object == this) {
+            return true;
+        }
+        if (object.getClass() != getClass()) {
+            return false;
+        }
+        WikiBotListenerData rhs = (WikiBotListenerData) object;
+        return new EqualsBuilder()
+            .appendSuper(super.equals(object))
+            .append(getReference(), rhs.getReference())
+            .isEquals();
+    }
+
+    @Override
+    public int hashCode()
+    {
+        return new HashCodeBuilder(3, 17)
+            .appendSuper(super.hashCode())
+            .append(getReference())
+            .toHashCode();
+    }
+...
+{{/code}}
+
+XWiki provides a custom ##ToStringBuilder## implementation named ##XWikiToStringBuilder## that uses a custom XWiki's ##toString## style (see the [[Text Module&gt;&gt;extensions:Extension.Text Module]] for information).
+
+For example:
+
+{{code language="java"}}
+...
+    @Override
+    public String toString()
+    {
+        ToStringBuilder builder = new XWikiToStringBuilder(this);
+        builder = builder.append("Typed", isTyped())
+            .append("Type", getType().getScheme());
+
+        if (getReference() != null) {
+            builder = builder.append("Reference", getReference());
+        }
+
+        if (!getBaseReferences().isEmpty()) {
+            builder = builder.append("Base References", getBaseReferences());
+        }
+
+        Map&lt;String, String&gt; params = getParameters();
+        if (!params.isEmpty()) {
+            builder = builder.append("Parameters", params);
+        }
+
+        return builder.toString();
+    }
+...
+{{/code}}
+
+This example would generate the following:
+
+{{code language="java"}}
+...
+ResourceReference reference = new ResourceReference("reference", ResourceType.DOCUMENT);
+Assert.assertEquals("Typed = [true] Type = [doc] Reference = [reference]", reference.toString());
+
+reference.addBaseReference("baseref1");
+reference.addBaseReference("baseref2");
+Assert.assertEquals("Typed = [true] Type = [doc] Reference = [reference] "
+    + "Base References = [[baseref1], [baseref2]]", reference.toString());
+
+reference.setParameter("name1", "value1");
+reference.setParameter("name2", "value2");
+Assert.assertEquals("Typed = [true] Type = [doc] Reference = [reference] "
+    + "Base References = [[baseref1], [baseref2]] "
+    + "Parameters = [[name1] = [value1], [name2] = [value2]]", reference.toString());
+...
+{{/code}}</content>
+</xwikidoc>

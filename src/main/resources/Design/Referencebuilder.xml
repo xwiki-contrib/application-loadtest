@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>Referencebuilder</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1301383356000</creationDate>
+  <date>1360950332000</date>
+  <contentUpdateDate>1301386070000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Reference builder</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.Referencebuilder</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>11196fa6-9c38-4b3d-a59f-1a56be2cf534</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.Referencebuilder</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>010589ca-eef9-4538-915c-23b1586bab00</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+= Goal =
+
+Make easier to deal with reference in script languages like Velocity
+
+= Proposal =
+
+See http://xwiki.markmail.org/message/n2fwmlmiugqxb3aq for the original mail.
+
+Pretty much all that takes one class with few methods and covers a lots of use cases.
+
+== Service name ==
+
+* ##$services.ref##: short but a bit cryptic
+
+* ##$services.model.builder##: a bit too long
+
+== Examples ==
+
+==== references ====
+
+##$services.ref.wikiname.spacename.pagename.reference##: gets reference of document "wikiname:spacename.pagename"
+
+##$services.ref.wikiname.spacename.space("subspacename").pagename.reference##: gets reference of document "wikiname:spacename.subspacename.pagename"
+
+##$services.ref.get("wik:iname").spacename.pagename.reference##: gets reference of document "wik\:iname:spacename.pagename"
+
+##$services.ref.page("pagename").reference##: gets "pagename" document in current spaces and current wiki
+
+##$services.ref.space("spacename").pagename.relativeReference##: gets "spacename.pagename" relative entity reference, could be ##$services.model.page("pagename").getReference(false)## also but parameters are a bit less script oriented I find
+
+##$services.ref.page("pagename").getReference("default")##: gets "pagename" document in default space and default wiki, "default" is the identifier of the resolver to use, the default being "current"
+
+##$services.ref.wikiname.getReference("default")##: gets home page reference (i.e. the wiki "wikiname" with the default space and default page)
+
+=== also documents ===
+
+Problem is not technical but more that exposing an API which return "old" Document object will be hard to get rid of
+
+##$services.ref.wikiname.spacename.pagename.document##: gets document "wikiname:spacename.pagename"
+
+##$services.ref.document##: gets current document</content>
+</xwikidoc>

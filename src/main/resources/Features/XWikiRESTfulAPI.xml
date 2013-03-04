@@ -1,0 +1,1073 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Features</web>
+  <name>XWikiRESTfulAPI</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent/>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1237652382000</creationDate>
+  <date>1361190294000</date>
+  <contentUpdateDate>1361190294000</contentUpdateDate>
+  <version>1.1</version>
+  <title>The XWiki RESTful API</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Features.XWikiRESTfulAPI</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>473272cb-5cb2-47fc-a72b-a8df174b550e</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc depth="2"/}}
+{{/box}}
+
+XWiki provides fine-grain access to virtually every element through an API that is based on HTTP semantics, i.e., a RESTful API. In this page you will find all the details to take advantage of this API and the instructions to use it at its full potential.
+
+= Accessing the service =
+
+By defaut the XWiki RESTful API entrypoint is rooted at the following URI:
+
+{{code}}
+ 
+  http://host:port/xwiki/rest
+ 
+{{/code}}
+
+All the resource references described in the [[XWiki RESTful API Documentation&gt;&gt;#HXWikiRESTfulAPIDocumentation]] should be intended relative to this URL.
+
+For example the ##/wikis## resources on a server running on ##localhost## on port ##8080## can be retrieved using the following URL : ##http:~/~/localhost:8080/xwiki/rest/wikis##
+
+In addition to retrieving content in XML format, you can also retrieve it in JSON format by adding the parameter ##?media=json## in the URL. For example: ##http:~/~/localhost:8080/xwiki/rest/wikis?media=json##
+
+= Dataset =
+
+This section contains a brief and high-level description of the XWiki data set that should serve as a basis for presenting resources and their associated operations.
+
+XWiki has **pages** organized in **spaces**. Each **page** is available in multiple **versions** (its **history**) and **translations**. Translated pages have their own **versions** and **history** which are independent. Each page might have **attachments**. Each attachment has its own **history**. Attachments are shared among all the different translations of a page (i.e., the same set of attachments is the same regardless of the page language). Pages can have one or more **objects**. Objects are instances of a **class** that contains a set of **properties**. Some objects might be directly exposed as first class entities, such as **comments** and **tags**. Objects, as attachments, are shared among all page translations.
+
+= Understanding resources and representations =
+
+"An important concept in REST is the existence of resources (sources of specific information), each of which is referenced with a global identifier (e.g., an URI in HTTP). In order to manipulate these resources, components of the network (user agents and origin servers) communicate via a standardized interface (e.g., HTTP) and exchange representations of these resources (the actual documents conveying the information)." ([[Wikipedia&gt;&gt;http://en.wikipedia.org/wiki/Representational_State_Transfer#Central_principle]])
+
+Resources in XWiki are pages, attachments, objects, properties, spaces, and all the //things// we described in the previous section. XWiki has a default way of conveying the information about these resources, i.e., by providing well defined XML representations that contain all the information associated to the resource in an XML format. This format is described using an [[XML Schema Definition file&gt;&gt;https://github.com/xwiki/xwiki-platform/blob/master/xwiki-platform-core/xwiki-platform-rest/xwiki-platform-rest-model/src/main/resources/xwiki.rest.model.xsd]].
+
+Of course the same resource can be represented in many different ways. This is yet to be documented.
+
+Another important aspect of representations is that they contain useful information for linking related resources. This is a realization of the //Hypermedia As The Engine Of The Application State (HATEOAS)// principle. In XML representations this information is conveyed through the ##&lt;link&gt;## tag. This tag has two important parameters: **rel** and **href**. **rel** specifies the "semantics" of the link, while **href** is the URI of the linked resource.
+
+For example, in the representation of a page, we can have links to the comments, tags, attachments which are independent resources associated to the current page. These links are provided in the XML representation of a page and allow a client to navigate to related resources... Like we do every day when we click on a link in a web page.
+
+[[image:Features.XWikiRESTfulAPI@representation||height="430"]]
+
+== Relations ==
+
+The available relations that you might find in the XML resource representations are the following:
+
+|=Rel|=Semantics
+|{{{http://www.xwiki.org/rel/wikis}}}|The representation containing the list of virtual wikis.
+|{{{http://www.xwiki.org/rel/spaces}}}|The representation containing the list of spaces in a wiki.
+|{{{http://www.xwiki.org/rel/pages}}}|The representation containing the list of pages in a space.
+|{{{http://www.xwiki.org/rel/translation}}}|The representation containing a translation of a page.
+|{{{http://www.xwiki.org/rel/page}}}|The representation for a page.
+|{{{http://www.xwiki.org/rel/space}}}|The representation for a space.
+|{{{http://www.xwiki.org/rel/parent}}}|The representation for the page that is parent of the current resource.
+|{{{http://www.xwiki.org/rel/home}}}|The representation for the page that is the home of the current resource.
+|{{{http://www.xwiki.org/rel/attachmentData}}}|The representation of the actual attachment data.
+|{{{http://www.xwiki.org/rel/comments}}}|The representation of the list of comments associated to the current resource.
+|{{{http://www.xwiki.org/rel/attachments}}}|The representation of the list of attachments associated to the current resource.
+|{{{http://www.xwiki.org/rel/objects}}}|The representation of the list of objects associated to the current resource.
+|{{{http://www.xwiki.org/rel/object}}}|The representation for an object.
+|{{{http://www.xwiki.org/rel/classes}}}|The representation of the list of classes associated to the current resource.
+|{{{http://www.xwiki.org/rel/history}}}|The representation of the list of history information associated to the current resource.
+|{{{http://www.xwiki.org/rel/class}}}|The representation for a class.
+|{{{http://www.xwiki.org/rel/property}}}|The representation for a property.
+|{{{http://www.xwiki.org/rel/properties}}}|The representation of the list of properties associated to the current resource.
+|{{{http://www.xwiki.org/rel/modifications}}}|The representation of the list of modifications associated to the current resource.
+|{{{http://www.xwiki.org/rel/children}}}|The representation of the list of children associated to the current resource.
+|{{{http://www.xwiki.org/rel/tags}}}|The representation of the list of tags associated to the current resource.
+|{{{http://www.xwiki.org/rel/tag}}}|The representation of a tag.
+|{{{http://www.xwiki.org/rel/search}}}|The representation for a search resource.
+|{{{http://www.xwiki.org/rel/syntaxes}}}|The representation for a syntax resource.
+
+Relations are defined as URIs in order to provide a sort of namespace. Currently these URIs are not links to real web pages but, in the future, they might point to descriptions of their semantics on actual web pages (or other kinds of representations).
+
+== The "HATEOAS" Graph ==
+
+In order to better understand the relations among resources you might have a look at this [[graph&gt;&gt;attach:XWikiHATEOAS.pdf]] that pictures all the resources available in the XWiki RESTful API and the relations among them. In this graph, nodes are [[URI templates&gt;&gt;http://code.google.com/p/uri-templates/]] representing classes of resources. Edges are the possible links that you might find in a representation of a given resource, and their associated relations.
+
+This graph shows that by starting from the API entry-point a client can navigate and discover all the resources just by following the links provided in representations (and by knowing their semantics). This was exactly the way how this graph was generated.
+
+= Interacting with the XWiki RESTful API =
+
+The XWiki RESTful API is accessible through HTTP so, in principle, you can use every client that is capable of "speaking" HTTP in order to interact with it. Even a web browser!
+If you want to write more complex programs you might download an HTTP library for your favorite language (e.g., [[http://hc.apache.org/]]).
+
+Java users might take advantage of the [[JAXB&gt;&gt;http://jaxb.java.net/]] framework and its [[XJC binding compiler&gt;&gt;http://jaxb.java.net/2.2.4/docs/xjc.html]] in order to generate domain object models directly from the [[XML Schema Definition&gt;&gt;https://github.com/xwiki/xwiki-platform/blob/master/xwiki-platform-core/xwiki-platform-rest/xwiki-platform-rest-model/src/main/resources/xwiki.rest.model.xsd]], and use them for serializing and de-serializing  XML representations. 
+
+If you use this approach (Apache HTTP Client + JAXB) you will find yourself writing some code like this:
+
+{{code language="java"}}
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Unmarshaller;
+
+import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.methods.GetMethod;
+import org.xwiki.rest.model.jaxb.Page;
+
+...
+HttpClient httpClient = new HttpClient();
+JAXBContext context = JAXBContext.newInstance("org.xwiki.rest.model.jaxb");
+Unmarshaller unmarshaller = context.createUnmarshaller();
+
+GetMethod getMethod = new GetMethod("http://localhost:8080/xwiki/rest/wikis/xwiki/spaces/Main/pages/WebHome");
+getMethod.addRequestHeader("Accept", "application/xml");
+httpClient.executeMethod(getMethod);
+
+Page page = (Page) unmarshaller.unmarshal(getMethod.getResponseBodyAsStream());
+{{/code}}
+
+And you will have all the information about the Main.WebHome page in the Page object, without the need of handling XML directly.
+
+Because of the wide variety of HTTP frameworks available we don't provide a full tutorial about using them. However, in order to show you how to interact with the XWiki RESTful API, we will use [[curl&gt;&gt;http://curl.haxx.se]]: a standard command line HTTP client that provides an interface to all the functionalities of the HTTP protocol.
+
+By using curl, the previous example would have been:
+
+{{code language="xml"}}
+$ curl http://localhost:8080/xwiki/rest/wikis/xwiki/spaces/Main/pages/WebHome
+&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+&lt;page xmlns="http://www.xwiki.org"&gt;
+	&lt;link rel="http://www.xwiki.org/rel/space" href="http://localhost:8080/xwiki/rest/wikis/xwiki/spaces/Main"/&gt;
+        ...
+{{/code}}
+
+== Authentication ==
+
+The XWiki RESTful API supports two types of authentication:
+
+* **HTTP BASIC Auth**: You provide your credentials using the Authorization HTTP header
+* **XWiki session**: If you are logged in XWiki and you use the cookies provided by the authentication mechanism, you will also be authenticated to the XWiki RESTful API. This is useful, for example, when you are interacting with the API using the XMLHttpRequest object of a browser using Javascript.
+
+If you don't provide any credentials the XWiki RESTful API will recognize you as a XWiki.Guest user.
+
+So if you have, let's say a Main.PrivatePage, and you try to do: 
+
+{{code language="none"}}
+$ curl -v http://localhost:8080/xwiki/rest/wikis/xwiki/spaces/Main/pages/PrivatePage
+...
+&lt; HTTP/1.1 401 Unauthorized
+...
+{{/code}}
+
+You will get an Unauthorized empty response.
+
+On the contrary, by specifying Admin credentials you gain access to the actual page:
+
+{{code language="xml"}}
+$ curl -u Admin:admin http://localhost:8080/xwiki/rest/wikis/xwiki/spaces/Main/pages/PrivatePage
+&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+&lt;page xmlns="http://www.xwiki.org"&gt;
+	&lt;link rel="http://www.xwiki.org/rel/space" href="http://localhost:8080/xwiki/rest/wikis/xwiki/spaces/Main"/&gt;
+	...
+	&lt;content&gt;Only admin can see this&lt;/content&gt;
+&lt;/page&gt;
+{{/code}}
+
+== Sending representations ==
+
+Many resources are modifiable, so you can send representations in order to change the state of those resources (e.g., pages).
+All modifiable resources accept XML representations that conform to the [[XML Schema Definition&gt;&gt;https://github.com/xwiki/xwiki-platform/blob/master/xwiki-platform-core/xwiki-platform-rest/xwiki-platform-rest-model/src/main/resources/xwiki.rest.model.xsd]]. However, some other representations might be accepted as well (see the following sections).
+
+Resource update is usually done by using the PUT method, while resource creation is done via PUT or POST.
+
+For example, in order to create a page you might do the following:
+
+{{code language="xml"}}
+$ curl -u Admin:admin -X PUT --data-binary "@newpage.xml" -H "Content-Type: application/xml" http://localhost:8080/xwiki/rest/wikis/xwiki/spaces/Main/pages/NewPage
+&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+&lt;page xmlns="http://www.xwiki.org"&gt;
+	&lt;link rel="http://www.xwiki.org/rel/space" href="http://localhost:8080/xwiki/rest/wikis/xwiki/spaces/Main"/&gt;
+        ...
+        &lt;version&gt;1.1&lt;/version&gt;
+	&lt;majorVersion&gt;1&lt;/majorVersion&gt;
+	&lt;minorVersion&gt;1&lt;/minorVersion&gt;
+	&lt;created&gt;2009-03-21+01:00&lt;/created&gt;
+	&lt;creator&gt;XWiki.Admin&lt;/creator&gt;
+	&lt;modified&gt;2009-03-21+01:00&lt;/modified&gt;
+	&lt;modifier&gt;XWiki.Admin&lt;/modifier&gt;
+	&lt;content&gt;This is a new page&lt;/content&gt;
+&lt;/page&gt;
+{{/code}}
+
+Where newpage.xml is an XML file containing
+
+{{code language="xml"}}
+&lt;?xml version="1.0" encoding="UTF-8" standalone="yes"?&gt;
+&lt;page xmlns="http://www.xwiki.org"&gt;     
+        &lt;title&gt;Hello world&lt;/title&gt;
+        &lt;syntax&gt;xwiki/2.0&lt;/syntax&gt;
+        &lt;content&gt;This is a new page&lt;/content&gt;
+&lt;/page&gt;
+{{/code}}
+
+The page has been created and is accessible. Subsequent PUT requests to the page URI will modify its content.
+
+You can specify a subset of the three elements {{{title}}}, {{{syntax}}}, and {{{content}}} in the XML when updating/creating a page.
+For example, if you just want to change the title, it is sufficient to specify only the {{{title}}} element. The current content and the syntax of the page will be left unchanged.
+
+== Overcoming browser limitations ==
+
+As said before, it could be useful to send information by using browser's XmlHttpRequest objects. However, currently many browsers only support GET and POST methods, so it is impossible to send, for example, PUT requests. In order to overcome this limitation you can override the HTTP Method by specifying a ##method## parameter in the URI query string. 
+
+In the previous example, if you send a POST request to the ##http:~/~/localhost:8080/xwiki/rest/wikis/xwiki/spaces/Main/pages/NewPage?method=PUT## it will be interpreted as if it were an actual PUT request.
+
+This overriding mechanism allows the interaction with the XWiki RESTful API by using any kind of browser.
+
+== PUT vs POST ==
+
+In the following sections you will see that sometimes resources are created by using PUT and sometimes by using POST. The general principle is that if the client is responsible for choosing the resource URI then PUT is used. If it's the server that bears this responsibility, then POST is used.
+
+To be clearer, when a client wants to create a page it knows **where** that page should go, so it is able to communicate the server the target URI. PUT is used.
+
+A client, on the contrary, cannot know beforehand what will be the URI of a comment, since comment URIs contains the ID of the comment and this information is generated by the server. In this case the client will do a POST and the server, in response, will communicate the URI it generated for the newly created comment.
+
+= XWiki RESTful API Documentation =
+
+In this section you will find the documentation of the whole XWiki RESTful API.
+
+**application/xml** representations refers to the [[XML Schema Definition&gt;&gt;https://github.com/xwiki/xwiki-platform/blob/master/xwiki-platform-core/xwiki-platform-rest/xwiki-platform-rest-model/src/main/resources/xwiki.rest.model.xsd]].
+
+Resource URIs are specified using [[URI templates&gt;&gt;http://code.google.com/p/uri-templates/]]. Bracketed elements are formal parameters and should be instantiated to actual values in order to retrieve the associated resource.
+
+== Root resources ==
+
+By defaut all the resources of the RESTful API are rooted at the following URI: ##http:~/~/server:port/xwiki/rest/## (depending on where your XWiki is running)
+
+=== / ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (XWiki element)
+** **Description:** Retrieves the entry root description containing information about the server (currently returns the XWiki product Version).
+** **Status codes:**
+*** 200: If the request was successful.
+
+=== /syntaxes ===
+
+* **HTTP Method:** GET
+** **Media types:**
+*** application/xml (Syntaxes element)
+** **Description:** The list of syntaxes supported by the XWiki instance.
+** **Status codes:**
+*** 200: If the request was successful.
+
+=== /wikis ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Wikis element)
+** **Description:** The list of wikis available on the XWiki instance. Unless the wiki is configured to be a wiki farm, this list is usually made of a single element 'xwiki'.
+** **Status codes:**
+*** 200: If the request was successful.
+
+=== /wikis/query?q~={query}&amp;wikis~=wikiList[&amp;distinct~={true,false}][&amp;order~={asc,desc}][&amp;start~=n][&amp;number~=n][&amp;prettyNames~={true,false}][&amp;className~=className] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (SearchResults element)
+** **Description:** Search resources (pages and attachments) using a Lucene query (handled by the [[Lucene Plugin&gt;&gt;extensions:Extension.Lucene Plugin]]) on the wikis that are specified as a comma separated list in the //wikis// parameter. If //className// is specified, the result will also contain the data for the first object of the corresponding class.
+** **Status codes:**
+*** 200: If the request was successful.
+
+=== /wikis/{wikiName} ===
+
+* **HTTP Method:** GET
+** **Media types:**
+*** application/xml (Wiki element)
+** **Description:** information about the wiki
+** **Status codes:**
+*** 200: If the request was successful.
+
+* **HTTP Method:** POST
+** **Accepted Media types:**
+*** octet/stream (A XAR file)
+** **Media types:**
+*** application/xml (Wiki element)
+** **Query parameters**
+*** backup={true/false} - import XAR as a backup XAR
+*** history={RESET/REPLACE/ADD} - history importing
+** **Description:** import a XAR in a wiki.
+** **Status codes:**
+*** 200: If the request was successful.
+
+=== /wikis/{wikiName}/search?q~={keywords}~[~[&amp;scope~={name,content,title,objects}...]&amp;start~=n][&amp;number~=n][&amp;orderField~=field&amp;order~={asc,desc}][distinct~={true,false}][&amp;prettyNames~={true,false}] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (SearchResults element)
+** **Description:** The list of pages and objects that contain the {keywords} in the specified {scope}s. Multiple scopes can be specified. Search results are relative to the whole {wikiName}
+** **Status codes:**
+*** 200: If the request was successful.
+
+=== /wikis/{wikiName}/query?q~={query}&amp;type~={hql,xwql,lucene}[&amp;distinct~={true,false}]~~[&amp;order~={asc,desc}][&amp;start~=n][&amp;number~=n][&amp;prettyNames~={true,false}][&amp;className~=className] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (SearchResults element)
+** **Description:** Allow to execute HQL, XWQL or Lucene queries on the given {wikiName}. The //q// parameter contains the corresponding query. See [[HQL Query Examples in Velocity&gt;&gt;platform:DevGuide.velocityHqlExamples]], [[XWiki Query Language Specification&gt;&gt;dev:Design.XWiki Query Language Specification]] and [[Lucene Plugin&gt;&gt;extensions:Extension.Lucene Plugin]] examples of the queries that can be specified in this parameter. If //className// is specified, the result will also contain the data for the first object of the corresponding class.
+** **Status codes:**
+*** 200: If the request was successful.
+
+=== /wikimanager (This resource is only available when using XWiki Enterprise Manager) ===
+
+* **HTTP Method:** POST
+** **Accepted Media types:**
+*** application/xml (Wiki element)
+** **Media types:**
+*** application/xml (Wiki element)
+** **Query parameters**
+*** template  - the wiki template to be used for initializing the wiki.
+*** history={RESET/REPLACE/ADD} - history importing
+** **Description:** create a new wiki.
+** **Status codes:**
+*** 200: If the request was successful.
+
+== Space resources ==
+
+=== /wikis/{wikiName}/spaces[?start~=offset&amp;number~=n] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Spaces element)
+** **Description:** Retrieves the list of spaces available in the {wikiName} wiki.
+** **Status codes:**
+*** 200: If the request was successful.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/search?q~={keywords}~[~[&amp;scope~={name,content,title,objects}...]&amp;number~=n] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Search results element)
+** **Description:** The list of pages and objects that contain the {keywords} in the specified {scope}s. Multiple scopes can be specified. Search results are relative to space {spaceName}
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+== Page resources ==
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages[?start~=offset&amp;number~=n] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Pages element)
+** **Description:** The list of pages in the space {spaceName}
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Page element)
+** **Description:** 
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+\\
+
+* **HTTP Method:** PUT
+** **Accepted Media types:**
+*** application/xml (Page element)
+*** text/plain (Only page content)
+*** application/x-www-form-urlencoded (allowed field names: title, parent, content)
+** **Media types:** 
+*** application/xml (Page element)
+** **Description:** Create or updates a page.
+** **Status codes:**
+*** 201: If the page was created.
+*** 202: If the page was updated.
+*** 304: If the page was not modified.
+*** 401: If the user is not authorized.
+
+\\
+
+* **HTTP Method:** DELETE
+** **Media types:** 
+*** application/xml (Page element)
+** **Description:** Delete the page.
+** **Status codes:**
+*** 204: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/history[?start~=offset&amp;number~=n] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (History element)
+** **Description:** The list of all the versions of the given page.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/history/{version} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Page element)
+** **Description:** The page at version {version}
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+==== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/translations[?start~=offset&amp;number~=n] ====
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Translations element)
+** **Description:** The list of available translation for the page
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/translations/{language} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Page element)
+** **Description:** The page at in the given {language}.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+\\
+
+* **HTTP Method:** PUT
+** **Accepted Media types:**
+*** application/xml (Page element)
+*** text/plain (Only page content)
+*** application/x-www-form-urlencoded (allowed field names: title, parent, content)
+** **Media types:** 
+*** application/xml (Page element)
+** **Description:** Create or updates a page translation.
+** **Status codes:**
+*** 201: If the page was created.
+*** 202: If the page was updated.
+*** 304: If the page was not modified.
+*** 401: If the user is not authorized.
+
+\\
+
+* **HTTP Method:** DELETE
+** **Media types:** 
+*** application/xml (Page element)
+** **Description:** Delete the page translation.
+** **Status codes:**
+*** 204: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/translations/{language}/history ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (History element)
+** **Description:** The list of all the available revisions of the page in a given {language}.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/translations/{lang}/history/{version} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Page element)
+** **Description:** A page at a given {version} in a given {language}.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/children ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Pages element)
+** **Description:** The list of the children of a given page.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/pages[?name~=paneName&amp;space~=spaceName&amp;author~=authorName] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Pages element)
+** **Description:** The list of pages in the wiki {wikiName}. Filters can be set for the name, space and/or author to include only pages that match the given filters. This resource can be used to search for pages in a wiki.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+== Tag resources ==
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/tags ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Tags element)
+** **Description:** List page tags.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+\\
+
+* **HTTP Method:** PUT
+** **Accepted Media types:**
+*** application/xml (Tag element)
+*** text/plain 
+*** application/x-www-form-urlencoded (allowed field names: tag)
+** **Media types:** 
+*** application/xml (Tags element)
+** **Description:** Add a tag to the page.
+** **Status codes:**
+*** 202: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/tags ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Tags element)
+** **Description:** The list of all available tags
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/tags/{tag1}[,{tag2},{tag3}...][?start~=offset&amp;number~=n] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Pages element)
+** **Description:** The list of pages having the specified tags.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+== Comments resources ==
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/comments[?start~=offset&amp;number~=n] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Comments element)
+** **Description:** The list of comments on a given page.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+\\
+
+* **HTTP Method:** POST
+** **Accepted Media types:**
+*** application/xml (Comment element)
+*** text/plain
+*** application/x-www-form-urlencoded  - allowed field names: ##text##, ##replyTo## (object number of the replied comment, since XE 2.3)
+** **Media types:** 
+*** application/xml (Comment element)
+** **Description:** Create a comment on the given page.
+** **Status codes:**
+*** 201: If the comment was created. (The Location header will contain the URI where the comment has been created.)
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/comments/{commentId} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Comment element)
+** **Description:** A specific comment on a page
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/history/{version}/comments ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Comments element)
+** **Description:** The list of comments at a specific page {version}.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/history/{version}/comments/{commentId} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Comment element)
+** **Description:** A comment at a specific page {version}.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+== Attachments resources ==
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/attachments[?start~=offset&amp;number~=n] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Attachments element)
+** **Description:** The list of attachments of a given page.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/attachments/{attachmentName} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** The same of the attachment media type.
+** **Description:** The attachment identified by {attachmentName} on a given page.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+\\
+
+* **HTTP Method:** PUT
+** **Accepted media types:**
+*** **/**
+** **Media types:** 
+*** application/xml (AttachmentSummary element)
+** **Description:** Create an attachment identified by {attachmentName} on a given page.
+** **Status codes:**
+*** 201: If the attachment was created.
+*** 202: If the attachment was updated.
+*** 401: If the user is not authorized.
+
+\\
+
+* **HTTP Method:** DELETE
+** **Media types:** 
+** **Description:** Delete the attachment identified by {attachmentName} on a given page.
+** **Status codes:**
+*** 204: If the attachment was deleted.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/history/{version}/attachments[?start~=offset&amp;number~=n] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Attachments element)
+** **Description:** The list of attachments at a given page {version}.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/history/{version}/attachments/{attachmentName} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** The same of the attachment media type.
+** **Description:** The attachment identified by {attachmentName} on a given page {version}.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/attachments/{attachmentName}/history ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Attachments element)
+** **Description:** The list of available version for the {attachmentName}
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/attachments/{attachmentName}/history/{version} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** The same of the attachment media type.
+** **Description:** The {attachmentName} at a given {version}
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/attachments[?name~=attachmentName&amp;page~=pageName&amp;author~=authorName&amp;types~=attachmentTypeList&amp;start~=offset&amp;number~=n] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Attachments element)
+** **Description:** The list of attachments of pages located in a given {spaceName}. Filters can be set for the name, page, author and/or types (comma separated list of strings) to include only attachments that match the given filters. This resource can be used to search for attachments in a space.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/attachments[?name~=attachmentName&amp;page~=pageName&amp;space~=spaceName&amp;author~=authorName&amp;types~=attachmentTypeList&amp;start~=offset&amp;number~=n] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Attachments element)
+** **Description:** The list of attachments in a given {wikiName}. Filters can be set for the name, page, space, author and/or type (comma separated list of strings) to include only attachments that match the given filters. This resource can be used to search for attachments in a wiki.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+== Object resources ==
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/objects[?start~=offset&amp;number~=n] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Objects element)
+** **Description:** The list of objects associated to a page.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+\\
+
+* **HTTP Method:** POST
+** **Accepted media types:**
+*** application/xml (Object element)
+*** application/x-www-form-urlencoded (a set of property#name=value pairs representing properties and a field className)
+** **Media types:** 
+*** application/xml (Object element)
+** **Description:** Create a new object.
+** **Status codes:**
+*** 201: If the object was created (The Location header will contain the URI associated to the newly created object).
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/objects/{className}[?start~=offset&amp;number~=n] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Objects element)
+** **Description:** The list of objects of a given {className} associated to a page.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/objects/{className}/{objectNumber} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Object element)
+** **Description:** The object of type {className} identified by {objectNumber} associated to the given page.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+\\
+
+* **HTTP Method:** PUT
+** **Accepted media types:**
+*** application/xml (Object element)
+*** application/x-www-form-urlencoded (a set of property#name=value pairs representing properties)
+** **Media types:** 
+*** application/xml (Object element)
+** **Description:** Modify the object properties.
+** **Status codes:**
+*** 202: If the object was updated.
+*** 401: If the user is not authorized.
+
+\\
+
+* **HTTP Method:** DELETE
+** **Media types:** 
+** **Description:** Delete the object.
+** **Status codes:**
+*** 204: If the object was deleted.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/objects/{className}/{objectNumber}/properties ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Properties element)
+** **Description:** The properties of the object of type {className} identified by {objectNumber} associated to the given page.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/objects/{className}/{objectNumber}/properties/{propertyName} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Properties element)
+** **Description:** The property {propertyname} of the object of type {className} identified by {objectNumber} associated to the given page.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+\\
+
+* **HTTP Method:** PUT
+** **Accepted media types:**
+*** application/xml (Property element)
+*** text/plain
+*** application/x-www-form-urlencoded (a field property#name=value pairs representing a property)
+** **Media types:** 
+*** application/xml (Property element)
+** **Description:** Modify the object properties.
+** **Status codes:**
+*** 202: If the object was updated.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/history/{version}/objects[?start~=offset&amp;number~=n] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Objects element)
+** **Description:** The list of objects associated to a page at a given {version}.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/history/{version}/objects/{className}/{objectNumber} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Object element)
+** **Description:** The object of type {className} identified by {objectNumber} associated to the given page at a given {version}.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/history/{version}/objects/{className}/{objectNumber}/properties ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Properties element)
+** **Description:** The properties of the object of type {className} identified by {objectNumber} associated to the given page at a given {version}.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/spaces/{spaceName}/pages/{pageName}/history/{version}/objects/{className}/{objectNumber}/properties/{propertyName} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Properties element)
+** **Description:** The property {propertyname} of the object of type {className} identified by {objectNumber} associated to the given page at a given {version}.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/class/{className}/objects ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Objects element)
+** **Description:** The list of all the objects of a given {className}.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+== Class resources ==
+
+=== /wikis/{wikiName}/classes[?start~=offset&amp;number~=n] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Classes element)
+** **Description:** The list of all the classes defined in the wiki {wikiName}
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/classes/{className} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Class element)
+** **Description:** The {className} definition
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/classes/{className}/properties ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Properties element)
+** **Description:** The properties of the class {className}.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+=== /wikis/{wikiName}/classes/{className}/properties/{property} ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Property element)
+** **Description:** The property {property} of the class {className}.
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+== Other resources ==
+
+=== /wikis/{wikiName}/modifications[?start~=offset&amp;number~=n&amp;date~=t] ===
+
+* **HTTP Method:** GET
+** **Media types:** 
+*** application/xml (Modifications element)
+** **Description:** The list of the latest modification made to the wiki {wikiName} starting from time t (t is expressed in milliseconds from 1970 of the starting date)
+** **Status codes:**
+*** 200: If the request was successful.
+*** 401: If the user is not authorized.
+
+= Custom resources =
+
+It's possible to easily add any REST resource by registering a ##org.xwiki.rest.XWikiResource## java component on your wiki (see [[Component guide&gt;&gt;DevGuide.WritingComponents]] for more details).
+
+{{code language="java"}}
+package org.xwiki.contrib.rest;
+
+import javax.ws.rs.DefaultValue;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+
+import org.xwiki.component.annotation.Component;
+import org.xwiki.rest.XWikiResource;
+
+@Component("org.xwiki.contrib.rest.HelloWordResource")
+@Path("/myresources/{myresourcename}")
+class HelloWorldResource extends XWikiResource {
+  @GET
+  public String get(@PathParam("myresourcename")  @DefaultValue("world") String myresourcename)
+  {
+    return "Hello " + myresourcename;
+  }
+}
+{{/code}}
+
+The name of the component has to be the class FQN.
+
+You can find more examples on [[this page&gt;&gt;https://github.com/xwiki/xwiki-platform/tree/master/xwiki-platform-core/xwiki-platform-rest/xwiki-platform-rest-server/src/main/java/org/xwiki/rest]].
+
+Starting from release 4.3M2, the RESTful API modules have been refactored so that now resource declarations are available in a separate module.
+This means that all the information about resources, i.e., URI Paths, supported methods, query parameters, and so on, are available to module developers without having to include the big REST Server module.
+
+Clients willing to access/use the REST API can then declare a dependency on xwiki-platform-rest-api and have all this information available for interacting with it. There are two use cases for this:
+
+* Another platform module that wants to generate responses with links to existing resources.
+* HTTP clients that wants to make requests to the RESTful API.
+
+The xwiki-platform-rest-api module can be also seen as an authoritative reference for the REST API.
+
+= Using the RESTful API =
+
+== Highlevel description and tutorial for a basic usage of the RESTful API ==
+
+See [[this tutorial&gt;&gt;http://blog.fabio.mancinelli.me/2011/03/07/XWikis_RESTful_API.html]] by Fabio Mancinelli.
+
+== Creating an XWiki Object ==
+
+In this example we will use the [[curl&gt;&gt;http://curl.haxx.se/]] utility as the HTTP client.
+
+Imagine that you want to create on the page Test.Test a new object of the class XWiki.TestClass, supposing that the class has a property called ##text##.
+
+So, on the command line, you have to do the following:
+
+{{code}}
+$ curl -u Admin:admin 
+       -X POST 
+       -H "Content-type: application/xml" 
+       -H "Accept: application/xml" 
+       -d "@test.xml"  
+       http://localhost/xwiki/rest/wikis/xwiki/spaces/Test/pages/Test/objects
+{{/code}}
+
+where ##test.xml## is:
+
+{{code language="xml"}}
+&lt;object xmlns="http://www.xwiki.org"&gt;
+ &lt;className&gt;XWiki.TestClass&lt;/className&gt;
+ &lt;property name="text"&gt;
+   &lt;value&gt;Whatever you want to put here&lt;/value&gt;
+&lt;/property&gt;
+&lt;/object&gt;
+{{/code}}
+
+Alternatively you can use the less verbose ##application/x-www-form-urlencoded format##:
+
+{{code}}
+$ curl -u Admin:admin 
+       -X POST 
+       -H "Content-type: application/x-www-form-urlencoded"
+       -H "Accept: application/xml"
+       -d "@test.txt" 
+       http://localhost/xwiki/rest/wikis/xwiki/spaces/Test/pages/Test/objects
+{{/code}}
+
+where ##test.txt## contains something like:
+
+{{code}}
+className=XWiki.TestClass&amp;property#test=Whatever+you+want
+{{/code}}
+
+Or, better, you can use directly curl to specify these parameters
+using multiple ##-d## switches:
+
+{{code}}
+$ curl -u Admin:admin 
+       -X POST -H "Content-type: application/x-www-form-urlencoded"
+       -H "Accept: application/xml"
+       -d "className=XWiki.TestClass"
+       -d "property#test=Whatever you want"
+       http://localhost/xwiki/rest/wikis/xwiki/spaces/Test/pages/Test/objects
+{{/code}}
+
+The advantage of the second approach is that curl will take care of url-encode your content, while if you send a file you are responsible for this.
+
+=== Remarks: ===
+
+* In the ##application/x-www-form-urlencoded## format the "property#" is a standard immutable prefix that is used to distinguish attributes referring to property values from the attributes referring to the object. For example if we had ##className=XYZ&amp;Text=FOO## we would have had an ambiguity on ##className## because we couldn't understand if ##className## is a property of the object to be set to XYZ or an attribute that describes the object itself (i.e., its metadata like the ##className##). By having the ##property### prefix this ambiguity is resolved.
+
+* The information you get back when you retrieve an object (i.e., all
+the ##&lt;attribute&gt;## elements) are useful when clients need to understand the type of data contained in an object (e.g., when they want to display it). They are not necessary when creating an object because the system already has this information. That's why the XML to be sent is smaller. Actually the only information needed is the ##&lt;className&gt;## and a set of ##&lt;property name="..."&gt;&lt;value&gt;## elements.
+
+* How do you know what kind of information you can send with the XML? You can discover it by using the class description URI. If you go to ##http:~/~/localhost:8080/xwiki/rest/wikis/xwiki/classes ## you will get a list of all the classes defined in the Wiki. By looking at this you will understand what are the properties defined by each class, their types and attributes. In that way you will know what you're allowed to put in the ##&lt;property&gt;&lt;value&gt;## elements of the XML you send.</content>
+</xwikidoc>

@@ -1,0 +1,390 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>Testing</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1173270838000</creationDate>
+  <date>1360852133000</date>
+  <contentUpdateDate>1360852133000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Testing</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.Testing</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>7c4f5bb8-132c-43f3-8c63-27c5c4023b51</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+There are various types of tests and everyone has its own terminology. Here are the XWiki terminology and best practices related to testing.
+
+= Unit Testing =
+
+A unit test **only test a single class** in isolation from other classes. Since in the XWiki project we write code using Components, this means a unit test is testing a Component in isolation from other Components.
+
+== Java Unit Testing ==
+
+* These are **tests performed in isolation** using [[Mock Objects&gt;&gt;http://www.mockobjects.com/]]. More specifically we're using JUnit 4.x and [[Mockito&gt;&gt;http://code.google.com/p/mockito/]] (we were using [[JMock 2.x&gt;&gt;http://www.jmock.org/]] before and still have a lot of tests not converted to Mockito yet)
+* These tests **must not interact with the environment** (Database, Container, File System, etc) and do not need any setup to execute
+* Your Maven module must depend on the ##xwiki-commons-test-simple## (for tests not testing Components) or ##xwiki-commons-test-component## (for tests testing Components) modules.
+** If you're testing Components, use ##MockitoComponentMockingRule## (its javadoc explains how to use it in details), example:(((
+{{code language="java"}}
+@ComponentList({DefaultDiffManager.class})
+public class DefaultDiffManagerTest
+{
+    @Rule
+    public final MockitoComponentMockingRule&lt;DiffManager&gt; mocker =
+        new MockitoComponentMockingRule(DefaultDiffManager.class);
+...
+    @Test
+    public void testDiffStringList() throws Exception
+    {
+        // Null
+
+        DiffResult&lt;String&gt; result = this.mocker.getComponentUnderTest().diff(null, null, null);
+...
+{{/code}}
+)))
+** If you're testing non Components, just use pure JUnit and Mockito (you're on your own!)
+* Examples:
+** {{scm path="xwiki-platform-core/xwiki-platform-rendering/xwiki-platform-rendering-macros/xwiki-platform-rendering-macro-script/src/test/java/org/xwiki/rendering/macro/script/NestedScriptMacroValidatorTest.java"}}example1{{/scm}}
+
+Some best practices:
+
+* Name the Test class with the name of the class under test **suffixed with ##Test##**. For example the JUnit test class for ##XWikiMessageTool## should be named ##XWikiMessageToolTest##
+* Name the test methods with the method to test followed by a qualifier describing the test. For example ##importWithHeterogeneousEncodings()##.
+
+Some tips:
+
+* When Mocking, to ignore all debug logging calls and to allow all calls to ##is*Enabled## you could write:(((
+{{code language="java"}}
+ // Ignore all calls to debug() and enable all logs so that we can assert info(), warn() and error() calls.
+ignoring(any(Logger.class)).method("debug");
+allowing(any(Logger.class)).method("is.*Enabled"); will(returnValue(true));
+{{/code}}
+)))
+
+== JavaScript Unit Testing ==
+
+* These are **tests that do not rely on the DOM**, written as "behavioral specifications", using the [[Jasmine&gt;&gt;http://pivotal.github.com/jasmine/]] test framework.
+* In development mode, you can start the test runner process by running {{code}}mvn jasmine:bdd{{/code}} in your command line. This will start a test runner at ##http:~/~/localhost:8234##, that will run all tests in the ##src/test/javascript## directory. Write your tests there and hit refresh to see the results directly in your browser.
+* For tests that need a DOM, see {{html}}&lt;a href="#HFunctionalTesting"&gt;Functional Testing&lt;a&gt;{{/html}}
+
+= Integration Testing =
+
+An integration test tests several classes together but without a running XWiki instance. For example if you have one Component which has dependencies on other Components and they are tested together this is called Integration testing.
+
+== Java Integration Testing ==
+
+* These tests are written using JUnit 4.x and [[Mockito&gt;&gt;http://code.google.com/p/mockito/]] (we were using [[JMock 2.x&gt;&gt;http://www.jmock.org/]] before and still have a lot of tests not converted to Mockito yet).
+* Your Maven module must depend on the ##xwiki-commons-test## module.
+* Use the ##MockitoComponentMockingRule## Rule (its javadoc explains how to use it in details).
+* Examples:
+** {{scm project="xwiki-rendering" path="xwiki-rendering-transformations/xwiki-rendering-transformation-macro/src/test/java/org/xwiki/rendering/internal/macro/DefaultMacroManagerTest.java"}}example2{{/scm}}
+** Other example:(((
+{{code language="java"}}
+@ComponentList({
+    DefaultExtensionLicenseManager.class
+})
+public class DefaultExtensionLicenseManagerTest
+{
+    @Rule
+    public final ComponentManagerRule componentManager = new ComponentManagerRule();
+...
+    @Before
+    public void setUp() throws Exception
+    {
+        this.licenseManager = this.componentManager.getInstance(ExtensionLicenseManager.class);
+    }
+...
+{{/code}}
+)))
+** Another example (using the new ##@BeforeComponent## annotation):(((
+{{code language="java"}}
+@ComponentList({
+    DefaultExtensionManagerConfiguration.class,
+    DefaultLoggerManager.class,
+    DefaultObservationManager.class
+})
+public class DefaultExtensionManagerConfigurationTest
+{
+    @Rule
+    public final MockitoComponentManagerRule componentManager = new MockitoComponentManagerRule();
+
+    private ExtensionManagerConfiguration configuration;
+
+    private MemoryConfigurationSource source;
+
+    @BeforeComponent
+    public void registerComponents() throws Exception
+    {
+        // Register a Mocked Environment since we need to provide one.
+        this.componentManager.registerMockComponent(Environment.class);
+
+        // Register some in-memory Configuration Source for the test
+        this.source = this.componentManager.registerMemoryConfigurationSource();
+    }
+
+    @Before
+    public void setUp() throws Exception
+    {
+        this.configuration = this.componentManager.getInstance(ExtensionManagerConfiguration.class);
+    }
+...
+{{/code}}
+
+##@BeforeComponent## is used by ##ComponentManagerRule## and methods annotated with it are called before other components are registered (ie before processing of ##@AllComponents## and ##@ComponentList## annotations).
+
+##MockitoComponentManagerRule## extends ##ComponentManagerRule## and just adds some helper methods to register a mock component.
+)))
+
+Some best practices:
+
+* Same as for unit testing above
+
+== Java Rendering Testing ==
+
+* We have a special framework for making it easy to write Rendering tests, see the [[Rendering Testing Framework&gt;&gt;http://rendering.xwiki.org/xwiki/bin/view/Main/Extending#HAddingTests]]
+
+= Functional Testing =
+
+A functional test requires a running XWiki instance.
+
+== GUI tests ==
+
+We now have 2 frameworks for running GUI tests:
+
+* One based on Selenium2/Webdriver which is the framework to use when writing new functional UI tests.
+* One based on Selenium1 which is now deprecated and shouldn't be used. We encourage committers to port tests written for it to the Selenium2 framework. Especially when committers bring modification to the old tests we encourage them to rewrite the tests as new Selenium2 tests.
+
+=== Selenium2-based Framework ===
+
+Using:
+
+* To debug a test simply start XE somewhere and then debug your JUnit tests as a normal JUnit test in your IDE.
+* In order to debug more easily flickering tests you can simply add the {{{@Intermittent}}} annotation on your test method and it'll be executed 100 times in a row (you can also specify {{{@Intermittent(repetition=N)}}} to repeat it N times). This is achieved thanks to the [[Tempus Fugit&gt;&gt;http://tempus-fugit.googlecode.com/svn/site/documentation/concurrency.html#Intermittent_Tests]] framework that we've integrated.
+* To run a specific test, pass the ##pattern## property (it's a regex on the test class name) as in: ##mvn install -Dpattern=DeletePageTest## (this will run the ##DeletePageTest##)
+
+Best practices:
+
+* Tests are located in ##[[xwiki-enterprise/xwiki-enterprise-test/xwiki-enterprise-test-ui&gt;&gt;https://github.com/xwiki/xwiki-enterprise/tree/master/xwiki-enterprise-test/xwiki-enterprise-test-ui]]##
+* Tests should be written using the [[Page Objects Pattern&gt;&gt;http://code.google.com/p/selenium/wiki/PageObjects]].
+* Since functional tests take a long time to execute (XWiki to start, Browser to start, navigation, etc) it's important to write tests that execute as fast as possible. Here are some tips:
+** Write scenarios (ie write only a few test methods, even only one if you can so that you can have a single fixture) instead of a lot of individual tests as you'd do for unit tests
+** Use ##getUtil()## to perform quick actions that are not part of what you wish to test. For example to create a page you need in your fixture, write:(((
+{{code language="java"}}
+getUtil().createPage(...);
+{{/code}}
+)))instead of(((
+{{code language="java"}}
+WikiEditPage wep = new WikiEditPage();
+wep.switchToEdit(SPACE_NAME, DOC_NAME);
+wep.setTitle(DOC_TITLE);
+wep.setContent(CONTENT);
+ViewPage vp = wep.clickSaveAndView();
+{{/code}}
+)))
+* Never, ever, wait on a timer! Instead wait on elements.
+* Tests must not depend on one another. In other words, it should be possible to execute tests in any order and running only one test class should work fine.
+* Tests that need to change existing configuration (e.g. change the default language, set specific rights, etc) must put back the configuration as it was
+* Tests are allowed to create new documents and don't need to remove them at the end of the test
+
+=== Old Selenium1-based Framework ===
+
+* We were using Selenium RC to perform functional tests for GUI. We had created some JUnit extension to easily write Selenium tests in Java.
+** Existing tests can be found in ##[[xwiki-enteprise/xwiki-enterprise-test/xwiki-enterprise-test-selenium&gt;&gt;https://github.com/xwiki/xwiki-enterprise/tree/master/xwiki-enterprise-test/xwiki-enterprise-test-selenium]]##
+* To run these tests on your local machine go to ##xwiki-enteprise/xwiki-enterprise-test/xwiki-enterprise-test-selenium## and type ##mvn install##.
+* To run a specific test, pass the ##pattern## property as in: ##mvn install -Dpattern=DeletePageTest## (this will run the ##DeletePageTest## - Note that you don't have to specify the extension). In addition if you wish to execute only a specific method from a Test Case class, you can pass the ##patternMethod## property as in: ##mvn install -Dpattern=DeletePageTest -DpatternMethod=testDeletePageCanDoRedirect##.
+* To enable debug output from the selenium server start maven with the ##-Ddebug=true## switch and then all messages from the selenium server are saved to: ##xwiki-enteprise/xwiki-enterprise-test/xwiki-enterprise-test-selenium/target/selenium/server.log##.
+* To debug a functional Selenium test in your favourite Java IDE go in ##xwiki-enteprise/xwiki-enterprise-test/xwiki-enterprise-test-selenium## and run maven with ##-Dmaven.surefire.debug##. Maven will wait till you connect your IDE to the running JVM on port 5005. You can put a breakpoint in your IDE and debug the test.
+
+== XHTML, CSS &amp; WCAG Validations ==
+
+* We are using JUnit to validate that all XE pages produce valid XHTML.
+** Existing tests can be found in ##enterprise/distribution-test/misc-tests/##
+* [[WCAG Testing Strategy&gt;&gt;Community.WCAGTesting]]
+* CSS validation must be verified manually using the [[W3C validator&gt;&gt;http://jigsaw.w3.org/css-validator/]]. See [[XHTML &amp; CSS Coding Style&gt;&gt;Community.XhtmlCssCodeStyle]].
+
+= Performance Testing =
+
+* These are memory leakage tests, load tests and speed of execution tests.
+* They are performed manually and in an ad hoc fashion for now.
+
+See the [[Profiling topic&gt;&gt;Profiling]] for details on how to use a profiler for detecting performance issues.
+
+= Manual testing =
+
+{{info}}
+Here's the spirit we'd like to have from the XWiki Manual Testing Team: [[The Black Team&gt;&gt;http://a.mongers.org/clueful/20020402-peopleware-blackteam]].
+{{/info}}
+
+Besides automated testing, ensuring software quality requires that features be tested by actual users (see [[http://en.wikipedia.org/wiki/Manual_testing]]). In order to manage manual testing, a [[test plan&gt;&gt;http://en.wikipedia.org/wiki/Test_plan]] is required. 
+
+* [[Manual Test Strategy&gt;&gt;Community.ManualTestStrategy]]
+* [[Manual Test Reports&gt;&gt;xwiki:TestReports.WebHome]]
+
+= Test Coverage =
+
+We use [[Clover&gt;&gt;http://www.atlassian.com/software/clover/]] to generate test coverage reports.
+
+To generate Clover reports make sure you can [[build&gt;&gt;Community.Building]] your module and then pick one of the following strategies below depending on what you wish to generate.
+
+{{warning}}
+After running Clover you'll have some Clovered JARs in your local repository so you should be careful not to use those later on for deploying for example. And if you copy them in an existing xwiki setup in WEB-INF/lib you'll get an error at runtime saying that the Clover JAR is missing...
+{{/warning}}
+
+== Strategy 1 ==
+
+Go to the top level module containing children modules for which to generate a Clover report. Note that you won't be able to aggregate Clover data across different Maven runs with this strategy so you really need a single parent module.
+
+1. Run the following command:(((
+{{code language="none"}}
+mvn clean clover2:setup install clover2:aggregate clover2:clover -Pclover,integration-tests,dev,jetty,hsqldb
+{{/code}}
+
+{{info}}
+You might need to run the "install" goal instead of the "test" one if your local Maven repository doesn't already contain some test jars (apparently and for some reason Maven won't download them from the remote repository under some conditions).
+{{/info}}
+)))
+
+== Strategy 2 ==
+
+Use a single Clover database to which you add coverage information as you build modules one after another. This strategy is especially useful when you wish to manually run some modules and ensure that coverage data aggregate in a single place so that when you generate the report you have the result of all your runs.
+
+1. Instrument the source code with Clover for all modules that you want to include in the report, using:(((
+{{code language="none"}}
+mvn clover2:setup install -Pclover,integration-tests,dev,jetty,hsqldb -Dmaven.clover.cloverDatabase=/path/to/user/home/.xwiki/clover/clover.db
+{{/code}}
+
+When tests are executed they'll generate coverage data in the specified Clover database. Since there's a single Clover there's no need to merge Clover databases as in strategy 1 above.
+)))
+1. To generate the Clover report, execute the following from any module:(((
+{{code language="none"}}
+mvn clover2:clover -N -Dmaven.clover.cloverDatabase=/path/to/user/home/.xwiki/clover/clover.db
+{{/code}}
+)))
+1. Remember to clean your clover database when you're done.
+
+{{info}}
+If you don't wish failing tests to stop the generation of the coverage report, you should pass ##-Dmaven.test.failure.ignore=true## on the command line.
+{{/info}}
+
+Here are typical steps you'd follow to generate full TPC for XWiki:
+
+* Clean your local repo and remove any previous clover DBs:(((
+{{code}}
+rm -R ~/.m2/repository/org/xwiki
+rm -R ~/.m2/repository/com/xpn
+rm -R /Users/vmassol/.xwiki/clover
+{{/code}}
+)))
+* Generate coverage data for XWiki Commons:(((
+{{code}}
+cd xwiki-commons
+mvn clean -Pclover,integration-tests -o
+mvn clover2:setup install -Pclover,integration-tests -Dmaven.clover.cloverDatabase=/Users/vmassol/.xwiki/clover/clover.db  -Dmaven.test.failure.ignore=true -o
+{{/code}}
+)))
+* Generate Clover report just for Commons:(((
+{{code}}
+mvn clover2:clover -N -Dmaven.clover.cloverDatabase=/Users/vmassol/.xwiki/clover/clover.db -o
+{{/code}}
+)))
+* Generate coverage data for XWiki Rendering:(((
+{{code}}
+cd xwiki-rendering
+mvn clean -Pclover,integration-tests -o
+mvn clover2:setup install -Pclover,integration-tests -Dmaven.clover.cloverDatabase=/Users/vmassol/.xwiki/clover/clover.db  -Dmaven.test.failure.ignore=true -o
+{{/code}}
+)))
+* Generate Clover report for Commons and Rendering:(((
+{{code}}
+mvn clover2:clover -N -Dmaven.clover.cloverDatabase=/Users/vmassol/.xwiki/clover/clover.db -o
+{{/code}}
+)))
+* Generate coverage data for XWiki Platform:(((
+{{code}}
+cd xwiki-platform
+mvn clean -Pclover,integration-tests -o
+mvn clover2:setup install -Pclover,integration-tests -Dmaven.clover.cloverDatabase=/Users/vmassol/.xwiki/clover/clover.db  -Dmaven.test.failure.ignore=true -o
+{{/code}}
+)))
+* Generate Clover report for Commons, Rendering and Platform:(((
+{{code}}
+mvn clover2:clover -N -Dmaven.clover.cloverDatabase=/Users/vmassol/.xwiki/clover/clover.db -o
+{{/code}}
+)))
+* Generate coverage data for XWiki Enterprise:(((
+{{code}}
+cd xwiki-enterprise
+mvn clean -Pclover,integration-tests -o
+mvn clover2:setup install -Pclover,integration-tests,jetty,hsqldb -Dmaven.clover.cloverDatabase=/Users/vmassol/.xwiki/clover/clover.db  -Dmaven.test.failure.ignore=true -o
+{{/code}}
+)))
+* Generate full Clover report:(((
+{{code}}
+mvn clover2:clover -N -Dmaven.clover.cloverDatabase=/Users/vmassol/.xwiki/clover/clover.db -o
+{{/code}}
+)))
+
+== Example Reports ==
+
+{{velocity}}
+#set ($url1 = $xwiki.getPlugin("zipexplorer").getFileLink($doc, "xwiki-core-clover-20080812.zip", "index.html"))
+#set ($url2 = $xwiki.getPlugin("zipexplorer").getFileLink($doc, "xwiki-rendering-clover-20090504.zip", "index.html"))
+#set ($url3 = $xwiki.getPlugin("zipexplorer").getFileLink($doc, "xwiki-rendering-clover-20101012.zip", "index.html"))
+
+* [[XWiki Commons/Rendering/Platform/Enterprise (1st of July 2012)&gt;&gt;http://maven.xwiki.org/site/clover/20120701/]]
+* [[XWiki Commons (12 March 2012)&gt;&gt;http://maven.xwiki.org/site/clover/20120312/xwiki-commons]], [[XWiki Rendering (12 March 2012)&gt;&gt;http://maven.xwiki.org/site/clover/20120312/xwiki-rendering]]
+* [[XWiki Enterprise + Platform (17 October 2010)&gt;&gt;http://maven.xwiki.org/site/clover/20101017]] (includes functional test coverage)
+* [[XWiki Rendering  (12 October 2010)&gt;&gt;path:$url3]]
+* [[XWiki Rendering  (4 May 2009)&gt;&gt;path:$url2]]
+* [[XWiki Core (12 August 2008)&gt;&gt;path:$url1]]
+{{/velocity}}</content>
+</xwikidoc>

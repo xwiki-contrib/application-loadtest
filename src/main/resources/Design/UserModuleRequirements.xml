@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>UserModuleRequirements</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1304958949000</creationDate>
+  <date>1360950336000</date>
+  <contentUpdateDate>1304960025000</contentUpdateDate>
+  <version>1.1</version>
+  <title>User Module Requirements</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.UserModuleRequirements</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>2ee3ed5e-4116-4ee9-8bbc-952fc21cb971</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.UserModuleRequirements</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>20162918-0b76-40f1-aa98-bbb7ca99cf04</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+== Requirements ==
+
+R1: Users should be represented by a real User object, not by Strings, nor by DocumentReferences
+
+R2: It should be easy to serialize and deserialize a User object from the database
+
+R3: The User should have APIs to retrieve any information related to their profile, such as first and last name, address, company, etc.
+
+R4: The same interface should be used for users coming from different places: local wiki users, farm wiki users, LDAP users, external WebID users...
+
+R5: The API should continue to work with stale users (for example the author of a comment, or of a document, that was deleted), but should mark users that are no longer valid
+
+R6: The API should expose an URI for accessing the user profile
+
+== Use Cases ==
+
+===UC1: Logging in with a wiki user profile===
+
+The user provides a username and a password, and the user module should be able to resolve the username into the corresponding User object. The login system should be able to check the password against the returned User object.
+
+Important: the current login system is able to resolve both the local and the global user when both exist, and the password matches one of the two passwords. The user management cannot do that by itself, so the login system will have to explicitly ask for a global user.
+
+===UC2: Remembering a login===
+
+The login system should be able to store the user after logging in, probably in a Cookie. This means that a User object must be serializable to a String, and the user manager should be able to resolve back that string into the User object.
+
+===UC3: Viewing and editing a wiki user profile===
+
+It should be possible, using the corresponding User object, to display the profile information of a local wiki user. This is currently done in the UserSheet using $doc.display calls for specific properties.
+
+===UC4: Setting a User object as the document author and creator===
+
+The Document API should expose a get/setAuthor/get/setCreator set of methods which return/accept a User object. This information will have to be saved and restored from the database, so, again, the user objects must be serializable to Strings.
+
+===UC5: Working with a LDAP user account===
+
+Currently, this is done by creating a local clone of the user profile, with information taken from the LDAP server. It should be possible to have only the remote user, without a clone. This means that the user manager must return a different type of User, which gets its information directly from the LDAP server.
+
+=== UC6: Working with a WebID user account ===
+
+The user manager must resolve a WebID URL into a special User profile, which queries the remote WebID profile for information.
+
+=== UC7: Working with pseudo-logins ===
+
+When public commenting is enabled, users may enter some information about themselves: name, home page, email address. This information should be remembered accross visits, without actually logging in the user or creating a profile page. In order not to create if-else code in the comments display code, the comment author should always be returned as a User object, with different types of implementations. This way, the comment display code can use the same API to display author information.
+
+=== UC8: Having mixed users in the same wiki ===
+
+It should be possible to allow different kinds of users in the same wiki: local wiki accounts, SSO users from different systems (LDAP, OpenID, WebID), pseudo-logins, and deleted wiki users. The same User API should be available for all the different types of users. Serializing a user object should provide the user type information in the resulting String. The user manager must be able to return the right type of user when passed a serialized User object.
+
+=== UC9: Working with guests ===
+
+It should be possible to differentiate between loggin in users and guests. A simple way to do this is to consider that a null User means no user.
+
+=== UC10: The user manager should give a hint about where should a new user be registered (Optional) ===
+
+The user manager should offer a mechanism so that the registration module can find out where a new user profile should be created. It is not the responsibility of the user manager to create a new user profile.
+
+=== UC11: Moving a wiki document across wikis keeping the same user ===
+
+If a document is moved from one wiki to the other, the same user should be kept as author (in the original wiki).
+
+=== UC12: Importing XAR documents in a virtual wiki should result in local users as authors ===
+
+That means, importing the default XE should use the local XWiki.Admin user, and not the global xwiki:XWiki.Admin user.
+
+Personally, I (Sergiu) don't agree with this use case.</content>
+</xwikidoc>

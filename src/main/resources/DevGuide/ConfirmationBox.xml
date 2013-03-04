@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>ConfirmationBox</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>DevGuide.FrontendResources</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1255095466000</creationDate>
+  <date>1360853390000</date>
+  <contentUpdateDate>1360853390000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Confirmation Box UI Component</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <attachment>
+    <filename>confirmbox.png</filename>
+    <filesize>9551</filesize>
+    <author>xwiki:XWiki.jvelociter</author>
+    <date>1255098304000</date>
+    <version>1.2</version>
+    <comment/>
+    <content>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
+</content>
+  </attachment>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.ConfirmationBox</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>4138f92a-a5ee-480f-81bf-e4d7878ff1d9</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{toc start=2 /}}
+
+The Confirmation Box UI is an alternative to the old-fashioned browsers confirm boxes. It displays a nice popup box asking the user to confirm an action. Functions hooks are available on both confirm and cancel actions.
+
+//Image of the confirmation box in action~://
+image:confirmbox.png
+
+{{html}}
+&lt;a href="#" onclick="javascript:new XWiki.widgets.ConfirmationBox();"&gt;Or click this link to see one live!&lt;/a&gt;
+{{/html}}
+
+== Usage ==
+
+{{code language="javascript"}}
+new XWiki.widgets.ConfirmationBox(behavior, interactionParameters);
+{{/code}}
+
+; behavior
+: (((Object that define confirm and cancel handlers. When the user chooses "Yes", its "onYes" method is triggered if it exists. When the user chooses "No", its "onNo" method is triggered, if it exists. The behavior parameter is not mandatory and is empty by default (It means nothing will happen upon confirmation or cancel).
+
+Example :
+
+{{code language="javascript"}}
+var myBehavior = {
+   onYes: function() {
+      alert("Yes!");
+   },
+   onNo: function() {
+      alert("Oh no :(");
+   }
+};
+{{/code}})))
+; interactionParameters
+: (((Object that defines the different text elements displayed with-in the confirmation box. Three variables are available for customization : **confirmationText**, the message to confirm (default value for the English language is //Are you sure ?//), **yesButtonText** the "yes" button text (or confirm button), **noButtonText** the "no" button text (or cancel button).
+
+Example :
+
+{{code language="javascript"}}
+var myInteractionParameters = {
+  confirmationText: "Are you sure you want to engage the wiki's self-destruction process?",
+  yesButtonText: "Yes, please do that",
+  noButtonText: "No thank you"
+};
+{{/code}})))
+
+== Source Code ==
+
+{{remotecode source="https://raw.github.com/xwiki/xwiki-platform/xwiki-platform-3.4/xwiki-platform-core/xwiki-platform-web/src/main/webapp/resources/uicomponents/widgets/confirmationBox.js" /}}
+
+==Tips==
+
+Check out the Javascript code:
+* for your wiki instance: **{{{http://localhost:8080/xwiki/bin/skin/resources/uicomponents/widgets/confirmationBox.js}}}**
+* from GitHub (for tag xwiki-platform-3.4): [[https://github.com/xwiki/xwiki-platform/blob/xwiki-platform-3.4/xwiki-platform-core/xwiki-platform-web/src/main/webapp/resources/uicomponents/widgets/confirmationBox.js]]</content>
+</xwikidoc>

@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>Contributing</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1167915284000</creationDate>
+  <date>1360950281000</date>
+  <contentUpdateDate>1360950281000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Contributing</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.Contributing</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>67bffeb0-8b59-4fa8-bc4f-83dff58b878c</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>We're always looking for contributions! Here are some ways to participate in XWiki's development:
+
+{{toc numbered="true" depth="3"/}}
+
+{{info}}
+See also a good article summarizing [[ways to contribute to an open source project without writing code&gt;&gt;http://devlicio.us/blogs/krzysztof_kozmic/archive/2009/09/10/how-to-contribute-to-open-source-without-writing-a-single-line-of-code.aspx]].
+{{/info}}
+
+= Give us your Feedback =
+
+Do you have a great idea? Just tell us! Send your feedback to the user or developer [[mailing lists&gt;&gt;Community.MailingLists]]. The feedback could be also about something that does not work, something that could be improved, a feature you'd like to see, etc. Or simply it could be that you're a happy user. Letting us know that helps a lot!
+
+= Help other users =
+
+Have you gained some experience with XWiki? How about sharing your experience with others? Answer emails on the [[user mailing list&gt;&gt;Community.MailingLists]].
+
+== Strategies for answering questions ==
+
+Here's a good strategy that improves the XWiki documentation on xwiki.org:
+
+1. someone (A) asks a question on a xwiki list
+1. someone (B) knows the answer
+1. B verifies that the answer can be found on xwiki.org and if so gives a link to it in the reply to A
+1. If the answer is not found on xwiki.org, then B adds it {{{(*)}}} and in his reply to A he provides a link to the answer (see the [[Documentation&gt;&gt;#HDocumentation]] chapter below for some tips)
+
+In this manner we all enrich the XWiki documentation and it'll only take marginally longer to answer questions. The next time someone asks the question again we can simply point him/her to the location on xwiki.org
+
+What happens otherwise is that people will give very long and elaborate answers with lots of knowledge/wisdom in them. After that another person comes in, asks the same question and we answer again, etc. The results are:
+
+* the xwiki.org documentation is not better
+* overall as a team we are less efficient 
+
+= Spread the word =
+
+ Do you like XWiki? Spread the word about it! In any way you would prefer, like Tweets, Articles, Blogs, Books, Talks at conferences, Discussion with colleagues, etc.
+
+= Testing =
+
+* Test new XWiki versions and report bugs in [[JIRA&gt;&gt;http://jira.xwiki.org]]. It's important to [[correctly report bugs&gt;&gt;http://www.chiark.greenend.org.uk/~~sgtatham/bugs.html]].
+* Report Compatibility of extensions with XWiki versions. Go to the [[extension you have tested&gt;&gt;extensions:Main.WebHome]], edit the extension page and fill the Compatibility field.
+
+= Translations =
+
+Is XWiki not available in your native language? Are current translations not good enough or just not complete? By contributing to the [[Translation Wiki&gt;&gt;http://l10n.xwiki.org]] you can improve that.
+
+= Documentation =
+
+Not satisfied with the XWiki documentation? You have 2 options:
+* Report what you think should be improved by [[creating a JIRA issue for it&gt;&gt;http://jira.xwiki.org/browse/XINFRA]]
+* Look at the [[Documentation Guide&gt;&gt;Community.DocGuide]] and help us improve it. One difficulty is to find the right location for new documentation. So here are a few tips:
+** Add code snippets to the [[Extensions wiki&gt;&gt;extensions:Main.WebHome]]
+** Add explanations on how to use XWiki to the related [[Features guide pages&gt;&gt;platform:Features.WebHome]]
+** Add development explanations to the related [[Developer guide's pages&gt;&gt;platform:DevGuide.WebHome]]
+** Add configuration and administration explanations to the related [[Administration guide's pages&gt;&gt;platform:AdminGuide.WebHome]]
+** Add other explanations to the [[FAQ&gt;&gt;xwiki:FAQ.WebHome]]
+
+Not sure what to work on? Check out the [[pending documentation todos&gt;&gt;http://jira.xwiki.org/secure/IssueNavigator.jspa?reset=true&amp;jqlQuery=project+%3D+XINFRA+AND+component+in+%28%22l10n.xwiki.org%22%29+AND+status+%3D+Open+ORDER+BY+priority+DESC]], pick an issue and start contributing. Feel free to [[create your own todo as well&gt;&gt;http://jira.xwiki.org/browse/XINFRA]].
+
+= Contribute Code =
+
+There are various ways to contribute code:
+
+* If you've developed some XWiki Extensions (applications, macros, even some code snippets in the form of scripts) you can share them easily with others by publishing them on [[Extensions wiki&gt;&gt;extensions:Main.WebHome]].
+* If you're also interested in sharing the source code we encourage you to publish the code as an [[XWiki Contrib Project&gt;&gt;contrib:Main.WebHome]]. This allows others to work collaboratively with you on this code and improve it and fix bugs.
+* If you've fixed bugs or added new features/improvements to existing extensions or modules check the [[next section&gt;&gt;#existingcode]].
+* [[Become part of the XWiki Development Team&gt;&gt;Community.Committership]]!
+
+{{id name="existingcode"/}}
+= Fixing bugs or new Features/Improvements =
+
+Have you fixed a boring bug or added a new feature or improved an existing one? Let us know by [[adding a pull request&gt;&gt;http://help.github.com/send-pull-requests/]] to our [[GitHub repository&gt;&gt;dev:Community.SourceRepository]].
+
+Are you looking for a place to start? Look at our [[open issues in our Issue Tracker&gt;&gt;http://jira.xwiki.org]]. You can also check the [[Paper Cuts&gt;&gt;Main.PaperCut]] which lists some easy to fix issues.
+
+== Code acceptance criteria ==
+
+There are a number of criteria that your code will be judged on:
+
+* Whether it works and does what is intended. This one is probably obvious!
+
+* Whether it fits with the spirit of the project. Some code may be rejected as they take the project in a different direction from that which the current development community has chosen. This is usually discussed on an issue well before the code is contributed. So if you are unsure about submitting some code please discuss it there or on the mailing lists first. Feel free to continue discussing it (with new justification) if you disagree, or appeal to a wider audience on the mailing lists.
+
+* Whether it contains tests. It is expected that code relating to functionality will be accompanied by unit tests and/or integration tests. It is strongly desired (and will be requested) for bug fixes too, but will not be the basis for not applying it. At a bare minimum, the change should not decrease the amount of automated test coverage. As a community, we are focusing on increasing the current coverage, as there are several areas that do not receive automated testing.
+
+* Whether it contains documentation. All new functionality needs to be documented for users, even if it is very rough for someone to expand on later. While rough is acceptable, incomplete is not. As with automated testing, as a community we are striving to increase the current coverage of documentation.
+
+Above all, don't be discouraged. These are the same requirements the current [[Committers&gt;&gt;Community.Committership]] should hold each other to as well.
+And remember, your contributions are always welcome!
+
+== Coding rules ==
+
+If you submit code you need to follow these rules:
+
+* Put the correct [[Copyright&gt;&gt;xwiki:Main.License#HCopyright]] in the files.
+* Ensure that your code passes the [[build&gt;&gt;Community.Building]]. Note that the build contains some Checkstyle checks that your code must pass.
+* Ensure that you have unit tests and/or integration tests.
+* Use the same code formatting as the existing code.
+* Create an issue in [[JIRA&gt;&gt;http://jira.xwiki.org]] and add a link to the [[GitHub Pull Request&gt;&gt;http://help.github.com/send-pull-requests/]]. {{info}}Please make sure you tag the JIRA issue with the 'patch' keyword for better handling by the committers if that is not currently the case.{{/info}}
+* Create [[documentation&gt;&gt;#HDocumentation]] for what you have added.
+* Add your name on the [[Hall Of Fame&gt;&gt;Community.HallOfFame]] page.
+
+In addition if you plan to contribute large amount of code that impact existing code, we recommend discussing it on the mailing list first.</content>
+</xwikidoc>

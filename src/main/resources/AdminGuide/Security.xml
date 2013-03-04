@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>Security</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1166363601000</creationDate>
+  <date>1360950268000</date>
+  <contentUpdateDate>1360950268000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Security</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <attachment>
+    <filename>XWIKI4755escapeBackslashes.patch</filename>
+    <filesize>1935</filesize>
+    <author>xwiki:XWiki.rrodriguez</author>
+    <date>1289041934000</date>
+    <version>1.1</version>
+    <comment/>
+    <content>SW5kZXg6IGNvcmUveHdpa2ktY29yZS9zcmMvbWFpbi9qYXZhL2NvbS94cG4veHdpa2kvc3RvcmUv
+WFdpa2lIaWJlcm5hdGVTdG9yZS5qYXZhCj09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT0KLS0tIGNvcmUveHdpa2ktY29yZS9z
+cmMvbWFpbi9qYXZhL2NvbS94cG4veHdpa2kvc3RvcmUvWFdpa2lIaWJlcm5hdGVTdG9yZS5qYXZh
+CShyZXZpc2lvbiAyODU2NikKKysrIGNvcmUveHdpa2ktY29yZS9zcmMvbWFpbi9qYXZhL2NvbS94
+cG4veHdpa2kvc3RvcmUvWFdpa2lIaWJlcm5hdGVTdG9yZS5qYXZhCShyZXZpc2lvbiAyODU2NykK
+QEAgLTIyNjMsNyArMjI2Myw3IEBACiAgICAgICAgICAgICAgICAgc3FsICs9IGdlbmVyYXRlV2hl
+cmVTdGF0ZW1lbnQod2hlcmVQYXJhbXMpOwogICAgICAgICAgICAgfQogCi0gICAgICAgICAgICBR
+dWVyeSBxdWVyeSA9IHNlc3Npb24uY3JlYXRlUXVlcnkoc3FsKTsKKyAgICAgICAgICAgIFF1ZXJ5
+IHF1ZXJ5ID0gc2Vzc2lvbi5jcmVhdGVRdWVyeShmaWx0ZXJTUUwoc3FsKSk7CiAKICAgICAgICAg
+ICAgIC8vIEFkZCB2YWx1ZXMgZm9yIHByb3ZpZGVkIEhRTCByZXF1ZXN0IGNvbnRhaW5pbmcgIj8i
+IGNoYXJhY3RlcnMgd2hlcmUgdG8gaW5zZXJ0IHJlYWwKICAgICAgICAgICAgIC8vIHZhbHVlcy4K
+QEAgLTI0NjEsNyArMjQ2MSw3IEBACiAgICAgICAgICAgICBjaGVja0hpYmVybmF0ZShjb250ZXh0
+KTsKICAgICAgICAgICAgIGJUcmFuc2FjdGlvbiA9IGJlZ2luVHJhbnNhY3Rpb24oZmFsc2UsIGNv
+bnRleHQpOwogICAgICAgICAgICAgU2Vzc2lvbiBzZXNzaW9uID0gZ2V0U2Vzc2lvbihjb250ZXh0
+KTsKLSAgICAgICAgICAgIFF1ZXJ5IHF1ZXJ5ID0gc2Vzc2lvbi5jcmVhdGVRdWVyeShzcWwpOwor
+ICAgICAgICAgICAgUXVlcnkgcXVlcnkgPSBzZXNzaW9uLmNyZWF0ZVF1ZXJ5KGZpbHRlclNRTChz
+cWwpKTsKIAogICAgICAgICAgICAgaW5qZWN0UGFyYW1ldGVyTGlzdFRvUXVlcnkoMCwgcXVlcnks
+IHBhcmFtZXRlclZhbHVlcyk7CiAKQEAgLTI1NDEsNyArMjU0MSw3IEBACiAgICAgICAgICAgICB9
+CiAgICAgICAgICAgICBTZXNzaW9uIHNlc3Npb24gPSBnZXRTZXNzaW9uKGNvbnRleHQpOwogCi0g
+ICAgICAgICAgICBRdWVyeSBxdWVyeSA9IHNlc3Npb24uY3JlYXRlUXVlcnkoc3FsKTsKKyAgICAg
+ICAgICAgIFF1ZXJ5IHF1ZXJ5ID0gc2Vzc2lvbi5jcmVhdGVRdWVyeShmaWx0ZXJTUUwoc3FsKSk7
+CiAKICAgICAgICAgICAgIGluamVjdFBhcmFtZXRlckxpc3RUb1F1ZXJ5KDAsIHF1ZXJ5LCBwYXJh
+bWV0ZXJWYWx1ZXMpOwogCkBAIC0zMDUyLDQgKzMwNTIsMTcgQEAKICAgICB7CiAgICAgICAgIHJl
+dHVybiB0aGlzLnF1ZXJ5TWFuYWdlcjsKICAgICB9CisKKyAgICAvKioKKyAgICAgKiBUaGlzIGlz
+IGluIHJlc3BvbnNlIHRvIHRoZSBmYWN0IHRoYXQgSGliZXJuYXRlIGludGVycHJldHMgYmFja3Ns
+YXNoZXMgZGlmZmVyZW50bHkgZnJvbSB0aGUgZGF0YWJhc2UuCisgICAgICogT3VyIHNvbHV0aW9u
+IGlzIHRvIHNpbXBseSByZXBsYWNlIGFsbCBpbnN0YW5jZXMgb2YgXCB3aXRoIFxcIHdoaWNoIG1h
+a2VzIHRoZSBmaXJzdCBiYWNrc2xhc2ggZXNjYXBlIHRoZSBzZWNvbmQuCisgICAgICoKKyAgICAg
+KiBAcGFyYW0gc3FsIHRoZSB1bmNsZWFuZWQgc3FsLgorICAgICAqIEByZXR1cm4gc2FtZSBhcyBz
+cWwgZXhjZXB0IGl0IGlzIGd1YXJlbnRlZWQgbm90IHRvIGNvbnRhaW4gZ3JvdXBzIG9mIG9kZCBu
+dW1iZXJzIG9mIGJhY2tzbGFzaGVzLgorICAgICAqIEBzaW5jZSAyLjRNMQorICAgICAqLworICAg
+IHByaXZhdGUgU3RyaW5nIGZpbHRlclNRTChTdHJpbmcgc3FsKQorICAgIHsKKyAgICAgICAgcmV0
+dXJuIFN0cmluZ1V0aWxzLnJlcGxhY2Uoc3FsLCAiXFwiLCAiXFxcXCIpOworICAgIH0KIH0K
+</content>
+  </attachment>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.Security</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>f3b12ffe-698e-43d4-a398-d262459adad5</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+= Security related features =
+
+XWiki offers some features for protecting security and some features which have security implications.
+
+== Admin password ==
+
+The default password for the Admin user is admin. Make sure you either change the password or remove that user.
+
+== Superadmin account ==
+
+XWiki provides a superadmin account. It is special, because:
+* It is not stored in the database
+* It cannot be modified in any way
+* It always has full access, regardless of the rights settings
+
+{{warning}}
+Because the Superadmin account is so powerful, it is not safe to leave it enabled for a long time.
+{{/warning}}
+
+By default, this account is disabled. To enable it, you have to edit ##&lt;xwiki-dir&gt;/WEB-INF/xwiki.cfg##, uncomment the ##xwiki.superadminpassword=system## line and set a proper password. To disable it, just comment this line. Remember to restart the servlet container after changing ##xwiki.cfg##.
+
+{{info}}
+Using this superadmin account is useful when you cannot log in anymore, for example when you forgot your admin user password, if you messed up some rights or if you have deleted your admin user by mistake.
+{{/info}}
+
+== Cookies ==
+
+By default XWiki (as with most of the web) identifies users who have already logged in by setting cookies. These can be the target of attacks.
+
+=== Cookie  Encryption Keys ===
+
+When a user logs in, three cookies are saved on his machine containing the username, password and a "nothing up my sleeve" hash. The cookies are encrypted so that nobody having access to them can see the username/password. This encryption is done using 2 configuration parameters located in the //xwiki.cfg// configuration file. This file is located in //WEB-INF/// in the XWiki WAR (see the [[Installation guide&gt;&gt;AdminGuide.Installation]] for where it's installed).
+It's important you edit the //[[xwiki.cfg&gt;&gt;AdminGuide.Configuration#HSamplexwiki.cfg]]// file to modify the cookie authentication and encryption keys as they use default values when you install XWiki and these predefined values could be used by an attacker to decipher the username and password. To prevent this, change the following 2 configuration parameters:
+* //xwiki.authentication.validationKey//
+* //xwiki.authentication.encryptionKey//
+
+See the [[Authentication parameters section&gt;&gt;AdminGuide.Authentication#HAuthenticationparameters]] for more details.
+
+In future versions we'd like to generate random and host-dependent key pairs at installation time (see the following [[issue&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-542]] for details).
+
+=== Encrypt cookies using IP address ===
+
+Even if the password cannot be extracted from the cookie, the cookies might be stolen (see [[XSS&gt;&gt;#HCrossSiteScripting]]) and used as they are.
+By setting the //[[xwiki.cfg&gt;&gt;AdminGuide.Configuration#HSamplexwiki.cfg]]// parameter ##xwiki.authentication.useip## to true you can block the cookies from being used except by the same IP address which got them.
+
+== Override version information ==
+
+By default, the exact XWiki Enterprise version is shown in the footer of every page. This is not harmful by itself, but can provide useful information to the attacker, who can use known vulnerabilities against this version.
+
+You can change the version string shown in the footer using the [[Administration Application&gt;&gt;extensions:Extension.Administration Application]]. Click on the ##Presentaton## icon and change the version string in the //Version// field.
+
+If you want to be sure the version is definitely not leaked somewhere else, you can replace the file //WEB-INF/version.properties// by your own version with the following content: {{code}}version=your version string here{{/code}}.
+
+= Discussion of attack vectors =
+
+Perfect security is generally considered impossible. With simple static HTML servers we can have near perfect security but those are not very useful. This document discusses different threat models and how to fortify against each. These attacks are grouped by type of access gained if successful. More dangerous attacks are near the top yet the most common attacks are less dangerous (and easier to perform) and will be seen at the bottom.
+
+== Server root attacks ==
+
+This attack is characterized by assent of power in the operating system and is largely beyond the scope of this document as it is the responsibility of the operating system to prevent users ascending power.
+
+=== Likelihood / Known Issues ===
+
+Not a very common attack method.
+
+=== Mitigation Methods ===
+
+* Run a decent operating system
+* Run the Java VM with XWiki under its own username, only give this user permissions to files needed for the operation of XWiki and make sure this user doesn't have sudo access
+* Don't run extraneous processes on the server
+* Run services on non-standard ports (ssh)
+* Firewall all ports not explicitly needed
+
+== Java VM attacks ==
+
+This attack is characterized by the attacker running arbitrary code on Java and perhaps using Java level security flaws to execute native code thus gaining access in the user level of the Java VM process.
+
+=== Likelihood / Known Issues ===
+
+* XWiki requires reflection of private fields and variables for the [[component module&gt;&gt;extensions:Extension.Component Module]] This means that jsr223 scripts such as Groovy and Python are able to read and write any field or variable in the system which may lead to execution of native code via Java Native Access. Virtual wikis are not insulated against this attack method and as such virtual wiki administrators cannot be given programming permission (note that there is another reason for not giving wiki admin programming rights in a farm, it is because you may access any document without rights being checked, even in another wiki). This flaw could lead to dumping of connected databases, however user passwords are SHA-512 hashed (see [[this issue&gt;&gt;http://jira.codehaus.org/browse/GROOVY-1875]] for more details.
+** This attack method requires the use of a registered username which has programming rights
+
+=== Mitigation Methods ===
+
+* Enable a SecurityManager which peeks at the calling stack and only allows unchecked reflection if called by the component manager
+* Disable Groovy entirely
+* Guard programming rights closely, have a special username just for saving documents which contain approved Groovy scripts
+
+== Database Injection attacks ==
+
+Such an attack happens from inside of unsafe scripting and results in unintended information being given up by the database.
+
+=== Likelihood / Known Issues ===
+
+* XWiki uses Hibernate as a database controller so some of the injection methods are mitigated. XWiki gives you the capability to create safe scripts and unsafe scripts.
+** This attack method may often be performed without a registered username.
+
+=== Mitigation Methods ===
+
+* You can use this groovy snippet to test your database to see if it supports [[stacked queries&gt;&gt;http://ferruh.mavituna.com/sql-injection-cheatsheet-oku/#StackingQueries]]. If your database does not support stacked queries, injection in a SELECT query can only lead to additional arbitrary SELECT queries:
+(((
+{{code language="java"}}
+{{groovy}}
+try {
+  session = xcontext.getContext().getWiki().getHibernateStore().getSessionFactory().openSession();
+  session.connection().createStatement().execute("begin transaction; rollback;");
+  println("Your database supports stacked queries.")
+} catch (Exception e) {
+  println("Your database does not support stacked queries.");
+} finally {
+  try {
+    session.close()
+  } catch (Exception e) {}
+}
+{{/groovy}}
+{{/code}}
+)))
+* Configure your database to log or if possible disable comment syntax {{code language="none"}} -- /* */ and # {{/code}}. Comments are not used by Hibernate and are central to most of the more dangerous SQL injection.
+* When designing scripts avoid the temptation to concatenate user input into database queries
+
+**WRONG:**
+
+{{code}}
+#set($x = $xwiki.searchDocuments("where doc.fullName = '${userContent}'"))
+{{/code}}
+
+If the user enters: {{code}} ' or doc.hidden = 1 or doc.fullName = ' {{/code}} your code will create the Hibernate query: {{code language="sql"}}where doc.fullName = '' or doc.hidden = 1 or doc.fullName = ''{{/code}}.
+
+This may not be a horrible outcome but it is not what you wanted and others surely can invent far more dangerous injections than this.
+Fortunately Hibernate itself protects against the worst type of injection such as:
+
+{{code language="sql"}}
+Embarrassing Mistake'); DROP TABLE xwikidoc;--
+{{/code}}
+
+This is because it does not allow multiple commands in one call and does not allow the ~-~- comment syntax (can be bypassed in some versions; see above).
+
+**RIGHT:**
+
+{{code}}
+## We are passing a ? in the query and then passing the parameter as a list (Velocity notation for list is [element, element] )
+#set($x = $xwiki.searchDocuments("where doc.fullName = ?", [$userContent]))
+{{/code}}
+
+Your code will now instruct Hibernate to name the userContent parameter and pass it to the database separately from the query. The above injection trick will not work.
+
+* Avoid "Privileged API" whenever possible and only use non API when absolutely necessary. If each of your calls requires you to pass the context as a parameter, you're doing it wrong.
+
+For more information check the [[XWiki API Reference&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/DevGuide/API]].
+
+== Cross Site Scripting ==
+
+Cross site scripting or XSS is the least harmful to the server of all attack methods, however it is the most common.
+XSS can lead to users altering documents which they didn't want to or having their authentication cookies copied. XSS can also lead to exploitation of web browsers and plugins such as pdf or ActiveX. Such exploits often install malware.
+
+=== Attack vectors (persistent injection) ===
+
+Persistent injection is characterized by saving content in the system which when loaded by the unwitting user, executes as javascript in their browser. This is the more dangerous variety because it sits in a page waiting for a victim.
+
+1. Persistent injection through XWiki document content by editing the document.
+2. Persistent injecting through comments.
+
+==== Likelihood / Known Issues ====
+
+* XWiki syntax 1.0 does not filter out HTML so script injection is possible
+* XWiki syntax 2.0 contains html macro which when invoked allows injection of raw html and script. There is still no safe way to disable this (see [[this issue&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-3953]] for more information.
+** This attack method requires the attacker to have a registered username (unless anonymous editing or commenting is allowed).
+
+==== Mitigation Methods ====
+
+* The only way to be sure that script cannot be injected in content (xwiki/1.0 or xwiki/2.0) is to make that content completely passive as follows:
+(((
+{{code}}
+{{html}}
+$escapetool.html($userContent)
+{{/html}}
+{{/code}}
+)))
+There are however some methods to minimize the risk:
+* Disable creation of syntax 1.0 pages. **NOTE**: Pages which are already written in syntax 1.0 can still be altered and should be updated to syntax 2.0, otherwise they must have edit permission locked down so that only authorized users may edit them.
+* Force unauthorized users to post through a script which escapes //~{~{// (double squigly brackets) because there is currently no way to prevent injection of html macro for unauthorized users.
+* Set up ObservationManager to scan all page content and object property updates for HTML macro invocation and alert a moderator.
+
+=== Attack vectors (reflective injection) ===
+
+Reflective injection is characterized by convincing a user to click on a specially crafted link which causes a page to generate javascript.
+
+1. Reflective injection through form fields.
+
+==== Mitigation Methods ====
+
+Advise admins to use addons such as [[noscript&gt;&gt;https://addons.mozilla.org/en-US/firefox/addon/noscript/]] which will detect reflective injection attacks and warn the user when it suspects foul play and also avoid clicking on suspicious links.
+
+* when content is loaded from request parameters into a form field, make sure it is escaped using [[EscapeTool&gt;&gt;http://velocity.apache.org/tools/devel/generic/EscapeTool.html]]
+
+**WRONG:**
+
+{{code language="xml"}}
+&lt;input type=text value="$request.get('name')" /&gt;
+{{/code}}
+
+**RIGHT:**
+
+{{code language="xml"}}
+&lt;input type=text value="$escapetool.html($request.get('name'))" /&gt;
+{{/code}}
+
+== Cross site request forgery (CSRF) ==
+
+The basis of this attack is that a foreign website can craft a malicious link or form which points to the save action in your system and when clicked by a logged in user will cause the user to save the page.
+
+=== Likelihood / Known Issues ===
+
+Currently there is no system implemented to prevent form submission from external sites. See discussion in mailing list about implementing [[secret tokens&gt;&gt;http://lists.xwiki.org/pipermail/devs/2010-March/017727.html]].
+
+=== Mitigation Methods ===
+
+Advise admins to use addons such as [[noscript&gt;&gt;https://addons.mozilla.org/en-US/firefox/addon/noscript/]] which will help prevent automatic form submission by an attack site and also avoid clicking on suspicious links.</content>
+</xwikidoc>

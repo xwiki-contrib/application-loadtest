@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>InstallationPostgreSQL</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Installation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1170152080000</creationDate>
+  <date>1360950262000</date>
+  <contentUpdateDate>1360950262000</contentUpdateDate>
+  <version>1.1</version>
+  <title>PostgreSQL Installation</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.InstallationPostgreSQL</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>84e7c090-7045-49b5-aa79-5f2ec01a8d78</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>Follow these instuctions:
+
+* Download and install [[PostgreSQL&gt;&gt;http://www.postgresql.org/]]
+* Download the appropriate [[Postgres JDBC4 driver&gt;&gt;http://jdbc.postgresql.org/download.html]]. You can also download it directly from the [[Maven Central Repository&gt;&gt;http://repo1.maven.org/maven2/postgresql/postgresql/]] and copy the JAR into your container's common lib directory or in the XWiki webapp (in ##WEB-INF/lib##)
+* Start PostgreSQL
+** On Mac you could issue the following shell commands to start/stop PostgreSQL 9.1 (adapt to your version and to your setup):
+(((
+{{code}}
+sudo -u postgres /Library/PostgreSQL/9.1/bin/pg_ctl start -D /Library/PostgreSQL/9.1/data
+sudo -u postgres /Library/PostgreSQL/9.1/bin/pg_ctl stop -D /Library/PostgreSQL/9.1/data
+{{/code}}
+)))
+* Create the ##xwiki## user and the ##xwiki## database:(((
+* Using the ##psql## tool:
+(((
+In a shell, start the PostgreSQL interactive terminal: {{code}}psql -U &lt;replace_with_your_admin_user_eg_postgres&gt;{{/code}}
+
+Create the ##xwiki## database:
+
+{{code language="none"}}
+CREATE DATABASE xwiki
+WITH OWNER = &lt;replace_with_your_admin_user_eg_postgres&gt;
+ENCODING = 'UNICODE'
+TABLESPACE = pg_default;
+{{/code}}
+
+Verify that the ##xwiki## database is listed in the available databases: {{code}}\l{{/code}}
+
+Connect to the ##xwiki## database: {{code}}\connect xwiki{{/code}}
+
+Create a ##xwiki## user: {{code language="none"}}CREATE USER xwiki PASSWORD 'xwiki' VALID UNTIL 'infinity';{{/code}}
+
+Verify that the ##xwiki## user is listed in the available users: {{code language="none"}}\du{{/code}}
+
+Give all the permissions to the ##xwiki## user: {{code}}GRANT ALL ON SCHEMA public TO xwiki;{{/code}}
+)))
+* Using the ##createuser## and ##createdb## programs:
+(((
+{{info}}
+Make sure that the ##createuser## and ##createdb## programs are in your ##$PATH##. The example below also assumes that the ##postgres## user exists in your setup (this is the default on Linux).
+{{/info}}
+
+Create the ##xwiki## user: {{code}}createuser xwiki -S -D -R -P -Upostgres{{/code}}
+
+Create the ##xwiki## database: {{code}}createdb xwiki -Eunicode -Oxwiki -Upostgres{{/code}}
+
+Note that if you need to remove this DB at some point you can issue:{{code}}dropdb -Upostgres xwiki{{/code}}
+)))
+)))
+* Tell XWiki to use this database. To do this, edit the ##WEB-INF/hibernate.cfg.xml## file where you have expanded the XWiki WAR file and uncomment the PostgreSQL part. Make sure to review the ##connection.url## property. For example a typical value would be:{{code}}&lt;property name="connection.url"&gt;jdbc:postgresql://localhost:5432/xwiki&lt;/property&gt;{{/code}}
+
+== Multiwiki Status ==
+
+Prior to XWiki 4.5M1, multiwiki mode was not fully working specifically database creation was not working. The implementation was trying to create one database for each subwiki. This is what we call the ##database## mode. You could still use XWiki on PostGreSQL but you had to manually create the databases.
+
+Since XWiki 4.5M1, we've switched by default to use the ##schema## mode, i.e. a subwiki is represented as a Schema in the database.
+
+The mode used is controlled by a property in ##hibernate.cfg.xml##:
+
+{{code}}
+&lt;property name="xwiki.virtual_mode"&gt;schema|database&lt;/property&gt;
+{{/code}}
+
+If you use the ##database## mode, be aware that [[the issue still exists&gt;&gt;http://jira.xwiki.org/browse/XWIKI-8753]].
+</content>
+</xwikidoc>

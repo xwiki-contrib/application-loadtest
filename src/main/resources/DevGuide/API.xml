@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>API</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1165332954000</creationDate>
+  <date>1360950269000</date>
+  <contentUpdateDate>1360950269000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki API Reference</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.API</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>92c1e749-ef5b-46bd-883e-f8db3030ab92</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{velocity}}
+#set($versionStable = "4.5")
+#set($nameStable = $versionStable)
+##set($versionDev = "4.5-rc-1")
+##set($nameDev = "4.5RC1")
+##set($versionOldStable = "4.3.1")
+##set($nameOldStable = $versionOldStable)
+
+#macro(coreJavadocUrl $version)
+http://nexus.xwiki.org/nexus/service/local/repositories/releases/archive/org/xwiki/platform/xwiki-platform-oldcore/${version}/xwiki-platform-oldcore-${version}-javadoc.jar/!/index.html
+#end
+#macro(renderingJavadocUrl $version)
+http://nexus.xwiki.org/nexus/service/local/repositories/releases/archive/org/xwiki/rendering/xwiki-rendering-api/${version}/xwiki-rendering-api-${version}-javadoc.jar/!/index.html
+#end
+{{/velocity}}
+
+XWiki's APIs are the methods that the XWiki development team consider safe for you to use (i.e. for which backward compatibility is guaranteed). They can be called from Java or directly from your wiki pages [[using a scripting language&gt;&gt;DevGuide.Scripting]] (Velocity, Groovy, Python, Ruby, etc).
+
+You can now browse the XWiki APIs using the [[Scripting Reference Documentation&gt;&gt;SRD.Navigation||queryString="xpage=embed"]].
+
+== Other documentations ==
+
+The latest scripting API documentation is available as JavaDoc:
+
+{{velocity}}
+* [[Javadoc for XWiki Platform Core - $nameStable&gt;&gt;#coreJavadocUrl($versionStable)]] (stable)
+#if ($versionDev)
+* [[Javadoc for XWiki Platform Core - $nameDev&gt;&gt;#coreJavadocUrl($versionDev)]] (dev)
+#end
+#if ($versionOldStable)
+* [[Javadoc for XWiki Platform Core - $nameOldStable&gt;&gt;#coreJavadocUrl($versionOldStable)]] (older stable)#end
+{{/velocity}}
+* [[Full Javadoc&gt;&gt;http://maven.xwiki.org/site/docs/]]
+
+You might also be interested in the [[Rendering Engine API JavaDoc&gt;&gt;rendering:Main.JavaDoc]].
+
+Older Javadocs of XWiki can be found in our [[Maven Release repository&gt;&gt;http://maven.xwiki.org/releases/]]. For example for XWiki Platform Core Javadocs, check the files suffixed by ##javadoc## for the version you wish under [[this directory&gt;&gt;http://maven.xwiki.org/releases/org/xwiki/platform/xwiki-platform-oldcore/]].</content>
+</xwikidoc>

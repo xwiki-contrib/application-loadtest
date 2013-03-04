@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>Load Testing Plan</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.PageLoadTime</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1360337757000</creationDate>
+  <date>1360950334000</date>
+  <contentUpdateDate>1360338350000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Load Testing Plan</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>This document designs a testing infrastructure allowing to test:
+
+* General performance of XWiki releases
+* Optimized performance settings of databases, velocity parameters,etc
+* Comparative performance of databases (MySQL versions, Postgress, etc..)
+* Comparative performance of hosting platforms
+
+The infrastructure uses JMeter and is hosted and operated by XWiki SAS. XWiki SAS will publish reports on the XWiki releases performance.
+
+= Test Wiki =
+
+First we need a test wiki that is realistic compared to real data. Neither too full, neither too empty.
+
+We have decided on the following:
+
+- use XWiki documentation pages which have significant volume and tags
+- use a script to create AppWithinMinutes content based on this data, making sure the script uses dates that are not too close
+- create a small, medium and large AppWithinMinutes applications
+- small app contains 100 documents with 50 versions each
+- medium app contains 1000 documents with 20 versions each
+- large app contains 10000 documents with 5 versions each
+
+TODO: publish the test XWiki XAR
+
+= JMeter Test Plan =
+
+The JMeter test plan visits different areas of the Wiki:
+
+- login
+- the home page
+- small app livetable, making some searches
+- content from that livetable
+- large app livetable, making some searches
+- content from that livetable
+- xwiki search using lucene
+- visit pages from the search
+- visit tags pages
+- visit pages from on the tags
+
+The load test works the following:
+
+- a session is made of 12 pages comprising 175 requests including the dynamic pages, livetable ajax requests, dynamic css and js and attachments, the static css, js and images.
+- the session has a duration of around 2 minutes which is an average of 10 secondes between pages.
+- we loop the session 5 times (on session is 10 minutes)
+- we setup a maximum simultaneous sessions of 25
+- we setup a ramppup of 5 minutes (a new sessions starts every 10 seconds)
+
+This leads to the maximum load reached from 5 to 10 minutes and a test time of around 15 minutes.
+
+A bigger load test is:
+
+- we loop the session 10 times (on session is 20 minutes)
+- we setup a maximum simultaneous sessions of 100
+- we setup a rampup of 10 minutes (a new sessions starts every 10 seconds)
+
+This leads to the maximum load reached from 10 to 20 minutes and a test time of around 30 minutes.
+
+The later test would corresponding to a company of 10000 people who each would visit 120 pages per day over the course of 10 hours during the day (with no usage spike).
+
+TODO: publish the JMeter file
+
+= Test Infrastructure =
+
+The test is operated using JMeter remote controling a JMeter server running on a backup server which CPU usage is close to zero during the day. The Jmeter server will connect to the test infrastructure running XWiki. We have setup JMeter to be able to call only one wiki, but also multiple copies of the same Wiki. This allows to test how an VM infrastructure can handle the load as well as provide an indication of the performance in cluster mode.
+
+We will publish the results for XWiki Enteprise 4.4.1 with the following settings:
+
+- default recommended XWiki Enterprise 4.4.1 and MySQL 5.1 Settings for a medium server
+
+These results will then be a base results for any changes on the code or changes in the default settings for mysql, xwiki, velocity. We will also use newrelic to instrument the VM and measure hotspots in the code.
+</content>
+</xwikidoc>

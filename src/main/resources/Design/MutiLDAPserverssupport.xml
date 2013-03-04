@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>MutiLDAPserverssupport</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1301316850000</creationDate>
+  <date>1360950306000</date>
+  <contentUpdateDate>1301325880000</contentUpdateDate>
+  <version>1.1</version>
+  <title>MutiLDAPserverssupport</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.MutiLDAPserverssupport</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>7a60047c-6254-4518-b1a1-b693913334f6</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.MutiLDAPserverssupport</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>d0c5bdac-cc38-423e-9cd8-6676561f7565</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+= Goal
+
+Be able to check for authentication on several different LDAP servers.
+
+= Proposal
+
+* store LDAP servers descriptors in objects instead of xwiki.cfg
+* each descriptor can extends another
+* ldap server and authentication configuration should be two different things
+
+== descriptor
+
+XWiki.LDAPAuthenticationCLass
+* enabled
+* sync users (boolean)
+* sync groups
+* try local
+* check password
+* scope
+** local (the wiki)
+** global (the whole farm)
+
+XWiki.LDAPServerCLass
+* pretty name
+* parent
+* enabled
+* host
+* port
+* bind user
+* bind password
+* base DN
+* uid field name
+* password field name
+* ssl (boolean)
+* ssl keystore
+* ssl secure provider
+
+XWiki.LDAPServerGroupClassCLass
+* pretty name
+* group classe name
+* group member field name
+
+XWiki.LDAPServerAllowedGroupsCLass
+* pretty name
+* DN
+
+XWiki.LDAPServerForbiddenGroupsCLass
+* pretty name
+* DN
+
+XWiki.LDAPServerUserFieldMappingCLass
+* pretty name
+* LDAP user field name
+* XWiki profile field name
+
+
+XWiki.LDAPServerGroupMappingCLass
+* pretty name
+* LDAP group DN
+* XWiki group
+
+== login UI
+
+The main issue is what LDAP server to choose to authenticate. By default it could of course try them all but that's not great for performances.
+
+An authenticator should have the possibility the expose which parameters it needs too authenticate. That would allow LDAP authenticator to ask for the LDAP server to use.</content>
+</xwikidoc>

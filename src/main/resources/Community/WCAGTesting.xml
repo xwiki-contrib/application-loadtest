@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>WCAGTesting</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.Testing</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1258705491000</creationDate>
+  <date>1360950288000</date>
+  <contentUpdateDate>1356878788000</contentUpdateDate>
+  <version>1.1</version>
+  <title>WCAG Testing</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.WCAGTesting</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>d05bb659-4e15-4343-9843-24e048bb35b8</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}{{toc/}}{{/box}}
+
+Most WCAG tests are automated but some must still be verified manually by validating the pages against the **[[Dutch Guidelines validation tool&gt;&gt;http://www.webrichtlijnen.nl/english/testing]]** (See [[XHTML &amp; CSS Coding Style&gt;&gt;Community.XhtmlCssCodeStyle]]).
+
+= Other WCAG validators =
+
+The following WCAG testing tools can also be used for additional checks and are listed for reference:
+* [[TAW3&gt;&gt;http://www.tawdis.net/ingles.html?lang=en]] ([[Tutorial&gt;&gt;http://www.ariadne.ac.uk/issue46/lauke/]] for the [[Web start version&gt;&gt;http://www.tawdis.net/taw3/descargas/jws/es/taw3.jnlp]]).
+* [[Total Validator&gt;&gt;http://www.totalvalidator.com/tool/index.html]]
+* [[Web Accessibility Inspector&gt;&gt;http://www.fujitsu.com/global/accessibility/assistance/wi/]] (lots of automated checks)
+* [[Wave&gt;&gt;http://wave.webaim.org/]] (ability to paste HTML content or upload a local file)
+* [[Cynthia&gt;&gt;http://www.contentquality.com/]] (emulates browsers)
+* [[AChecker&gt;&gt;http://achecker.ca/checker/index.php]]
+* [[Hera&gt;&gt;http://www.sidar.org/ex_hera/]]
+* [[Firefox Web Developer Tool tutorial for Accessibility&gt;&gt;http://www.ariadne.ac.uk/issue44/lauke/]]
+
+= Links =
+
+* [[Accessibility survey&gt;&gt;http://webaim.org/projects/screenreadersurvey/]]
+
+= Test Exceptions =
+
+Here are some exceptions that make the WCAG validators fail but that we consider valid (i.e. we consider the validators are overzealous in these cases):
+
+* We are using the ##H1## element several times on pages, once for the page title and once for the header level 1 from the page's content. We consider that this doesn't violate the rule "Do not skip any heading elements in the document hierarchy." since we're not skipping any level. //Fails with [[Dutch Guidelines validation tool&gt;&gt;http://www.webrichtlijnen.nl/english/testing]]//
+* RecentChanges.xml: "E858 [WCAG v1 5.6 (AAA)] Provide abbreviations for long header labels in data tables" for the following input:(((
+{{code language="html"}}
+&lt;th&gt;Author and date&lt;/th&gt;
+{{/code}}
+))) This is not really a long label and there's no way to make it shorter that would add value. //Fails with [[Total Validator&gt;&gt;http://www.totalvalidator.com/tool/index.html]]//
+* "Use (at least) the meta element to specify the character set and place this element as high as possible in the head section of the markup.". The Content-Type META element is th first one in the HEAD element and cannot be placed higher. //Fails with [[Dutch Guidelines validation tool&gt;&gt;http://www.webrichtlijnen.nl/english/testing]]//
+* The **ColorThemes** application is using inline styles to display a preview of the colors and options of themes, this is something we cannot easily avoid.
+* The XWiki syntax allows using elements which are not allowed by accessibility guidelines. **Sandbox.WebHome** contains demonstrations which does not satisfy the following guidelines: 
+** "Use the headers and id attributes to associate table labels (th cells) with individual cells in complex tables" 
+** "Use the scope attribute to associate table labels (th cells) with columns or rows. "
+** "The use of sub and sup tags is not allowed."
+* The XWiki syntax allows using elements which are not allowed by accessibility guidelines. **XWiki.XWikiSyntax** contains demonstrations which does not satisfy the following guidelines: 
+** "Use the p (paragraph) element to indicate paragraphs. Do not use the br (linebreak) element to separate paragraphs."
+** "Use ol (ordered list) and ul (unordered list) elements to indicate lists."
+** "Use the headers and id attributes to associate table labels (th cells) with individual cells in complex tables" 
+** "Use the scope attribute to associate table labels (th cells) with columns or rows. "
+** "The use of sub and sup tags is not allowed."
+** "Links to e-mail addresses: the e-mail address to which the message is addressed must be visible in the link text.
+** "CSS should be placed in linked files and not mixed with the HTML source code."
+* The **Panels.PanelWizard** and **XWiki.Treeview** pages are relying on JavaScript libraries that needs some HTML elements to contain inline styles.
+
+= Testing Sessions =
+
+Since WCAG tests are not fully automated (and not full automatable) we have manual testing sessions that we do from time to time:
+
+* [[Session for XE 2.1&gt;&gt;WCAGTestingSessionXE21]]
+</content>
+</xwikidoc>

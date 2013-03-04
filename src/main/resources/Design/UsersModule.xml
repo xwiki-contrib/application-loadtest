@@ -1,0 +1,681 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>UsersModule</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1280827668000</creationDate>
+  <date>1360950331000</date>
+  <contentUpdateDate>1298989769000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Users Module</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.UsersModule</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>e3cff488-e4d9-49e1-b4f0-2333c9a4c0ba</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.UsersModule</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>d7b55dc9-7dd4-4f9e-b21d-6ac40f3297b8</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+{{toc/}}
+
+The need is to develop the Users module of the XWiki platform, i.e. the module that provides the APIs allowing to manage XWiki Users.
+
+= Requirements &amp; Use cases =
+
+We display lists of users in multiple places: user administration, user directory (to be commited), user suggests, rights UI.
+
+* UC1: Being able to restrict the list of users to local users in a wiki instance
+* UC2: Being able to restrict the list of users to global users in a wiki instance
+* UC2: Being able to mix local and global users in the lists available in a wiki instance
+
+= Implementation Proposal =
+
+== Configuration (xwiki.properties) ==
+
+{{code language="none"}}
+#-# [Since 2.5M1]
+#-# Define at which level users and groups should be handled in the farm. Available modes: 
+#-#
+#-# mixed (default):
+#-# - user registration available in the main wiki and local wikis
+#-# - users from the current wiki and the main wiki will be displayed in the rights interface and user suggests
+#-#
+#-# local:
+#-# - user registration available in the main wiki and local wikis
+#-# - only users from the current wiki will be displayed in the rights interface and user suggests
+#-#
+#-# global:
+#-# - user registration available in the main wiki only, the register action will redirect to the main wiki
+#-# - only users from the main wiki will be displayed in the rights interface and user suggests
+core.virtual.users=mixed
+{{/code}}
+
+== Users Component ==
+
+**Hierarchy**:
+
+{{code language="none"}}
+|- xwiki-users/
+|-- xwiki-users-api/
+|-- xwiki-users-default/ : some standard implementations
+           * default (proxy that determine the implementation to use from the configuration)
+           * global (only global users)
+           * local (only local users)
+           * mixed (both global and local users)
+{{/code}}
+
+**Minimalistic UserManager API** :
+
+== API proposal 1 ==
+
+{{info}}Starting points meant to be extended in the future{{/info}}
+
+{{code language="java"}}
+/**
+ * User Manager interface.
+ * 
+ * @version $Id: $
+ */
+@ComponentRole
+public interface UserManager
+{
+    /**
+     * Get users.
+     * 
+     * @param number Number of results to get
+     * @param offset The offset to use in the results set
+     * @return A list of users
+     */
+    List&lt;User&gt; getUsers(int number, int offset);
+
+    /**
+     * Get users matching the given text fragment. The matching is performed on three different fields: the name of the
+     * user document itself, the user first name and the user last name. The matching is not case sensitive.
+     * 
+     * @param match Text fragment to match
+     * @param number Number of results to get
+     * @param offset The offset to use in the results set
+     * @return A list of users matching the given text fragment
+     */
+    List&lt;User&gt; getUsers(String match, int number, int offset);
+
+    /**
+     * @return The number of users.
+     */
+    int countUsers();
+
+    /**
+     * Get the number of users matching the given text fragment. The matching is performed on three different fields:
+     * the name of the user document itself, the user first name and the user last name. The matching is not case
+     * sensitive.
+     * 
+     * @param match Text fragment to match
+     * @return Number of matching users
+     */
+    int countUsers(String match);
+    
+    /**
+     * @return reference to the wiki where users are handled by default
+     */
+    WikiReference getUserDefaultWiki();
+}
+{{/code}}
+
+{{code language="java"}}
+/**
+ * Class representing a XWiki User.
+ * 
+ * @version $Id:$
+ */
+public class User implements Comparable&lt;User&gt;
+{
+    /**
+     * Reference of the user profile document.
+     */
+    private DocumentReference documentReference;
+    
+    /**
+     * User full name, under the form firstName lastName.
+     */
+    private String name;
+    
+    /**
+     * Constructor.
+     * 
+     * @param documentReference Reference of the user profile document
+     * @param firstName User first name
+     * @param lastName User last name
+     */
+    public User(DocumentReference documentReference, String firstName, String lastName)
+    {
+        this.documentReference = documentReference;
+        StringBuilder fullName = new StringBuilder();
+        
+        if (!StringUtils.isBlank(firstName)) {
+            // Append first name
+            fullName.append(firstName);
+        }
+        
+        if (!StringUtils.isBlank(firstName) &amp;&amp; !StringUtils.isBlank(lastName)) {
+            // If both first name and last name are present, append a space
+            fullName.append(' ');
+        }
+        
+        if (!StringUtils.isBlank(lastName)) {
+            // Append last name
+            fullName.append(lastName);
+        }
+            
+        if (StringUtils.isBlank(fullName.toString())) {
+            // If neither the first name nor the last are present, append the document name
+            fullName.append(documentReference.extractReference(EntityType.DOCUMENT).getName());
+        }
+        
+        name = fullName.toString();
+    }
+    
+    /**
+     * @return Reference of the user profile document
+     */
+    public DocumentReference getDocumentReference()
+    {
+        return documentReference;
+    }
+    
+    /**
+     * @return User full name
+     */
+    public String getName()
+    {
+        return name;
+    }
+    
+    /**
+     * @return Human readable user name (first name and last name) 
+     */
+    @Override
+    public String toString()
+    {
+        return getName();
+    }
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @see Comparable#compareTo(Object)
+     */
+    public int compareTo(User user)
+    {
+        return this.name.compareTo(user.getName());
+    }
+}
+{{/code}}
+
+== API proposal 2 ==
+
+{{code language="java"}}
+/**
+ * XWiki User Interface.
+ * 
+ * @version $Id:$
+ */
+public interface User extends Comparable&lt;User&gt;
+{
+    /**
+     * @return User ID
+     */
+    String getId();
+    
+    /**
+     * @return User full name
+     */
+    String getName();
+}
+{{/code}}
+
+{{code language="java"}}
+/**
+ * User Criteria.
+ * 
+ * @version $Id:$
+ *
+ */
+public class UserCriteria
+{
+    /**
+     * Limit to use in the result set.
+     */
+    private int limit;
+    
+    /**
+     * Offset to use in the result set.
+     */
+    private int offset;
+    
+    /**
+     * Text to match in user full names, no specific syntax.   
+     */
+    private String nameFilter;
+
+    /**
+     * @see UserCriteria#limit
+     * 
+     * @return Criteria limit
+     */
+    public int getLimit()
+    {
+        return limit;
+    }
+
+    /**
+     * @see UserCriteria#limit
+     * 
+     * @param limit Limit to set
+     */
+    public void setLimit(int limit)
+    {
+        this.limit = limit;
+    }
+
+    /**
+     * @see UserCriteria#offset
+     * 
+     * @return Criteria offset
+     */
+    public int getOffset()
+    {
+        return offset;
+    }
+
+    /**
+     * @see UserCriteria#offset
+     * 
+     * @param offset Offset to set
+     */
+    public void setOffset(int offset)
+    {
+        this.offset = offset;
+    }
+
+    /**
+     * @see UserCriteria#nameFilter
+     * 
+     * @return Criteria name filter
+     */
+    public String getNameFilter()
+    {
+        return nameFilter;
+    }
+    
+    /**
+     * @see UserCriteria#nameFilter
+     * 
+     * @param nameFilter Name filter to set
+     */
+    public void setNameFilter(String nameFilter)
+    {
+        this.nameFilter = nameFilter;
+    }
+}
+{{/code}}
+
+{{code language="java"}}
+/**
+ * User Manager interface.
+ * 
+ * @version $Id: $
+ */
+@ComponentRole
+public interface UserManager
+{    
+    /**
+     * Get users matching the given {@link UserCriteria}.
+     * 
+     * @param criteria Criteria to match 
+     * @return A list of users matching the given criteria
+     */
+    List&lt;User&gt; getUsers(UserCriteria criteria);
+
+    /**
+     * Count users matching the given {@link UserCriteria}.
+     * 
+     * @param criteria Criteria to match
+     * @return The number of users matching the given criteria.
+     */
+    int countUsers(UserCriteria criteria);
+    
+    /**
+     * @return reference to the wiki where users are handled by default
+     */
+    WikiReference getDefaultWiki();
+}
+{{/code}}
+
+{{code language="java"}}
+/**
+ * Provide User Management user APIs.
+ * 
+ * @version $Id: $
+ */
+@Component("users")
+public class UserManagerScriptService implements ScriptService
+{
+    /**
+     * User Manager service.
+     */
+    @Requirement
+    private UserManager userManager;
+
+    /**
+     * Get users.
+     * 
+     * @param limit The limit to use in the results set
+     * @param offset The offset to use in the results set
+     * @return A list of users
+     */
+    public List&lt;User&gt; getUsers(int limit, int offset)
+    {
+        UserCriteria criteria = new UserCriteria();
+        criteria.setLimit(limit);
+        criteria.setOffset(offset);
+        return userManager.getUsers(criteria);
+    }
+
+    /**
+     * Get users matching the given text fragment. The matching is performed on three different fields: the name of the 
+     * user document itself, the user first name and the user last name.
+     * 
+     * @param nameFilter The filter to apply on user names
+     * @param limit Number of references to get
+     * @param offset The offset to use in the results set
+     * @return A list of users with names matching the given filter
+     */
+    public List&lt;User&gt; getUsers(String nameFilter, int limit, int offset)
+    {
+        UserCriteria criteria = new UserCriteria();
+        criteria.setLimit(limit);
+        criteria.setOffset(offset);
+        criteria.setNameFilter(nameFilter);
+        return userManager.getUsers(criteria);
+    }
+
+    /**
+     * @return The number of users.
+     */
+    public int countUsers()
+    {
+        UserCriteria criteria = new UserCriteria();
+        return userManager.countUsers(criteria);
+    }
+    
+    /**
+     * @param nameFilter The filter to apply on user names
+     * @return The number of users with names matching the given filter
+     */
+    public int countUsers(String nameFilter)
+    {
+        UserCriteria criteria = new UserCriteria();        
+        criteria.setNameFilter(nameFilter);   
+        return userManager.countUsers(criteria);
+    }
+      
+    /**
+     * @return The wiki in which users are stored by default (local or main wiki).
+     */
+    public WikiReference getDefaultWiki()
+    {
+        return userManager.getDefaultWiki();
+    }
+}
+{{/code}}
+
+== API Proposal 3==
+
+{{code language="java"}}
+/**
+ * XWiki User Interface.
+ * 
+ * @version $Id:$
+ */
+public interface User extends Comparable&lt;User&gt;
+{
+    /**
+     * @return User ID
+     */
+    String getId();
+    
+    /**
+     * @return User full name
+     */
+    String getName();
+}
+{{/code}}
+
+
+{{code language="java"}}
+/**
+ * User Criteria. 
+ * 
+ * @version $Id:$
+ *
+ */
+public class UserCriteria
+{
+    /**
+     * Text to match in user full names, no specific syntax.   
+     */
+    private String nameFilter;
+
+    /**
+     * @see UserCriteria#nameFilter
+     * 
+     * @return Criteria name filter
+     */
+    public String getNameFilter()
+    {
+        return nameFilter;
+    }
+    
+    /**
+     * @see UserCriteria#nameFilter
+     * 
+     * @param nameFilter Name filter to set
+     */
+    public void setNameFilter(String nameFilter)
+    {
+        this.nameFilter = nameFilter;
+    }
+}
+{{/code}}
+
+
+{{code language="java"}}
+/**
+ * User Manager interface.
+ * 
+ * @version $Id: $
+ */
+@ComponentRole
+public interface UserManager
+{    
+    /**
+     * Retrieve users.
+     * 
+     * @param limit Maximum number of results to retrieve
+     * @param offset The offset to use in the results set
+     * @return The list of users
+     */
+    List&lt;User&gt; getUsers(int limit, int offset);
+    
+    /**
+     * Retrieve users matching the given {@link UserCriteria}.
+     * 
+     * @param criteria Criteria to match
+     * @param limit Maximum number of results to retrieve
+     * @param offset The offset to use in the results set 
+     * @return A list of users matching the given criteria
+     */
+    List&lt;User&gt; getUsers(UserCriteria criteria, int limit, int offset);
+
+    /**
+     * Count users.
+     * 
+     * @return The number of users
+     */
+    int countUsers();
+    
+    /**
+     * Count users matching the given {@link UserCriteria}.
+     * 
+     * @param criteria Criteria to match
+     * @return The number of users matching the given criteria.
+     */
+    int countUsers(UserCriteria criteria);
+    
+    /**
+     * @return reference to the wiki where users are handled by default
+     */
+    WikiReference getDefaultWiki();
+}
+{{/code}}
+
+
+{{code language="java"}}
+/**
+ * Provide User Management APIs for velocity.
+ * 
+ * @version $Id: $
+ */
+@Component("users")
+public class UserManagerScriptService implements ScriptService
+{
+    /**
+     * User Manager service.
+     */
+    @Requirement
+    private UserManager userManager;
+
+    /**
+     * Get users.
+     * 
+     * @param limit The limit to use in the results set
+     * @param offset The offset to use in the results set
+     * @return A list of users
+     */
+    public List&lt;User&gt; getUsers(int limit, int offset)
+    {
+        return userManager.getUsers(limit, offset);
+    }
+
+    /**
+     * Get users with name containing the given name filter. The matching is performed on the name field of the user
+     * object.
+     * 
+     * @param criteria The criteria to use when retrieving users
+     * @param limit Number of users to get
+     * @param offset The offset to use in the results set
+     * @return A list of users with names matching the given filter
+     */
+    public List&lt;User&gt; getUsers(UserCriteria criteria, int limit, int offset)
+    {
+        return userManager.getUsers(criteria, limit, offset);
+    }
+
+    /**
+     * @return The number of users.
+     */
+    public int countUsers()
+    {
+        return userManager.countUsers();
+    }
+
+    /**
+     * @param criteria The criteria to use when retrieving users
+     * @return The number of users with names matching the given filter
+     */
+    public int countUsers(UserCriteria criteria)
+    {        
+        return userManager.countUsers(criteria);
+    }
+    
+    /**
+     * @return Get a new user criteria
+     */
+    public UserCriteria getUserCriteria()
+    {
+        return new UserCriteria();
+    }
+
+    /**
+     * @return The wiki in which users are stored by default (local or main wiki).
+     */
+    public WikiReference getDefaultWiki()
+    {
+        return userManager.getDefaultWiki();
+    }
+}
+{{/code}}
+
+=== Notes about the current implementation ===
+
+The current implementation uses a named query to retrieve all the users (+info) at once from a given wiki. It caches them. The size of the cache is currently hardcoded to 20 wikis, which means that if each wiki contains 1000 users the cache will hold 20000 User objects.
+
+{{code language="xml"}}
+  &lt;query name="getAllUsersInfo"&gt;
+    select distinct doc.fullName, firstName.value, lastName.value from XWikiDocument as doc, BaseObject as obj, 
+    StringProperty as firstName, StringProperty as lastName where obj.name=doc.fullName 
+    and obj.className='XWiki.XWikiUsers' and firstName.id.id=obj.id and firstName.name='first_name' 
+    and lastName.id.id=obj.id and lastName.name='last_name'
+  &lt;/query&gt;
+{{/code}}</content>
+</xwikidoc>

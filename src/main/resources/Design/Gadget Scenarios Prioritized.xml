@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>Gadget Scenarios Prioritized</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>dev:Design.GadgetIntegration</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1294318995000</creationDate>
+  <date>1360950334000</date>
+  <contentUpdateDate>1300888545000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Gadget Scenarios Prioritized</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>= Proposed prioritized list =
+
+{{warning}}
+This is a tentative ordering that still needs to be validated
+{{/warning}}
+
+|=Priority|=Use Case|=Description|=Workload|=Link
+|DONE|5|Layouting of the dashboard| |[[UC5&gt;&gt;#uc5]]
+|DONE|6|Configuration of the layout| |[[UC6&gt;&gt;#uc6]]
+|DONE|7|More layout features| |[[UC7&gt;&gt;#uc7]]
+|DONE|1a|In Wysiwyg Editor, click Insert Macro, insert Dashboard, click ok, Save||[[UC1&gt;&gt;#uc1]] 
+|DONE|8|Editing a dashboard layout: Complex layouts should not have more than 1 day of impact on the implementation of that feature|5 days for edit/save methodology
+2d for inline mode
+2d to add for editing in view mode|[[UC8&gt;&gt;#uc8]]
+|DONE|4a|Adding a element to the dashboard: basic directory|2d |[[UC4&gt;&gt;#uc4]]
+|DONE|12|remove a gadget from a dashboard|1d|[[UC12&gt;&gt;#uc12]]
+|DONE|9|Edit configuration of one element in the dashboard|5d (including adding the config in the add process)|[[UC9&gt;&gt;#uc9]]
+|HIGH|1b|Click "Add Dashboard To Page" in the Add menu|2d|[[UC1&gt;&gt;#uc1]] 
+|MEDIUM|2|Create a Dashboard page: Click "Add" / "Create Dashboard page"|&lt; 1d|[[UC2&gt;&gt;#uc2]] 
+|MEDIUM|10b|Import Google gadget|3d|[[UC10&gt;&gt;#uc10]]
+|MEDIUM|10a|Import HTML gadget|1d|[[UC10&gt;&gt;#uc10]]
+|LOW|11a|Shinding support: support JIRA gadgets for example|10d-30d|[[UC11&gt;&gt;#uc11]]
+|LOW|3|Create a Dashboard space
+  Click "Add" / "Create Space"|1d|[[UC3&gt;&gt;#uc3]]
+|LOW|14|personal dashboards for users| |[[UC14&gt;&gt;#uc14]]
+|LOW|15|expose XWiki macros as gadgets| |[[UC15&gt;&gt;#uc15]]
+|LOW|4b|Adding a element to the dashboard
+ 4b: very nice directory|4d|[[UC4&gt;&gt;#uc4]]
+|LOW|13|Import Google gadget from google directory|3d|[[UC13&gt;&gt;#uc13]]
+|LOW|11b| Shinding support: expose xwiki features to gadgets\\|? has requirements|[[UC11&gt;&gt;#uc11]]
+
+= Use Cases =
+
+{{id name="uc1"/}}
+
+== Use Case 1:    Add a Dashboard to an existing page ==
+
+  1a:   In Wysiwyg Editor, click Insert Macro, insert Dashboard, click ok, Save
+  1b:   Click "Add Dashboard To Page" in the Add menu: it automatically adds it at the end of the page 
+
+Both approaches end up in "View" mode on the page with the dashboard
+
+{{id name="uc2"/}}
+
+== Use Case 2: Create a Dashboard page ==
+
+  Click "Add" / "Create Dashboard page"
+
+End up in view mode
+
+{{id name="uc3"/}}
+
+== Use Case 3: Create a Dashboard space ==
+
+  Click "Add" / "Create Space"
+
+ The space home page includes a dashboard
+
+{{id name="uc4"/}}
+
+== Use Case 4: Adding a element to the dashboard ==
+
+ 4a: basic directory
+ 4b: very nice directory
+ 
+ Hover over the dashboard. 
+  An "Add" button appears
+  A popup shows up with a directory of macros/gadgets
+   (see design proposal)  
+ Choice1: Element is add to the last column or to the column with the least elements
+ Choice2: the elements appears in JS  in drag and drop mode and can be dropped in any column
+
+{{id name="uc5"/}}
+
+== Use Case 5: Layouting of the dashboard ==
+
+ Dashboard is laid out with 2 or 3 fixed columns
+
+{{id name="uc6"/}}
+
+== Use Case 6: Configuration of the layout ==
+
+  - choose number or columns
+
+{{id name="uc7"/}}
+
+== Use Case 7: LESS IMPORTANT: more layout features ==
+
+  - different layout implementations
+  - dashboard inside dashboards
+
+NO MORE These features which already exist, should not have more than 1 day of impact on the implementation of other features (editing layout for example)
+
+{{id name="uc8"/}}
+
+== Use Case 8:  Editing a dashboard layout ==
+
+  Have the possibility to edit using drag and drop 2 and 3 columns layout
+  Drag an element and drop it in another place in the same or another column
+  It could drag a placeholder or the real box
+
+{{id name="uc9"/}}
+
+== Use Case 9: edit configuration of one element in the dashboard ==
+
+  Hover over the element
+  And edit button appears
+  Configuration can be edited
+(see design proposal)
+
+{{id name="uc10"/}}
+
+== Use Case 10: adding a google gadget ==
+
+   In the element directory you can choose "Import External Gadget"
+   Multiple types of gadgets are proposed
+     - HTML 
+     - Google Gadget
+     - OpenSocial Gadget
+  Lots of explanations are provided on how this works and what people can do with this. Some examples of web sites providing them are proposed
+ 
+10a: import HTML Gadget
+    Choose name
+    Paste HTML/JS code
+    Define params (optional) (for advanced users)
+10b: import Google Gadget/OpenSocial
+    Choose name
+    Provide XML link
+    Automatically parameters are created in the macro
+
+{{id name="uc11"/}}
+
+== Use Case 11: Shinding Support ==
+
+Same as google gadget but might need opensocial backend support
+
+   11a: support gadgets with shinding without social features (verified JIRA gadgets)
+   11b: expose social XWiki features to gadgets using opensocial API (users/friends) -&gt; requires the feature in xwiki
+
+{{id name="uc12"/}}
+
+== Use Case 12: remove a gadget from a dashboard ==
+
+{{id name="uc13"/}}
+
+== Use Case 13: add google gadget by browsing google directory ==
+
+{{id name="uc14"/}}
+
+== Use Case 14: implement personal dashboard ==
+
+{{id name="uc15"/}}
+
+== Use Case 15: expose xwiki macros as opensocial gadgets ==</content>
+</xwikidoc>

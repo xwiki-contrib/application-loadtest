@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1189504780000</creationDate>
+  <date>1360950318000</date>
+  <contentUpdateDate>1312474359000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Design Proposals</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.WebHome</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>7cc93541-335c-45a2-bf88-31f44b8d10f7</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>This space is dedicated to design proposals. The process is the following:
+
+* First, discuss the idea on the [[mailing lists&gt;&gt;Community.MailingLists]]
+* Once a first conclusion is reached document it on this wiki here
+* Create a JIRA issue so that it's not forgotten and reference the page on the wiki
+* Continue improving the design implementation on the wiki
+* When the proposal is finalized, send a mail on the dev list for approval
+* Once approved implement it and document it properly in the final location in the wiki
+* Once the JIRA issue is implemented mark the Design proposal as "Completed"
+
+{{html}}
+&lt;form action="" id="newdesign"&gt;
+  &lt;input type="hidden" name="parent" value="Design.WebHome" /&gt;
+  &lt;input type="hidden" name="template" value="XWiki.DesignClassTemplate" /&gt;
+  &lt;input type="hidden" name="sheet" value="1" /&gt;
+  &lt;input type="hidden" name="webname" value="Design"/&gt;
+  &lt;input type="hidden" name="name" value=""/&gt;
+  &lt;table&gt;
+    &lt;tr&gt;
+      &lt;td&gt;
+        &lt;input type="text" name="design" value="" size="30"/&gt;
+      &lt;/td&gt;
+      &lt;td&gt;
+        &lt;input type="submit" value="Add this Design proposal" onclick='if (updateName(this.form.design,this.form.name)) { action="../../inline/" + this.form.webname.value + "/" + this.form.name.value; this.form.submit(); }' /&gt;
+      &lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/table&gt;
+&lt;/form&gt;
+{{/html}}
+
+== Existing Design Proposals ==
+
+{{velocity}}
+#set($columns = ["doc.name",  "Status", "Lead", "JIRAIssueReference", "doc.date"])
+#set($columnsProperties = {
+  "doc.name" : { "type" : "text", "link" : "view"},
+  "Status" : { "type" : "list"},
+  "Lead" : { "type" : "text"},
+  "JIRAIssueReference" : { "type" : "text"},
+  "doc.date" : { "type" : "text"}
+})
+#set($options = { 
+   "tagCloud":true,
+   "translationPrefix" : "xwikiorg.dev.",
+   "className":"XWiki.DesignClass",
+   "rowCount": 30
+})
+#livetable("designs" $columns $columnsProperties $options)
+{{/velocity}}</content>
+</xwikidoc>

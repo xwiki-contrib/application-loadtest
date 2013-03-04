@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>CSSLayout</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.CSS files</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1174576947000</creationDate>
+  <date>1360853359000</date>
+  <contentUpdateDate>1360853359000</contentUpdateDate>
+  <version>1.1</version>
+  <title>CSS Layout</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.CSSLayout</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>1e643f50-316c-4199-bbb2-555eedd80d93</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>The layout of a page is composed of several parts (header, body, footer...). Each part is related to a CSS style with its own size, color, images and so on. This document shows you how a XWiki page (with a left and right column) is roughly divided.
+
+{{code}}
+&lt;html&gt;
+  &lt;head&gt;
+  &lt;/head&gt;
+  &lt;body id="body" class="viewbody"&gt;
+    &lt;div id="xwikimaincontainer"&gt;
+      &lt;div id="xwikimaincontainerinner"&gt;
+
+        &lt;div id="headerglobal" class="layoutsection"&gt;
+          Company logo and login/register links
+        &lt;/div&gt;
+
+        &lt;div id="headerspace" class="layoutsection"&gt;
+          This is where you have the path of the page. eg.
+          XWiki: Administration &gt; Preferences  
+        &lt;/div&gt;
+
+        &lt;div id="actionmenu" class="layoutsubsection"&gt;
+          Action bar with Edit, Show, Print, Delete
+        &lt;/div&gt;
+
+        &lt;div id="contentcontainer" class="content"&gt;
+          &lt;div id="contentcontainerinner"&gt;
+
+            &lt;div class="leftsidecolumns"&gt;
+              &lt;div id="contentcolumn"&gt;
+                Central column with the main content
+
+                &lt;div id="xwikicontent"&gt;
+                  Body
+                &lt;/div&gt;
+
+                &lt;div id="about"&gt;
+                  Something like "Version 1.2 last modified by XYZ on 23/04/2007 at 13:46"
+                &lt;/div&gt;
+
+                &lt;div id="xwikidata"&gt;
+                  &lt;div id="commentscontent"&gt;
+                    This is the area where you can add/edit comments
+                  &lt;/div&gt;
+                  &lt;div id="attachmentscontent"&gt;
+                    This is the area where you can attach files
+                  &lt;/div&gt;
+                &lt;/div&gt;
+              &lt;/div&gt;
+
+              &lt;div id="leftPanels" class="panels left"&gt;
+                Left column containing the panels
+              &lt;/div&gt;
+            &lt;/div&gt;
+
+            &lt;div id="rightPanels" class="panels right"&gt;
+              Right column containing the panels
+            &lt;/div&gt;
+
+          &lt;/div&gt;
+        &lt;/div&gt;
+
+        &lt;div id="footerglobal" class="layoutsection"&gt;
+          Footer where you generally have the XWiki version and so on
+        &lt;/div&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;body&gt;
+&lt;/html&gt;
+{{/code}}</content>
+</xwikidoc>

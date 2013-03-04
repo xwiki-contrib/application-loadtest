@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>Propertiesdisplayers</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1260280799000</creationDate>
+  <date>1360950300000</date>
+  <contentUpdateDate>1260287102000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Design: Properties displayers descriptors</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.Propertiesdisplayers</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>b49b5dd8-88af-4e4a-bdda-17bf4f76af1f</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.Propertiesdisplayers</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>3805b8ca-6bd9-4fb1-a6e0-6a204f6114ab</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+= Goal =
+
+We need generic displayer descriptors to indicate how some properties should be viewed/edited.
+
+This could be used for:
+
+* XClass (wiki objects)
+* Properties (bean descriptors like macros parameters)
+
+= Need =
+
+Currently for xwiki-properties we are using the property java type to determine how to edit it but it' not enough we need to be able to add some custom constraints, proposed values, etc.
+
+As generic as possible, these descriptors should contains only what is really necessary and let presentation layer handle the rest.
+
+= Proposed design =
+
+Keep using the property java type and only use displayer descriptor to provide informations that the type can't provide itself.
+
+== Property descriptor ==
+
+A base descriptor with some information valid for all types:
+{{code language="java"}}
+class DisplayerDescriptor&lt;T&gt;
+{
+  /* Suggest possible value for the property. */
+  List&lt;T&gt; getPossibleValues();
+
+  /* Indicate if the editor aceept custom value or only the one coming from #getPossibleValues. */
+  boolean onlyPossibleValues();
+}
+{{/code}}
+
+Then for each type a custom displayer can be provided (the client have to know that that Number type is related to NumberType so theses displayer are well known displayers). Here some examples:
+{{code language="java"}}
+class NumberDisplayerDescriptor&lt;T extends Number&gt; extends DisplayerDescriptor&lt;T&gt;
+{
+  T getMaximumValue();
+  T getMinimumValue();
+}
+
+class ListDisplayerDescriptor extends DisplayerDescriptor&lt;List&gt;
+{
+  Class&lt;V&gt; getType();
+}
+
+class MapDisplayerDescriptor extends DisplayerDescriptor&lt;Map&gt;
+{
+  Class&lt;K&gt; getKeyType();
+  Class&lt;V&gt; getValueType();
+}
+
+class StringDisplayerDescriptor extends DisplayerDescriptor&lt;String&gt;
+{
+  boolean isMultiline();
+}
+{{/code}}
+
+== Bean property annotation ==
+
+* JSR 303 constraints are already support in bean populate apis of xwiki-properties, just need to generate descriptors using them
+* provide possible values related annotations
+** {{code language="java"}}@PropertyPossibelValues(String providerRoleHint, boolean onlyPossibleValues){{/code}}
+** {{code language="java"}}@PropertyPossibelValues(Object[] possibleValues, boolean onlyPossibleValues){{/code}}, generally better to use an enum as property type  instead if ##onlyPossibleValues## is true
+* provide displayer related annotations
+** {{code language="java"}}@PropertyDisplayer(Class&lt;T extends DisplayerDescriptor&gt; displayerClass, Object[] displayerParameters){{/code}}
+** ...
+
+{{code language="java"}}
+class CodeMacroParameters
+{
+  @PropertyPossibelValues("highlight", true)
+  String setLanguage();
+
+  [...]
+}
+{{/code}}</content>
+</xwikidoc>

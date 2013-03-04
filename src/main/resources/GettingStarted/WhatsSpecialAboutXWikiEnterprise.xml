@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>GettingStarted</web>
+  <name>WhatsSpecialAboutXWikiEnterprise</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>GettingStarted.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1233329631000</creationDate>
+  <date>1360853985000</date>
+  <contentUpdateDate>1360853985000</contentUpdateDate>
+  <version>1.1</version>
+  <title>What's special about XWiki Enterprise?</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>GettingStarted.WhatsSpecialAboutXWikiEnterprise</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>fbe7cb99-6b21-4242-9401-d60618aebbb4</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>XWiki Enterprise is a second-generation wiki. What we mean by this is that XWiki Enterprise is a wiki, but it also is an application development platform in its own right. An application is a set of pages that adds new functionality to the wiki - such as a blog or a task manager.
+
+XWiki Enterprise offers both the features expected from a professional wiki (such as powerful access rights and user management) and the possibility to create new applications on top of the platform. This means that you can extend the wiki's feature set with new ones pretty easily. For instance, you could create a FAQ or an application to manage product sheets.
+
+XWiki Enterprise comes with a number of applications built-in, such as the [[Blog&gt;&gt;xwiki:Blog.WebHome]].
+
+A list of applications and macros for XWiki Enterprise is available here: [[http://extensions.xwiki.org]].
+
+* Next: [[XWiki Enterprise: basic concepts&gt;&gt;GettingStarted.XWikiEnterpriseBasicConcepts]]</content>
+</xwikidoc>

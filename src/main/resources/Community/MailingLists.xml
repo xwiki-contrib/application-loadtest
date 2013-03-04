@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>MailingLists</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1165915472000</creationDate>
+  <date>1360950293000</date>
+  <contentUpdateDate>1360950293000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Mailing Lists &amp; Forums</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.MailingLists</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>33763ea0-f06e-4fb2-9cfc-e1aa4de40b16</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+= Public Mailing Lists =
+
+The mailing lists are the main communication channels for the XWiki community. There are 3 of them that you can post to (click on the links to subscribe and manage your account):
+
+* **[[users AT xwiki.org&gt;&gt;http://lists.xwiki.org/mailman/listinfo/users]]**: For questions about using XWiki, suggestions for improvements, ideas, etc.
+* **[[devs AT xwiki.org&gt;&gt;http://lists.xwiki.org/mailman/listinfo/devs]]**: For XWiki development itself.
+* **[[notifications AT xwiki.org&gt;&gt;http://lists.xwiki.org/mailman/listinfo/notifications]]**: All code commits, JIRA issues and Continuous Build failures are sent to this list. XWiki developers must be subscribed to this list to follow what's going on.
+
+Before posting on the lists, please [[make sure to follow these posting tips&gt;&gt;http://www.apache.org/dev/contrib-email-tips.html]].
+
+{{warning}}
+Before sending mails to any of the lists mentioned above you'll need to be subscribed to the list. Be very careful to send the mail with the email address you've used to subscribe or your mail won't make it to the list and will be rejected. You can register by clicking on the links above (you can also use these links for unsubscribing). Please also note that large emails - over 100K - will be rejected when sent to these lists.
+{{/warning}}
+
+= Private Mailing Lists =
+
+* **[[security AT xwiki.org&gt;&gt;http://lists.xwiki.org/mailman/listinfo/security]]**: For reporting security issues and internal discussions about open security issues.
+* **[[infra AT xwiki.org&gt;&gt;http://lists.xwiki.org/mailman/listinfo/infra]]**: For discussing infra issues
+
+{{info}}
+Unlike public mailing list above, these mailing lists are only accessible for core committers and some other trusted persons. Unregistered users can not read archives of this mailing list, because it might contain sensitive security details.
+
+However, anyone can write to these lists to report issues (no subscription needed).  If you want to contribute to discussions on these lists, start [[contributing&gt;&gt;Contributing]] and ask for access to the lists on the development mailing list.  Committers will decide whether you will get access or not.
+{{/info}}
+
+= Forums =
+
+The XWiki mailing lists can be accessed as a [[Forum&gt;&gt;Forum]] using [[Nabble&gt;&gt;http://www.nabble.com]] in Embedded mode or [[Gmane&gt;&gt;http://gmane.org/find.php?list=xwiki]].
+
+Note that even with Nabble you'll still need to be regisered to be able to post from it. When you try to create a message Nabble will guide you through the process.
+
+= Archives =
+
+{{html clean="false"}}
+&lt;form action="http://xwiki.markmail.org/search/"&gt;
+  Search XWiki archives using MarkMail:
+  &lt;input type="text" name="q" size="30"/&gt;
+  &lt;input type="submit" value="Search"/&gt;
+&lt;/form&gt;
+{{/html}}
+
+There are several places where XWiki lists are archived:
+
+* On [[Markmail&gt;&gt;http://xwiki.markmail.org/]]
+* On [[Nabble&gt;&gt;http://xwiki.475771.n2.nabble.com/]] (can also be accessed [[embedded on xwiki.org&gt;&gt;Community.Forum]])
+* On [[Gmane&gt;&gt;http://gmane.org/find.php?list=xwiki]]
+* On the following pages:
+** [[users archives&gt;&gt;http://lists.xwiki.org/pipermail/users/]]
+** [[devs archives&gt;&gt;http://lists.xwiki.org/pipermail/devs/]]
+
+= Statistics =
+
+|=Users list|=Devs list|=Notifications list
+|(((
+{{html clean="false"}}
+&lt;object type="application/x-shockwave-flash" data="http://markmail.org/swf/bar_1204073351.swf" width="250" height="130"&gt;&lt;param name="movie" value="http://markmail.org/swf/bar_1204073351.swf" /&gt;&lt;param name="flashvars" value="xml_file=http%3A%2F%2Fmarkmail.org%2Fgraph.xqy%3Fwidth%3D250%26height%3D100%26q%3Dlist%3Aorg.xwiki.users"/&gt;&lt;/object&gt;
+{{/html}})))|(((
+{{html clean="false"}}
+&lt;object type="application/x-shockwave-flash" data="http://markmail.org/swf/bar_1204073351.swf" width="250" height="130"&gt;&lt;param name="movie" value="http://markmail.org/swf/bar_1204073351.swf" /&gt;&lt;param name="flashvars" value="xml_file=http%3A%2F%2Fmarkmail.org%2Fgraph.xqy%3Fwidth%3D250%26height%3D100%26q%3Dlist%3Aorg.xwiki.devs"/&gt;&lt;/object&gt;
+{{/html}})))|(((
+{{html clean="false"}}
+&lt;object type="application/x-shockwave-flash" data="http://markmail.org/swf/bar_1204073351.swf" width="250" height="130"&gt;&lt;param name="movie" value="http://markmail.org/swf/bar_1204073351.swf" /&gt;&lt;param name="flashvars" value="xml_file=http%3A%2F%2Fmarkmail.org%2Fgraph.xqy%3Fwidth%3D250%26height%3D100%26q%3Dlist%3Aorg.xwiki.notifications"/&gt;&lt;/object&gt;
+{{/html}})))
+
+For more details go to [[Markmail&gt;&gt;http://xwiki.markmail.org]].</content>
+</xwikidoc>

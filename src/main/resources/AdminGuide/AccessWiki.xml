@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>AccessWiki</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1319531353000</creationDate>
+  <date>1360853350000</date>
+  <contentUpdateDate>1360853350000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Access a wiki</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>By default when you connect to your wiki farm you will go to the main wiki. To be able to access other wikis, XWiki supports two modes.
+
+{{toc/}}
+
+= The domain name based wiki access =
+
+{{info}}
+This was the default mode until XWiki 3.3 RC1. After the release of XWiki Enterprise 3.3 RC1, the URL path based access mode is used as default.
+{{/info}}
+
+By default this mode is disabled. To enable it, go to ##xwiki.cfg## and set //xwiki.virtual.usepath// to 0.
+
+In virtual mode you can access any wiki by the [[domain name/alias&gt;&gt;http://en.wikipedia.org/wiki/Domain_Name_System]] registered in its descriptor with the field ##server## ("Alias" in the UI).
+
+For example if the url is //{{{http://wikiname.xwiki.org/xwiki/bin/view/Space/Page}}}// XWiki will try to find "wikiname.xwiki.org" as a value of the ##server## field in the objects of class ##XWiki.XWikiServerClass##. Then it extracts the last part of the page name to get the wiki identifier: in this case it finds ##XWiki.XWikiServerWikiname## and extracts "wikiname" as the wiki identifier to set the database to query on.
+ 
+If no descriptor can be found:
+
+* if the host is an IP (127.0.0.1, 85.65.12.36, etc.) XWiki selects the main wiki
+* else, if the first part of the host name (what is before the first point) is "www" XWiki selects the main wiki
+* else, if the first part of the host name matches a wiki identifier XWiki selects that wiki
+
+If after all no wiki has been found, then XWiki redirects to the URL configured in the property ##xwiki.virtual.redirect## of ##xwiki.cfg##.
+
+So to be able to access your wiki you need to configure your DNS or modify hosts file in your operating system (see [[Hosts file documentation on Wikipedia&gt;&gt;http://en.wikipedia.org/wiki/Hosts_file]] for details).
+
+= The URL path based wiki access =
+
+{{info}}
+* This mode is supported only since XWiki Platform 1.7 and XWiki Enterprise Manager 1.5 and only when enabled.
+* Starting with XWiki 3.3 RC1, this is the default mode.
+{{/info}}
+
+When this mode is enabled you can access a wiki using an url like: {{{http://host/xwiki/wiki/wikialias/view/Space/Page}}}.
+The two parts of ##/wiki/wikialias## mean:
+
+* ##wiki##: this is used by XWiki to identify the URL as a URL path based multiwiki access. You can configure it in ##xwiki.cfg## with the property ##xwiki.virtual.usepath.servletpath##.
+(((
+{{warning}}
+Don't forget to set the ##xwiki.authentication.logoutpage## property accordingly. Change the "wiki" part in the property value for the right alias.
+{{/warning}}
+)))
+* ##wikialias##: this is used by XWiki to find the wiki descriptor
+** first it tries to match ##wikialias## with the descriptors 
+** if it can't find the descriptor this way it tries to match the wiki descriptor using ##wikialias## as the wiki identifier. This means looking whether the ##XWiki.XWikiServerWikialias## document exists and contains an object of the ##XWiki.XWikiServerClass## class</content>
+</xwikidoc>

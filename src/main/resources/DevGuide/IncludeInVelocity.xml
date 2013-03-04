@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>IncludeInVelocity</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.Scripting</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1194864414000</creationDate>
+  <date>1360950272000</date>
+  <contentUpdateDate>1360950272000</contentUpdateDate>
+  <version>1.1</version>
+  <title>How to include a velocity page into another page ?</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.IncludeInVelocity</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>c84c0674-03f9-4624-8c25-4828554a287b</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+In order to include a velocity page into another page you have to use velocity macros. Here are the possible macros you can use for this purpose:
+
+= Include a *.vm script =
+
+These macros take as parameter a relative URL to a &lt;code&gt;*.vm&lt;/code&gt; script.
+
+== template() ==
+
+{{info}}
+Specification: [[extensions:Extension.Template Macro]]
+{{/info}}
+
+This is the equivalent of the C preprocessor include directive: the result is a copy of the script passed as argument, into your script.
+
+= Include the Velocity code of another XWiki page =
+
+These macros take as parameter the XWiki name of the page, Space.Page.
+
+== includeInContext() ==
+
+{{info}}
+Specification: [[extensions:Extension.Include In Context Macro]]
+{{/info}}
+
+If you have a script stored as an XWiki page you can include its code into another script by using includeInContext:
+
+{{code}}
+#includeInContext("mySpace.myPage")
+{{/code}}
+
+== includeForm() ==
+
+{{info}}
+Specification: [[extensions:Extension.Include Form Macro]]
+{{/info}}
+
+Similar to includeInContext(), except that using includeForm() in a page will set the default edit mode for that page as "inline". For example, the script you want to include uses the method ##com.xpn.xwiki.doc.XWikiDocument.display()## to access a field of an object attached to the including page, like a typical class sheet:
+
+{{code language="velocity"}}
+## Change class name to your class name 
+#set($class = $doc.getObject("CompanionTemplateSystem.CompanionDocumentMetaDataClass").xWikiClass)
+
+&lt;dl&gt;
+#foreach($prop in $class.properties)
+#if(($prop.getName() != "Copyright") &amp;&amp; ($prop.getName() != "TargetGroup") )
+&lt;dt&gt; *${prop.prettyName}* &lt;/dt&gt;
+&lt;dd&gt;$doc.display($prop.getName())&lt;/dd&gt;
+#end
+#end
+&lt;/dl&gt;
+{{/code}}
+
+which is stored as a regular XWiki page (let's say myPage in mySpace).
+
+You will include the page using includeForm():
+
+{{code}}
+#includeForm("mySpace.myPage")
+{{/code}}
+
+This way, the including page will always be edited in inline mode by default. Thus in the example of the class sheet, the including page will display input fields mapped to the respective object fields.
+
+If you prefer to keep the default edit as set in your XWiki.XWikiPreferences class, you can use the other macros, and still edit a page in inline mode: choose the "Inline form" option in the "Edit" menu, provided your user type is advanced.
+
+== includeTopic() ==
+
+{{info}}
+Specification: [[extensions:Extension.Include Topic Macro]]
+{{/info}}
+
+Same syntax as includeInContext(). Contrary to includeInContext(), the included XWiki page is interpreted in its own context. For example, you would include a page using includeTopic() if the included page had to access its own objects in order for the including page to be displayed properly.</content>
+</xwikidoc>

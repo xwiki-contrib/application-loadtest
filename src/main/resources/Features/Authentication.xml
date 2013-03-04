@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Features</web>
+  <name>Authentication</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Features.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1214555139000</creationDate>
+  <date>1360853281000</date>
+  <contentUpdateDate>1360853281000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Authentication</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Features.Authentication</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>1642f03f-319d-4734-a08b-3b0179fe7b44</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>XWiki supports several authentication mechanisms by default:
+
+* Form authentication
+* Basic authentication
+* LDAP authentication
+
+In addition XWiki allows you to create your own authentication extension in order to integrate with any custom mechanism you might be using already (SSO, etc).
+
+Note that several additional authenticators are being developed and are currently available in source format in our {{scm user="xwiki-contrib" project="sandbox" path="authenticators"}}Contribution repository{{/scm}}:
+* Headers authentication
+* NTML authentication
+* PUMA authentication
+* SAML authentication
+* Trusted LDAP authentication
+* Sun SSO authentication
+
+For more details on how to configure authentication check the [[Authentication page of the Administration Guide&gt;&gt;platform:AdminGuide.Authentication]].</content>
+</xwikidoc>

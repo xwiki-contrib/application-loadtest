@@ -1,0 +1,350 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>Building</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1196093778000</creationDate>
+  <date>1360950293000</date>
+  <contentUpdateDate>1360950293000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Building XWiki from sources</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.Building</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>afaf0ef1-9f84-47c6-be96-22fec27178da</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}{{toc/}}{{/box}}
+
+{{error}}
+Make sure you install Maven 3.0 or greater. It might build fine using earlier versions but we're not supporting them and all the XWiki committers and our CI server are running 3.0 and greater. The version that we currently recommend is **3.0.4**.
+{{/error}}
+
+= Understanding the directory structure =
+
+Before you start it's good to have some minimal understanding of [[how Maven works&gt;&gt;http://maven.apache.org/users/index.html]]. You probably won't need it if everything goes fine but you'll need that knowledge if something breaks! ;-)
+
+The first thing to understand is the [[directory structure we use&gt;&gt;SourceRepository]].
+
+= Checking out the sources =
+
+Use your favorite SCM client to [[check out the Project&gt;&gt;SourceRepository]] you wish to build. 
+
+= Installing Maven =
+
+* Install [[Maven 3.0 or greater&gt;&gt;http://maven.apache.org]]. Create an ##M2_HOME## environment variable pointing to where you have installed Maven. Add ##M2_HOME/bin## to your PATH environment variable.(((
+{{info}}For more information on how to install Maven or how to use it check this [[excellent Maven book&gt;&gt;http://www.sonatype.com/book/reference/public-book.html]].{{/info}}
+)))
+* Make sure you give Maven's JVM enough memory. XWiki's build uses Aspects and GWT compilers which need lots of memory. A good value is to give the JVM 512MB. To do that set an environment variable named ##MAVEN_OPTS##. For example on Unix add the following to your shell startup script (depending on your shell you might need to prefix the variable with ##export##):(((
+{{code language="none"}}MAVEN_OPTS="-Xmx512m -XX:MaxPermSize=256m"{{/code}}
+))) 
+* Create a ##~~/.m2/settings.xml## file with the XWiki custom remote repository defined as shown below. If you are on Windows, create the directory ##.m2## in your home directory, e.g. ##C:\Documents and Settings\Administrator\.m2##. If you cannot do this from Windows Explorer, open a command line and use ##md .m2##.(((
+
+{{code language="xml"}}
+&lt;settings&gt;
+  &lt;profiles&gt;
+    &lt;profile&gt;
+      &lt;id&gt;xwiki&lt;/id&gt;
+      &lt;repositories&gt;
+        &lt;repository&gt;
+          &lt;id&gt;xwiki-snapshots&lt;/id&gt;
+          &lt;name&gt;XWiki Nexus Snapshot Repository Proxy&lt;/name&gt;
+          &lt;url&gt;http://nexus.xwiki.org/nexus/content/groups/public-snapshots&lt;/url&gt;
+          &lt;releases&gt;
+            &lt;enabled&gt;false&lt;/enabled&gt;
+          &lt;/releases&gt;
+          &lt;snapshots&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+          &lt;/snapshots&gt;
+        &lt;/repository&gt;
+        &lt;repository&gt;
+          &lt;id&gt;xwiki-releases&lt;/id&gt;
+          &lt;name&gt;XWiki Nexus Releases Repository Proxy&lt;/name&gt;
+          &lt;url&gt;http://nexus.xwiki.org/nexus/content/groups/public&lt;/url&gt;
+          &lt;releases&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+          &lt;/releases&gt;
+          &lt;snapshots&gt;
+            &lt;enabled&gt;false&lt;/enabled&gt;
+          &lt;/snapshots&gt;
+        &lt;/repository&gt;
+      &lt;/repositories&gt;
+      &lt;pluginRepositories&gt;
+        &lt;pluginRepository&gt;
+          &lt;id&gt;xwiki-plugins-snapshots&lt;/id&gt;
+          &lt;name&gt;XWiki Nexus Plugin Snapshot Repository Proxy&lt;/name&gt;
+          &lt;url&gt;http://nexus.xwiki.org/nexus/content/groups/public-snapshots&lt;/url&gt;
+          &lt;releases&gt;
+            &lt;enabled&gt;false&lt;/enabled&gt;
+          &lt;/releases&gt;
+          &lt;snapshots&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+          &lt;/snapshots&gt;
+        &lt;/pluginRepository&gt;
+        &lt;pluginRepository&gt;
+          &lt;id&gt;xwiki-plugins-releases&lt;/id&gt;
+          &lt;name&gt;XWiki Nexus Plugin Releases Repository Proxy&lt;/name&gt;
+          &lt;url&gt;http://nexus.xwiki.org/nexus/content/groups/public&lt;/url&gt;
+          &lt;releases&gt;
+            &lt;enabled&gt;true&lt;/enabled&gt;
+          &lt;/releases&gt;
+          &lt;snapshots&gt;
+            &lt;enabled&gt;false&lt;/enabled&gt;
+          &lt;/snapshots&gt;
+        &lt;/pluginRepository&gt;
+      &lt;/pluginRepositories&gt;
+    &lt;/profile&gt;
+  &lt;/profiles&gt;
+  &lt;activeProfiles&gt;
+    &lt;activeProfile&gt;xwiki&lt;/activeProfile&gt;
+  &lt;/activeProfiles&gt;
+&lt;/settings&gt;
+{{/code}}
+
+{{info}}Depending on your geographical location, you should use closer Maven repositories to speed up your build process. For more information refer [[Maven Mirror Settings Guide&gt;&gt;http://maven.apache.org/guides/mini/guide-mirror-settings.html]].{{/info}}
+)))
+
+= Building with Maven =
+
+Now that you have installed Maven and checked out the [[Projects&gt;&gt;SourceRepository#HTopLevelProjects]] you wanted you'll want to build them. To build a project with Maven just issue the command:
+
+{{code}}
+mvn clean install
+{{/code}}
+
+Each project is made of modules. Thanks to XWiki's [[Continuous Integration setup&gt;&gt;DevelopmentPractices#HContinuousIntegration]] you can check out and build any single module (and its children) you wish without having to rebuild the other modules from source. Maven will pick the latest version of your module's dependencies from [[XWiki's Maven remote repositories&gt;&gt;http://maven.xwiki.org]]. Of course if you have uncommitted changes in a dependent module, you'll want to build that module before. The build result is placed in two places:
+* Your [[local maven repository&gt;&gt;http://maven.apache.org/guides/introduction/introduction-to-repositories.html]], for making the module available to other projects or modules using maven (even other XWiki modules take the needed libraries from this repository, and not directly from a "neighbor" directory)
+* In a subdirectory of that module, called ##target##.
+
+{{info}}
+Now some of the modules built by XWiki are very large (in the 40MB+ size) and sometimes you don't absolutely need the latest version to get downloaded as it'll take too long. In that case here's a tip: run Maven in 'no-snapshot-update' mode with ##mvn install -nsu##.
+{{/info}}
+
+{{warning}}
+You might encounter an ##java.lang.OutOfMemoryError## during ##aspectj:compile##. You must increase the maximum memory used by maven, by setting ##MAVEN_OPTS=-Xmx512m## (or a larger amount of memory if needed).
+{{/warning}}
+
+You'll find below some common build tasks.
+
+== Using Profiles ==
+
+Project builds define several [[Maven Profiles&gt;&gt;http://maven.apache.org/guides/introduction/introduction-to-profiles.html]]. We've standardized their names across Projects. 
+
+Here are the most common ones:
+* ##legacy##: Includes the [[legacy modules&gt;&gt;DevelopmentPractices#HDeprecation26LegacyStrategy]] in the build.
+* ##integration-tests##: Executes integration and functional tests in the build.
+* ##jetty##, ##glassfish##: Run the build for the specified container (##jetty## is the default when not specified).
+* ##hsqldb## (Hypersonic SQL), ##mysql## (MySQL), ##pgsql## (PostgreSQL), ##derby## (Derby): Run the build for the specified database (##hsqldb## is the default when not specified).(((
+{{warning}}
+Hypersonic and Derby are embedded database so you won't need anything setup to execute the build for them. However for MySQL and PostgreSQL you'll need to have the database installed, set up and running before you can run the build with their profiles.
+{{/warning}}
+)))
+* ##firefox## (Firefox), ##iexplore## (Internet Explorer), ##chrome## (Google Chrome), ##otherbrowser## (need to define ##browserPath## property to use that one): Run the functional tests on the specified browser (##firefox## is the default when not specified).
+* ##dev##: only build wysiwyg for English/Firefox. Very useful to speed up the build of XWiki Platform
+
+More "exotic" ones:
+* ##clover##: A profile to use when [[generating Test Coverage reports&gt;&gt;Testing#HTestCoverage]] with [[Clover&gt;&gt;http://www.atlassian.com/software/clover/overview]]. This profile skips execution of Checkstyle, CLIRR and Enforcer plugin checks to speed up the coverage generation and because of potential conflicts between tools.
+* ##release##: Used by the Maven Release plugin when releasing XWiki. It generates Javadoc and Source artifacts. It also checks that the Java version used is JDK6, that the Javadoc exists and it signs artifacts using GPG (this is a good practice and a [[requirement for being able to upload some of our artifacts to the Maven Central Repository&gt;&gt;http://maven.apache.org/guides/mini/guide-central-repository-upload.html]]).
+* ##m2e##: For [[m2eclipse&gt;&gt;http://www.eclipse.org/m2e/]] users. It sets the Eclipse output directory to ##target-eclipse## (instead of ##target##) to prevent race conditions between Maven within Eclipse and Maven on the command line.
+* ##unix##, ##mac##, ##windows##: These profiles are automatically activated depending on the OS the build is running on. These profiles are useful for the Installers and for functional tests to decide how to start XWiki.
+* ##macprofiler##, ##winprofiler##: Start [[XWiki for Profiling&gt;&gt;Profiling]] (they require that you set a ##profilePath## property in your ##settings.xml## or on the command line)
+* ##gwt-test-manual##: allow running GWT unit tests manually
+* ##debug##: [[weave debug aspects for profiling&gt;&gt;Profiling]] and remove JS minification.
+* ##standalone##: Builds the Rendering Standalone artifact. Note that this profile is activated automatically when performing a release.
+* ##quality##: Runs quality checks that take a long time to execute (e.g. checks Clover TPC thresholds)
+
+For example, if you use to include legacy modules and run all integration and functional tests and use Jetty/HSQLDB, you would use:
+
+{{code}}
+mvn clean install -Plegacy,integration-tests,hsqldb,jetty
+{{/code}}
+
+== Relationship between XWiki Enterprise and XWiki Platform ==
+
+XWiki Platform is a generic platform and API for building flexible extensible wikis and web applications. XWiki Enterprise is an implementation of the platform geared toward making a wiki site for teams to share information and synchronize their efforts although it can be and has been used for a wide variety of different use cases like this website.
+
+What does this mean to the developer?
+If you wish to make changes in the core of XWiki, you are probably going to want to work on XWiki Platform. You can download and compile XWiki Enterprise and while compiling, you will notice Maven downloads a big 80MB+ file, this is the platform. Maven is smart enough to know that you don't have a copy of the platform and will download it from the XWiki Maven repository. Once it has been downloaded the first time, it is stored on your harddrive and you won't have to download it again //until// changes are made in the platform.
+
+If you want to work on the core or if you have limited bandwidth, then you are well advised to get the platform sources. Then you can use the SCM's update command to get the latest copy without downloading the entire platform all over again. If you download the platform and compile it then you can compile XWiki Enterprise, Maven will use your newly compiled copy of the platform rather than downloading it, Maven is smart.
+
+= Automatic Checks =
+
+The XWiki build performs some automated checks:
+* Style checks with Checkstyle. To skip: ##-Dxwiki.checkstyle.skip=true##.
+* Verify header licenses
+* Backward compatibility checks with [[CLIRR&gt;&gt;http://clirr.sourceforge.net/]]. To skip: ##-Dxwiki.clirr.skip=true##.
+* Enforcer checks (To skip: ##-Dxwiki.enforcer.skip=true##):
+** Verify that all plugins are versions specified
+** Verify the correct Junit artifact is used (##junit-dep## and not ##junit##)
+** Verify we don't use Commons Logging or Log4j (since we use SLF4J)
+** Verify that the Java version is 6 (in the release profile)
+** Verify that Javadoc exist (in the release profile, this is a Maven Central requirement)
+** In Commons:  Verify that Commons modules don't have a dependency on Rendering and Platform modules
+** In Rendering: Verify that Rendering modules don't have a dependency on Platform modules
+
+= Tips ==
+
+== Skipping Tests ==
+
+While you should almost never do that, here's a tip for the rare occasions when you'll need to build something fast:
+
+{{code}}
+mvn install -Dtest=none -DfailIfNoTests=false
+{{/code}}
+
+Alternatives are ##mvn install -DskipTests=true## or ##mvn install -Dmaven.test.skip=true##. Refere to the Maven documentation to understand the differences.
+
+= Troubleshooting =
+
+== Dealing with Out-of-Memory Errors ==
+
+If you get an OutOfMemoryError then increase the maximum heap space by setting the ##MAVEN_OPTS## environment variable. For example for building XWiki Products - Curriki - Database one seems to need ##MAVEN_OPTS=-Xmx100m## or higher.
+
+If you're getting a ##PermGen space## error you need to increase the JVM PERMGEN. For example:
+{{code language="none"}}
+MAVEN_OPTS="-Xmx1024m -XX:MaxPermSize=128m"
+{{/code}}
+
+== Error in Windows installer build: Windres error ==
+
+Launch4J is using a binary called Windres which requires that the environment is NOT set to use UTF-8. If you get the following error check your LANG environment variable:
+
+{{code language="none"}}Embedded error: net.sf.launch4j.BuilderException: net.sf.launch4j.ExecException: Exec failed(1): /var/tmp/installers/windows/target/dependency/bin/windres --preprocessor=cat -J rc -O coff -F pe-i386 /tmp/launch4j10018rc /tmp/launch4j10019o{{/code}}
+
+== Building behind a proxy ==
+
+If you are connecting to Internet through a proxy then you need to modify your ##settings.xml## file so that Maven knows it.
+
+{{code language="xml"}}
+&lt;settings&gt;
+  &lt;proxies&gt;
+    &lt;proxy&gt;
+      &lt;active&gt;true&lt;/active&gt;
+      &lt;protocol&gt;http&lt;/protocol&gt;
+      &lt;host&gt;host&lt;/host&gt;
+      &lt;port&gt;port&lt;/port&gt;
+      &lt;username&gt;uname&lt;/username&gt;
+      &lt;password&gt;password&lt;/password&gt;
+    &lt;/proxy&gt;
+  &lt;/proxies&gt;
+  &lt;!--other tags--&gt;
+&lt;/settings&gt;
+{{/code}}
+
+== Failure to build xwiki-rendering-macro-groovy module ==
+
+If you're on Mac and want to run XWiki Enterprise on the JDK 1.5 but have JDK 1.6 installed then the Groovy macro in the new rendering won't build fine and you'll get some exceptions. This is because of a Mac problem: When Java 1.6.0 is installed in OSX 10.5 it overwrites ##/System/Library/Java/Extensions/AppleScriptEngine.jar## with a 1.6 specific one. When the ##ScriptEngineManager## gets initialized if finds it and tries to use it. However it only works on JDK 1.6. Moving both ##AppleScriptEngine.jar## and ##libAppleScriptEngine.jnilib## somewhere else fixes the problem.
+
+==Failed to execute CLIRR on xwiki-archetype-macro module ==
+
+If you're using Maven 3.0.1 or 3.0.2 you might see the following build issue (reported in [[MNG-4973&gt;&gt;http://jira.codehaus.org/browse/MNG-4973]]):
+
+{{code language="none"}}
+[ERROR] Failed to execute goal org.codehaus.mojo:clirr-maven-plugin:2.2.3:check (clirr-check) on project xwiki-archetype-macro: Error finding previous version: Failure to find org.xwiki.platform.tools:xwiki-archetype-macro:maven-archetype:1.1 in http://maven.xwiki.org/externals was cached in the local repository, resolution will not be reattempted until the update interval of xwiki-externals has elapsed or updates are forced
+[ERROR] 
+[ERROR] Try downloading the file manually from the project website.
+[ERROR] 
+[ERROR] Then, install it using the command:
+[ERROR] mvn install:install-file -DgroupId=org.xwiki.platform.tools -DartifactId=xwiki-archetype-macro -Dversion=1.1 -Dpackaging=maven-archetype -Dfile=/path/to/file
+[ERROR] 
+[ERROR] Alternatively, if you host your own repository you can deploy the file there:
+[ERROR] mvn deploy:deploy-file -DgroupId=org.xwiki.platform.tools -DartifactId=xwiki-archetype-macro -Dversion=1.1 -Dpackaging=maven-archetype -Dfile=/path/to/file -Durl=[url] -DrepositoryId=[id]
+[ERROR] 
+[ERROR] 
+[ERROR] org.xwiki.platform.tools:xwiki-archetype-macro:maven-archetype:1.1
+...
+{{/code}}
+
+It seems there's a bug in Maven 3.0.1. To work around it, use Maven 3.0. instead.
+
+= Build Tools =
+
+We have developed some build tools in the form of Maven plugins. They are located in the [[##commons/tools##&gt;&gt;https://github.com/xwiki/xwiki-commons/tree/master/xwiki-commons-tools]] and [[##platform/xwiki-tools/##&gt;&gt;https://github.com/xwiki/xwiki-platform/tree/master/xwiki-platform-tools]] directories. Here are descriptions of some of them:
+* ##xwiki-packager-plugin##: Takes XWiki pages defined as XML files and located in ##src/main/resources/## and load them into a database (defined by ##src/main/packager/hibernate.cfg.xml##). An example usage is available [[here&gt;&gt;https://github.com/xwiki/xwiki-platform/tree/master/xwiki-platform-tools/xwiki-platform-tool-packager-plugin/src/it/basic-import-export]].
+
+= Building in Eclipse =
+
+* [[BuildingInEclipse]]
+
+= Building in IntelliJ IDEA =
+
+* [[BuildingInIdea]]
+
+= Creating a Build for your own Modules =
+
+== Generating a XAR ==
+
+Follow these steps:
+* Put the XWiki XML files into the ##src/main/resources## directory
+* Use the ##xar## packaging in the your ##pom.xml##.
+* Make sure the XAR packaging extension is registered in Maven.
+
+For example:
+
+{{code language="xml"}}
+&lt;project...&gt;
+...
+  &lt;packaging&gt;xar&lt;/packaging&gt;
+...
+  &lt;build&gt;
+    &lt;extensions&gt;
+      &lt;!-- Needed to add support for the "xar" packaging --&gt;
+      &lt;extension&gt;
+        &lt;groupId&gt;org.xwiki.commons&lt;/groupId&gt;
+        &lt;artifactId&gt;xwiki-commons-tool-xar-handlers&lt;/artifactId&gt;
+        &lt;version&gt;(version to use)&lt;/version&gt;
+      &lt;/extension&gt;
+    &lt;/extensions&gt;
+  &lt;/build&gt;
+...
+&lt;/project&gt;
+{{/code}}
+
+Make sure you run ##mvn xar:format## to ensure your XWiki XML files are formatted properly, following [[XWiki XML files best practices&gt;&gt;Community.XWikiXMLFilesCodeStyle]]
+</content>
+</xwikidoc>

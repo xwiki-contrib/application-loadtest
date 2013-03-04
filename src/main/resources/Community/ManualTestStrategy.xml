@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>ManualTestStrategy</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>dev:Community.Testing</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1250165613000</creationDate>
+  <date>1360950283000</date>
+  <contentUpdateDate>1352795342000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Manual Testing Strategy</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.ManualTestStrategy</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>5f792e57-59f5-4ae5-8681-0b8ff0844acc</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>(% class="floatinginfobox" %)(((**Contents**
+
+{{toc /}}
+)))
+
+= Manual Testing Strategy =
+
+Manual testing involves having a tester play with the software through an user interface. Its aim is to emulate the end-user experience of using the software. Manual testing is therefore a key component of the Quality Assurance process.
+
+== Context ==
+
+XWiki software's UI is mostly made of web interfaces. Some XWiki-developed applications (Word addon, XEclipse) do not rely on the browser as their main visualization tool but those applications have much fewer cross-platform display discrepancies issues than web interfaces.
+
+Most XWiki developers are working on the Mac &amp; Linux platforms, using Firefox or one of its variants as their main browser. This has 2 main consequences:
+
+* XWiki UI code is almost always optimized for Firefox first, before getting fixed for other browsers
+* IE testing is harder to do for developers since the IE browser doesn't work on their platforms of choice
+
+=== Browsers ===
+
+Making XWiki's UI work cross-browser is a challenging task. Getting it done right is critical to having XWiki widely used and adopted, especially in a corporate setting. [[Based on current browser usage statistics&gt;&gt;http://en.wikipedia.org/wiki/Usage_share_of_web_browsers#Summary_Table]], Firefox, Chrome, IE8 and IE9 are the most used browsers around the world as of today. Within enterprises, IE browsers still have a lot of weight. With Microsoft's campain to persuade companies to drop IE6, newer browsers like IE8 and IE9 have gained a lot of old IE6's market share.
+
+Since XWiki software is mostly tested in Firefox by developers, manual testing should focus on Internet Explorer. Because browsers like Chrome and Firefox have a much more rapid release cycle than the IE browsers, the XWiki Community has agreed on the [[Supported Browsers&gt;&gt;dev:Community.BrowserSupportStrategy]] strategy.
+
+After each Milestone or Release candidate, people who want to help with manually testing can follow the [[Manual Test Report Template&gt;&gt;xwiki:TestReports.ManualTestReportTemplate]]. They should copy this template following the name convention scheme: ManualTestReportXE + &lt;version of the release being tested&gt;. For example, for XWiki 4.0 RC1, the page name should be ManualTestReportXE40RC1.
+The page should be copied in the same space and linked from the [[TestReport's WebHome&gt;&gt;xwiki:TestReports.WebHome]].
+
+
+=== Releases ===
+
+[[XWiki releases new software very frequently.&gt;&gt;VersioningAndReleasePractices#HReleaseCyclesandReleaseStrategy]] Testing objectives vary depending on the type of the current release.
+
+==== Milestone Releases ====
+
+Milestones are meant to be the releases during which new features are added to the product. Manual testing done prior to Milestone releases should be focused on whether the basic feature set being added works in a satisfactory fashion. Look &amp; feel glitches can be tolerated at this stage as long as they get reported.
+
+==== Release Candidate Releases ====
+
+Those releases are meant to make the software ready for production release and squash any remaining bugs. New features are not supposed to be introduced at this stage (although this rule isn't always strictly enforced in practice). The aim of testing at this point is to ensure that the product delivers a consistent, bug-free user experience across the full line of supported browsers.
+
+==== Major Releases ====
+
+A major release has the same quality standards as a Release Candidate. Major releases are often followed by point releases that correct an additional batch of bugs. Testing practices for major releases are similar to those for Release Candidates.
+
+== Process ==
+
+The testing process is relatively simple:
+
+1. Make sure you're testing the right thing
+1. Make sure you're reporting issues at the right location
+
+=== Find out which version to test ===
+
+XWiki uses Hudson, a continuous build tool, to generate new releases out of code committed in the project's source repository on a regular basis. Prior to a release, [[the latest SNAPSHOT of a given product version should be used.&gt;&gt;http://maven.xwiki.org/snapshots/com/xpn/xwiki/products/]] Right after a release, [[the latest release of a given product should be used.&gt;&gt;http://maven.xwiki.org/releases/com/xpn/xwiki/products/]]
+
+The version to test differs depending on the platform used by the tester. For instance in order to test XWiki Enterprise use:
+
+* On Windows: use ##xwiki-enterprise-installer-windows/##
+* On Mac &amp; Linux: use ##xwiki-enterprise-installer-generic/##
+
+Information about the state of the current release and upcoming new releases [[can be gained through the mailing lists.&gt;&gt;Community.MailingLists]]
+
+=== Create JIRA issues ===
+
+[[The XWiki project uses JIRA to report bugs and issues.&gt;&gt;http://jira.xwiki.org/]] The following are a few best practices when it comes to creating JIRA issues.
+
+==== What not to do ====
+
+There are 2 main reasons why someone might have to correct a new JIRA issue:
+
+* The new issue duplicates an existing one
+* The new issue wasn't filled correctly
+
+**The rule is simple: don't do that ;-)**
+
+Using JIRA's built-in search or Google (with the ##site:jira.xwiki.org## operator) are good ways to find existing issues and avoid duplicating them. Read on for a quick rundown of XWiki's JIRA tips.
+
+==== What to do ====
+
+A good JIRA bug report holds all the information needed to reproduce the issue that was encountered. This includes:
+
+* a full description of the environment used (OS, Browser, XWiki version)
+* a description of all the steps to perform in order to trigger the issue
+* a quick description of the intended behavior and how it was different from the encountered result
+* if applicable - a screenshot of the interface showing the faulty behavior
+* if applicable - the file attachment needed to reproduce the issue
+* if applicable - the content or code snippet needed to reproduce the issue
+
+Besides these elements, XWiki's JIRA issues also have the following fields:
+
+* Project: XWiki's development work is divided into projects. On top of the core, each application and plugin has its own project. When filing a new issue, the tester should choose the relevant project. Although sometimes complex in the beginning, it comes with a little bit of practice. Here are a couple examples:
+** A bug met while adding a tag to a page should go under "XWiki Tag Application"
+** A bug met while using the WYSIWYG editor should go under "XWiki Core"
+** A bug met on the wiki homepage should go under "XWiki Enterprise"
+* Issue type: this one is pretty self-explanatory
+* Summary: a short self-explanatory description of the bug encountered
+** "Close button not displayed when adding a new user" is good
+** "I can't see the damn button on the close thing" isn't
+* Priority: can be left set to "Major" or "Minor" most of the time
+* Component: the part of the project affected by the issue. For instance, a WYSISYG editor bug would be filed under the "Editor - GWT WYSIWYG" component in the "XWiki Core" project
+* Affects Version/s: the first version where this bug was discovered
+
+The more fields filled, the more likely it is that an issue will be easy to understand and fix by a developer.</content>
+</xwikidoc>

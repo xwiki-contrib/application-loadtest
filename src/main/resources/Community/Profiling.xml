@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>Profiling</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1188472018000</creationDate>
+  <date>1360950291000</date>
+  <contentUpdateDate>1354658172000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Profiling</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.Profiling</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>738cf22a-7e9a-4b23-9be6-7eb4d5627386</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+Profiling is useful to find out performance bottlenecks and find out memory hogs. There are 2 types of tools that can be easily used to profile XWiki.
+
+= Profiling using a Profiler =
+
+The best tool for the job is of course a [[profiler&gt;&gt;http://en.wikipedia.org/wiki/Profiler_%28computer_science%29]]. Follow the steps:
+
+* Get a [[profiler&gt;&gt;http://en.wikipedia.org/wiki/Profiler_%28computer_science%29]](((
+{{info}}
+For XWiki committers, we have free [[YourKit licenses&gt;&gt;DevelopmentToolLicenses]] for developing on XWiki.
+{{/info}}
+)))
+* [[Build&gt;&gt;Community.Building]] XWiki or simply download a XWiki binary release
+* Check your profiler's documentation to see the command line that needs to be added when starting the XWiki JVM.
+* If you're using YourKit you can start XWiki Enterprise with the following command line: ##start_xwiki_debug.sh 8080 profiler /path/where/agent/is## (for example: ##start_xwiki_debug.sh 8080 profiler "/Applications/YourKit Java Profiler 7.0.11.app/bin/mac"##)
+* Run the Profiler and then start XWiki
+
+= Profiling using Byteman =
+
+See [[Byteman&gt;&gt;http://www.jboss.org/byteman]].</content>
+</xwikidoc>

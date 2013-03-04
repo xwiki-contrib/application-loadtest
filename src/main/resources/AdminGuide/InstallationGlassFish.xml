@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>InstallationGlassFish</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Installation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1170343132000</creationDate>
+  <date>1360950252000</date>
+  <contentUpdateDate>1360950252000</contentUpdateDate>
+  <version>1.1</version>
+  <title>GlassFish Installation</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.InstallationGlassFish</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>d8f3e9b9-0295-4ba2-888a-cb0a44f57cdb</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}{{toc/}}{{/box}}
+
+* Download the [[latest GlassFish&gt;&gt;http://glassfish.java.net/public/downloadsindex.html#top]]
+* Download the exe for Windows or the shell script for Unix
+* Start GlassFish instance using ##{{{$GLASSFISH_HOME/bin/asadmin start-domain}}}##
+* Do you want to deploy from the web interface, or the commandline?
+* Deploying from the web interface:
+** point your browser to ##{{{http://localhost:4848}}}##
+** log in as the default administrator user ##admin## with the default password ##adminadmin##
+** select ##Applications -&gt; Web Applications -&gt; Deploy## in the left tree
+** select the XWiki WAR archive to deploy and set the context root to ##xwiki## (anything else will make XWiki navigation break)
+* Deploy from the commandline:
+** ##{{{$GLASSFISH_HOME/bin/asadmin deploy --contextroot xwiki file.war}}}##
+* enjoy XWiki from ##{{{http://localhost:8080/xwiki}}}##
+
+If you need more help you can use the [[GlassFish documentation&gt;&gt;http://glassfish.java.net/docs/project.html]].
+
+= Configuring a MySQL datasource in Glassfish =
+
+* Download the [[MySQL jdbc driver&gt;&gt;http://www.mysql.com/downloads/connector/j/]]
+* Extract the contents of the file
+* Copy the jar file to ##{{{GLASSFISH_HOME/glassfish/lib}}}## if you want it to be available to all Glassfish applications, or to the ##{{{WEB-INF/lib}}}## dir of the XWiki deployment dir if you only want it to be available locally (example: ##{{{GLASSFISH_HOME/glassfish/domains/domain1/applications/xwiki-enterprise-web-2.5-milestone-1/WEB-INF/lib}}}##)
+* Start or restart the Glassfish server: ##{{{bin/asadmin start-domain}}}## or ##{{{bin/asadmin restart-domain}}}##
+
+If you want to use the web interface to define a datasource, you can read this tutorial on [[Creating and configuring a MySQL DataSource in GlassFish Application Server&gt;&gt;http://www.albeesonline.com/blog/2008/08/06/creating-and-configuring-a-mysql-datasource-in-glassfish-application-server/]].
+
+If you want to use the command line interface to define a datasource, you can read [[this tutorial&gt;&gt;http://weblogs.java.net/blog/felipegaucho/archive/2010/03/04/glassfish-v3-resources-administration-cli-tool-asadmin]].
+
+Quick and dirty is easy:
+* Create the connection pool: Assuming you followed the [[MySQL Installation steps&gt;&gt;AdminGuide.InstallationMySQL]] you have a MySQL database called 'xwiki' accessible with a user named 'xwiki' having 'xwiki' as the password.
+* ##{{{asadmin create-jdbc-connection-pool --datasourceclassname com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource}}}##
+##{{{ --restype javax.sql.ConnectionPoolDataSource --property "User=xwiki:Password=xwiki:URL=jdbc\\:mysql\\://localhost\\:3306/xwiki" }}}##
+##{{{jdbc/xwikipool}}}##
+* This should give you ##{{{Command create-jdbc-connection-pool executed successfully.}}}##
+* Test the connection pool: ##{{{asadmin ping-connection-pool jdbc/xwikipool}}}## 
+* This should give you ##{{{Command ping-connection-pool executed successfully.}}}##
+* If not, just execute ##{{{bin/asadmin delete-jdbc-connection-pool  jdbc/xwikipool}}}## and start again :-)
+* Create the JDBC resource: ##{{{asadmin --user=admin create-jdbc-resource --connectionpoolid jdbc/xwikipool jdbc/xwiki}}}##
+* This should give you ##{{{Command create-jdbc-resource executed successfully.}}}##
+* Test the JDBC resource: ##{{{asadmin --user admin list-jdbc-resources}}}## 
+* This should result in:
+##{{{jdbc/__TimerPool}}}##
+##{{{jdbc/__default}}}##
+##{{{jdbc/xwiki}}}##
+##{{{ }}}##
+##{{{Command list-jdbc-resources executed successfully.}}}##
+
+Now the last thing you need to do is go into the directory ##{{{glassfish/domains/domain1/applications/xwiki-enterprise-web-2.5-milestone-1/WEB-INF}}}## and edit ##hibernate.cfg.xml##.
+
+Uncomment the default database section (simpy by moving the {{{"--&gt;"}}} part a couple of lines down), and uncomment the MySQL part.
+
+Done!
+
+= Troubleshooting =
+
+First thing you would normally do is import the default xar file to initialize the wiki and populate it with some nice pages.
+However, it is very likely that you will see an error message like: 
+
+{{code language="none"}}
+com.xpn.xwiki.XWikiException: Error number 0 in 11: Uncaught exception
+Wrapped Exception: org.apache.commons.codec.binary.Base64.&lt;init&gt;(I[B)V
+{{/code}}
+
+As explained in [[this email&gt;&gt;http://xwiki.markmail.org/search/?q=glassfish%20commons%20codec#query:glassfish%20commons%20codec+page:1+mid:dpg5gbkal6ysf3i5+state:results]] you should copy ##commons-codec-1.4.jar## from the ##xwiki/WEB-INF/lib## directory  to the ##glassfishv3/glassfishmodules## and also delete ##commons-codec-repackaged.jar## from the ##glassfishv3/glassfish/modules## folder.
+
+These steps should solve the problem.
+</content>
+</xwikidoc>

@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>Backup</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1205141969000</creationDate>
+  <date>1360853352000</date>
+  <contentUpdateDate>1360853352000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Backup/Restore</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.Backup</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>5cb320f5-646c-44ea-857c-46aba0056530</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+It's crucial that you define a backup strategy for your wiki so that you don't lose any data in case of a problem with your wiki installation or in case you have issues upgrading your XWiki instance to a newer version.
+
+= Backup configuration files =
+
+There are several configuration files you'll need to backup:
+
+* ##WEB-INF/hibernate.cfg.xml## (Hibernate configuration)
+* ##WEB-INF/xwiki.cfg## (old XWiki configuration file but still used)
+* ##WEB-INF/xwiki.properties## (new XWiki Configuration file)
+* ##WEB-INF/classes/logback.xml## (Logging configuration)
+* ##WEB-INF/observation/*## (Cluster configuration)
+
+To restore them simply copy them at the same location where you backed them up from.
+
+In addition you may want to also backup any extra files you'll have installed in your XWiki installation such as JDBC drivers, extra plugins, etc.
+
+= Backup Permanent Data =
+
+XWiki generates the following data:
+* Wiki pages (they're saved in a Database)
+* Attachments on the filesystem
+* Installed extensions
+* Lucene index files
+* Logs
+
+It's important that you back them up.
+
+If you've installed the default standalone version of XWiki then all the data is located in the ##data/## directory inside the directory where you've installed XWiki. Simply back up this directory and that'll backup everything. Otherwise, read on below!
+
+== Backup your database ==
+
+If you've installed XWiki using your own database then you'll need a backup tool for that database to back it up and to restore it. Moreover, if you're backing up a huge amount of data, we advise that you compress the dump files to save disk space (for example with [[7-zip&gt;&gt;http://www.7-zip.org/]]).
+
+* **MySQL**:(((
+Backup: {{code}}mysqldump --add-drop-database --databases xwiki &gt; xwiki.sql{{/code}} backs up the xwiki schema (use the option ##~-~-all-databases## instead of ##~-~-databases xwiki## if you're in multiwiki mode) 
+Restore: {{code}}mysql xwiki --user=root -p &lt; xwiki.sql{{/code}}
+
+{{warning}}
+It's important that the backup is done with ##~-~-add-drop-database## since when you restore it it's important that tables that might have been created are removed. For example database migrations can create extra tables. If you want to cancel the migration and go back to your clean dump you'll need to have those tables removed as otherwise when you run the migration again later on you might have errors.
+{{/warning}}
+)))
+* **PostgreSQL**: You can use {{code}}pg_dump xwiki &gt; xwiki.sql{{/code}} to backup the PostgreSQL database and {{code}}psql -d xwiki -f xwiki.sql{{/code}} to restore it. In case of multiwiki mode, use the binary ##pg_dumpall## instead.
+* **Oracle**: Use ##exp## to export data and ##imp## to restore it.
+
+== Backup Attachments ==
+
+Since XWiki 3.x you can choose to [[store attachments on the filesystem&gt;&gt;AdminGuide.Attachments#HAttachmentStorage]] instead of in the database. If you've configured it this way then you need to backup the Permanent Directory which is where attachments saved on the filesystem are located. This directory is configured by the ##environment.permanentDirectory## configuration property in your ##WEB-INF/xwiki.properties## configuration file.
+
+== Backup Extensions ==
+
+Extensions are also saved on the filesystem in the Permanent Data Directory (i.e. ##environment.permanentDirectory##) in an ##extension## subdirectory.
+
+== Backup Lucene index files ==
+
+You could decide to backup Lucene index files. However XWiki will regenerate them automatically if they are not found at startup. Now if you have a lot of wiki pages that can take a lot of time and you may want to back them up. They are also located in the Permanent Data Directory (i.e. ##environment.permanentDirectory##) in a ##lucene## subdirectory.
+
+== Backup Log files ==
+
+XWiki generates logs in the console by default and these will go where your Servlet container has been defined to save them. For Tomcat for example this usually goes in the ##TOMCAT_HOME/logs/catalina.out## file.
+
+However this is fully [[configurable&gt;&gt;AdminGuide.Logging]] and you may have configured XWiki to output log files elsewhere. If you want to keep those logs, don't forget to save them. Those logs are not needed by XWiki but you may want to save them to review them later on to diagnose issues that happened for example.
+
+= Using the XWiki Export feature =
+
+Since most XWiki data is saved in wiki pages one solution to backup a XWiki instance is to export all its pages using XWiki's [[Import/Export feature&gt;&gt;ImportExport]]. However note that this is quite a resource hungry operation and depending on the size of your wiki you may need a lot of memory. As a consequence the recommended backup strategy is to backup the databases. It's much better to use a specialized backup tool that'll backup the database, perform incremental backups, verify backup integrity, etc.
+
+In addition you should know that currently the following information is not located in wiki pages and is thus not saved in a wiki export:
+* Activity stream data
+* Statistics data
+* Feed plugin data (if you use it)
+* Deleted documents/attachments data
+
+Moreover this won't save configuration data or other Permanent Data mentioned above such as installed Extensions, Lucene index files and Logs.
+
+In practice the Import/Export feature should be reserved for the following use cases:
+* move data across XWiki instances, including sharing of applications between separate instances
+* move data to another wiki</content>
+</xwikidoc>

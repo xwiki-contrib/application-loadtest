@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>XWikiXMLFilesCodeStyle</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.CodeStyle</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1355401233000</creationDate>
+  <date>1360950279000</date>
+  <contentUpdateDate>1355401833000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki XML Files Code Style</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>XWiki XML Files should follow these rules:
+
+* Have a proper License header
+* Use ##xwiki:XWiki.Admin## as the ##author##, ##contentauthor## and ##creator##
+* Use ##1.1## as the ##version##
+* Use ##false## for ##minoredit##
+* Have an empty ##defaultLanguage## entry
+* Have an empty ##comment## entry
+* Indent the XML using 2 characters for indentation
+
+This can be done using the "mvn xar:format" Maven command, see [[Generating a XAR for your build&gt;&gt;Community.Building||anchor="HGeneratingaXAR"]].</content>
+</xwikidoc>

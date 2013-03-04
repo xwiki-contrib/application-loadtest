@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>XWiki5minutesExperience</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1304931242000</creationDate>
+  <date>1361190325000</date>
+  <contentUpdateDate>1361190325000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki 5 minutes Experience</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.XWiki5minutesExperience</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>b082e019-6f87-40b2-b92f-76f9f0a5ed6a</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.XWiki5minutesExperience</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>189cc819-513d-4c90-8125-927b1b2f5a1a</guid>
+    <property>
+      <tags>
+        <value>investigation</value>
+      </tags>
+    </property>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+XWiki is an easier to use Wiki, and we want to take this goal further by continously improve the usage simplicity of XWiki.
+
+We are therefore launching an investigations called "XWiki 5 minutes experience" (for those who don't know, an investigation is the work before we actively work on a new development). In this case, the objective is to identify and simplify all the common things that admins and users are doing in their first five minutes of XWiki usage. The first step to this investigation is to identify all the actions they are doing and which issues they struggle with.
+
+This is where we need the help of our fellow XWiki users. Help us find out all the common actions (and problems with these actions) that users (actually admins and then normal users) are trying to do the first time they use XWiki.
+
+The listing of all actions and problems with be followed by studying the solutions we can implement to fix the situations reported. Some solutions might be very easy to implement and we will push then in the next release cycle, while some others will require more work and will be proposed as new work for the future release cycles.
+
+Make you voice heard as this can have a big impact on the XWiki ease of use.
+
+== Most Common Actions and Issues ==
+
+To help us fill in the most common actions and issues, please contribute to this page: [[XWiki5minutesExperienceMostCommonActionsAndIssues]]
+
+== Possible improvements ==
+
+{{info}}This will be done at a later step once we have listed all issues.{{/info}}
+
+
+</content>
+</xwikidoc>

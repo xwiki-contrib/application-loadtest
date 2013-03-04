@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>XWikiModel20</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1231006101000</creationDate>
+  <date>1360950316000</date>
+  <contentUpdateDate>1360950316000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki Model 2.0</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.XWikiModel20</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>212b8d3b-477e-4a4c-a52f-f174a3c708fe</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.XWikiModel20</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>b1827a17-c7e2-4c6b-aa82-f5f51172519a</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+Describes the design for the new XWiki Model module.
+
+= Design Decisions =
+
+These decisions are being implemented here: https://github.com/xwiki-contrib/sandbox/tree/master/xwiki-model
+
+* Notions of:
+** multi wiki
+** wiki
+** space
+** document
+** document metadata (language, syntax id, etc)
+** document objects
+** document classes
+* UUIDs for al Entities
+* Ability to have multiple references pointing to the same entity
+** Entity renames and deletes still allow referencing the new entity using the old reference
+* All entities are directly adressable (ie have a reference)
+* Nested spaces
+* Ability to add metadata to model objects
+* Easy to use API (typed API)
+* Observation: Events when entities are modified/created/removed
+* Ability to choose storage: RDBMS, file system, etc
+* Query is done in a different module
+* save() is deferred and saves in batch
+* Attachments should be objects
+- needs ability to choose storage per object definition property
+* The Object definition notion exist (and extend Object)
+- need editor specific to object types (for having a class editor for ex)
+- object property can be an object
+- ability for an object definition to extend another object definition
+* Several objectdef per document
+* Conflicts; an entity is modified in 2 differents sessions
+- overwrite for the moment
+- future: merge + exception if cannot merge
+* Isolate modifications by thread to start with (maybe Session in some future but not sure)
+* Be able to use old model API in // with new model API (for // run), using the old model implementation.
+- We don't plan to be able to use the old API with the new model implementation
+- Implement new model API using old core and throw exception when we cannot implement a feature
+* Be able to implement new model API using JCR
+* Global versioning
+* An Entity can be a pointer to another Entity (e.g of use case: rename, aliases)
+* All Entities (Document, Wiki, Space, etc) are Objects (extend Object)
+- eg document metadata are stored as object properties
+- bonus: that will give us an editor for entity metadata
+- bonus: entity metadata will all have their own references
+* save() is done in a transaction, i.e. if one DB operations fails, all are rolled-back
+
+= Open Decisions =
+
+* Do we want: Wiki.getSpaces(Filter)?
+- ex: wiki.getSpaces(new NameFilter("a.*")) =&gt; all spaces starting with a
+Answer: Yes but in a different module, not in Model. either in Query module or in another LINQ-like module.
+* How to handle Version, Language?
+* Notion of lazy loading for object definition properties? (eg: load an attachment object without loading the attachment content itself)
+* Ability to version model objects
+
+* Authentication/Authorization to be decided
+** Should checks be done outside of the model module?
+** Should we use JAAS and if so what's the relationship
+* Ability to lock model objects to prevent modifications in some cases (when someone is already modifying them or if the wiki is in readonly mode for example)
+* (to be continued)
+
+* Ability to version the whole repository when a change is made (SVN-like) and hence the ability to restore the state across documents/spaces/etc
+** Ability to install an application and remove it simply by doing a simple rollback even when the app is made of several documents
+
+= Implementation Details =
+
+{{warning}}What's below is just some idea, a bit oldish now but still interesting{{/warning}}
+
+Use JCR for the following interesting features:
+* Referenceability of nodes, UUID
+* Transactional
+* Versionable (whole trees). JR283 enhances on the versioning set forth in JSR170 by specifying four versioning models, simple versioning, full versioning, activities, and configurations.
+* Lockable
+* Import/Export (in XML format)
+* Can support inheritance
+* Supports observation
+* Utilizes JAAS for authentication. Authorization is not explicitly outlined, the specification leaves it up to the repository vendor to implement a specific permission model. While the API defines a rudimentary permission check for node operations, there is no way to set permissions based on users, groups, and roles. JSR283 greatly improves in this area.
+** [Pluggable security model that can maintain ACL at object level&gt;http://whiteboardjunkie.wordpress.com/2008/11/24/where-am-i-using-jcr-and-why/]
+* JSR 283 (JCR 2.0) further introduces the concept of shareable nodes which allows multiple paths of access to a node, providing the ability to implement faceted navigations through content
+* JSR 283 further introduces the concept of journaled listeners which can ask the repository to re-play all events after a certain timestamp
+* Shareable nodes.(((
+&gt; In JSR170, a node can only be the child node of one other node. This makes it impossible to file nodes under multiple taxonomies, i.e. defining multiple paths to get to the same node. JSR283 hence introduces the (optional) concept of shareable nodes.
+
+This allows implementing multiple URIs for a given model object.
+)))
+* "Primary child item" feature. {quote}Any one of a node's child items may be specified as its primary child item. This item can be directly accessed (without knowing its name) with the method Node.getPrimaryItem(). The primary item of a particular node (if it has one) is declared in its node type.{quote}. This could allow for example a document to have a default view for displaying its content.
+
+* Mapping:
+** Wiki = Workspace
+*** We cannot have Wiki = Repository since there's no inter repository operations and we want for example the ability for a given wiki to include a document from another wiki
+*** Allows clone nodes between wikis and support references between wikis (children wiki can have references to admin wiki documents for example)
+*** UUID are unique per repository (and not per workspace)
+*** A node with the same UUID in several workspaces point to the same Node
+*** Note: one version storage per repository
+*** Ability to call Node.update(String srcWorkspace) to replace this node by the one and its children from the srcWorkspace (same as svn update)
+*** We can still have the ability to clone a wiki (and thus clone a workspace) to provide a working branch (for example for staging a workspace) and then later on do an update (as in svn update) to merge the changes back into the main "trunk"
+** Document = Node + special NodeType
+** Document metadata = Property
+** Space = Node + special NodeType
+** Document objects = Node + special NodeType (subnode of Document)
+** Document object properties = Propery
+** Document classes = Node + special NodeType (subnode of Document)
+** Document class property = Property
+** Attachment = Node + special NodeType (subnode of Document)
+** Attachment data/metadata = Property
+
+* Advantages of using JCR:
+** Standardized
+** Existing implementations (JackRabbit, exo JCR, etc)
+** Ability to use existing tools that act on JCR:
+*** [[JCR Explorer&gt;&gt;http://www.jcr-explorer.org/screenshots.html]]
+
+* Idea: Use workspaces to provide editorial workflow:(((
+&gt; At the core of the specification is the concept of the repository. A repository contains any number of workspaces. While a simple repository usually only contains one workspace, a repository can contain any number of workspaces. A workspace is essentially a view into the repository. The same content items may appear in multiple workspaces, some content items may only be present in one workspace. Workspaces can be thought of work-in-progress areas of a repository, much like a scrapbook. Content is always created in a workspace and may then be propagated into another workspace.
+)))
+
+There are many potential uses for multiple workspaces. For example, one can use workspaces in a similar way to branches in a source control system (even though as we will see later, the JCR provides versioning separately). A group of content editors work locally in a workspace and when their work is completed, the finished work can be submitted into a central workspace.
+
+Workspaces could potentially also be used to differentiate between in-progress, QA, and live environments, where changes are propagates from one workspace to the other as they go through the editorial workflow.{quote}
+
+= References =
+
+* XWiki:
+** [[Initial Model Proposal on the dev list&gt;&gt;http://xwiki.markmail.org/message/5elx2g47g6m4blqw?q=model+Wiki+Farm]]
+** [[Document Name and Factory on the dev list&gt;&gt;http://xwiki.markmail.org/message/ebeafpu6gvhqdunq?q=DocumentName+DocumentNameFactory]]
+
+* JCR:
+** [[Various JCR links&gt;&gt;http://wiki.apache.org/jackrabbit/JcrLinks]]
+** [[JCR Primer&gt;&gt;http://jtoee.com/jsr-170/the_jcr_primer/]]
+** [[JCR 1.0 API&gt;&gt;http://www.day.com/maven/jsr170/javadocs/jcr-1.0/]]
+** [[JCR 2.0&gt;&gt;http://jcp.org/en/jsr/detail?id=283]]
+** [[JCR: A Practictioner's Perspective&gt;&gt;http://www.theserverside.com/tt/articles/article.tss?l=JCRPract]]
+** [[Content Modeling for JCR&gt;&gt;http://dev.day.com/microsling/content/blogs/main/contentmodels2.html]]
+** [[Interesting JCR blog posts&gt;&gt;http://whiteboardjunkie.wordpress.com/category/jcr/]]
+</content>
+</xwikidoc>

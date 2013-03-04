@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AWM Large Application</web>
+  <name>AWMLargeApplicationTranslations</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Main.AWMLargeApplicationClass</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1360080449000</creationDate>
+  <date>1360158802000</date>
+  <contentUpdateDate>1360158802000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <object>
+    <class>
+      <name>XWiki.TranslationDocumentClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <scope>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>scope</name>
+        <number>1</number>
+        <prettyName>Scope</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>GLOBAL|WIKI|USER|ON_DEMAND</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </scope>
+    </class>
+    <name>AWM Large Application.AWMLargeApplicationTranslations</name>
+    <number>0</number>
+    <className>XWiki.TranslationDocumentClass</className>
+    <guid>b28faba4-eed3-4175-ba6b-c2aeb4df6672</guid>
+    <property>
+      <scope>ON_DEMAND</scope>
+    </property>
+  </object>
+  <content># Class fields
+AWM Large Application.AWMLargeApplicationClass_title1=Title
+AWM Large Application.AWMLargeApplicationClass_content1=Content
+AWM Large Application.AWMLargeApplicationClass_user1=User
+AWM Large Application.AWMLargeApplicationClass_shortText1=URL
+AWM Large Application.AWMLargeApplicationClass_shortText2=email
+AWM Large Application.AWMLargeApplicationClass_longText1=Address
+AWM Large Application.AWMLargeApplicationClass_number1=Phone
+AWM Large Application.AWMLargeApplicationClass_boolean1=Active
+
+# Live table generic keys
+awmlargeapplication.livetable.doc.title=Page title
+awmlargeapplication.livetable.doc.name=Page name
+awmlargeapplication.livetable.doc.space=Space
+awmlargeapplication.livetable.doc.fullname=Page full name
+awmlargeapplication.livetable.doc.author=Last Author
+awmlargeapplication.livetable.doc.creator=Creator
+awmlargeapplication.livetable.doc.date=Update date
+awmlargeapplication.livetable.doc.creationDate=Creation date
+awmlargeapplication.livetable._avatar=Avatar
+awmlargeapplication.livetable._images=Images
+awmlargeapplication.livetable._attachments=Attachments
+awmlargeapplication.livetable._actions=Actions
+awmlargeapplication.livetable._actions.edit=Edit
+awmlargeapplication.livetable._actions.delete=Delete
+awmlargeapplication.livetable.emptyvalue=-
+
+# Live table specific keys
+awmlargeapplication.livetable.title1=Title
+awmlargeapplication.livetable.content1=Content
+awmlargeapplication.livetable.user1=User
+awmlargeapplication.livetable.shortText1=URL
+awmlargeapplication.livetable.shortText2=email
+awmlargeapplication.livetable.longText1=Address
+awmlargeapplication.livetable.number1=Phone
+awmlargeapplication.livetable.boolean1=Active</content>
+</xwikidoc>

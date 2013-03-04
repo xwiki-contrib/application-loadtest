@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>XWikiclientforAndroid</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1290956817000</creationDate>
+  <date>1360950328000</date>
+  <contentUpdateDate>1336929380000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki client for Android</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.XWikiclientforAndroid</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>b6737085-28f8-4277-8206-84fd4f38b301</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.XWikiclientforAndroid</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>ce7f5f8b-a3a9-4b7a-8599-a00a77a3bcaf</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+{{warning}}
+Work continue on [[XWikiAndroidPlatform]].
+{{/warning}}
+
+A set of tools to ease XWiki interaction on Android platform.
+
+= Some informations =
+
+* maven android builder: http://code.google.com/p/maven-android-plugin/
+* android library projects:
+** http://developer.android.com/guide/developing/eclipse-adt.html#libraryProject
+** http://androidblogger.blogspot.com/2010/09/android-library-projects.html
+* Google I/O 2010 - Android REST client applications: http://www.youtube.com/watch?v=xHXn3Kg2IQE
+
+= Tools =
+== XWiki-REST client ==
+
+Android version of http://svn.xwiki.org/svnroot/xwiki/platform/core/trunk/xwiki-rest/xwiki-rest-model/
+
+== Synchronization daemon ==
+
+Install a daemon application which synchronizes applications data with an XWiki instance (database&lt;-&gt;XWiki model)
+
+== XWiki client UI ==
+
+Android application UI version of XWiki viewers/editors</content>
+</xwikidoc>

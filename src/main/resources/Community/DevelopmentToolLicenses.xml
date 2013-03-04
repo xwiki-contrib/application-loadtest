@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>DevelopmentToolLicenses</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.DevelopmentTools</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1272006454000</creationDate>
+  <date>1360950288000</date>
+  <contentUpdateDate>1354788589000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Development Tool Licenses</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.DevelopmentToolLicenses</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>d0535608-2f32-4c25-ab78-b434299c733e</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>Community.DevelopmentToolLicenses</name>
+    <number>0</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>23e10421-fe15-44cc-89fa-b06156d04baa</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiCommittersGroup</groups>
+    </property>
+    <property>
+      <levels>view,comment,edit,delete</levels>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}{{toc/}}{{/box}}
+
+Licenses specified in this page can only be used by XWiki Committers.
+
+= IntelliJ IDEA Open Source License for XWiki =
+
+{{code language="none"}}
+========LICENSE DETAILS========
+
+Type: Open Source License Upgrade
+Reference No*: LC-23790-D367414812
+Date of Issue: 26 April 2012
+Expiration Date: 25 April 2013
+Number of Authorized Users: not limited
+
+* Please quote this reference when contacting JetBrains
+
+===========LICENSEE============
+
+Name: XWiki
+Customer ID: 23790
+Address: unknown city, France
+
+=======SOFTWARE PRODUCT========
+
+Product Name: IntelliJ IDEA
+Licensed Version: the current version and any new product release which is made generally available before 25 April 2013
+
+The software is shipped electronically and is available for download from:
+http://www.jetbrains.com/idea/download/
+
+=========INSTALLATION==========
+
+Run IntelliJ IDEA and follow the Installation Wizard's instructions. To register for use of the software or change your existing registration details, go to Help/Register menu of the software and enter the included below the User Name and License Key(s) into the registration dialog:
+
+User Name: XWiki
+License Key: 23790-F0QZF-FQEDN-FLYYH-8BDYC-YBS71
+{{/code}}
+
+= YourKit Open Source Licenses for XWiki =
+
+Licenses valid for 2012.
+
+{{code language="none"}}
+Key for project XWiki:
+---------------------------------
+
+fac970aa7beace7048a57291b51771afe2fceb1d16499c5a129d1a3326d6
+ad459423662a75cd077eed353e1b9a34e134617b5a4720026e4182a58011
+22527de735e99c7b0213a3a568ea22eb0dcb65fe4e40512d030e7069e823
+f398972898c94309de5c8252c60a6976064d5c5590398f64146646fc5203
+43848899c458434155752de03e27d5c2e72fc7491ee95259108d01e325d9
+6f686f6c91c0e29ef14cc2daa1995711feec984540bf71b861589b793e28
+d06ded3c9b91ba6d1c56ec1eb12973e872d52ef0dcc4d203fe8d9bf5bf81
+8405311ccf15c6dedf6f62da2434ed80205c0e5f99028fe998172c2fa309
+79d3646b3723f49cba4d6ed85b5966ad37450b4a350bc5ba
+{{/code}}
+
+= Clover License for XWiki =
+
+Valid till 12 Aug 2011:
+{{code language="none"}}
+qMMmoWpgqUnIUUslQCCkHArdnnrCaAmCJwHJQSxBxKtXsI
+mi2K5DKKCB6NcT1JsMzl8KbR2KsRSMhv4kKAw73vcpeScU
+PrmNWuONRNMnMoPnQRMWWNQPqnnrqRmMrqTuWtUVwStROo
+PrnmqmUUnounqquummmmmUUnounqquummmmmUUONfhfUUn
+mmmm
+{{/code}}
+
+= Greenpepper =
+
+{{code language="none"}}
+CzKfpwDp5dBi/NsBeVZbisDHSSgbmRndqEvgwp/C9WmWGVmZCgJTQ0ZR5cjCL/ch
+hMUuuA6v7gtg4X2wdxib+YtXDsktslihA9ZBKmkdT3epjp8wLgfUnBrEyyASiZpc
+mn+Usyfaa/9r3zWl3dCda/FG8xNFC8OgpDD8P9ryml+CDZXjw/vPXqaqeoFXCE4+
+ih0Ojhns3n3D243OC4aqu290C+T5ZBknrSrQcso4h/umPhkfGPymdGtlwXS59B9O
+Ub7tLPMFPWR4zdmK6wP+RiguOxCduDbJBoTJNbCjEJidmvgjS25rQ189TC/akQUO
+yee9aag9RoTScBGLXrAlFgelhKEJ7pma+p0rvoNjcCBEw51ORy3uoy11F66sAxzE
+29VzRFdGwzJmLfQiIvwowN43U2PdbaZICGMHwM31YoK29YIzj4pnRPI+FMtBXJKH
+5kSn6CiV97ytTEC9maGCDChXJArF5GDScRl76XP+W3i+fRbzGptz0Cssb1w1EXWE
+oDowzlxVrFCsZS9SvPuqRGF8muYC//zKU+RHKCToZGwDlJPx2JK6cBFPWoLFdBtt
+NMe4IbW3dznSCFqsStTCrPfQ56nUnaQWO5V1Mn4BCMaq+hnIPx4HPr0akSSajZbr
+poWHNy3EOwpp4nTfsl8GBsj+mJn+ZXSW1Sj5PlBiL+gkAm8DDOFa1GlU5jvvc2X7
+0hJ4tnUTHegqBS2cDLR8RaCnBpgcuwVsqKfpT/XxC7Ii6MCXS7lSYejvC2w1oNb4
+xSm0WdXN9odm2jsgfKtqQ3T0uXAs9LVfSv3Gfe5G0tpxaYLVV4oesTOisno7i32b
+7RFYeBstR6F76LCI06bmbUMP+4eUNMTPpS+BizuelGbdvVmPjC7EkArBBwFop8bN
+mC52N7q/TdEn48QxLjumE9z6ynHj6AHFChuoGguaRY+3ZU7tfE8E4F/iKHtprEcL
+{{/code}}</content>
+</xwikidoc>

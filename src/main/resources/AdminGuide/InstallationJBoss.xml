@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>InstallationJBoss</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Installation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1177478162000</creationDate>
+  <date>1360950259000</date>
+  <contentUpdateDate>1360950259000</contentUpdateDate>
+  <version>1.1</version>
+  <title>JBoss Installation</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <attachment>
+    <filename>mysql-xa-ds.xml</filename>
+    <filesize>708</filesize>
+    <author>XWiki.TharinduJayasuriya</author>
+    <date>1196943129000</date>
+    <version>1.2</version>
+    <comment/>
+    <content>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz4NCjxkYXRhc291cmNlcz4NCjx4
+YS1kYXRhc291cmNlPg0KPGpuZGktbmFtZT4vamRiYy9YV2lraURTPC9qbmRpLW5hbWU+DQo8eGEt
+ZGF0YXNvdXJjZS1jbGFzcz5jb20ubXlzcWwuamRiYy5qZGJjMi5vcHRpb25hbC5NeXNxbERhdGFT
+b3VyY2U8L3hhLWRhdGFzb3VyY2UtY2xhc3M+DQo8eGEtZGF0YXNvdXJjZS1wcm9wZXJ0eSBuYW1l
+PSJVUkwiPmpkYmM6bXlzcWw6Ly9sb2NhbGhvc3Q6MzMwNy94d2lraTwveGEtZGF0YXNvdXJjZS1w
+cm9wZXJ0eT4gDQo8eGEtZGF0YXNvdXJjZS1wcm9wZXJ0eSBuYW1lPSJVc2VyIj54d2lraTwveGEt
+ZGF0YXNvdXJjZS1wcm9wZXJ0eT4gDQo8eGEtZGF0YXNvdXJjZS1wcm9wZXJ0eSBuYW1lPSJQYXNz
+d29yZCI+eHdpa2k8L3hhLWRhdGFzb3VyY2UtcHJvcGVydHk+IA0KPHRyYWNrLWNvbm5lY3Rpb24t
+YnktdHg+dHJ1ZTwvdHJhY2stY29ubmVjdGlvbi1ieS10eD4NCjxleGNlcHRpb24tc29ydGVyLWNs
+YXNzLW5hbWU+b3JnLmpib3NzLnJlc291cmNlLmFkYXB0ZXIuamRiYy52ZW5kb3IuTXlTUUxFeGNl
+cHRpb25Tb3J0ZXI8L2V4Y2VwdGlvbi1zb3J0ZXItY2xhc3MtbmFtZT4NCjxtZXRhZGF0YT4NCjx0
+eXBlLW1hcHBpbmc+bXlTUUw8L3R5cGUtbWFwcGluZz4NCjwvbWV0YWRhdGE+DQo8L3hhLWRhdGFz
+b3VyY2U+DQoNCjwvZGF0YXNvdXJjZXM+
+</content>
+  </attachment>
+  <attachment>
+    <filename>jboss-web.xml</filename>
+    <filesize>318</filesize>
+    <author>XWiki.TharinduJayasuriya</author>
+    <date>1196943129000</date>
+    <version>1.2</version>
+    <comment/>
+    <content>PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iSVNPLTg4NTktMSI/Pg0KPCFET0NUWVBFIGpi
+b3NzLXdlYiBQVUJMSUMgICItLy9KQm9zcy8vRFREIFdlYiBBcHBsaWNhdGlvbiAyLjNWMi8vRU4i
+ICJodHRwOi8vd3d3Lmpib3NzLm9yZy9qMmVlL2R0ZC9qYm9zcy13ZWJfM18yLmR0ZCI+DQo8amJv
+c3Mtd2ViPg0KICA8cmVzb3VyY2UtcmVmPg0KCTxyZXMtcmVmLW5hbWU+amRiYy9YV2lraURTPC9y
+ZXMtcmVmLW5hbWU+DQoJPGpuZGktbmFtZT5qYXZhOi9qZGJjL1hXaWtpRFM8L2puZGktbmFtZT4N
+CiAgIDwvcmVzb3VyY2UtcmVmPg0KPC9qYm9zcy13ZWI+
+</content>
+  </attachment>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.InstallationJBoss</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>3ff8eae0-ae04-4faa-ad7f-4440d3ce59ab</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+= JBoss AS 7.x =
+
+* Download and install the [[JBoss Application Server&gt;&gt;http://www.jboss.org/jbossas/]]
+* Deploy the XWiki WAR either by using the JBoss AS Admin (recommended) or by deploying on the filesystem. Read the [[JBoss AS documentation&gt;&gt;https://docs.jboss.org/author/display/AS71/Documentation]] to learn how to do this
+* If you have class loader issues read [[how JBoss AS7 Classloader works&gt;&gt;https://docs.jboss.org/author/display/AS71/Developer+Guide#DeveloperGuide-ClassloadinginJBossAS7]]
+
+== Troubleshooting ==
+
+=== "More than the maximum number of request parameters" error ===
+
+If you get the following error in the logs when trying to import a large XAR:
+
+{{code}}
+Servlet.service() for servlet action threw exception: java.lang.IllegalStateException: More than the maximum number of request parameters (GET plus POST) for a single request ([512]) were detected. Any parameters beyond this limit have been ignored. To change this limit, set the maxParameterCount attribute on the Connector.
+{{/code}}
+
+You'll need to [[configure Tomcat in JBoss to support more than 512 form fields&gt;&gt;https://community.jboss.org/thread/177942]].
+
+= JBoss AS 4.0.x =
+
+* Download and install the "JBoss Application Server". It's usually as simple as unzipping it in a directory. Let's call this directory ##$JBOSS_HOME##
+* (optional) By default JBoss runs on port 8080. If you want to modify the port on which JBoss is running, edit ##$JBOSS_HOME/server/&lt;mode&gt;/deploy/jbossweb-tomcat55.sar/server.xml##. Search for ##8080## and replace it with the port value you wish to use. Similarly change the port in ##$JBOSS_HOME/server/&lt;mode&gt;/deploy/http-invoker.sar/META-INF/jboss-service.xml## to the value you like
+* Copy and expand the XWiki WAR into a directory named ##xwiki.war/## (note that unlike most servlet containers JBoss wants the directory name to end with ##.war##) in ##$JBOSS_HOME/server/&lt;server configuration&gt;/deploy## where ##server configuration## is the JBoss configuration you're using
+* Edit ##$JBOSS_HOME/server/&lt;mode&gt;/deploy/jbossweb-tomcat55.sar/server.xml## to set UTF-8 encoding:(((
+{{code}}
+&lt;Connector port="8080" ... URIEncoding="UTF-8"/&gt;
+&lt;Connector port="8009" ... URIEncoding="UTF-8"/&gt;
+{{/code}}
+)))
+
+== Classloading Isolation ==
+
+The default JBoss behavior is that classes inside of the ##WEB-INF/classes## and ##WEB-INF/lib## directories of the WAR file are incorporated into the default shared class loader repository. This allows classes and resources to be shared between web applications. However this means that JARs provided by XWiki in ##WEB-INF/lib## will get mixed with JARs provided by JBoss and if both application provide the same JAR but in a different version, class incompatibilities will occur. 
+
+To solve this please read up on [[JBoss ClassLoading Configuration&gt;&gt;https://community.jboss.org/wiki/ClassLoadingConfiguration]] in order to configure JBoss not to use the unified class loader (set ##UseJBossWebLoader## to ##false## in ##META-INF/jboss-service.xml##).
+
+Alternatively you may try to remove the clashing JARs from XWiki's ##WEB-INF/lib## hoping that the version provided by JBoss is compatible with XWiki's needs.
+
+== Log4j Error ==
+
+{{warning}}
+It was reported that with XWiki 1.6 and JBoss 4.0.4, using these settings would generate an error with hibernate. Everything seems to work fine without these settings including classloading of log4j.
+{{/warning}}
+
+* Edit ##$JBOSS_HOME/server/&lt;server configuration&gt;/jbossweb-tomcat55.sar/META-INF/jboss-service.xml## file and replace:
+(((
+{{code}}
+&lt;attribute name="Java2ClassLoadingCompliance"&gt;false&lt;/attribute&gt;
+&lt;attribute name="UseJBossWebLoader"&gt;false&lt;/attribute&gt;
+{{/code}}
+)))
+with:
+(((
+{{code}}
+&lt;attribute name="Java2ClassLoadingCompliance"&gt;true&lt;/attribute&gt;
+&lt;attribute name="UseJBossWebLoader"&gt;true&lt;/attribute&gt;
+{{/code}}
+)))
+This is to avoid class loading issues for the Log4J library.
+
+= Using a JBoss DataSource =
+
+JBoss links about this topic:
+
+* [[JBoss AS 7.1 Datasource Configuration&gt;&gt;https://docs.jboss.org/author/display/AS71/DataSource+configuration]]
+* [[DataSource configuration in AS 7&gt;&gt;https://community.jboss.org/wiki/DataSourceConfigurationInAS7]]
+* [[JBoss AS 7.1.0.Final "Thunder" released - Java EE 6 Full Profile certified!&gt;&gt;http://planet.jboss.org/post/jboss_as_7_1_0_final_thunder_released_java_ee_6_full_profile_certified]]
+* [[How do I migrate my application from AS5 or AS6 to AS7&gt;&gt;https://docs.jboss.org/author/display/AS7/How+do+I+migrate+my+application+from+AS5+or+AS6+to+AS7]]
+* [[Excited about JBoss AS 7.1 Part I: Deployable Datasources&gt;&gt;https://community.jboss.org/en/tools/blog/2012/02/28/excited-about-jboss-as-71-part-i-deployable-datasources]]
+
+== Tutorial for JBoss AS 7.1 ==
+
+* Create a JBoss Module for your database driver. For example for HSQLDB, create the directory ##[ASROOT]/modules/org/hsqldb/main## and put the HSQLDB Driver JAR (e.g. ##hsqldb-2.2.9.jar##) in it and also create a ##module.xml## in it and write the following code inside:(((
+{{code}}
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;module xmlns="urn:jboss:module:1.0" name="org.hsqldb"&gt;
+  &lt;resources&gt;
+    &lt;resource-root path="hsqldb-2.2.9.jar"/&gt;
+  &lt;/resources&gt;
+  &lt;dependencies&gt;
+    &lt;module name="javax.api"/&gt;
+  &lt;/dependencies&gt;
+&lt;/module&gt;
+{{/code}}
+)))
+* Create a data source file named ##-ds.xml## (e.g. ##hsqldb-ds.xml##). If you're using a standalone deployment, put it in ##[ASROOT]/standalone/deployments/## (you can also put it in your ##WEB-INF/## dir). Example of content:(((
+{{code}}
+&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;datasources xmlns="http://www.jboss.org/ironjacamar/schema"&gt;
+  &lt;datasource jndi-name="java:jboss/datasources/XWikiDS" pool-name="XWikiDS" enabled="true" use-java-context="true"&gt;
+    &lt;connection-url&gt;jdbc:hsqldb:file:[path to your hsqldb db file, e.g. /tmp/xwiki-data/database/xwiki_db];shutdown=true&lt;/connection-url&gt;
+    &lt;driver&gt;hsqldb&lt;/driver&gt;
+    &lt;security&gt;
+      &lt;user-name&gt;sa&lt;/user-name&gt;
+      &lt;password&gt;&lt;/password&gt;
+    &lt;/security&gt;
+  &lt;/datasource&gt;
+&lt;/datasources&gt;
+{{/code}}
+)))
+
+== Old Tutorial ==
+
+* Uncomment the ##resource-ref## section in XWiki's ##web.xml## file. You should have:(((
+{{code}}
+&lt;resource-ref&gt;
+  &lt;description&gt;DB Connection&lt;/description&gt;
+  &lt;res-ref-name&gt;jdbc/XWikiDS&lt;/res-ref-name&gt;
+  &lt;res-type&gt;javax.sql.DataSource&lt;/res-type&gt;
+  &lt;res-auth&gt;Container&lt;/res-auth&gt;
+&lt;/resource-ref&gt;
+{{/code}}
+)))
+* Create the following ##jboss-web.xml## file in the deployed XWiki's ##WEB-INF/## directory:(((
+{{code}}
+&lt;?xml version="1.0" encoding="ISO-8859-1"?&gt;
+&lt;!DOCTYPE jboss-web PUBLIC  "-//JBoss//DTD Web Application 2.3V2//EN" "http://www.jboss.org/j2ee/dtd/jboss-web_3_2.dtd"&gt;
+&lt;jboss-web&gt;
+  &lt;resource-ref&gt;
+        &lt;res-ref-name&gt;jdbc/XWikiDS&lt;/res-ref-name&gt;
+        &lt;jndi-name&gt;java:jboss/datasources/XWikiDS&lt;/jndi-name&gt;
+   &lt;/resource-ref&gt;
+&lt;/jboss-web&gt;
+{{/code}}
+)))
+* Modify XWiki's ##WEB-INF/hibernate.cfg.xml## file to tell Hibernate to use the defined DataSource rather than a direct JDBC connection:(((
+{{code}}
+...
+&lt;property name="connection.datasource"&gt;java:jboss/datasources/XWikiDS&lt;/property&gt;
+...
+{{/code}}
+)))
+
+= Issues related to JBoss =
+
+{{jira URL="http://jira.xwiki.org" source="jql"}}
+labels = jboss
+{{/jira}}</content>
+</xwikidoc>

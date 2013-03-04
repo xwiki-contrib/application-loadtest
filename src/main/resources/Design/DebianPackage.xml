@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>DebianPackage</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1312189172000</creationDate>
+  <date>1360950337000</date>
+  <contentUpdateDate>1318836859000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Debian package</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.DebianPackage</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>2a18a0cd-b970-4dda-b8e4-73088d92d7d2</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.DebianPackage</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>49311a0e-b603-4bb4-80e3-ba80b6a84815</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+= Goal =
+
+Provide an easy package and repository to install XWiki on Debian/Ubuntu systems.
+
+= Tomcat package =
+
+== Mysql package ==
+
+* create database
+* let the user choose the database user password
+
+== PostgeSQL package ==
+
+* create database
+* let the user choose the database user password
+
+= TODO =
+
+* apache httpd setup
+* openoffice support
+* use debian java libraries dependencies instead of the one from the war
+* properly sign debian repository and packages using GPG (or something else)
+* produce a sql script from the xar to inject it to mysql during deb package install using debconf
+
+= Debian repository =
+
+[[mini-dinstall&gt;&gt;http://man.cx/mini-dinstall%281%29]] looks like the way to go but it's using ##.changes## files and not ##.deb## files it seems.
+
+For now I wrote a script to make a maven repository expose a Debian repository with all the .deb found in it.
+
+= Ubuntu repository =
+
+http://developer.ubuntu.com/publish/freestable/</content>
+</xwikidoc>

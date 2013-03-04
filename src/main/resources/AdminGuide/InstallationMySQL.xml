@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>InstallationMySQL</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Installation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1194799120000</creationDate>
+  <date>1360950262000</date>
+  <contentUpdateDate>1360950262000</contentUpdateDate>
+  <version>1.1</version>
+  <title>MySQL Installation</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.InstallationMySQL</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>d89b2c96-4976-4b73-848b-1d615fa98ed4</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+= Compatibility Considerations =
+
+== MyISAM storage engine ==
+
+MyISAM (the default storage engine for MySQL) does not support transactions. If there is an error while data is being saved to the database, XWiki will attempt to rollback the transaction to its previous known good state. If you use MyISAM it will do nothing, leaving the database in whatever state it was in when the error occurred.
+
+{{warning}}
+If you use MySQL with the default engine MyISAM, you will most likely corrupt your database.**We highly recommend using a storage engine such as InnoDB which supports transactions.**
+{{/warning}}
+
+== MySQL versions older than 5.0 ==
+
+XWiki does not fully work with MySQL versions 4.x or lower, due to several limitations of the way the SQL standards are implemented in MySQL, limited support for non-latin1 encodings, the flaky integration of Hibernate and MySQL 4, and other things. Most parts of the application work fine, but there are some parts that cannot be easily fixed, so if you must use MySQL 4.x, you're doing it on your own. MySQL 4 is pretty old and buggy so I recommend upgrading.
+
+= Installation Steps =
+
+Follow these instructions:
+
+* Download and install [[MySQL&gt;&gt;http://www.mysql.com/]] 5.x or greater.
+* Start the MySQL server. You can do that in several ways. For example use {{code}}mysqld --console{{/code}}
+* Create the wiki database. You can use the name you want for the database, but you will have to set the hibernate configuration file and ##xwiki.cfg## file accordingly. You can create the database in several ways. For example use:
+{{code}}
+mysql -u root -e "create database xwiki default character set utf8 collate utf8_bin"
+{{/code}}
+
+* Give all privileges to the xwiki user for accessing the xwiki database. You can do that in several ways. For example (if you get connection problems try localhost instead of the IP address below) use:
+{{code}}
+mysql -u root -e "grant all privileges on xwiki.* to xwiki@localhost identified by 'xwiki'"
+{{/code}}
+
+* Please make sure that the DNS-name "localhost" is defined in your hosts-file (i.e. ##/etc/hosts##)
+* You need to have the MySQL JDBC Driver JAR (named ##mysql-connector-java*.jar##) installed in XWiki's WAR file. If this file isn't present in XWiki's ##WEB-INF/lib## directory you'll need to download it and copy it there. You can download it from the [[MySQL Connector/J Driver page&gt;&gt;http://www.mysql.com/downloads/connector/j/]] or directly from the [[Maven Central Repository&gt;&gt;http://repo1.maven.org/maven2/mysql/mysql-connector-java/]].
+(((
+{{warning}}
+You need the 5.x version or higher. The 3.x version doesn't handle Boolean data correctly and will either throw errors or will make all documents hidden by default.
+{{/warning}}
+)))
+* Now you need to tell XWiki to use MySQL. To do this, edit the ##WEB-INF/hibernate.cfg.xml## file where you have expanded the XWiki WAR file and replace the matching properties with the following ones:
+{{code language="xml"}}
+&lt;property name="connection.url"&gt;jdbc:mysql://localhost/xwiki&lt;/property&gt;
+&lt;property name="connection.username"&gt;xwiki&lt;/property&gt;
+&lt;property name="connection.password"&gt;xwiki&lt;/property&gt;
+&lt;property name="connection.driver_class"&gt;com.mysql.jdbc.Driver&lt;/property&gt;
+&lt;property name="dialect"&gt;org.hibernate.dialect.MySQL5InnoDBDialect&lt;/property&gt;
+{{/code}}
+(((
+{{info}}
+* By default MySQL only accepts packets that are smaller than 1MB. If you get the "Packet for query is too large (max_allowed_packet)" error then see the [[Packet too large error page&gt;&gt;http://dev.mysql.com/doc/refman/5.0/en/packet-too-large.html]]. For example to increase the packet size to 32M you could start the MySQL server with {{code}}mysqld --console --max_allowed_packet=32M{{/code}} or you can modify directly the ##my.cnf## configuration file to set this value permanently.
+* If an empty XWiki starts with no errors, but you are unable to upload the default set of pages (XAR file) try to increase the ##max_allowed_packet## parameter as shown above.
+{{/info}}
+)))
+= Tips =
+
+== Convert a database from latin1 (or collation utf8_ci) to utf8/utf8_bin ==
+
+{{code}}
+#!/bin/bash
+
+db=xwiki
+to_character_set=utf8
+to_collation=utf8_bin
+
+mysql_cmd="mysql -u root"
+
+TBL_LIST=$($mysql_cmd -N -s -r -e "use $db;show tables;")
+
+for tbl_name in $TBL_LIST;
+do
+$mysql_cmd -e "alter table $db.$tbl_name convert to character set $to_character_set collate $to_collation;"
+done
+
+echo "Here the result of the operation:"
+$mysql_cmd -e "USE $db;SELECT TABLE_CATALOG, TABLE_SCHEMA, TABLE_NAME, COLUMN_NAME, COLLATION_NAME FROM INFORMATION_SCHEMA.COLUMNS WHERE TABLE_SCHEMA=DATABASE();"
+{{/code}}
+
+== Convert from MyISAM to InnoDB ==
+
+{{code}}
+#!/bin/bash
+
+MYSQL_COMMAND=mysql
+TO_ENGINE=INNODB
+
+DATABASES=$(mysql -N -s -r -e 'show databases'|grep -v ^information_schema$|grep -v ^mysql$)
+
+
+for db in $DATABASES
+do
+
+echo "Working on database $db..."
+echo ""
+
+TABLES=$(mysql -N -s -r -e "show tables from $db;")
+
+for tb in $TABLES
+do
+
+$MYSQL_COMMAND -e "ALTER TABLE $db.$tb ENGINE = $TO_ENGINE;"
+
+done
+
+$MYSQL_COMMAND -e "SELECT table_name,Engine,table_collation FROM information_schema.tables WHERE table_schema = DATABASE();"
+
+echo ""
+echo ""
+
+done
+{{/code}}
+
+= Troubleshooting =
+
+== Unable to login to MySQL Console ==
+
+When running {{code}}mysql -u root -e "create database xwiki default character set utf8{{/code}} you may get a {{code}}ERROR 1045 (28000): Access denied for user 'xwiki'@'localhost' (using password: YES){{/code}} error.
+This means that you have a password set for the MySQL root user, but you are not specifying it in the console command. You must also use the //-p// parameter. Using this you will be prompted to enter the password and be allowed to login to the MySQL console and create the database.
+
+== Can't create test file ==
+
+When running ##mysqld ~-~-console## you may get the following (especially if you're on a Mac):
+
+{{code}}
+071111 17:20:53 [Warning] Can't create test file /usr/local/mysql-5.0.45-osx10.4-i686/data/Vincent.lower-test
+071111 17:20:53 [Warning] Can't create test file /usr/local/mysql-5.0.45-osx10.4-i686/data/Vincent.lower-test
+mysqld: Can't change dir to '/usr/local/mysql-5.0.45-osx10.4-i686/data/' (Errcode: 13)
+071111 17:20:53 [ERROR] Aborting
+{{/code}}
+
+To start MySQL run the following command instead:
+
+{{code}}
+sudo /usr/local/mysql/bin/mysqld_safe --user=mysql
+{{/code}}
+
+== Data Truncation Error ==
+
+If you receive an Exception like the following while installing/upgrading XWiki, chances are that you are using an outdated version of MySQLConnectorJ.
+
+{{code}}
+Caused by: java.sql.BatchUpdateException: Data truncation: Out of
+range value adjusted for column 'XWD_HIDDEN' at row 1
+      at com.mysql.jdbc.PreparedStatement.executeBatch(PreparedStatement.java:894)
+      at org.apache.commons.dbcp.DelegatingStatement.executeBatch(DelegatingStatement.java:294)
+      at org.apache.commons.dbcp.DelegatingStatement.executeBatch(DelegatingStatement.java:294)
+      at org.hibernate.jdbc.BatchingBatcher.doExecuteBatch(BatchingBatcher.java:48)
+      at org.hibernate.jdbc.AbstractBatcher.executeBatch(AbstractBatcher.java:246)
+{{/code}}
+
+On Linux, mysql-connector-java-3.x has proven **not** to work due to a bug in the handling of UTF-8 and lack of support for Boolean types.
+
+Upgrading to the latest version of MySQLConnectorJ should solve such an error in most of the cases.
+
+== HTTP 500 Error ==
+
+{{code}}
+HTTP Status 500 -
+
+type Exception report
+
+message
+
+descriptionThe server encountered an internal error () that prevented it from fulfilling this request.
+
+exception
+
+javax.servlet.ServletException: com.xpn.xwiki.XWikiException: Error number 3 in 0: Could not initialize main XWiki context
+Wrapped Exception: Error number 3001 in 3: Cannot load class com.xpn.xwiki.store.migration.hibernate.XWikiHibernateMigrationManager from param xwiki.store.migration.manager.class
+Wrapped Exception: Error number 0 in 3: Exception while hibernate execute
+Wrapped Exception: Could not create a DBCP pool. There is an error in the hibernate configuration file, please review it.
+
+root cause
+
+com.xpn.xwiki.XWikiException: Error number 3 in 0: Could not initialize main XWiki context
+Wrapped Exception: Error number 3001 in 3: Cannot load class com.xpn.xwiki.store.migration.hibernate.XWikiHibernateMigrationManager from param xwiki.store.migration.manager.class
+Wrapped Exception: Error number 0 in 3: Exception while hibernate execute
+Wrapped Exception: Could not create a DBCP pool. There is an error in the hibernate configuration file, please review it.
+{{/code}}
+
+In this case, try to disable **skip-networking** in MySQL *.ini file. Thanks a lot //M Rawash// (see his comment below).</content>
+</xwikidoc>

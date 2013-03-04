@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>MobileClient</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1359817614000</creationDate>
+  <date>1360950325000</date>
+  <contentUpdateDate>1359818922000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Mobile Client</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.MobileClient</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>5d62dc82-d2cc-4db0-aee2-a030da6daf04</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.MobileClient</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>4201668d-85e7-4900-a1fc-5753605cb64d</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+There are multiple possible objectives to a mobile XWiki solution:
+
+* Enhance XWiki's solutions with Mobile Access for XE/XEM
+* Provide the foundation for Custom Developed Mobile Specific Applications based on XWiki as the backend
+
+In the first phase we will focus on providing a Mobile Skin provided by a Generic Cross device Mobile App allowing to access and XE/XEM instance.
+
+== Features ==
+
+Features of the mobile applications have been grouped in 3 tier based on user needs and development complexity
+
+=== Tier 1 ===
+
+* Enhance the XWiki REST API to support quality features in XWiki 4.3.
+* Allow to configure which wiki to access, provide a username and password
+* Allow to download the Mobile configuration from the wiki itself
+* Basic UI/Design
+* XE View: recent documents, space view, apps view, query, users, open web view in Safari, navigation between pages
+* XEM View: view list of subwikis, search and query global wiki
+* Page View: view page in plain HTML with images, list of attachments, view in Safari
+* Pagination (access more than the initial set of documents)
+
+=== Tier 2 ===
+
+* Provide manually an advanced configuration
+* Invite User
+* Basic Notifications (recent documents, configurable in watch list ?)
+* Basic Offline Storage
+* Bookmarks
+* Improved UI/Design
+* Advanced Navigation in XWiki AWM Apps
+* Page View: comments, information, backlinks, etc..
+
+=== Tier 3 ===
+
+* Advanced Notifications based on Rules, Bookmarks
+* Advanced Offline including Bookmarking, Editing
+* XWiki Basic Administration UI (install Extensions) ?
+
+== Prototypes ==
+
+=== v2 Prototype ===
+
+A v2 prototype has been published using JQuery Mobile and Cordova on iOS:
+
+http://www.github.com/xwiki-contrib/mobile-xwikistandardclient/
+
+Some screenshots are available [[here&gt;&gt;MobileClientPrototypeV2]]
+
+== Design Studies ==
+
+In order to get out a first version of the XWiki Mobile application with the Tier 1 feature set, we need to make some simple UI/Design proposal to improve the v2 Prototype.
+
+The objective is to try to stay in the limits of what the application and the JQuery Mobile framework can currently do, so the UI needs to be acceptable and valuable to user without needing a lot of work. However, getting a long term view is also interesting analyzing which features would be the most important in a mobile use case (notifications, how should they work, mobile capturing of data). Any good ideas that are simple to implement but bring a lot of value in a mobile use case scenario are welcomed.
+
+The proposals should focus on the following features in priority:
+
+* Home Page listing available Wikis
+* Configuration Screen to add a Wiki (URL, username, password, test configuration, advanced configuration)
+* XEM Screen for multiple sub wikis (list of sub-wikis + action items maybe merged with latest documents or wiki summary)
+* XE Screen (list of action items maybe merged with latest documents or wiki summary)
+* Recent Documents
+* Search
+* Attachment View
+
+In a second phase the following features will be important:
+
+* Navigation into Application documents (mobile livetable)
+* Bookmarking of Pages/Spaces and Offline usage
+* Social Features (comments, etc..)
+
+The Design proposal has been [[published on the incubator&gt;&gt;http://incubator.myxwiki.org/xwiki/bin/view/Improvements/MobileApp]].
+
+== Technical Architecture ==
+
+There are some technical challenges when it comes to the technology used which could be:
+
+* pure native development
+* html5 with native packaging with a JS framework
+** JQuery Mobile
+** jQmobi
+** Sensa Touch
+** etc..
+
+Additionally there are architectural challenges:
+
+* How to handle the network queues for maximum performance and reliability as well as login management
+* How to achieve performance using local caches and Offline usage
+* How to provide a modular architecture allowing to add features through plugins as well as customize the application without a full rewrite
+
+The first prototype uses Cordova with JQuery Mobile and this has shown some performance issue both in the HTML displaying as well as reliability issues when transferring data from the servers.
+We will study a bit further the approach of network queues to retrieve data and keep a local cache of them as well as the jQmobi framework which seems to be leaner and have better performance on mobile devices.</content>
+</xwikidoc>

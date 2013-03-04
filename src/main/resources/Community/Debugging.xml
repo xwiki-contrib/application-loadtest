@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>Debugging</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1170407380000</creationDate>
+  <date>1360950280000</date>
+  <contentUpdateDate>1354658088000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Debugging</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.Debugging</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>579df012-c119-48c4-a966-4d793fcba9b7</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>There are several possibilities for debugging XWiki:
+
+{{toc/}}
+
+= Debugging XWiki from your IDE =
+
+== Debugging with Eclipse ==
+
+Once you've gotten the debugger working, you'll wonder how you ever survived without it.
+
+=== Complete tutorial based on M2Eclipse and WTP ===
+
+[[Debug XWiki with Eclipse&gt;&gt;Community.DebugXEWithEclipse]]
+
+=== Debug a XWiki released version ===
+
+* Follow the steps in under [[Building In Eclipse&gt;&gt;BuildingInEclipse]] including the optional "Import the WAR as a web project".
+* Select from the Eclipse menu **Run &gt; Debug...**
+* Create a new configuration for your server
+* Hit the Debug button
+* Set breakpoints, step through code, have fun! 
+
+WTP will deploy XWiki into ##{workspace_location}/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/webapps/xwiki##. If you suspect a change has not been deployed correctly (e.g. a change to a config file), check there to confirm.
+
+If you are working on an XWiki plugin in a separate project in your workspace, you can ensure it is automatically deployed to XWiki's ##WEB-INF/lib## directory when debugging. Open the project properties of the XWiki project resulting from the WAR import above, go to the ##J2EE Module Dependencies## section, and add your plugin project.
+
+=== Using Firebug when debugging a selenium test ===
+
+For that you will need to install Firebug as a global extension. See http://kb.mozillazine.org/Installing_extensions#Global_installation
+
+= Remote Debugging =
+
+To perform remote debugging, start your wiki in debug mode. To do this modify the way you start your container and ensure that the following JVM parameters are passed:
+
+{{code}}
+-Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005
+{{/code}}
+
+For example, for Jetty you could use the following start script:
+
+{{code}}
+#!/bin/sh
+
+JETTY_HOME=.
+JETTY_PORT=8080
+JAVA_OPTS="-Xmx300m -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"
+
+java $JAVA_OPTS -Dfile.encoding=iso-8859-1 -Djetty.port=$JETTY_PORT -Djetty.home=$JETTY_HOME -jar $JETTY_HOME/start.jar
+{{/code}}
+
+{{info}}
+You can also easily run Jetty in debug mode by using the [[jettyrun profile in the Maven build&gt;&gt;Community.Building#HExecutingtheStandardWebWARquicklyindevelopmentmode]].
+{{/info}}
+
+If you are using the Tomcat service on Windows, you should modify the JVM args with the Tomcat Service Configuration Panel. Select the Java tab and add each of the options **on a separate line**. For example:
+
+{{code}}
+-Dcatalina.home=C:\Program Files\Apache Software Foundation\Tomcat 5.5
+-Dcatalina.base=C:\Program Files\Apache Software Foundation\Tomcat 5.5
+-Djava.endorsed.dirs=C:\Program Files\Apache Software Foundation\Tomcat 5.5\common\endorsed
+-Djava.io.tmpdir=C:\Program Files\Apache Software Foundation\Tomcat 5.5\temp
+-Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+-Djava.util.logging.config.file=C:\Program Files\Apache Software Foundation\Tomcat 5.5\conf\logging.properties
+-Xdebug
+-Xnoagent
+-Djava.compiler=NONE  
+-Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=n
+{{/code}}
+
+Then, in your favorite IDE, open the XWiki project and run a remote debugging session, attached to the socket on port 5005. For example, using IntelliJ IDEA, go to ##Run|Edit Configurations...## and create a new ##Remote## configuration (default parameters should be fine). Then execute it and IDEA will connect to the executing JVM. 
+
+You can then place breakpoints in your source code.
+
+= Logging =
+
+== Turning on logging inside XWiki ==
+
+See the [[Logging page in the Admin guide&gt;&gt;platform:AdminGuide.Logging]].
+
+== Logging calls at the database level ==
+
+Turn on logging in your database to see all SQL queries executed against it. 
+
+{{info}}
+The configuration is database-dependent. Please add how to do it for different database here.
+{{/info}}
+
+== Using Byteman ==
+
+[[Byteman&gt;&gt;https://www.jboss.org/byteman]] is a great framework that allows to modify bytecode in a running JVM. It can easily be used to add logging (for ex) to find out what's happening in a running XWiki instance. Here's a quick tutorial:
+* Download Byteman and unzip it in a directory. Set the ##$BYTEMAN_HOME## environment property to point to the directory where you've unzipped it. For example: {{code}}export BYTEMAN_HOME=/Users/vmassol/dev/byteman/byteman-download-2.1.0{{/code}}
+* Start an XWiki instance somewhere on the same machine
+* Go to ##$BYTEMAN_HOME/bin## and connect Byteman to XWiki. For example: {{code}}sh bminstall.sh -b -Dorg.jboss.byteman.transform.all jetty/start.jar{{/code}}
+* Now create a Byteman rule by creating a file, for example ##my.btm## with the following:(((
+{{code}}
+RULE XWiki Docs loaded
+CLASS XWikiHibernateStore
+METHOD loadXWikiDoc
+AT ENTRY
+IF TRUE
+DO traceln("Load document = " + $1.getDocumentReference())
+ENDRULE
+{{/code}}
+)))
+* Load this rule with: {{code}}sh bmsubmit.sh -l my.btm{{/code}}
+* Call a URL in your wiki and check that the console prints the SQL statements that get executed! For example:(((
+{{code}}
+Load document = xwiki:Main.WebPreferences
+Load document = xwiki:ColorThemes.DefaultColorTheme
+Load document = xwiki:XWiki.SearchSuggestConfig
+Load document = xwiki:XWiki.SearchSuggestConfig
+Load document = xwiki:Dashboard.WebHome
+Load document = xwiki:XWiki.GadgetClass
+Load document = xwiki:Dashboard.WebHome
+Load document = xwiki:Dashboard.WebPreferences
+Load document = xwiki:Dashboard.colibri
+Load document = xwiki:Main.Welcome
+...
+{{/code}}
+)))
+* Modify your rule or add new rules to the same file and apply the changes with {{code}}sh bmsubmit.sh -l my.btm{{/code}}
+* Remove your rules with {{code}}sh bmsubmit.sh -u{{/code}}
+
+For more read some [[Byteman tutorial&gt;&gt;https://community.jboss.org/wiki/ABytemanTutorial]] or the [[Reference documentation&gt;&gt;http://downloads.jboss.org/byteman/2.0.1/ProgrammersGuideSinglePage.html]].
+
+= Debugging the WYSIWYG editor =
+
+== Debugging the Java code ==
+
+=== Debugging the client side Java code ===
+
+Starting with GWT 2.0 we can run and debug the client side Java code directly in the browser. This is called Development Mode. Follow this steps:
+
+1. Copy ##src/test/resources/start_wysiwyg_noserver_debug.sh## from ##xwiki-gwt-wysiwyg-server## module to the root of your XWiki Enterprise installation. For the standard jetty+hsqldb distribution this is the directory where ##start_xwiki.sh## is located.
+1. ##chmod 755 start_wysiwyg_noserver_debug.sh##
+1. Open ##start_wysiwyg_noserver_debug.sh## with a text editor and make sure that the variables defined at the beginning of the file match what you have on your system.
+1. The GWT Development Mode requires GWT Java sources (so not only the byte code) to be in the class path. The debug script looks for the needed dependencies in the local maven repository. Building the ##xwiki-gwt-*## modules ensures these dependencies are in your local maven repository. Alternatively you can edit the debug script and reference these dependencies with a different path.
+1. Start the server (e.g. ##./start_xwiki.sh##).
+1. ##./start_wysiwyg_noserver_debug.sh##
+1. Connect to the specified port using your IDE. The client side code is in the ##xwiki-gwt-wysiwyg-client## maven module. Make sure you have imported it in your IDE.
+1. The GWT Development Mode window should have opened. Click "Copy to Clipboard" to copy the startup URL.
+1. Paste the startup URL in your browser's address bar and load it.
+1. You may be asked to login since you're going to edit a wiki page in WYSIWYG mode.
+1. You may be asked to install the GWT Developer plugin, if this is the first time you try to debug GWT code in Development Mode.
+1. If you receive a message that tells you your GWT code needs to be recompiled just refresh the page. Note that the exiting JavaScript code of the editor (##resources/js/xwiki/wysiwyg/xwe##) might be affected so you should backup it if you don't have other means of restoring it.
+1. At this point the WYSIWYG editor should be loaded and you should be able to add break points using your Java IDE. Currently the editor toolbar is badly displayed in debug mode due to some CSS issue we need to fix.
+
+=== Debugging the server side code ===
+
+You can debug the server side code remotely. Start your wiki in debug mode (e.g. using the ##start_xwiki_debug.sh## script) and then connect with your IDE to the specified port. The server side code of the WYSIWYG editor is in the ##xwiki-gwt-wysiwyg-server## module. Make sure you have imported it in your IDE.
+
+== Debugging the JavaScript code ==
+
+The JavaScript code of the WYSIWYG editor is obfuscated by default to reduce its size. To be able to debug it you have to rebuild the editor using the detailed GWT compilation style. One way to achieve this is with the ##-Pdev## maven profile. Alternatively you can edit the pom of the ##xwiki-gwt-wysiwyg-server## module and change the value of the ##gwt.style## property. After you rebuild the editor, update your XWiki Enterprise instance and clean your browser's cache. Note that with the detailed style the JavaScript code is huge (around 5MB currently) so most of the debuggers will respond pretty slow. Sometimes you can save time by adding your break points from the JavaScript code. Edit the ##&lt;hash&gt;.cache.html## file that is loaded by your browser and add ##debugger## where you want the execution to be stopped. A quick way to find methods in the detailed JavaScript code is to search for ##&lt;ClassName&gt;.prototype##, e.g. ##RichTextArea.prototype##.</content>
+</xwikidoc>

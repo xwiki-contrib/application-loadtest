@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ApplicationConfiguration</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1269879898000</creationDate>
+  <date>1360950311000</date>
+  <contentUpdateDate>1344193912000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Design: Application Configuration</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.ApplicationConfiguration</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>45f81977-56a7-47fd-80ef-c298b48e0122</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.ApplicationConfiguration</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>59bf2d45-8ac7-4c0a-9a45-c54d31d9077a</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>== Goal ==
+
+The aim of this design document is to describe how we could provide a standard way to configure an Application from the Administration application while also ensuring smooth application upgrade in regards to their configuration.
+
+== Requirements and Use-cases ==
+
+ * UC1: Allow any XWiki application to have sections in the Administration application for their configuration
+ * UC2: Application configuration should be global or local to a space, space configuration overriding global configuration
+ * UC3: Application should be able to provide a default settings on install or upgrade to ensure a default working version of the application
+ * UC4: Application upgrade should be as smooth as possible, and should not override the configuration
+
+== Current situation ==
+
+A recent implementation (2.3M1) has been developed by Caleb, and is documented here: [[extensions:Extension.Administration Application]]
+
+In that implementation, it has concentrate on the Registration application. The registration application configuration is in two parts:
+ * some settings already stored in XWikiPreferences,
+ * newer settings are now stored in an XObject of class XWiki.Registration and stored in XWiki.RegistrationConfig.
+
+This configuration in two part provide a somewhat strange UI for the configuration of the Registration Application. The form displays 2 save buttons:
+ * One to save the settings in XWikiPreferences,
+ * and one to save the settings in XWiki.RegistrationConfig
+
+Another consequence of storing part of the configuration in the Application own files, is that an upgrade of the application may override part of the configuration.
+There is no easy way to know in which file of the application the configuration is store, and it is impossible to prevent loosing these settings without a manual intervention of the administrators.
+
+On the other side, a great work has been done in describing what to display using a ConfigurableClass, a work that could be probably generalized later.
+
+== Proposal ==
+
+=== Centralized vs local storage ===
+
+Should the configuration of application be store in a few central documents, or should each application store their configuration in their own local document ?
+Note that the global configuration does not prevent to also keep locally configured documents as we have currently.
+
+|=What|=Centralized|=Local
+|=(% colspan=3 style='text-align: center' %)Design
+|=XObject containing configuration data|Stored centrally in a small set of documents, one global (XWikiPreferences) and some space local (WebPreferences)|Stored freely in documents own by the application 
+|=XClass defining configuration objects|Stored in separate document own by the application |Stored in a separate document own by the application, but distinct from those thats containing the XObject instance
+|=(% colspan=3 style='text-align: center' %)Advantages/Disadvantages
+|=(% rowspan=3 %) Security|**Fewer document** to protect|**More granularity** of security access; view access can be denied to non-admins (cannot be done with XWikiPreferences currently)
+|Access right is also centralized, policy is defined separately from the application which only ensure security on its own document|Need **more security maintenance** to ensure security of each configuration document, deployment could only provide a default policy
+|API should allow each **application read access** to their configuration|Application own their own configuration
+|=Backup|**Easy** to find and backup configuration (for each space as well as XWikiPreferences, **should have new feature**)|No built in way to know which file to backup, **require a new feature**
+|=(% rowspan=3 %)  Upgrade|Global config document are not part of Application package|Configuration document **requires skipping** on upgrade
+|Default configuration **require a new feature**|The application install the default configuration, but it could overwrite the custom one
+|**Return to factory default** could be provided|Return to factory default --**require a custom import**-- could be provided by application developer
+|=(% rowspan=4 %) Interface|UI is **similar to the storage**|UI is centralized and storage decentralized
+|Changing **multiple configurations** option could be done in **one transaction**|Each application require a **separate save button** (can mitigate with javascript)
+|The **object editor** could be used as a **minimal admin** application|Using the object editor require to navigate to each application specific document
+|Users are already used to such configuration, this is an improvement|It may be difficult for the user to find the configuration
+|=Uninstallation|Default configuration deleted, but custom one is left behind|Configuration is deleted
+|=Reinstallation|The custom configuration is restored|The application is restore in default configuration
+|=Customization|Global preferences may be overridden on a space by space basis|Application only customizable either globally or in the space where it is located (without change to ConfigurableClass)
+|=Corruption|May damage XWikiPreferences document|Contained in application documents
+|=Implementation|Requires adding an API function|Requires adding an application to manage upgrade and change to import application.
+
+NOTES:
+ * An application may have more than one XObject for its configuration
+ * Mixing XClass and XObject do not allow easy upgrade of the XClass without losing the XObject, so this is avoided
+
+=== Features in more details ===
+
+|=What|=Centralized|=Local
+|=Installation|Only deploys XClass documents|Deploy XClass and configuration document
+|=Default config|An XObject stored in the same document than the XClass, API use it as fallback|Configuration document contains a initial configuration
+|=Custom config|The default XObject is copied to the global configuration document, and customized|This initial configuration is changes in place
+|=(% rowspan=2 %)Read Access by the application|An API is provided, which allow selective read access to corresponding XObject instances based on the author of the XClass|The application ensure its has read access to the configuration document
+|The API manage proper overwrite Space&gt;Global&gt;Default|The application use standard object API and know how to reach its configuration, there is no override logic
+|=Write Access by admins|Only admins having write access to global documents and may create/change the custom configuration, the application ensure protection of its XClass document|Access should be allowed on each configuration document, the application could only provide a default policy
+|=Return to factory default|Delete the custom object in global preferences|Require importing the configuration document
+|=Desinstallation|Delete configuration XClass, custom XObject in global config is left behind. It is possible to provide a purge feature|Delete the custom configuration, it is lost
+
+== Detailed proposal using Global configuration
+
+=== New API
+
+==== XWiki#getApplicationConfig(XClass, Properties) returns Object
+
+return the value of a given configuration parameters
+
+ * First check that content_author of the script has write access to the XClass
+ * Check WebPreferences for an XObject corresponding to the XClass
+ * Else check XWikiPreferences for an XObject corresponding to the XClass
+ * Else check the XClass document for an XObject corresponding to the XClass
+ * return the properties provided by the first XObject found
+
+=== Administration Application
+
+It use the newly implemented ConfigurableClass to inject forms in the application. The only difference is that the object could be stored in the global config (XWikiPreferences or WebPreferences). If no object is available, a clone of the default object available in the XClass is made, and it is only saved if the admin save it. This is not exclusive with the actual behavior that may be kept.
+The ConfigurableClass define if the config is store locally or globally.
+
+== Detailed proposal using Local configuration ==
+
+=== New Application ==
+
+==== XWiki.UpgradableClass ====
+
+Documents containing "upgradable" objects will not be overwritten during upgrade. Upgradable will allow selective export of the "upgradable" documents. Additionally, maybe all objects of one class in a document can be made "upgradable" the rest of the document is changed on upgrade. There must be the possibility to force import, disregarding "upgradable".
+
+* We need something like this to be able to round up all XWikiPreferences/WebPreferences documents and default documents which have custom changes (Main.WebHome) even if the Global configuration method is chosen.</content>
+</xwikidoc>

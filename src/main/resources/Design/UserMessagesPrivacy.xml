@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>UserMessagesPrivacy</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1300497076000</creationDate>
+  <date>1360950311000</date>
+  <contentUpdateDate>1300502746000</contentUpdateDate>
+  <version>1.1</version>
+  <title>User Messages Privacy</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.UserMessagesPrivacy</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>77d4f418-8e45-4e45-bb00-6298064fd7c6</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.UserMessagesPrivacy</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>5019373b-2abc-416e-b7f7-7bf6f73ea6a3</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+Since the introduction of user messages, there are different types of messages (public, direct, to group...) that a user could access and could receive. The goal of this design document is to establish what kind of events are readable and writable.
+
+== Definitions ==
+
+Messages have:
+
+* an __author__ (//the Sender//)
+* a __target__, which can be either a user, a group, a page, a space, a wiki
+* __scope__ or visibility, which can be one of:
+** everyone (//public message//)
+** followers (//private message//)
+** specific group (//group message//)
+** specific user (//direct message//)
+* messages can be related to another message (reply, not implemented yet)
+
+Not all target-scope combinations are possible. For example, if the target is a specific user, then the message must be direct (the implicit scope is the target user). If the target is a group, then the scope is implicit: group members. If the message is a reply, then the same scope as the original message is suggested, but can be explicitly changed.
+
+Internally, the __author__ is the __event.user__, the __target__ is the __event.stream__, and the __scope__ is given by the __event.type__.
+
+Robert is the message reader.
+
+William is the message writer.
+
+== Reading messages ==
+
+This tries to establish which kind of messages Robert should be able to see.
+
+* Messages written by Robert should always be accessible to him, regardless of the target and scope (__sender__ = //xcontext.user//)
+* Public messages should always be accessible to Robert (__scope__ = //everyone//)
+* "To followers" messages from William should be accessible only if Robert follows William (__scope__ = //followers// &amp; //xcontext.user// follows __sender__)
+* "To group" messages should be accessible only if Robert is a member of that group (__scope__ = //group// &amp; //xcontext.user// member of __target__)
+* "Direct" messages should be accessible only if the target of the message is Robert (__scope__ = //user// &amp; //xcontext.user// = __target__)
+* Messages for a given page/space/wiki should only be visible if Robert has view access to the target entity (filtered a-posteriori, //xcontext.user// has view access on __target__)
+
+== Writing messages ==
+
+This tries to establish which kind of messages William should be able to post.
+
+There are different usage scenarios for messages, so there are different sets of rules, configurable from the wiki administration. It might be useful to be able to change these settings from a certain target's settings: from the user profile to reduce the number of visible messages (this requires changing the read filters, not the ruleset), or from the group settings to forbid sending messages to a group (this requires changing the ruleset depending on the target).
+
+There are no enforcements in place yet.
+
+=== Full Privacy ===
+
+This ruleset tries to prevent unrequested messages from showing in Robert's message stream; he should see only messages from people that Robert explicitly trusts. William can write a message only if the recipients trust him. Very good at avoiding spam.
+
+* Posting messages to a specific page/space/wiki should only be possible if that entity exists and William has view access to that entity; this rule is an implicit precondition for all the following rules (__target__ exists &amp; //xcontext.user// has view access on __target__)
+* Public messages are always forbidden (__scope__ != //everyone//)
+* William should be able to write "to followers" messages (__scope__ = //followers//)
+* William should be able to send a group message to a group only if he is a member of that group (__scope__ = //group// and //xcontext.user// is member of __target__); XWikiAllGroup should be somehow excluded in this case
+* William should be able to send a direct message to Robert only if both follow each other (__scope__ = //user// &amp; __target__ follows //xcontext.user// &amp; //xcontext.user// follows __target__)
+
+=== Silent ===
+
+This ruleset tries to keep the number of visible messages in Robert's message stream to a minimum, while allowing users to send targeted messages to a third party. William can write a message to specific recipients.
+
+* Posting messages to a specific page/space/wiki should only be possible if that entity exists and William has view access to that entity; this rule is an implicit precondition for all the following rules (__target__ exists &amp; //xcontext.user// has view access on __target__)
+* Public messages are always forbidden (__scope__ != //everyone//)
+* William should be able to write "to followers" messages (__scope__ = //followers//)
+* William should be able to send a group message to any visible group (__scope__ = //group//)
+* William should be able to send a direct message to Robert (__scope__ = //user//)
+
+=== Open ===
+
+* Posting messages to a specific page/space/wiki should only be possible if that entity exists; this rule is an implicit precondition for all the following rules (__target__ exists)
+* Public messages are always allowed (__scope__ = //everyone//)
+* William should be able to write "to followers" messages (__scope__ = //followers//)
+* William should be able to send a group message to any group (__scope__ = //group//)
+* William should be able to send a direct message to Robert (__scope__ = //user//)</content>
+</xwikidoc>

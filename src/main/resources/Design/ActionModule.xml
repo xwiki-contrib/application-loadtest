@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ActionModule</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1262636925000</creationDate>
+  <date>1360950294000</date>
+  <contentUpdateDate>1277370753000</contentUpdateDate>
+  <version>1.1</version>
+  <title>New Action Module</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.ActionModule</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>556c46de-c4bb-4564-9ebb-82c43b05e5ad</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.ActionModule</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>28c67a07-3747-47a9-aacf-5cb1b4a68252</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+The need is to develop the Action module of the XWiki platform, i.e. the module that is the entry point for all UIs and in charge of calling the correct backend code to display what the user has asked for (it's the Controller in MVC terminology).
+
+= Requirements &amp; Use cases =
+
+* UC1: Actions should be able to be added without touching at the existing platform code (i.e. someone could write a new action in java and plug it in)
+* UC2: It should be possible to execute something before or after an Action's execution.
+* UC3: It should be possible to completely replace an Action with another implementation.
+* UC4: It should be possible to add Actions without stopping the running XWiki instance
+* UC5: Actions should not know about each other
+* UC6: It should be possible for an action to define the URL format it supports
+
+Some examples matching those use cases:
+
+* When a browser supports gzip compression, the response should be passed through a discrete gzip Action component. However if the requested material is already compressed (images), it should not be gzip'd.
+* If the user is not logged in and the action they are requesting does not alter the database (Registration) the request should be passed to a cache Action. If the cache contains the desired page then it is returned, otherwise it is passed on to the requested action and when returned it is added to the cache.
+** Vincent: This should be done by caching the XDOM using the cache macro
+* If desired, a filter Action may catch requests depending on user agent, ip address etc. And reroute the request. Banned!
+
+= Current Situation =
+
+There's a [[start of an Action module&gt;&gt;http://svn.xwiki.org/svnroot/xwiki/platform/core/trunk/xwiki-action]]. It has an [[Action&gt;&gt;http://svn.xwiki.org/svnroot/xwiki/platform/core/trunk/xwiki-action/src/main/java/org/xwiki/action/Action.java]], and an [[ActionManager&gt;&gt;http://svn.xwiki.org/svnroot/xwiki/platform/core/trunk/xwiki-action/src/main/java/org/xwiki/action/ActionManager.java]]. They are already written and are functional although the [[XWikiServlet&gt;&gt;http://svn.xwiki.org/svnroot/xwiki/platform/core/trunk/xwiki-containers/xwiki-container-servlet/src/main/java/org/xwiki/container/servlet/XWikiServlet.java]] which routes requests to the ActionManager is still not activated in the web.xml file.
+
+{{info}}The current code should not be considered as the solution we want to implement but instead as a quick proof of concept that can be discarded if we were to choose for example to use an existing Web framework.{{/info}}
+
+= Implementation Ideas =
+
+* UC2:
+** There could be different ways to implement this: As events, or as Actions you'd chain before or after existing actions, or both
+** We can also have a Comparable implementation as components and a chaining of Comparable components so that a given action can use these to specify when it should execute.
+* UC3:
+** For ex with the generic component mechanism (override)
+* UC6:
+** Actions should use a  XWiki URL Factory (from the xwiki-url) module. Noe that we might need to redesign this module since right now it supports a single URL scheme for all actions.
+
+= Todo =
+
+* Decide what Action framework to use: ours, Struts 2, Webwork, xwork, spring, etc.
+* Decide if we want pre/post Actions or instead use Observation events.
+* Existing Actions would need to be ported out of the old core into the new design.</content>
+</xwikidoc>

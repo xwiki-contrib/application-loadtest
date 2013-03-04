@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>CodeStyle</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1170772021000</creationDate>
+  <date>1360950282000</date>
+  <contentUpdateDate>1355401216000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Code Style</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.CodeStyle</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>b1750042-0554-4ecf-8695-1d58c6698a16</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>Here are code style for the various languages used in the XWiki project:
+* [[Java Code Style&gt;&gt;Community.JavaCodeStyle]]
+* [[XML Code Style&gt;&gt;Community.XmlCodeStyle]]
+* [[XHTML/CSS Code Style&gt;&gt;Community.XhtmlCssCodeStyle]]
+* [[XWiki XML Files Code Style&gt;&gt;Community.XWikiXMLFilesCodeStyle]]
+* [[Velocity Code Style&gt;&gt;Community.VelocityCodeStyle]]</content>
+</xwikidoc>

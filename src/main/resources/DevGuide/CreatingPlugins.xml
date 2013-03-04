@@ -1,0 +1,377 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>CreatingPlugins</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1165350492000</creationDate>
+  <date>1360853401000</date>
+  <contentUpdateDate>1360853401000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Creating Plugins</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.CreatingPlugins</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>5fa1e2f6-3521-4ce5-9b83-8f49a486b1ab</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+{{warning}}
+Plugins are the old way of writing XWiki extensions. The new way is to [[write a Component&gt;&gt;platform:DevGuide.WritingComponents]].
+{{/warning}}
+
+Plugins are quite handy when you want to interact with third-party code from the Velocity context. Check the [[Extensions wiki&gt;&gt;extensions:Main.WebHome]] for a list of existing plugins.
+
+Here are the steps to develop a "Hello World" plugin and more.
+
+= The plugin architecture =
+
+Basically, a plugin is composed of two parts:
+
+* The **plugin** itself: it must implement the [[XWikiPluginInterface&gt;&gt;https://fisheye2.atlassian.com/browse/xwiki/xwiki-platform/core/trunk/xwiki-core/src/main/java/com/xpn/xwiki/plugin/XWikiPluginInterface.java]] interface. For simplicity you can also extend the [[XWikiDefaultPlugin&gt;&gt;https://fisheye2.atlassian.com/browse/xwiki/xwiki-platform/core/trunk/xwiki-core/src/main/java/com/xpn/xwiki/plugin/XWikiDefaultPlugin.java]] class which is an adapter to the XWikiPluginInterface. The plugin contains the core functions of your plugin. They will not be accessible from scripting (without programming rights).
+* Its **API**: it should extend the [[Api&gt;&gt;https://fisheye2.atlassian.com/browse/xwiki/xwiki-platform/core/trunk/xwiki-core/src/main/java/com/xpn/xwiki/api/Api.java]] class. Will contain all the public methods, accessible from scripting.
+
+Although you can write the functionality inside the API, this is not recommended; the plugin functionality is written in the //hidden// part ("hidden" as in "not publicly accessible"), and the API can filter the access to privileged users, beautify the method names or parameter list, etc., or simply forward the call to the hidden part.
+
+== Plugin lifecycle ==
+
+When the XWiki engine is initialized, the Plugin Manager calls the class constructor for all the enabled plugins (classes implementing the com.xpn.xwiki.plugin.XWikiPluginInterface). For each plugin the class constructor is called only once, and the plugin manager calls the init(XWikiContext) method of the plugin. Each time a plugin is referenced by a Velocity script, for example, when you call a method served by the plugin API:
+
+{{code}}
+#set($helloWorldText = "$xwiki.helloworld.hello()")
+{{/code}} 
+
+or when you ask the XWiki instance for the plugin API object :
+
+{{code}}
+#set($pluginObject = $xwiki.getPlugin("helloworld")
+
+#* the name given as argument of getPlugin() should be
+   the one returned by the getName() method of the Plugin class.
+*#
+{{/code}}
+
+XWiki calls the getPluginApi() method for the plugin's instance, which itself creates an instance of the class com.xpn.xwiki.plugin.PluginApi. This is why you should not store things in fields of the class extending PluginApi in your plugin, since the usual behavior for the getPluginApi() method is to create a new instance of the PluginApi class every time Velocity needs to access the API for your plugin. This is not true if you store the returned plugin API in a variable, for example:
+
+{{code}}
+#set($myPluginApi = $xwiki.helloworld)
+{{/code}}
+
+The myPluginApi variable will point to the same object as long as the variable exists. You can declare fields in your plugin class instead, since there is only one instance of this class, whose lifecycle spans over the entire servlet's lifecycle.
+
+= Write the plugin =
+
+First of all let's **declare our plugin class**:
+
+{{code language="java"}}
+public class HelloWorldPlugin extends XWikiDefaultPlugin {...}
+{{/code}}
+
+Then let's **implement the needed constructor**:
+
+{{code language="java"}}
+public HelloWorldPlugin(String name, String className, XWikiContext context) {
+   super(name,className,context);
+}
+{{/code}}
+
+**Set a method to get the name of the plugin**. That's how we will call it from Velocity. For example, we will be able to use our plugin with ##$xwiki.helloworld.myMethod()##;
+
+{{code language="java"}}
+public String getName() {
+   return "helloworld";
+}
+{{/code}}
+
+**Write a method to get the plugin API**. Don't forget to cast the plugin.
+
+{{code language="java"}}
+public Api getPluginApi(XWikiPluginInterface plugin, XWikiContext context) {
+   return new HelloWorldPluginApi((HelloWorldPlugin) plugin, context);
+}
+{{/code}}
+
+**Overload the cache flush method** (optional):
+
+{{code language="java"}}
+public void flushCache() {}
+{{/code}}
+
+Optionally, we can **create a [[log4j&gt;&gt;http://logging.apache.org/log4j/1.2/apidocs/index.html]] instance** for the plugin:
+
+{{code language="java"}}
+private static final Log LOG = LogFactory.getLog(HelloWorldPlugin.class);
+{{/code}}
+
+This is very useful for debugging. The logger could be invoked from any method like:
+
+{{code language="java"}}
+public String getName() {
+   LOG.debug("Entered method getName");
+   return "helloworld";
+}
+{{/code}}
+
+Then, to enable logging at a specific level for your plugin, edit //webapps/xwiki/WEB-INF/classes/log4j.properties// and add, for example:
+
+{{code}}
+log4j.com.xpn.xwiki.plugin.helloworld.HelloWorldPlugin=debug
+{{/code}}
+
+You'll then be able to follow your plugin's log messages by tailing your ##xwiki.log## file. Note that you'll need to restart the app server for changes to ##log4j.properties## to take effect.
+
+And finally, **write a method to init the context**:
+
+{{code language="java"}}
+public void init(XWikiContext context) {
+   super.init(context);
+}
+{{/code}}
+
+Here is the code you should have now:
+
+{{code language="java"}}
+package com.xpn.xwiki.plugin.helloworld;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import com.xpn.xwiki.XWikiContext;
+import com.xpn.xwiki.api.Api;
+import com.xpn.xwiki.plugin.XWikiDefaultPlugin;
+import com.xpn.xwiki.plugin.XWikiPluginInterface;
+
+public class HelloWorldPlugin extends XWikiDefaultPlugin {
+
+    private static Log LOG = LogFactory.getLog(HelloWorldPlugin.class);
+
+    public HelloWorldPlugin(String name, String className, XWikiContext context) {
+	super(name,className,context);
+	init(context);
+    }
+
+    public String getName() {
+        return "helloworld";
+    }
+
+    public Api getPluginApi(XWikiPluginInterface plugin, XWikiContext context) {
+        return new HelloWorldPluginApi((HelloWorldPlugin) plugin, context);
+    }
+
+    public void flushCache() {
+    }
+
+    public void init(XWikiContext context) {
+        super.init(context);
+    }
+}
+{{/code}}
+
+= Write the API =
+
+Let's write the API class which will contain the methods that can be called from Velocity.
+
+Firstly, **class declaration**:
+
+{{code language="java"}}
+public class HelloWorldPluginApi extends Api {...}
+{{/code}}
+
+Then, **plugin field declaration**. It will let our API to call backend methods.
+
+{{code language="java"}}
+private HelloWorldPlugin plugin;
+{{/code}}
+
+**Required constructor**
+
+{{code language="java"}}
+public HelloWorldPluginApi(HelloWorldPlugin plugin, XWikiContext context) {
+    super(context);
+    setPlugin(plugin);
+}
+{{/code}}
+
+Classic **plugin getter and setter**. These methods are not required at all, on the contrary, they should not be defined, unless they are really needed.
+
+{{code language="java"}}
+public HelloWorldPlugin getPlugin(){
+    return (hasProgrammingRights() ? plugin : null);
+    // Uncomment for allowing unrestricted access to the plugin
+    // return plugin;
+}
+
+public void setPlugin(HelloWorldPlugin plugin) {
+    this.plugin = plugin;
+}
+{{/code}}
+
+Here is the key **API method**. Here is the one that you will call from velocity. You can define any number of them and call your plugin backend from them. 
+
+{{code language="java"}}
+public String hello() {
+   return "Hello World!";
+}
+{{/code}}
+
+You can also have void methods:
+
+{{code language="java"}}
+public void updatePage() {
+//...
+}
+{{/code}}
+
+Here is the complete API code:
+
+{{code language="java"}}
+package com.xpn.xwiki.plugin.helloworld;
+
+import com.xpn.xwiki.XWikiContext;
+import com.xpn.xwiki.api.Api;
+
+public class HelloWorldPluginApi extends Api {
+    private HelloWorldPlugin plugin;
+
+    public HelloWorldPluginApi(HelloWorldPlugin plugin, XWikiContext context) {
+        super(context);
+        setPlugin(plugin);
+    }
+
+    public HelloWorldPlugin getPlugin(){
+        return (hasProgrammingRights() ? plugin : null);
+        // Uncomment for allowing unrestricted access to the plugin
+        // return plugin;
+    }
+
+    public void setPlugin(HelloWorldPlugin plugin) {
+        this.plugin = plugin;
+    }
+
+    public String hello() {
+        return "Hello World!";
+    }
+
+    public void updatePage() {
+        //...
+    } 
+}
+{{/code}}
+
+= Integrate the plugin in your XWiki installation =
+
+First of all you need to **copy your classes to the XWiki servlet installation**. Don't forget to be consistent with your package tree. With a Linux Tomcat installation, you'll need to follow these steps which you should be able to reproduce easily in your favourite operating system:
+
+{{code}}
+go to the tomcat installation folder (or whatever container you are using)
+$ cd myTomcatInstallation
+go to the xwiki WEB-INF directory
+$ cd webapps/xwiki/WEB-INF
+create the classes tree, compliant to the "package" directive that you set in the plugin source files
+$ mkdir classes/com/xpn/xwiki/plugin/helloworld
+And then copy the class files to this location
+$ cp myPluginsFolder/HelloWorldPlugin.class classes/com/xpn/xwiki/plugin/helloworld
+$ cp myPluginsFolder/HelloWorldPluginAPI.class classes/com/xpn/xwiki/plugin/helloworld
+{{/code}}
+
+Alternatively, you can jar up your classes (with the required directory structure) and place the jar in //webapps/xwiki/WEB-INF/lib//. This is a more agreeable way of distributing your plugin.
+
+Finally you need to **register your plugin** in the ##xwiki.cfg## file located in //WEB-INF//:
+
+{{code}}
+xwiki.plugins=com.xpn.xwiki.plugin.calendar.CalendarPlugin,\
+    ...,\
+    com.xpn.xwiki.plugin.helloworld.HelloWorldPlugin
+{{/code}}
+
+Don't forget to restart your servlet container after this. XWiki has to re-read the configuration file.
+
+= Use the plugin =
+
+Here is the simplest part. Edit a page and write: {{code}}My plugin says: "$xwiki.helloworld.hello()"{{/code}}.
+It should be rendered like this: {{code}}My plugin says: "Hello World!"{{/code}}.
+You can also call void methods specified in the API class :
+
+{{code}}
+$xwiki.helloworld.updatePage()
+The page has been updated.
+{{/code}}
+
+= Examples =
+
+Here are some examples of what you can do with plugins. You should actually check the [[API Guide&gt;&gt;DevGuide.APIGuide]], since it contains examples on how to use the XWiki API. The examples in the API Guide are written in Velocity, and are thus easily applicable to Java.
+
+== Accessing pages, objects and object properties from pages ==
+
+This is something you can do from Velocity as well, but when you need to perform complex treatments on your XWiki pages, you need to do it from a java plugin.
+
+The class representing a document in the XWiki Java model is ##com.xpn.xwiki.doc.XWikiDocument##. The class representing an object in the XWiki Java model is ##com.xpn.xwiki.objects.BaseObject##.
+
+If you need to access existing documents from your plugin, you use the XWiki class, ##com.xpn.xwiki.XWiki##, which has a getDocument() method. You can retrieve the current Xwiki instance by using the ##com.xpn.xwiki.XWikiContext## class, which has a getWiki() method.
+
+The rule, in plugin programming, is to pass the current context as a ##com.xpn.xwiki.XWikiContext## function parameter, between the different methods of your plugin class. The plugin API class also has a context property pointing to the current context.
+
+{{code}}
+// You need the current context, which you always have in a plugin anyway
+com.xpn.xwiki.doc.XWikiDocument doc = context.getDoc(); // current document;
+com.xpn.xwiki.doc.XWikiDocument doc = context.getWiki().getDocument("theSpace.theDoc", context); // any document
+com.xpn.xwiki.objects.BaseObject meta;
+meta = doc.getObject("fooSpace.fooClass");
+String docType = (String)meta.getStringValue("type"); //if the class of the object has a property named "type", which can accept a text value...
+meta.set("type", "newValue", context);
+{{/code}}
+
+If you need to access the parent of an XWiki document, you should use the getDocument() method of the XWiki class, as seen in the example above, with, as parameter value, the parent's full name returned by the getParent() method of the XWikiDocument class.
+
+{{code}}
+com.xpn.xwiki.doc.XWikiDocument parentDocument = context.getWiki().getDocument(childDocument.getParent());
+{{/code}}
+
+You should not use ##XWikiDocument.getParentDoc## since it only returns a blank XWikiDocument object set with the same full name as the parent's full name.</content>
+</xwikidoc>

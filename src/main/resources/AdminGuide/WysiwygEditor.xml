@@ -1,0 +1,353 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>WysiwygEditor</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>AdminGuide.Configuration</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1252054719000</creationDate>
+  <date>1361190307000</date>
+  <contentUpdateDate>1361190307000</contentUpdateDate>
+  <version>1.1</version>
+  <title>WYSIWYG Editor Configuration</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>AdminGuide.WysiwygEditor</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>e23646a9-abe9-4366-8b36-7155141ad277</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>table.oddEven td, table.oddEven th {
+  border: 1px dotted #CCC;
+}
+
+table.oddEven tr:nth-child(2n+1) {
+  background-color: #F9F9F9;
+}
+
+table.oddEven ul {
+  margin: 0.1em 0;
+}</code>
+    </property>
+    <property>
+      <name>Config</name>
+    </property>
+    <property>
+      <parse>0</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.WysiwygEditor</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>8b4d1f71-c176-4ce7-bd59-5cd56add52ed</guid>
+    <property>
+      <tags>
+        <value>wysiwyg</value>
+        <value>editor</value>
+        <value>configuration</value>
+      </tags>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+Welcome to the WYSIWYG editor configuration guide. This page will help you configure XWiki's GWT rich text editor so that it meets your needs.
+
+{{info}}
+The information on this page applies only to the new GWT-based WYSIWYG editor that comes with XWiki 2.0 syntax.
+{{/info}}
+
+= Quick Reference =
+
+== Configuration Parameters ==
+
+(% class="oddEven" style="clear:right" %)
+|=(% width="15%" %)Parameter Name|=(% width="50%" %)Description|=Default Value
+|**allowExternalImages**|Specifies if inserting external images is allowed or not. Setting this configuration parameter to ##false## hides the //External// tab from the Insert Image dialog.|##true##
+|**colors**|The list of colors available on the color picker. Colors are specified by their hex code and are separated by comma.|###000000,#444444,#666666,#999999,#CCCCCC,#EEEEEE,#F3F3F3,#FFFFFF,
+#FF0000,#FF9900,#FFFF00,#00FF00,#00FFFF,#0000FF,#9900FF,#FF00FF,
+#F4CCCC,#FCE5CD,#FFF2CC,#D9EAD3,#D0E0E3,#CFE2F3,#D9D2E9,#EAD1DC,
+#EA9999,#F9CB9C,#FFE599,#B6D7A8,#A2C4C9,#9FC5E8,#B4A7D6,#D5A6BD,
+#E06666,#F6B26B,#FFD966,#93C47D,#76A5AF,#6FA8DC,#8E7CC3,#C27BA0,
+#CC0000,#E69138,#F1C232,#6AA84F,#45818E,#3D85C6,#674EA7,#A64D79,
+#990000,#B45F06,#BF9000,#38761D,#134F5C,#0B5394,#351C75,#741B47,
+#660000,#783F04,#7F6000,#274E13,#0C343D,#073763,#20124D,#4C1130##
+|**colorsPerRow**|The maximum number of colors the color picker should display on a row|##8##
+|**convertInput**|Whether to convert the input (the value taken from the hook element) or not. Set this parameter to ##true## if the value of the plain text area being replaced represents wiki syntax. Leave it unset or set it to ##false## if the WYSIWYG editor input is HTML|##false##
+|**debug**|Whether to load the editor in debug mode or not. In debug mode you can see the dirty HTML generated by the editor, the cleaned HTML, the source text and the rendering events that were triggered during the conversion of the cleaned HTML to source text. The syntax of the source text is controlled by the ##syntax## parameter.|##false##
+|**defaultEditor**|Specifies the default tab when ##displayTabs## is ##true##. Use ##wysiwyg## to load initially the WYSIWYG editor and ##source## to load initially the source editor.|##source##
+|**displayTabs**|Whether to display the WYSIWYG/Source tabs or not. The source editor is not available when the tabs are not displayed. The default tab is controlled by the ##defaultEditor## parameter.|##false##
+|**fontNames**|A comma-separated list of font names the user can use to format the text. The font name list box from the toolbar is filled with this list. See font-family CSS property for allowed values.|##andale mono, arial, arial black, book antiqua, comic sans ms, courier new, georgia, helvetica, impact, symbol, tahoma, terminal, times new roman, trebuchet ms, verdana, webdings, wingdings##
+|**fontSizes**|A space-separated list of font sizes the user can use to format the text. The font size list box from the toolbar is filled with this list. See font-size CSS property for allowed values. Note that relative sizes (like ##smaller##) are not well detected by the editor.|##8px 10px 12px 14px 18px 24px 36px##
+|**hookId**|The id of the HTML element replaced by the editor. Usually the hook element is a plain text area.|//None//
+|**inputURL**|The URL of the edited document. Make sure the URL obeys the same origin policy.|##about:blank##
+|**insertimages**|Set to ##currentpage## to restrict the image upload and image selection to the edited page. This parameter is used by the insert image feature.|//None//
+|**linkfiles**|Set to ##currentpage## to restrict the attachment upload and attachment selection to the edited page. This parameter is used by the create link to attachment feature.|//None//
+|**menu**|A space-separated list of editor plugins that should place their menu entries on the top menu bar. The top menu bar is not displayed if this list is empty, which is the case by default. Make sure the plugins you put on the menu bar are loaded by the editor; see the ##plugins## parameter.|//Empty string//
+|**page**|The name of the edited page. This parameter is used by many plugins in order to be aware of the editing context. See also the ##space## and ##wiki## parameters.|//None//
+|**plugins**|A space-separated list of editor plugins that will be loaded. Only the plugins that can work off-line, without the need of a service, are loaded by default. If a plugin provides [[editing features&gt;&gt;#HPluginsandFeatures]] then you have to change the ##toolbar## parameter in order to enabled them.|##submit line separator text valign justify list indent history format font color symbol table##
+|**rootUI**|A space-separated list of plugins that extend the editor UI. Make sure the specified plugins are loaded; see the ##plugins## parameter.|##submit##
+|**space**|The space where the edited page resides. This parameter is used by many plugins in order to be aware of the editing context. See also the ##page## and ##wiki## parameter.|//None//
+|**styleNames**|The list of predefined styles, in JSON format. E.g. ##[{...}, {"name": "todo", "label": "TODO", "inline": false}, {...}]##. A style name is a CSS class name. Only the "name" property is required for each style. "label" equals "name" by default. "inline" is ##true## by default.|##[]##
+|**syncPage**|The full name of the page edited in real-time.|//None//
+|**syncReset**|Set to ##1## to reset the synchronization during a real-time editing.|##0##
+|**syntax**|The syntax of the edited document. Make sure the specified syntax is supported by the rendering module. Precisely, there has to be a parser and a renderer for the specified syntax.|##xhtml/1.0##
+|**toolbar**|A space-separated list of features to be placed on the toolbar. Each feature is provided by a plugin so make sure the required plugins are loaded; see the ##plugins## parameter. You can group features by using the pipe ##~|## symbol. To force a multiple line toolbar use the slash ##/## symbol.|##bold italic underline strikethrough teletype ~| subscript superscript ~| justifyleft justifycenter justifyright justifyfull ~| unorderedlist orderedlist ~| outdent indent ~| undo redo ~| format ~| fontname fontsize forecolor backcolor ~| hr removeformat symbol##
+|**wiki**|The wiki where the edited page resides. This parameter is used by many plugins in order to be aware of the editing context. See also the ##page## and ##space## parameter.|//None//
+
+== Plugins and Features ==
+
+The //Plugin Name//, //Toolbar Features// and //Menu// columns match the ##plugins##, ##toolbar## and ##menu## configuration parameters from the previous section, respectively.
+
+(% class="oddEven" %)
+|=Plugin Name|=Description|=Toolbar Features|=Menu
+|**color**|Controls the colors used inside the rich text area|(((
+* **forecolor**: text color
+* **backcolor**: highlight color
+)))|\\
+|**font**|Controls the font used.|(((
+* **fontname**: change the font name
+* **fontsize**: change the font size
+)))|\\
+|**format**|Applies or removes predefined text styles.|(((
+* **format**: format the text as heading or paragraph
+* **removeformat**: remove all in-line text formatting
+)))|\\
+|**history**|Controls the editing history.|(((
+* **undo**: go one step back in the editing history
+* **redo**: go one step forward in the editing history
+)))|\\
+|**image**|Adds support for inserting and editing images||(((
+* **image**: top menu entry
+* **imageInsertAttached**: insert an image that is attached to a wiki page
+* **imageInsertURL**: insert an external image, specified by its URL
+* **imageEdit**: edit selected image
+* **imageRemove**: remove selected image
+)))
+|**import**|Adds support for importing external content|(((
+* **import:officefile**: import office documents
+* **paste**: paste rich text from the clipboard
+)))|(((
+* **import**: top menu entry
+* **importOffice**: import office documents
+)))
+|**indent**|Allows you to increase or decrease the indentation of list items.|(((
+* **outdent**: decrease indentation
+* **indent**: increase indentation
+)))|\\
+|**justify**|Controls the text alignment.|(((
+* **justifyleft**: align text left
+* **justifycenter**: center text
+* **justifyright**: align text right
+* **justifyfull**: justify text
+)))|\\
+|**line**|Controls the behavior of the Enter key inside the rich text area.||\\
+|**link**|Add support for creating and editing different kind of links||(((
+* **link**: top menu entry
+* **linkEdit**: edit the selected link
+* **linkRemove**: remove the selected link
+* **linkWikiPage**: create a link to a wiki page
+* **linkAttachment**: create a link to an attached file
+* **linkWebPage**: create a link to a web page, specified by its URL
+* **linkEmail**: create a link to an email address
+)))
+|**list**|Adds support for creating lists|(((
+* **unorderedlist**: creates bulleted lists
+* **orderedlist**: numbered lists
+)))|\\
+|**macro**|Adds support for inserting and editing macros|(((
+* **macro:macroId**: insert the macro with the specified identifier, e.g. use macro:velocity to add a button on the tool bar that triggers the insert Velocity macro wizard
+)))|(((
+* **macro**: top menu entry
+* **macroInsert**: insert a macro
+* **macroEdit**: edit the selected macro
+* **macroRefresh**: re-render all the macros
+* **macroCollapse**: collapse the selected macros, or all the macros if none is selected
+* **macroExpand**: expand the selected macros, or all the macros if none is selected
+)))
+|**readonly**|Allows us to have read-only regions inside the rich text area. The ##macro## plugin depends on it. Read-only elements are marked with the ##readOnly## CSS class name.||\\
+|**separator**|Offers different kind of content and toolbar separators|(((
+* **hr**: inserts a horizontal ruler
+* **|**: separates toolbar features in groups
+* **/**: breaks the toolbar in multiple lines
+)))|(((
+* **|**: horizontal menu item separator
+)))
+|**style**|Enhances the editor with the ability to apply predefined styles to the current text selection.|(((
+* **stylename**: installs a list box on the tool bar with the available styles
+)))|\\
+|**submit**|Ensures that the content of the editor is submitted and also cached by the browser.||\\
+|**symbol**|Allows you to insert a special symbol.|(((
+* **symbol**
+)))|\\
+|**table**|Adds support for inserting and editing tables.||(((
+* **table**: top menu entry
+* **inserttable**: insert a table
+* **insertcolbefore**: insert a column before the current one
+* **insertcolafter**: insert a column after the current one
+* **deletecol**: delete the current column
+* **insertrowbefore**: insert a row before the current one
+* **insertrowafter**: insert a row after the current one
+* **deleterow**: delete current row
+* **deletetable**: delete current table
+)))
+|**text**|Offers standard text formatting.|(((
+* **bold**: formats text as bold
+* **italic**: formats text as italic
+* **underline**: formats text as underlined
+* **strikethrough**: formats text as stroke through
+* **teletype**: formats text as monospace
+)))|\\
+|**valign**|Allows you to write simple formulas.|(((
+* **subscript**: formats the text as subscript
+* **superscript**: formats the text as superscript
+)))|
+
+= Configuration =
+
+== Administration Section ==
+
+Starting with XWiki Enterprise 3.0 the recommended way to configure the WYSIWYG content editor is through its global administration section.
+
+== Velocity Templates ==
+
+The WYSIWYG editor is configured by a velocity macro named ##wysiwyg_storeConfig## which can be found in ##templates/macros.vm##. Use the parameters listed in the [[Configuration Parameters&gt;&gt;#HConfigurationParameters]] section to configure the editor. You may have to restart the server in order for the changes to take effect because velocity templates can be cached at application startup.
+
+== Custom Skin ==
+
+You can overwrite the ##wysiwyg_storeConfig## velocity macro from ##templates/macros.vm## in your custom skin. Reload the edited page to see the WYSIWYG editor changes.
+
+= Example =
+
+== Add an 'Insert HTML macro' button on the tool bar ==
+
+Suppose you use the HTML macro very often and thus you'd like to have a quick way to insert it from the tool bar. You don't use the HTML macro that often? No problem, it works with any macro. You just need to follow this steps:
+
+1. Add ##macro:html## (or ##macro:yourCoolMacro## if you like ##yourCoolMacro## more) to the tool bar configuration (use the administration section)
+1. Set a custom icon for the tool bar button by adding:
+
+{{code language="none"}}
+.macro-html {
+  background-image:url("/xwiki/resources/icons/silk/html.gif") !important;
+}
+{{/code}}
+
+to your skin. Of course you can use a different icon and you can replace ##html## with the identifier of your macro. The easiest way to add this CSS fragment to the skin is by adding a ##XWiki.StyleSheetExtension## object to a page and set it to be always used on the wiki.</content>
+</xwikidoc>

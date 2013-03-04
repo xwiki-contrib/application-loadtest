@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>Installerandupgrader</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1333550318000</creationDate>
+  <date>1360950297000</date>
+  <contentUpdateDate>1333554479000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Installer and upgrader UI</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.Installerandupgrader</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>017bfbbd-600d-4537-9e8f-975006fd599c</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.Installerandupgrader</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>2a8dfa74-c011-442f-8e34-3efa6bb569db</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+= Goal
+
+Make as easy as possible to do necessary tasks at startup and upgrade.
+
+The idea is to display a special install/upgrade UI when the wiki is brand new or when the backend has been upgraded to do stuff like download and install/upgrade the corresponding product xar, etc.
+
+= Informations needed in the war
+
+* generic informations
+** version of the product
+** top id of the product (to display general informations about the product)
+** war id of the product (generate a default id like &lt;product-id&gt;-web when none is provided)
+** ui id of the product (generate a default id like &lt;product-id&gt;-ui when none is provided)
+
+* custom product informations. For example in XE and XEM:
+** commons.version
+** platform.version
+** rendering.version
+** enterprise.version
+** manager.version
+
+== Where and how to get theses informations
+
+A product.properties file which will replace the current version.properties made useless.
+
+Introduce a ProductManager or a DistributionManager component and corresponding script service.
+
+= How to know that the version of the product war is not in sync with it's corresponding installed xar
+
+Introduce a distribution or product table in the database to store the content of product.properties file to compare it with what's in the war and find that itcr has been changed.</content>
+</xwikidoc>

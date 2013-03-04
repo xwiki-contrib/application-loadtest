@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>AuthenticationLdapOld</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Authentication</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1203413660000</creationDate>
+  <date>1360853371000</date>
+  <contentUpdateDate>1360853371000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Old LDAP Authentication (before XWiki Platform 1.3M2)</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.AuthenticationLdapOld</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>779dbdbd-3449-4d35-aee9-3ad456da426a</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+= Generic LDAP configuration =
+
+In order to enable the LDAP support you have to change the authentication method in //WEB-INF/xwiki.cfg// as follows:
+
+{{code}}
+xwiki.authentication.ldap=1
+{{/code}}
+
+You can setup the LDAP configuration in the **xwiki.cfg** file by filling the following properties:
+
+* xwiki.authentication.ldap.server
+** LDAP server, either an IP address or a host name (for example: localhost)
+* xwiki.authentication.ldap.port
+** LDAP server port number. Typical value is 389.
+* xwiki.authentication.ldap.check_level
+** The default value is ##2## if this property is not defined. Here are the possible values
+*** checklevel 0: LDAP connection login to LDAP is sufficient
+*** checklevel 1: Login &amp; username located, attributes loaded
+*** checklevel 2: Compare password for user (e.g. necessary if the LDAP bind didn't use the user's credentials)
+* xwiki.authentication.ldap.base_DN
+* xwiki.authentication.ldap.bind_DN
+* xwiki.authentication.ldap.bind_pass
+* xwiki.authentication.ldap.UID_attr
+* xwiki.authentication.ldap.fields_mapping
+
+Example:
+
+{{code}}
+xwiki.authentication.ldap=1
+xwiki.authentication.ldap.authclass=com.xpn.xwiki.user.impl.LDAP.LDAPAuthServiceImpl
+xwiki.authentication.ldap.server=dsmaster
+xwiki.authentication.ldap.check_level=1
+xwiki.authentication.ldap.port=389
+xwiki.authentication.ldap.base_DN=department=USER,department=INFORMATIK,department=1230,o=MP
+xwiki.authentication.ldap.bind_DN=cn={0},department=USER,department=INFORMATIK,department=1230,o=MP
+xwiki.authentication.ldap.bind_pass={1}
+xwiki.authentication.ldap.UID_attr=uid
+{{/code}}
+
+{{info}}
+You can also setup the LDAP configuration in the XWiki.XWikiPreferences page by going to the class editor and adding the following fields:
+
+* ldap_server
+* ldap_port
+* ldap_check_level
+* ldap_base_DN
+* ldap_bind_DN
+* ldap_bind_pass
+* ldap_UID_attr
+* ldap_fields_mapping
+{{/info}}
+
+= LDAP Configuration for Active Directory =
+
+Here are values of the properties you need to set if your LDAP server implementation is Miscrosoft Active Directory:
+
+* **ldap_server**: name/IP of AD server machine
+* **ldap_port**: port //(e.g. 389)//
+* **ldap_check_level**: 1
+* **ldap_base_DN**: name of root DN //(e.g. dc=ad,dc=company,dc=com)//
+* **ldap_bind_DN**: domain{0} //(e.g. ad{0}, where {0} will be replaced by username during validation)//
+* **ldap_bind_pass**: {1} //(where {1} will be replaced by password during validation)//
+* **ldap_UID_attr**: sAMAccountName
+* **ldap_fields_mapping**: name=sAMAccountName,last_name=sn,first_name=givenName,fullname=displayName,mail=mail,ldap_dn=dn
+
+Example:
+
+{{code}}
+xwiki.authentication.ldap=1
+xwiki.authentication.ldap.authclass=com.xpn.xwiki.user.impl.LDAP.LDAPAuthServiceImpl
+xwiki.authentication.ldap.server=adserver
+xwiki.authentication.ldap.check_level=1
+xwiki.authentication.ldap.port=389
+xwiki.authentication.ldap.base_DN=dc=subdomain,dc=domain,dc=suffix
+xwiki.authentication.ldap.bind_DN=subdomain\\{0}
+xwiki.authentication.ldap.bind_pass={1}
+xwiki.authentication.ldap.UID_attr=sAMAccountName
+xwiki.authentication.ldap.fields_mapping=name=sAMAccountName,last_name=sn,first_name=givenName,fullname=displayName,mail=mail,ldap_dn=dn
+{{/code}}
+
+The bind_DN and bind_pass fields contain the username and password for binding to the LDAP server in order to search, which will not necessarily be the same credentials as the user logging in.
+
+The exact details of this configuration will vary based on your server configuration. It may not be necessary to prefix the username (represented by {0}) with the subdomain.
+
+For testing purposes, you may wish to omit the "ldap.fields_mapping" field, to test the authentication first, and then add it later to get the mappings right.</content>
+</xwikidoc>

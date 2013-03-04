@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>DatabaseSupportStrategy</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.SupportStrategy</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1333451914000</creationDate>
+  <date>1360950290000</date>
+  <contentUpdateDate>1333460540000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Database Support Strategy</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>There are a lot of databases out there and supporting all of them in all versions is just too hard to be done in a quality manner.
+
+By "supporting" we mean:
+* Issues created for these databases in JIRA are not closed as won't fix and we make a best effort to fix them.
+* We include these databases in our tests (be them automated or manual).
+* When we create new features or modify existing features we make a best effort to verify that they work on the supported list of databases.
+* The complete and precise list of supported databases in a given XWiki release is indicated in the Release Notes for that release (starting with XWiki 4.0-milestone-2).
+
+= Supported databases =
+
+|=Database|=Reason for supporting it
+|((({{database name='hsqldb' version= '2.2.8'/}})))|Currently Hypersonic DB is used in embedded mode in our standalone distribution.
+|((({{database name='mysql' version= '5.x'/}})))|MySQL is one of the most used database (especially when building an open source stack)
+|((({{database name='postgresql' version= '9.x'/}})))|PostgreSQL is also one of the most used database (especially when building an open source stack)
+|((({{database name='oracle' version= '11.x'/}})))|Being an Enterprise wiki, XWiki also supports Oracle to be "business"-friendly
+
+= Databases that are not supported =
+
+The following databases are not officially supported. XWiki may work with them, completely or partly. We don't constantly test against it, we don't ensure that new features work on them. However whenever someone raises an issue on [[JIRA&gt;&gt;http://jira.xwiki.org]] about them and it's easy to fix (or if someone provides a patch) then we fix it.
+
+{{info}}Note that we use Hibernate for our persistence and thus if the database you wish to use is supported by Hibernate you should be able to make it work in XWiki. However it may require tuning some Hibernate HBM files{{/info}}
+
+|=Database
+|((({{database name='h2' /}})))
+|((({{database name='db2' /}})))
+|((({{database name='mssql'/}})))
+|((({{database name='derby' /}})))
+
+You can [[Search the XWiki mail archive&gt;&gt;MailingLists||anchor="HArchives"]] to see all discussion threads about the Database you're interested in.
+</content>
+</xwikidoc>

@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>ModalPopup</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.FrontendResources</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1262768074000</creationDate>
+  <date>1360853405000</date>
+  <contentUpdateDate>1360853405000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Modal Popup UI Component</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.ModalPopup</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>5451b161-56de-402e-af74-25e58c97b008</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{warning}}
+This tutorial is a work in progress.
+{{/warning}}
+
+{{toc/}}
+
+{{info}}
+This is a Javascript widget bundled by default with the XWiki platform.
+{{/info}}
+
+=Usage=
+
+The Modal Popup is a widget used as a base class for different modal widgets in XWiki, like the [[Confirmation Box&gt;&gt;DevGuide.ConfirmationBox]] or the Jump To Page widget. It will not display a dialog box since it should not be used by itself.
+
+=Constructor fields for the **ModalPopup** Javascript class=
+; content
+: Object that defines the content of the modal dialog.
+; shortcuts
+: Object that defines the shortcuts that will pop up the dialog.
+; options
+: Object that defines the options for the modal dialog: //title//, //displayCloseButton//, //extraClassName//, //screenColor//, //borderColor//, //titleColor//, //backgroundColor//, //screenOpacity//, //verticalPosition// and //horizontalPosition//.
+
+=Examples=
+
+The Modal Popup Javascript class could be used as a base class for a widget that loads the content of another page:
+
+{{code language="javascript"}}
+// Make sure the XWiki 'namespace' and the ModalPopup class exist.
+if(typeof(XWiki) == "undefined" || typeof(XWiki.widgets) == "undefined" || typeof(XWiki.widgets.ModalPopup) == "undefined") {
+ if (typeof console != "undefined" &amp;&amp; typeof console.warn == "function") {
+    console.warn("[MessageBox widget] Required class missing: XWiki.widgets.ModalPopup");
+  }
+} else {
+
+XWiki.widgets.MyModalPopup = Class.create(XWiki.widgets.ModalPopup, {
+ /** Default parameters can be added to the custom class. */
+  defaultInteractionParameters : {
+  },
+ /** Constructor. Registers the key listener that pops up the dialog. */
+  initialize : function($super, interactionParameters) {
+   this.interactionParameters = Object.extend(Object.clone(this.defaultInteractionParameters), interactionParameters || {});
+    // call constructor from ModalPopup with params content, shortcuts, options
+    $super(
+     this.createContent(this.interactionParameters),
+      {
+       "show"  : { method : this.showDialog,  keys : [] },
+       "close" : { method : this.closeDialog, keys : ['Esc'] }
+      },
+      {
+         displayCloseButton : true, 
+         verticalPosition : "top",
+         backgroundColor : "#FFF"
+      }
+    );
+   this.showDialog();
+   this.setClass("my-modal-popup");
+  },
+ /** Get the content of the modal dialog using ajax */
+  createContent : function (data) {
+    var content =  new Element('div', {'class': 'modal-popup'});
+    // get page content for the pageURL
+    new Ajax.Request(data.pageURL,
+    {
+      method:'get',
+      onSuccess: function(transport){
+        var response = transport.responseText || "no response text";
+        content.insert(response);
+      },
+      onFailure: function(){ content.insert('Something went wrong...'); 
+    }
+    });
+
+    return content;
+  }
+});
+} // if the parent widget is defined
+{{/code}}
+
+Define the URL of the page to be loaded (in this case the [[DevGuide.AutoSuggestWidgetExample]]) and just call the new widget from the wiki page:
+
+{{code}}
+#set($pageURL="$xwiki.getURL('DevGuide.AutoSuggestWidgetExample','view','xpage=plain')")
+&lt;a href="#" onclick="new XWiki.widgets.MyModalPopup({pageURL: '$pageURL'});"&gt;
+{{/code}}
+
+{{html wiki="false"}}
+&lt;script type="text/javascript" language="javascript"&gt;
+// Make sure the XWiki 'namespace' and the ModalPopup class exist.
+if(typeof(XWiki) == "undefined" || typeof(XWiki.widgets) == "undefined" || typeof(XWiki.widgets.ModalPopup) == "undefined") {
+ if (typeof console != "undefined" &amp;&amp; typeof console.warn == "function") {
+    console.warn("[MessageBox widget] Required class missing: XWiki.widgets.ModalPopup");
+  }
+} else {
+
+XWiki.widgets.MyModalPopup = Class.create(XWiki.widgets.ModalPopup, {
+ /** Default parameters can be added to the custom class. */
+  defaultInteractionParameters : {
+  },
+ /** Constructor. Registers the key listener that pops up the dialog. */
+  initialize : function($super, interactionParameters) {
+   this.interactionParameters = Object.extend(Object.clone(this.defaultInteractionParameters), interactionParameters || {});
+    // call constructor from ModalPopup with params content, shortcuts, options
+    $super(
+     this.createContent(this.interactionParameters),
+      {
+       "show"  : { method : this.showDialog,  keys : [] },
+       "close" : { method : this.closeDialog, keys : ['Esc'] }
+      },
+      {
+         displayCloseButton : true, 
+         extraClassName : 'mydialog-box',
+         verticalPosition : "top",
+         backgroundColor : "#FFF"
+      }
+    );
+   this.showDialog();
+   this.setClass("my-modal-popup");
+  },
+ /** Get the content of the modal dialog using ajax */
+  createContent : function (data) {
+    var content =  new Element('div', {'class': 'modal-popup'});
+    // get page content for the pageURL
+    new Ajax.Request(data.pageURL,
+    {
+      method:'get',
+      onSuccess: function(transport){
+        var response = transport.responseText || "no response text";
+        content.insert(response);
+      }.bind(this),
+      onFailure: function(){ content.insert('Something went wrong...'); 
+    }
+    });
+
+    return content;
+  }
+});
+} // if the parent widget is defined
+&lt;/script&gt;
+{{/html}}
+
+{{velocity}}
+{{html wiki="false"}}
+#set($pageURL="$xwiki.getURL('DevGuide.AutoSuggestWidgetExample','view','xpage=plain')")
+Check out the example above live: &lt;a href="#" onclick="new XWiki.widgets.MyModalPopup({pageURL: '$pageURL'});"&gt;My Modal Popup&lt;/a&gt;.
+{{/html}}
+{{/velocity}}
+
+Widgets bundled by default with XWiki build on top of the Model Popup class:
+
+* [[Confirmation Box&gt;&gt;DevGuide.ConfirmationBox]] widget
+* {{scm path="xwiki-platform-core/xwiki-platform-web/src/main/webapp/resources/js/xwiki/widgets/jumpToPage.js"}}Jump to page{{/scm}} widget
+* {{scm path="xwiki-platform-core/xwiki-platform-web/src/main/webapp/resources/uicomponents/widgets/confirmedAjaxRequest.js"}}Confirmed Ajax Request Box{{/scm}}
+
+=Tips=
+
+Check out the Javascript code:
+* for your wiki instance: **{{{http://localhost:8080/xwiki/bin/skin/resources/js/xwiki/widgets/modalPopup.js}}}**
+* from GitHub: {{scm path="xwiki-platform-core/xwiki-platform-web/src/main/webapp/resources/js/xwiki/widgets/modalPopup.js"/}}.
+
+Check out the CSS code:
+* for your wiki instance: **{{{http://localhost:8080/xwiki/bin/skin/resources/js/xwiki/widgets/modalPopup.css}}}**
+* from GitHub: {{scm path="xwiki-platform-core/xwiki-platform-web/src/main/webapp/resources/js/xwiki/widgets/modalPopup.css"/}}.</content>
+</xwikidoc>

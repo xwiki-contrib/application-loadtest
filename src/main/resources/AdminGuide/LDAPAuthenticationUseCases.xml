@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>LDAPAuthenticationUseCases</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Authentication</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1216989498000</creationDate>
+  <date>1360950264000</date>
+  <contentUpdateDate>1360950264000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Use cases of configuration to authenticate users with LDAP</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.LDAPAuthenticationUseCases</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>e0e42fbc-4677-4cfe-aca2-bdbecb6a2d79</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>Here you can find some detailed uses cases of LDAP authentication configuration:
+
+{{toc/}}
+
+= Active Directory =
+
+Here are the values of the properties you need to set if your LDAP server implementation is Microsoft Active Directory:
+
+* **ldap_server**: name/IP of AD server machine
+* **ldap_port**: port //(e.g. 389)//
+* **ldap_base_DN**: name of root DN //(e.g. dc=ad,dc=company,dc=com)//
+* **ldap_bind_DN**: domain{0} //(e.g. ad{0} where {0} will be replaced by username during validation)//
+* **ldap_bind_pass**: {1} //(where {1} will be replaced by password during validation)//
+* **ldap_UID_attr**: sAMAccountName
+* **ldap_fields_mapping**: name=sAMAccountName,last_name=sn,first_name=givenName,fullname=displayName,email=mail,ldap_dn=dn
+
+Example:
+
+{{code}}
+xwiki.authentication.authclass=com.xpn.xwiki.user.impl.LDAP.XWikiLDAPAuthServiceImpl
+xwiki.authentication.ldap=1
+xwiki.authentication.ldap.server=adserver
+xwiki.authentication.ldap.port=389
+xwiki.authentication.ldap.base_DN=dc=subdomain,dc=domain,dc=suffix
+xwiki.authentication.ldap.bind_DN=subdomain\\{0}
+xwiki.authentication.ldap.bind_pass={1}
+xwiki.authentication.ldap.UID_attr=sAMAccountName
+xwiki.authentication.ldap.fields_mapping=name=sAMAccountName,last_name=sn,first_name=givenName,fullname=displayName,email=mail,ldap_dn=dn
+{{/code}}
+
+= Apple Open Directory Server =
+
+In order to set this up your **xwiki.cfg** file should have the attributes below set like this:
+
+{{code}}
+xwiki.authentication.ldap.bind_DN=uid={0},cn=users,dc=sub,dc=domain,dc=tld
+xwiki.authentication.ldap.bind_pass={1}
+xwiki.authentication.ldap.UID_attr=uid
+xwiki.authentication.ldap.group_classes=apple-group
+xwiki.authentication.ldap.group_memberfields=memberUid,uid
+{{/code}}
+
+Note that if you set it up like this the users logging will need the right to list group members in LDAP server.
+
+= Open Directory Server (OpenDS) =
+
+Here are the values of the properties you need to set if you would like to **authorize only members of a group to log-in**. In this case, the group is cn=xwiki,ou=roles,dc=domain,dc=tld
+
+{{code}}
+xwiki.authentication.ldap.server=ldap.domain.tld
+xwiki.authentication.ldap.port=389
+
+xwiki.authentication.ldap.bind_DN=
+xwiki.authentication.ldap.bind_pass=
+
+xwiki.authentication.ldap.base_DN=ou=people,dc=domain,dc=tld
+xwiki.authentication.ldap.UID_attr=cn
+
+xwiki.authentication.ldap.group_classes=groupOfNames
+xwiki.authentication.ldap.group_memberfields=memberUid
+xwiki.authentication.ldap.user_group=cn=xwiki,ou=roles,dc=domain,dc=tld
+{{/code}}
+
+**bind_DN** and **bind_pass** are both empty. The connection to the LDAP server will be anonymous. With OpenDS an anonymous connection can read some needed attributes like userPassword, home, etc.
+
+= Generic =
+
+== I want to be able to reuse LDAP users membership in XWiki ==
+
+E.g. if you want all the LDAP users of the group ##cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas## to be automatically added in the XWiki group ##XWiki.XWikiAdminGroup## when the user logs in, set:
+
+{{code}}
+xwiki.authentication.ldap.group_mapping=XWiki.XWikiAdminGroup=cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas
+{{/code}}
+
+If you want to add more mapping add them separated by ##|##:
+
+{{code}}
+xwiki.authentication.ldap.group_mapping=XWiki.XWikiAdminGroup=cn=HMS Lydia,ou=crews,ou=groups,o=sevenSeas|\
+                                        XWiki.OtherXWikiGroup=HMS Victory,ou=crews,ou=groups,o=sevenSeas
+{{/code}}
+
+{{warning}}
+The XWiki groups have to already exist.
+{{/warning}}
+
+== My users are not located in the same organization unit ==
+
+So you can't use the ##xwiki.authentication.ldap.bind_DN=cn={0},department=USER,department=INFORMATIK,department=1230,o=MP## pattern.
+
+The trick here is to to connect to LDAP with a user able to list LDAP users (and groups if you want to do membership synchronization).
+
+To handle that LDAP authentication automatically searches for the user's DN trying to match the provided login with ##xwiki.authentication.ldap.UID_attr## attribute value. So simply set an existing administrator DN (or any other LDAP user with the right to search in the whole LDAP server) at ##xwiki.authentication.ldap.bind_DN## and its password at ##xwiki.authentication.ldap.bind_pass##. LDAP authentication will use it to connect to the LDAP server, search for the provided user and bind the found DN with the provided password to validate it.
+
+For example if you have an admin user with the DN = "cn=Administrator,dc=mydomain,dc=org" and password "pass" set:
+
+{{code}}
+xwiki.authentication.ldap.bind_DN=cn=Administrator,dc=mydomain,dc=org
+xwiki.authentication.ldap.bind_pass=pass
+{{/code}}
+
+== My users are not located on the same server ==
+
+E.g. if you use several subdomains and the users are defined separately in each subdomain. This will likely be the case when you have a configuration like this:
+
+{{code}}
+sub1.somedomain.com
+sub2.somedomain.com
+sub3.somedomain.com
+...
+{{/code}}
+
+XWiki cannot search in multiple domains (as of XWiki 1.5). 
+
+=== Approach 1: Configure group membership login ===
+
+One possible solution is to make one (or more) group(s) in your AD and set the group membership to all users that have to have access to your wiki. Then configure XWiki to only let members of that group log in. If a user wants to log in, XWiki will look up if the user's credentials are found in the group member attributes in AD. With this setting, XWiki will ignore the base_DN search, if a user was found in that group.
+
+{{info}}
+The group membership attribute in AD (in its default configuration) will contain the CN ("FirstName LastName") - not the sAMAccountName. So your users will have to login with their full name instead of their username.
+{{/info}}
+
+== I'm in a multiwiki environment and I want my LDAP users to register only on the main wiki ==
+
+Each wiki can have its own LDAP configuration (even enable/disable LDAP) in the **XWiki.XWikiPreference** page (edit it in objects mode). What you can find in the **xwiki.cfg** file is just the default LDAP configuration.
+
+When the LDAP authenticator fails to authenticate to a wiki it will try in the main wiki.
+
+In order to forbid LDAP authentication to create users on subwikis you can use one of the following ways:
+
+* disable LDAP in **xwiki.cfg** and enable it in the main wiki by choosing "Yes" in the "Ldap" field of XWiki.XWikiPreference page object
+* disable LDAP in every sub-wikis by choosing "No" in the "Ldap" field of XWiki.XWikiPreference page object
+
+== I want to allow access to users depending on a specific attribute on their LDAP entry ==
+
+For example, suppose you want to prevent access to the wiki for deactivated users, and you have an attribute in LDAP showing the current status of the user.
+
+Typically, you may have this kind of attribute:
+
+* For Zimbra based LDAP, an active account has this attribute: **zimbraAccountStatus=active**
+* For ActiveDirectory, a deactivated account has this attribute: **userAccountControl:1.2.840.113556.1.4.803:=2**
+* Or you can have your own attribute in your private schema, for example: **accountstatus=active**
+
+In this case, you just have to modify the **xwiki.authentication.ldap.user_group** value by putting the filter corresponding to what you want. Using the same example as above, you'll have:
+
+* For Zimbra based LDAP: 
+(((
+{{code}}
+xwiki.authentication.ldap.user_group=(zimbraAccountStatus=active)
+{{/code}}
+)))
+* For ActiveDirectory: 
+(((
+{{code}}
+xwiki.authentication.ldap.user_group=(!(userAccountControl:1.2.840.113556.1.4.803:=2))
+{{/code}}
+)))
+* For a private attribute: 
+(((
+{{code}}
+xwiki.authentication.ldap.user_group=(accountstatus=active)
+{{/code}}
+)))
+
+You can of course use any kind of filter. For instance, you can check if the account is active and has any other attribute, like an attribute listing the different services the user can access:
+
+{{code}}
+xwiki.authentication.ldap.user_group=(&amp;(accountstatus=active)(allowedservice=xwiki))
+{{/code}}</content>
+</xwikidoc>

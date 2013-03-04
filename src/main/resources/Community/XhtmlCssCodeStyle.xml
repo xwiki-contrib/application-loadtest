@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>XhtmlCssCodeStyle</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.CodeStyle</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1257342736000</creationDate>
+  <date>1360950293000</date>
+  <contentUpdateDate>1259828585000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XHTML &amp; CSS Code Style</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.XhtmlCssCodeStyle</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>589d5b4b-7c4a-4cdb-9806-8e873c5439c6</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>The following rules must be followed:
+* The HTML output produced by XWiki pages must be valid XHTML.
+* The XWiki projects is also following the [[W3C WCAG Guidelines&gt;&gt;http://en.wikipedia.org/wiki/Web_Content_Accessibility_Guidelines]]. In addition we're also following the [[Dutch Web Guidelines&gt;&gt;http://www.webrichtlijnen.nl/english/guidelines/]] which are even stricter than the WCAG ones.
+
+= CSS =
+
+The following rules must be followed:
+* the CSS must be valid conform [[CSS 2.1 specification&gt;&gt;http://www.w3.org/TR/CSS21/]]. This can be tested using the [[W3C validator&gt;&gt;http://jigsaw.w3.org/css-validator/]]
+* don't use inline style declarations
+* don't hard code colors in properties - use ColorTheme attributes
+* test your code on at least 3 browsers (IE, FF, Safari)
+
+The following recommendations could be followed:
+* Properties:
+** alphabetical order;
+** 2 spaces indentation;
+** use of CSS shorthands;
+** use relative sizes (em, %) instead of fixed ones (px);
+** use appropriate CSS files for writing IE rules;
+*** limit as much as possible the number of IE hacks used.
+
+* Organization:
+** comment headers for separation and grouping of different parts of the code;
+
+* Overwriting:
+** document the localization of the overwrite using "Overwrites" and "Should be in" comments;
+
+==  Issues ==
+* We currently don't have a naming convention
+
+==  Tools ==
+
+* [[Firebug&gt;&gt;http://www.getfirebug.com/]]
+* [[CSS Optimizer&gt;&gt;http://www.cssoptimiser.com/]] and [[CSS Compressor&gt;&gt;http://www.csscompressor.com/]] are two excellent online tools that can shrink CSS
+
+= Testing =
+
+See the [[Testing section&gt;&gt;Community.Testing]].
+
+
+</content>
+</xwikidoc>

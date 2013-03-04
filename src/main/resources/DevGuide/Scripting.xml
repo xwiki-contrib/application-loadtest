@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>Scripting</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1165323925000</creationDate>
+  <date>1360950269000</date>
+  <contentUpdateDate>1360950269000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Scripting</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.Scripting</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>4d42b5a2-23fb-4b2a-96fb-dc3b9384d4e5</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+Scripting allows you to create basic to complex web applications at the XWiki page (or view) layer without the need for compiling code or deploying software components. In other words, you can use scripting syntax in addition to wiki and HTML syntax as the contents of an XWiki page.
+
+XWiki integrates [[jsr-223&gt;&gt;http://jcp.org/en/jsr/detail?id=223]] scripting. You can script using several available languages by using one of the following macros:
+
+* [[Velocity Macro&gt;&gt;extensions:Extension.Velocity Macro]] (installed by default in XWiki Enterprise)
+* [[Groovy Macro&gt;&gt;extensions:Extension.Groovy Macro]] (installed by default in XWiki Enterprise)
+* [[Python Macro&gt;&gt;extensions:Extension.Python Macro]] (installed by default in XWiki Enterprise)
+* [[Ruby Macro&gt;&gt;extensions:Extension.Ruby Macro]] (not installed by default in XWiki Enterprise)
+* [[PHP Macro&gt;&gt;extensions:Extension.PHP Macro]] (not installed by default in XWiki Enterprise)
+
+= Choosing a Scripting language =
+
+Since XWiki supports several scripting languages you might be wondering which one to use. Most of the code written by XWiki developers is in Velocity, with a few more complex extensions written in Groovy; these two are thoroughly tried and tested, so they are both a safe bet. The other languages //should// work just as well, but there are less developers that could help answering any questions.
+
+== Velocity ==
+
+The first thing to know is that Velocity is different from the other scripting languages on 2 aspects:
+
+* It's a templating language rather than a pure scripting language, which means that its content is actually wiki markup interspersed with Velocity directives, whereas pure scripting languages are written in that language and they need to explicitly output wiki markup. For example:(((
+Velocity:
+
+{{code}}
+{{velocity}}
+Your username is $xcontext.getUser(), welcome to the site.
+{{/velocity}}
+{{/code}}
+
+Groovy:
+
+{{code}}
+{{groovy}}
+println("Your username is " + xcontext.getUser() + " welcome to the site.");
+{{/groovy}}
+{{/code}}
+))) 
+* It doesn't require special permissions since it runs in a Sandbox, with access to only a few safe objects, and each API call will check the rights configured in the wiki, forbidding access to resources or actions that the current user shouldn't be allowed to retrieve/perform. Other scripting language require the user that wrote the script to have Programming Rights to execute them, but except this initial precondition, access is granted to all the resources on the server. Note that starting with XWiki 4.1 we've introduced a [[Sandbox for Groovy&gt;&gt;platform:AdminGuide.Configuration#HSecuringGroovyScripts]] too, but it's still in an early stage.
+
+Being a templating engine, Velocity doesn't offer many means of structuring code. In fact, there's only one useful directive in this regard, ###macro##. However, because it is a templating engine, its syntax is much simpler and easier to understand by non-developers, which means that it's accessible to a wider range of users, without a serious background in programming.
+
+Without programming rights, it's impossible to instantiate new objects, except literals and those safely offered by the XWiki APIs. Nevertheless, the XWiki API is powerful enough to allow a wide range of applications to be safely developed, if "the XWiki way" is properly followed. 
+
+Velocity is also available in some other parts of XWiki: it is the language in which all the templates that generate the HTML UI of XWiki are written, it can be optionally activated in skin extensions, and it is executed when sending CSS and JavaScript skin resources from the filesystem.
+
+In conclusion, **Velocity is suited for projects with small to medium complexity, and which don't require access to other resources except the provided XWiki API and registered script services. It allows very quick and easy development, offers good security and decent performance, and can easily be packaged and distributed as a XAR.**
+
+== Groovy ==
+
+Groovy is a full-fledged scripting language, which supports almost the entire Java syntax, and provides its own syntax delicacies and custom APIs that enhance the Java language even further. While it is recommended that complex code be written in Java as components accessible via script services, Groovy has the advantage that it is written live in the wiki, without requiring compilation, deployment and server restarts, thus enabling faster development.
+
+The XWiki API is available in the context when executing Groovy scripts, but unlike in Velocity, the code isn't limited to this API, and any other classes or objects can be accessed freely. New classes can be defined in Groovy, compatible with Java classes, and this allows more structured code to be written, unlike in Velocity. A particular case of classes is new component roles and component implementations, which allows, for example, new script services or new event listeners to be defined in the wiki. It is possible to load attached jar files into the classpath of an executing script, which means that a wiki document can contain a complex program AND its required libraries not already provided by the platform.
+
+Other than being available as a scripting language for writing custom code, it is also the language in which scheduler tasks are written.
+
+In conclusion, **Groovy is suited for complex projects or for custom wiki enhancement through new components, when speedy live development is required. Being written in wiki documents, it can also be easily packaged and distributed as a XAR.**
+
+After taking into account these considerations and if requiring Programming Rights isn't an issue for you, you should pick the script language that you're most familiar with!
+
+= XWiki Scripting API =
+
+The API is documented in Javadoc format and can be accessed here: [[XWiki API Javadoc&gt;&gt;DevGuide.API]]. If you are not familiar with Java or object oriented programming, you will probably be confused by the API documentation. It is not within the scope of our documentation to teach you all the details about Java, or object oriented programming. You can find all of that information already online. You can also explore the page code found throughout the [[Extensions wiki&gt;&gt;extensions:Main.WebHome]] area to see how others have figured out how to achieve a variety of results.
+
+== [[Bindings&gt;&gt;extensions:Extension.Script Macro#HBindings]] ==
+
+These objects are available to you in scripting languages.
+
+* [[The current Document&gt;&gt;http://maven.xwiki.org/site/xwiki-core-parent/xwiki-core/apidocs/com/xpn/xwiki/api/Document.html]]: **##doc##**
+* [[The Context of the request&gt;&gt;http://maven.xwiki.org/site/xwiki-core-parent/xwiki-core/apidocs/com/xpn/xwiki/api/Context.html]]: **##xcontext##**
+* [[The Request object&gt;&gt;http://maven.xwiki.org/site/xwiki-core-parent/xwiki-core/apidocs/com/xpn/xwiki/web/XWikiRequest.html]]: **##request##**
+* [[The Response object&gt;&gt;http://maven.xwiki.org/site/xwiki-core-parent/xwiki-core/apidocs/com/xpn/xwiki/web/XWikiResponse.html]]: **##response##**
+* [[The XWiki object&gt;&gt;http://maven.xwiki.org/site/xwiki-core-parent/xwiki-core/apidocs/com/xpn/xwiki/api/XWiki.html]]: **##xwiki##**
+* [[The XWiki utils&gt;&gt;http://maven.xwiki.org/site/xwiki-core-parent/xwiki-core/apidocs/com/xpn/xwiki/api/Util.html]]: **##util##** (this is deprecated)
+* Various [[Script Services&gt;&gt;extensions:Extension.Script Module]]: **##services##**
+
+== [[XWiki Component&gt;&gt;extensions:Extension.Component Module]] Access ==
+
+Since XWiki 4.1M2+ there's a Script Service to access the Component Manager (see also: [[Accessing components from Groovy&gt;&gt;DevGuide.WritingComponents#HFromwikipages]]).
+
+For example using Groovy you'd write:
+
+{{code language="java"}}
+{{groovy}}
+def greeter = services.component.getInstance(org.xwiki.component.HelloWorld.class)
+println greeter.sayHello()
+{{/groovy}}
+{{/code}}
+
+You can also get the ComponentManager with:
+
+{{code language="java"}}
+{{groovy}}
+def cm = services.component.componentManager
+{{/groovy}}
+{{/code}}
+
+{{info}}
+With versions of XWiki older than 4.1M2 you'd use (in Groovy):
+
+{{code language="java"}}
+{{groovy}}
+def greeter = com.xpn.xwiki.web.Utils.getComponent(org.xwiki.component.HelloWorld.class)
+println greeter.sayHello()
+{{/groovy}}
+{{/code}}
+{{/info}}
+
+== XWiki Core Access ==
+
+Sometimes the XWiki Api doesn't provide the methods which you need for your application. You can gain raw access the core of XWiki but it presents an increased security risk and requires **Programming Rights** to be able to save the page containing the script (Programming Rights are not required for viewing a page containing a script requiring Programming Rights, rights are only needed at save time). Using the core should be avoided if at all possible.
+
+{{code language="java"}}
+{{groovy}}
+def xc = xcontext.getContext();
+def wiki = xc.getWiki();
+def xdoc = doc.getDocument();
+{{/groovy}}
+{{/code}}
+
+After using this snippet, you will have 3 new objects:
+
+* [[The underlying XWikiContext behind the Context object&gt;&gt;http://maven.xwiki.org/site/xwiki-core-parent/xwiki-core/apidocs/com/xpn/xwiki/XWikiContext.html]]: **##xc##**
+* [[The underlying XWiki object which backs the **##xwiki##** object&gt;&gt;http://maven.xwiki.org/site/xwiki-core-parent/xwiki-core/apidocs/com/xpn/xwiki/XWiki.html]]: **##wiki##**
+* [[The underlying XWikiDocument behind the current Document&gt;&gt;http://maven.xwiki.org/site/xwiki-core-parent/xwiki-core/apidocs/com/xpn/xwiki/doc/XWikiDocument.html]]: **##xdoc##**
+
+You will find that many of the methods in **##wiki##** and **##xdoc##** require an instance of the XWikiContext, this is the underlying xcontext **##xc##** not the Api context **##xcontext##**.
+
+Again, these methods are only for the rare cases when functionality is not provided by the public Api. We put a lot of effort into preserving the behavior of the public Api and much less into preserving the behavior of core methods so you may find that core methods are deprecated, removed, or their behavior is changed in subsequent versions.
+
+== Querying XWiki's Model ==
+
+From your script you can query the full XWiki Model. Check the [[Query Module&gt;&gt;extensions:Extension.Query Module]] for more information.
+
+{{id name="velocity"/}}
+
+= Velocity Specific Information =
+
+Velocity is currently the only scripting language which can be used without Programming [[AdminGuide.Access Rights]]. This means you can save velocity scripts using a user with less permission and an exploit of your script is less of a security breach. 
+
+You can [[gain access to the XWiki core&gt;&gt;#HXWikiCoreAccess]] from Velocity but this will require Programming Rights. Strictly speaking, protected APIs are only available when the page that contains them was last saved by someone who had Programming Rights (see above).
+
+In Velocity you can't import classes and as such you cannot gain direct access to XWiki components as shown [[above&gt;&gt;#HXWikiComponentAccess]]. This leaves you with the provided [[bindings&gt;&gt;#HBindings]] (NOTE: In Velocity, these bindings all start with **##$##** as with all other Velocity variables)
+
+For more information about programming in the Velocity language, you can refer to the [[Velocity User Guide&gt;&gt;http://velocity.apache.org/engine/releases/velocity-1.7/user-guide.html]].
+
+For more details on using Velocity check the [[Velocity Module Documentation&gt;&gt;extensions:Extension.Velocity Module]] which also contains the full list of Velocity Tools that you can use in your scripts.
+
+{{info}}
+If you wish to add new Velocity tools you'll need to edit your ##xwiki.properties## file and follow the instructions in there.
+{{/info}}
+
+To include Velocity scripts in other Velocity scripts, see [[How to include a velocity page into another page&gt;&gt;DevGuide.IncludeInVelocity]].
+
+== Other Velocity Variables ==
+
+{{warning}}
+These variables can be used but are subject to change in the future.
+{{/warning}}
+
+=== Controlling Which Sections to Display ===
+
+You can control whether to display Comments/History/Attachment/Information sections or not by setting some velocity variables to "no":
+
+{{code language="velocity"}}
+#set ($showcomments = "no")
+#set ($showattachments = "no")
+#set ($showhistory = "no")
+#set ($showinformation = "no")
+{{/code}}
+
+To remove them all you can set:
+
+{{code language="velocity"}}
+#set($docextras = [])
+{{/code}}
+
+=== Information about the current user ===
+
+The following variables (set in the {{scm path="xwiki-platform-core/xwiki-platform-web/src/main/webapp/templates/xwikivars.vm"}}xwikivars.vm{{/scm}} template) are shortcuts for checking various information **for the current user**:
+
+* ##$isGuest##: checks if the current user is ##XWiki.XWikiGuest##
+* ##$isSuperAdmin##: checks if the current user is the special user ##superadmin##
+
+* ##$hasComment##: checks comment rights on the current document
+* ##$hasEdit##: checks edit rights on the current document
+* ##$hasWatch##: checks if the user is authenticated and the watch service is available
+
+* ##$hasAdmin##: checks admin rights on the current document
+* ##$hasSpaceAdmin##: checks admin rights on the ##XWikiPreferences## document of the current space
+* ##$hasGlobalAdmin##: checks admin rights on ##XWiki.XWikiPreferences##
+
+* ##$hasCreateSpace##: checks edit rights on that page that does not exist, in a space that doesn't exist
+* ##$hasCreatePage##: checks edit rights on that page that does not exist, in the current space
+
+* ##$hasProgramming##: checks if the current user has programming rights
+
+* ##$isAdvancedUser##: advanced users: ##superadmin##, users with the ##usertype## property set to "Advanced", guest users with admin rights
+
+Example:
+
+{{code language="velocity"}}
+{{velocity}}
+#if ($hasAdmin)
+  ## This link will only be visible to users that have admin rights on this document
+  [[Do some admin action&gt;&gt;Some.Document]]
+#end
+{{/velocity}}
+{{/code}}
+
+=== Information about the current wiki ===
+
+The following variables (set in the {{scm path="xwiki-platform-core/xwiki-platform-web/src/main/webapp/templates/xwikivars.vm"}}xwikivars.vm{{/scm}} template) are shortcuts for checking various information **about the current wiki**:
+
+* ##$isReadOnly##
+* ##$isInServletMode##
+* ##$isInPortletMode##
+
+= Groovy Specific Information =
+
+{{info}}
+Currently all non Velocity scripting languages are only allowed to be used by users having Programming Rights.
+{{/info}}
+
+* See Groovy snippets in the [[Extensions wiki&gt;&gt;extensions:Main.WebHome]] (click on the "Groovy" tag in the Tag Cloud)
+* [[Groovy web site&gt;&gt;http://groovy.codehaus.org/]]
+
+== Groovy Example ==
+
+The following example demonstrates how to use a groovy script to interact with velocity code in your page. This example performs a DNS lookup from the velocity variable ##$hostname## and stores the result in the variable ##$address##.
+
+**Using XWiki Syntax 2.0:**
+
+Objects can be passed back and forth between scripting languages by storing them in commonly available objects. One such commonly available object which only lasts the length of the request is the context object, known as xcontext.
+
+{{code language="velocity"}}
+{{velocity}}
+#set($hostname = "www.xwiki.org")
+Host Name: $hostname
+$xcontext.put("hostname", $hostname)
+{{/velocity}}
+{{groovy}}
+import java.net.InetAddress;
+host = xcontext.get("hostname");
+InetAddress addr = InetAddress.getByName(host);
+String address = addr.getHostAddress();
+xcontext.put("address", address);
+{{/groovy}}
+{{velocity}}
+IP Address: $xcontext.get("address")
+{{/velocity}}
+{{/code}}
+
+**Using XWiki Syntax 1.0:**
+
+Because Groovy and Velocity code are parsed together, variables defined in Groovy can be used directly in velocity without storing in and retrieving from the context.
+
+{{code language="velocity"}}
+#set ($hostname = "www.xwiki.org")
+Host Name: $hostname
+&lt;%
+import java.net.InetAddress;
+vcontext = context.get("vcontext");
+host = vcontext.get("hostname");
+InetAddress addr = InetAddress.getByName(host);
+String address = addr.getHostAddress();
+%&gt;
+IP Address: $address
+{{/code}}
+
+= Python Specific Information =
+
+You can run Python code in XWiki just like Velocity or Groovy.
+
+{{code language="python"}}
+{{python}}
+print "The full name of this document is " + doc.getFullName()
+{{/python}}
+{{/code}}
+
+= Share variable between languages =
+
+Most JSR223 based scripting languages reinject the created variable in the current ScriptContext which means you can define a variable in a Groovy script and reuse it in a following Python script for example.
+
+Since 4.1M2 a bridge has been written for Velocity (which is not based on JSR223) to allow it to access the current ScriptContext variable so you can do things like:
+
+{{code}}
+{{groovy}}
+var = "toto"
+{{/groovy}}
+
+{{velocity}}
+$var
+{{/velocity}}
+{{/code}}
+
+= Scripting In XWiki Syntax 1.0 =
+
+XWiki Syntax 1.0 is rendered by an old rendering engine which is still supported but for which no further development is planned (it will eventually be removed). Syntax 1.0 has some idiosyncrasies which were solved by syntax 2.0.
+
+* The only scripting languages available to you are Velocity and Groovy.
+* In Groovy, the context is known as: **##context##** not **##xcontext##**
+* The beginning and end of Groovy scripts are denoted by &lt;% and %&gt; rather than through the [[extensions:Extension.Groovy Macro]] (using ~{~{groovy}} and ~{~{/groovy}})
+* Velocity is parsed in a page no matter what (there is no need to invoke the [[extensions:Extension.Velocity Macro]] using ~{~{velocity}} and ~{~{/velocity}})
+
+The last part is important because it means you need to be careful when using **$** and **#** in your document. This is still true inside of **&lt;%** and **%&gt;** so you have to be careful when writing Groovy.</content>
+</xwikidoc>

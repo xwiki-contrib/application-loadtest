@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>InstallationWAR</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Installation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1327483787000</creationDate>
+  <date>1360950256000</date>
+  <contentUpdateDate>1360950256000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Installing XWiki .war package manually</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+You'll need to perform 2 mandatory steps:
+
+* Install and configure a Servlet Container
+* Install and configure a relational database
+
+But first, you'll need to [[download&gt;&gt;enterprise:Main.Download]] the .war version of XWiki and check the [[System Requirements&gt;&gt;AdminGuide.Installation#HPrerequisites]].
+
+= Install and configure a Servlet Container =
+
+XWiki will work with any Servlet Container (provided it's properly configured obviously). We're only listing instructions for a few containers but you can adapt these instructions for your favorite container.
+
+* [[Tomcat installation&gt;&gt;AdminGuide.InstallationTomcat]]
+* [[Jetty installation&gt;&gt;AdminGuide.InstallationJetty]]
+* [[GlassFish installation&gt;&gt;AdminGuide.InstallationGlassFish]]
+* [[WebSphere installation&gt;&gt;AdminGuide.InstallationWebSphere]]
+* [[JBoss Installation&gt;&gt;AdminGuide.InstallationJBoss]]
+* [[Oracle OC4J Installation&gt;&gt;AdminGuide.InstallationOC4J]]
+* [[Apache Geronimo&gt;&gt;AdminGuide.InstallationGeronimo]]
+
+Some containers have the Java Security Manager turned on. In this case, XWiki needs to be granted some permissions. Below there's a sample policy file if you want to run your container with the Security Manager active. Depending on the version of XWiki Enterprise that you use and on the plugins/extensions that you use the permissions might need to be adjusted to your needs:
+
+{{code language="none"}}
+grant codeBase "file:&lt;full-path-here&gt;/webapps/xwiki/WEB-INF/lib/-" {
+  permission java.util.PropertyPermission "file.encoding", "read";
+// Needed by Hibernate -&gt; antlr
+  permission java.util.PropertyPermission "ANTLR_DO_NOT_EXIT", "read";
+  permission java.util.PropertyPermission "ANTLR_USE_DIRECT_CLASS_LOADING", "read";
+// Needed by Hibernate and others
+  permission java.lang.reflect.ReflectPermission "suppressAccessChecks";
+  permission java.lang.RuntimePermission "createClassLoader";
+  permission java.lang.RuntimePermission "setContextClassLoader";
+// Needed by commons-logging
+  permission java.util.PropertyPermission "org.apache.commons.logging.LogFactory.HashtableImpl", "read";
+// Needed for connecting to the database
+  permission java.net.SocketPermission "127.0.0.1:3306", "connect,resolve";
+// Needed by the scheduler plugin -&gt; quartz, but works without (maybe except scheduling? should be checked)
+//  permission java.util.PropertyPermission "org.quartz.properties", "read";
+
+//Allow file storage directory reading - for directory and everything underneath
+//This is dependent on the setting of environment.permanentDirectory in xwiki.properties
+permission java.io.FilePermission "${catalina.home}${file.separator}xwikidata${file.separator}", "read,write,delete";
+permission java.io.FilePermission "${catalina.home}${file.separator}xwikidata${file.separator}-", "read,write,delete";
+//Allow file storage directory reading - temporary directory and everything underneath
+//This is dependent on the setting of environment.temporaryDirectory in xwiki.properties.
+permission java.io.FilePermission "${catalina.home}${file.separator}temp${file.separator}", "read,write,delete";
+permission java.io.FilePermission "${catalina.home}${file.separator}temp${file.separator}-", "read,write,delete";
+};
+{{/code}}
+
+You're now ready to install and configure your relational database.
+
+= Install and configure a Relational Database =
+
+XWiki can work with a lot of relational databases. We're only listed those that we have tested it on.
+
+The general strategy is the following:
+
+* Install your favorite RDBMS
+* Create a ##xwiki## database
+* Create a user with all privileges on that database
+* Copy your RDBMS Java drivers to the XWiki webapp's ##WEB-INF/lib## directory
+* Configure XWiki to use the created database. This involves modifying the ##WEB-INF/hibernate.cfg.xml## file as is described in the tutorials for each database below.
+* (A more scalable and J2EE-conformant tactic is to use the servlet container to manage your data source.  You modify the web app as little as possible... hopefully one day Xwiki will allow you to override hibernate.cfg.xml without needing to change the app itself.
+** Do not add your JDBC library to the web app.  Install it to the container classpath instead, like to ##$CATALINA_HOME/common/lib##.
+** Do not set user, url, etc., nor connection.provider_class in ##hibernate.cfg.xml##. The critical settings are ##connection.datasource## (with JNDI name like ##java:/comp/env/jdbc/XWikiDS##) and the dialect class for your DB vendor. Do not comment out &lt;mapping resource="..."/&gt; elements, hibernate needs them. (You should leave the provider_class unset, since Xwiki's implementation doesn't handle container-managed data sources).
+** Manage all database access settings using your container facilities, for example Tomcat admin webapp or server.xml + APPNAME.xml. Uncommenting the &lt;resource-ref&gt; element inside ##WEB-INF/web.xml## that matches the above JNDI name and looks like &lt;res-ref-name&gt;jdbc/XWikiDS&lt;/res-ref-name&gt; could be a good idea.
+
+Install and configure the database you wish to use:
+
+* [[HSQL Installation&gt;&gt;AdminGuide.InstallationHSQL]]
+* [[MySQL Installation&gt;&gt;AdminGuide.InstallationMySQL]]
+* [[PostgreSQL Installation&gt;&gt;AdminGuide.InstallationPostgreSQL]]
+* [[Oracle Installation&gt;&gt;AdminGuide.InstallationOracle]]
+* [[DB2 Installation&gt;&gt;AdminGuide.InstallationDB2]]
+* [[Derby Installation&gt;&gt;AdminGuide.InstallationDerby]]
+* [[Microsoft SQL Server Installation&gt;&gt;AdminGuide.InstallationMSSQL]]
+* [[H2 Installation&gt;&gt;AdminGuide.InstallationH2]]
+
+{{info}}
+If your database is empty this will result in a minimal empty wiki installation. You may want to use the [[Import/Export tool&gt;&gt;AdminGuide.ImportExport]] to import some pages in your wiki. We recommend that you import the [[provided default XAR&gt;&gt;xwiki:Main.Download]]. If you're upgrading from an existing installation your database should already contain the pages you had before.
+{{/info}}
+
+= Concluding Step =
+
+At this stage you have finished configuration XWiki. If you start your database and container and point your browser to ##http:~//localhost:8080/xwiki/## you'll have a working, albeit minimal, wiki (without any page loaded). The next step is either to create new pages by hand or import the default Wiki that we are providing as a [[XAR file&gt;&gt;xwiki:Main.Download]], by using the [[Import feature&gt;&gt;AdminGuide.ImportExport]].
+
+= Installing the Default Wiki XAR =
+
+The default wiki is a fully configured wiki that you can use as a starting point for creating your own wiki content. It provides the following:
+
+* A [[Blog&gt;&gt;extensions:Extension.Blog Application]]
+* A [[Dashboard&gt;&gt;extensions:Extension.Dashboard Application]]
+* A [[Panels Application&gt;&gt;extensions:Extension.Panels Application]]
+* [[Search&gt;&gt;extensions:Extension.Search Application]]
+* [[Administration features&gt;&gt;extensions:Extension.Administration Application]] (Access rights, Group and users management, etc)
+* ... and much more
+
+**It comes configured with an "Admin" user (password is "admin" in lowercase). You'll need that username/password to log in once you've imported the default wiki.**
+
+To install the XAR, use the [[Import/Export tool&gt;&gt;AdminGuide.ImportExport]].
+
+{{warning}}
+If you're upgrading an existing wiki be careful that the XAR import operation will replace the content of the existing pages of your wiki with the content of the XAR (New pages that you have created will not be modified). As a consequence it's critical that you [[perform a backup&gt;&gt;platform:AdminGuide.Backup]] first and read the upgrade nodes bellow carefully.
+{{/warning}}</content>
+</xwikidoc>

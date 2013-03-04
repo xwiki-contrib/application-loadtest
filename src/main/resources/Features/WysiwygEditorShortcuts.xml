@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Features</web>
+  <name>WysiwygEditorShortcuts</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Features.WysiwygEditor</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1296047077000</creationDate>
+  <date>1360853348000</date>
+  <contentUpdateDate>1360853348000</contentUpdateDate>
+  <version>1.1</version>
+  <title>WYSIWYG Editor Shortcuts</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}$xwiki.ssx.use("Features.KeyboardShortcuts"){{/velocity}}
+
+(% class="keyboard" summary="Keyboard Shortcuts for WYSIWYG Mode" %)
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%)A(%%))))(%%) |Selects all the content inside the editing area
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%)B(%%) )))(%%) (% class="separator"%)or(%%) (% class="shortcut" %)((((% class="key"%)Meta(%%) + (% class="key"%)B(%%))))(%%) |Formats the selected text as bold
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%)C(%%))))(%%) (% class="separator"%)or(%%) (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%)Insert(%%))))(%%) |Copies the current selection to the clipboard
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%){{html}}&amp;darr;{{/html}}(%%) )))(%%) |(%class="description"%)Creates an empty paragraph after the table containing the caret or the selection and places the caret in it. This is useful when you can't move the caret after a table because the page ends with it
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%)I(%%))))(%%) (% class="separator"%)or(%%) (% class="shortcut" %)((((% class="key"%)Meta(%%) + (% class="key"%)I(%%))))(%%) |Formats the selected text as italic
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%)U(%%))))(%%) (% class="separator"%)or(%%) (% class="shortcut" %)((((% class="key"%)Meta(%%) + (% class="key"%)U(%%))))(%%) |Formats the selected text as underline
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%){{html}}&amp;uarr;{{/html}}(%%))))(%%) |(%class="description"%)Creates an empty paragraph before the table containing the caret or the selection and places the caret in it. This is useful when you can't move the caret before a table because the page starts with it
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%)V(%%))))(%%) (% class="separator"%)or(%%) (% class="shortcut" %)((((% class="key"%)Shift(%%) + (% class="key"%)Insert(%%))))(%%) |Pastes the data from the clipboard
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%)X(%%))))(%%) (% class="separator"%)or(%%) (% class="shortcut" %)((((% class="key"%)Shift(%%) + (% class="key"%)Delete(%%))))(%%) |Cuts the current selection
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%)Y(%%))))(%%) (% class="separator"%)or(%%) (% class="shortcut" %)((((% class="key"%)Meta(%%) + (% class="key"%)Y(%%))))(%%) |Triggers the redo function
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%)Z(%%))))(%%) (% class="separator"%)or(%%) (% class="shortcut" %)((((% class="key"%)Meta(%%) + (% class="key"%)Z(%%))))(%%) |Triggers the undo function
+
+=== WYSIWYG Macro Support (since XE 3.0) ===
+
+(% class="keyboard" summary="Keyboard Shortcuts for WYSIWYG Mode - Macro Support" %)
+| (% class="shortcut" %)((((% class="key"%){{html}}&amp;darr;{{/html}}(%%))))(%%) (% class="separator"%)or(%%) (% class="shortcut" %)((((% class="key"%){{html}}&amp;uarr;{{/html}}(%%))))(%%) (% class="separator"%)or(%%) (% class="shortcut" %)((((% class="key"%){{html}}&amp;larr;{{/html}}(%%))))(%%) (% class="separator"%)or(%%) (% class="shortcut" %)((((% class="key"%){{html}}&amp;rarr;{{/html}}(%%))))(%%)| Navigate the macro output
+| (% class="shortcut" %)((((% class="key"%)Enter(%%))))(%%) |Edit macro
+| (% class="shortcut" %)((((% class="key"%)Space(%%))))(%%) |Toggle between collapsed and expanded macro state
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%)Shift(%%) + (% class="key"%)R(%%))))(%%) |Reloads the macros
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%)Shift(%%) + (% class="key"%)E(%%))))(%%) |Expands all/selected macros
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%)Shift(%%) + (% class="key"%)C(%%))))(%%) |Collapses all/selected macros
+| (% class="shortcut" %)((((% class="key"%)Ctrl(%%) + (% class="key"%)Shift(%%) + (% class="key"%)M(%%))))(%%) |Opens the insert macro wizard</content>
+</xwikidoc>

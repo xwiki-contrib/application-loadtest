@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>GroovyNotificationTutorial</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.Tutorials</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1204396628000</creationDate>
+  <date>1360853405000</date>
+  <contentUpdateDate>1360853405000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Notifications Tutorial</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <attachment>
+    <filename>groovynotifier.txt</filename>
+    <filesize>2131</filesize>
+    <author>xwiki:XWiki.VincentMassol</author>
+    <date>1251620906000</date>
+    <version>1.3</version>
+    <comment/>
+    <content>PSBMb2dnaW5nIEV2ZW50IExpc3RlbmVyID0KClRoaXMgZXhhbXBsZSBjb2RlIHNob3dzIGhvdyB0
+byBpbXBsZW1lbnQgYW4gW1tFdmVudCBMaXN0ZW5lcj4+aHR0cDovL2NvZGUueHdpa2kub3JnL3h3
+aWtpL2Jpbi92aWV3L01vZHVsZXMvT2JzZXJ2YXRpb25Nb2R1bGVdXSBpbiBHcm9vdnkgdGhhdCBs
+b2dzIHBhZ2UgdXBkYXRlcyBpbiB0aGUgIyNNYWluLkxvZ2dlciMjIHBhZ2UuCgp7e3ZlbG9jaXR5
+fX17e2h0bWx9fQojaWYgKCRyZXF1ZXN0LmNvbmZpcm0gIT0gIjEiKQo8Zm9ybSBtZXRob2Q9Imdl
+dCI+CiAgPGlucHV0IHR5cGU9ImhpZGRlbiIgbmFtZT0iY29uZmlybSIgdmFsdWU9IjEiLz4KICA8
+aW5wdXQgdHlwZT0ic3VibWl0IiBjbGFzcz0iYnV0dG9uIiB2YWx1ZT0iUmVnaXN0ZXIgRXZlbnQg
+TGlzdGVuZXIiLz4KPC9mb3JtPgojZW5kCnt7L2h0bWx9fXt7L3ZlbG9jaXR5fX0KCnt7Z3Jvb3Z5
+fX0KaW1wb3J0IG9yZy54d2lraS5vYnNlcnZhdGlvbi4qCmltcG9ydCBvcmcueHdpa2kub2JzZXJ2
+YXRpb24uZXZlbnQuKgppbXBvcnQgY29tLnhwbi54d2lraS53ZWIuKgppbXBvcnQgY29tLnhwbi54
+d2lraS4qCgpjbGFzcyBMb2dnaW5nRXZlbnRMaXN0ZW5lciBpbXBsZW1lbnRzIEV2ZW50TGlzdGVu
+ZXIKewogICAgZGVmIHh3aWtpCiAgICBkZWYgY29udGV4dAoKICAgIExvZ2dpbmdFdmVudExpc3Rl
+bmVyKHh3aWtpLCBjb250ZXh0KQogICAgewogICAgICAgIHRoaXMueHdpa2kgPSB4d2lraQogICAg
+ICAgIHRoaXMuY29udGV4dCA9IGNvbnRleHQKICAgIH0KCiAgICBTdHJpbmcgZ2V0TmFtZSgpCiAg
+ICB7CiAgICAgICAgcmV0dXJuICJsb2dnaW5nIgogICAgfQoKICAgIExpc3Q8RXZlbnQ+IGdldEV2
+ZW50cygpCiAgICB7CiAgICAgICAgcmV0dXJuIEFycmF5cy5hc0xpc3QobmV3IERvY3VtZW50VXBk
+YXRlRXZlbnQoKSkKICAgIH0KCiAgICB2b2lkIG9uRXZlbnQoRXZlbnQgZXZlbnQsIE9iamVjdCBz
+b3VyY2UsIE9iamVjdCBkYXRhKQogICAgewogICAgICAgIC8vIFByZXZlbnQgaW5maW5pdGUgcmVj
+dXJzaW9uCiAgICAgICAgaWYgKHNvdXJjZS5mdWxsTmFtZSAhPSAiTWFpbi5Mb2dnZXIiKSB7CiAg
+ICAgICAgICAgIGRlZiBkb2N1bWVudCA9IHh3aWtpLmdldERvY3VtZW50KCJNYWluLkxvZ2dlciIp
+CiAgICAgICAgICAgIGRvY3VtZW50LnNldENvbnRlbnQoIiR7ZG9jdW1lbnQuZ2V0Q29udGVudCgp
+fVxuJHtzb3VyY2UuZnVsbE5hbWV9IGhhcyBjaGFuZ2VkIikKICAgICAgICAgICAgZG9jdW1lbnQu
+c2F2ZSgiTG9nZ2luZyBldmVudCIsIHRydWUpCiAgICAgICAgfQogICAgfQp9CgovLyBPbmx5IHJl
+Z2lzdGVyIHRoZSBsaXN0ZW5lciBpZiB0aGUgdXNlciBoYXMgcGFzc2VkIGNvbmZpcm09MSBpbiB0
+aGUgVVJMLiBUaGlzIGlzIHRvIHByZXZlbnQKLy8gZnJvbSB1bmludGVudGlhbGx5IHJlLXJlZ2lz
+dGVyaW5nIHRoZSBsaXN0ZW5lciBhZ2FpbnN0IHRoZSBvYnNlcnZhdGlvbiBtYW5hZ2VyLgppZiAo
+cmVxdWVzdC5jb25maXJtID09ICIxIikgewogICAgLy8gUmVnaXN0ZXIgYWdhaW5zdCB0aGUgT2Jz
+ZXJ2YXRpb24gTWFuYWdlcgogICAgZGVmIG9ic2VydmF0aW9uID0gVXRpbHMuZ2V0Q29tcG9uZW50
+KE9ic2VydmF0aW9uTWFuYWdlci5jbGFzcykKICAgIG9ic2VydmF0aW9uLnJlbW92ZUxpc3RlbmVy
+KCJsb2dnaW5nIikKICAgIGRlZiBsaXN0ZW5lciA9IG5ldyBMb2dnaW5nRXZlbnRMaXN0ZW5lcih4
+d2lraSwgeGNvbnRleHQpCiAgICBvYnNlcnZhdGlvbi5hZGRMaXN0ZW5lcihsaXN0ZW5lcikKICAg
+IHByaW50bG4gInt7aW5mb319TGlzdGVuZXIgaXMgbm93IHJlZ2lzdGVyZWQgYW5kIHdpbGwgc3Rh
+cnQgbG9nZ2luZyBwYWdlIGV2ZW50cyBpbiBNYWluLkxvZ2dlcnt7L2luZm99fSIKfQp7ey9ncm9v
+dnl9fQoKe3tncm9vdnl9fQppbXBvcnQgb3JnLnh3aWtpLnJlbmRlcmluZy5ibG9jay4qCgovLyBQ
+cmV0dHkgcHJpbnQgdGhlIGZpcnN0IEdyb292eSBtYWNybyBjb250ZW50LgpwcmludGxuICJ7e2Nv
+ZGUgbGFuZ3VhZ2U9XCJqYXZhXCJ9fSR7ZG9jLmdldERvY3VtZW50KCkuZ2V0WERPTSgpLmdldENo
+aWxkcmVuQnlUeXBlKE1hY3JvQmxvY2suY2xhc3MsIHRydWUpLmdldCgxKS5nZXRDb250ZW50KCl9
+e3svY29kZX19Igp7ey9ncm9vdnl9fQ==
+</content>
+  </attachment>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.GroovyNotificationTutorial</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>b9ddf086-a9aa-438d-92c9-9951a114b725</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}{{toc/}}{{/box}}
+
+XWiki supports notifications (a.k.a Observations) and it's possible to do some action when a document is modified, when a document's objects are modified, etc. See the full documentation in the [[Observation reference documentation&gt;&gt;extensions:Extension.Observation Module]].
+
+This tutorial explains how to write a Groovy script in a wiki page that responds to document changes. More specifically whenever a wiki page is modified we log the event in the ##Main.Logger## wiki page.
+
+{{warning}}This tutorial is slightly deprecated and needs a bit of clean up to comply with the current XWiki best practices.{{/warning}}
+
+= Writing the Event Listener =
+
+{{code language="java"}}
+{{groovy}}
+import org.xwiki.observation.*
+import org.xwiki.observation.event.*
+import com.xpn.xwiki.web.*
+import com.xpn.xwiki.*
+
+class LoggingEventListener implements EventListener
+{
+    def xwiki
+    def context
+
+    LoggingEventListener(xwiki, context)
+    {
+        this.xwiki = xwiki
+        this.context = context
+    }
+
+    String getName()
+    {
+        // The unique name of this event listener
+        return "logging"
+    }
+
+    List&lt;Event&gt; getEvents()
+    {
+        // The list of events this listener listens to
+        return Arrays.asList(new DocumentUpdateEvent())
+    }
+
+    // Called by the Observation Manager when an event matches the list of events returned
+    // by getEvents()
+    void onEvent(Event event, Object source, Object data)
+    {
+        // Prevent infinite recursion since in this example we log to wiki page which 
+        // triggers a document change... :)
+        if (source.fullName != "Main.Logger") {
+            def document = xwiki.getDocument("Main.Logger")
+            document.setContent("${document.getContent()}\n${source.fullName} has changed")
+            document.save("Logging event", true)
+        }
+    }
+}
+
+// Register against the Observation Manager
+def observation = Utils.getComponent(ObservationManager.class)
+observation.removeListener("logging")
+def listener = new LoggingEventListener(xwiki, xcontext)
+observation.addListener(listener)
+
+{{/groovy}}
+{{/code}}
+
+Add other events in list, to listen on other events. eg.
+
+{{code}}
+...
+       return Arrays.asList(new DocumentUpdateEvent(), new DocumentSaveEvent(), new DocumentDeleteEvent())
+...
+{{/code}}
+
+And here's the [[full code with nice pretty-printing and a register button&gt;&gt;attach:groovynotifier.txt]].
+
+= Older Notification Tutorial =
+
+This tutorial uses the old notification mechanism to listen to events (now deprecated in XWiki 2.0). You should follow it if you're using a version of XWiki Enterprise prior to 2.0.
+
+In order to listen to events you need to write 2 pages:
+
+* A page containing a Groovy class that registers against the XWiki Event Manager and that has the method to be called when the event happens.
+* Another page that parses the Groovy page and loads it in the Groovy context.
+
+== Groovy Notification Class ==
+
+Your Groovy needs to extend the ##com.xpn.xwiki.notify.XWikiDocChangeNotificationInterface## as shown below.
+
+{{code language="java"}}
+/* Groovy Class #* */
+
+import com.xpn.xwiki.api.*;
+import com.xpn.xwiki.notify.*;
+import com.xpn.xwiki.*;
+import com.xpn.xwiki.doc.*;
+
+public class MyGroovyClass implements XWikiDocChangeNotificationInterface
+{
+    def xwiki;
+    def rule;
+
+    public MyGroovyClass()
+    {
+        this.rule = new DocChangeRule(this);
+    }
+
+    public void init(xwiki)
+    {
+        this.xwiki = xwiki;
+        xwiki.getXWiki().getNotificationManager().addGeneralRule(this.rule);
+    }
+
+    public void cleanup()
+    {
+        xwiki.getXWiki().getNotificationManager().removeGeneralRule(this.rule);
+    }
+
+    public void notify(XWikiNotificationRule rule, XWikiDocument newdoc, XWikiDocument olddoc,
+        int event, XWikiContext context)
+    {
+        // Do some action here.
+    }
+}
+
+/* *# */
+{{/code}}
+
+In this example we've used a ##DocChangeRule## rule. There are also {{scm path="xwiki-platform-core/xwiki-platform-legacy/xwiki-platform-legacy-oldcore/src/main/java/com/xpn/xwiki/notify"}}other rules{{/scm}}.
+
+== Calling the Groovy Class ==
+
+{{code}}
+#set($mygroovyclass = $xwiki.parseGroovyFromPage("MySpace.MyGroovyClass"))
+$mygroovyclass.init($xwiki)
+{{/code}}
+
+== Example: IRC notification on document change ==
+
+{{warning}}
+The code below uses the parseGroovyFromPage method which takes 2 parameters. The second one is the name of page containing JARS as attachments. These JARs are put in the classloader used by Groovy when parsing the page. This feature is only working in XWiki Core 1.3 and later.
+{{/warning}}
+
+* **Step 1**: Groovy Class(((
+{{code language="java"}}
+/* Groovy Class #* */
+
+import org.jibble.pircbot.*;
+import java.util.*;
+import com.xpn.xwiki.api.*;
+import com.xpn.xwiki.notify.*;
+import com.xpn.xwiki.*;
+import com.xpn.xwiki.doc.*;
+
+public class XWikiBot extends PircBot implements XWikiDocChangeNotificationInterface
+{
+    def xwiki;
+    def channel;
+    def rule;
+
+    public XWikiBot()
+    {
+        this.setName("xwikibot");
+        this.rule = new DocChangeRule(this);
+    }
+
+    public void init(xwiki, channel)
+    {
+        this.xwiki = xwiki;
+        this.channel = channel;
+        xwiki.getXWiki().getNotificationManager().addGeneralRule(this.rule);
+    }
+
+    public void cleanup()
+    {
+        xwiki.getXWiki().getNotificationManager().removeGeneralRule(this.rule);
+    }
+
+    public void notify(XWikiNotificationRule rule, XWikiDocument newdoc, XWikiDocument olddoc,
+        int event, XWikiContext context)
+    {
+        sendMessage(this.channel, newdoc.getFullName() + " was modified - " + newdoc.getExternalURL("view", context));
+    }
+}
+
+/* *# */
+{{/code}}
+)))
+* **Step 2**: Add the PircBot JAR as an attachment to the ##MySpace.MyGroovyClass## page created in step 1.
+* **Step 3**: Calling page(((
+{{code}}
+## Start by looking for a bot in the servlet context
+#set ($sc = $context.getContext().getEngineContext().getServletContext())
+
+## If the bot isn't in the servlet context, start the bot and put in the context
+#set ($bot = $sc.getAttribute("ircbot"))
+#if (!$bot)
+  Bot is not started, starting it...
+  #set($bot = $xwiki.parseGroovyFromPage("MySpace.MyGroovyClass", "MySpace.MyGroovyClass"))
+  #set ($channel = "#xwiki")
+  $bot.init($xwiki, $channel)
+  $bot.connect("irc.freenode.net")
+  $bot.joinChannel($channel)
+  $sc.setAttribute("ircbot", $bot)
+  Bot started!
+
+## If the parameter passed is stop then stop the bot
+#elseif ($request.action &amp;&amp; $request.action == "stop")
+  $bot.cleanup()
+  $bot.disconnect()
+  $sc.setAttribute("ircbot", null)
+  Bot disconnected!
+
+#else
+  Bot already started, doing nothing...
+
+#end
+{{/code}}
+)))
+* **Step 4**: Creating a Scheduler job so that the Bot is restarted automatically if the server is restarted for example.(((
+Create a Scheduler job, set it to run every 5 minutes for example and use the following Groovy script in the job:
+
+{{code language="java"}}
+// Start by looking for a bot in the servlet context
+def sc = context.getEngineContext().getServletContext()
+
+// If the bot isn't in the servlet context, start the bot and put in the context
+def bot = sc.getAttribute("ircbot")
+if (bot == null) {
+  // Bot is not started, starting it...
+  bot = xwiki.parseGroovyFromPage("MySpace.MyGroovyClass", "MySpace.MyGroovyClass")
+  def channel = "#xwiki"
+  bot.init(xwiki, channel)
+  bot.connect("irc.freenode.net")
+  bot.joinChannel(channel)
+  sc.setAttribute("ircbot", bot)
+  // Bot started!
+}
+{{/code}}
+)))</content>
+</xwikidoc>

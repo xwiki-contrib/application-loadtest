@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>CSS files</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Skins</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1174557682000</creationDate>
+  <date>1360853381000</date>
+  <contentUpdateDate>1360853381000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki CSS Files</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.CSS files</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>03eb0bf4-f09c-494a-b89b-cd5763c2b58b</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+This page helps you understand the different css files used in XWiki, their purpose and content. XWiki skins use several css files to separe the different components of the skin: basic elements, layout, colors, etc. Check [[this page&gt;&gt;CSSLayout]] to learn about the XWiki layout.
+
+= Core files =
+
+== style.css ==
+
+This is the top level style file. It's purpose is to include all the other files. It shouldn't have any other css in there. It looks like this:
+
+{{code language="css"}}
+@import "classes.css";
+@import "colorsblack.css";
+@import "elements.css";
+@import "presentation.css"; 
+@import "screenlayout.css";
+...
+{{/code}}
+
+== elements.css ==
+
+This stylesheet is intended to provide general design rules regarding the html elements. For example, default font size and family for headings, underline for links, etc. You can get a blank version of this stylesheet at [[this address&gt;&gt;http://www.webproducer.at/lab/elements.css]]. It should not provide color properties. It looks like this:
+
+{{code language="css"}}
+body {
+  margin: 0;
+  padding: 0em;
+  font-size: 90.01%; 
+  line-height: 1.25em;
+  background: white;
+  color: black;
+  font-family: "Arial", "Lucida", "Trebuchet MS", "Luxi Sans", "Helvetica", sans-serif;
+}
+h1 {
+  font-size: 1.5em; 
+  line-height: 1.33em; 
+  margin: 0.89em 0; 
+}
+ul {
+  margin: 1em 0;
+  padding: 0 0 0 2.5em;
+}
+...
+{{/code}}
+
+== classes.css ==
+
+Like ##elements.css##, but formats elements having a similar semantic meaning (after all, a class should have a semantic name, and not a random id). As examples: .underline, .hidden, .sep, wikicreatelink, or .heading-1-1. This should only contain general classes (for specific elements see ##presentation.css##). It looks like this:
+
+{{code language="css"}}
+.xwikisep, .xwikisep2 {
+   display: none;
+}
+.clear, .clearfloats {
+  clear: both;
+}
+.none, .hidden {
+  display: none;
+}
+...
+{{/code}}
+
+== screenlayout.css ==
+
+The place where the general layout of the interface is specified. This file should contain rules regarding position, dimension and display mode for the major elements of the interface (header, side panels, menu, footer...).
+
+{{code language="css"}}
+body#body{
+  width: 100%; 
+  padding: 0;
+  margin: 0 ;  
+  min-width: 760px;
+}
+.minwidth, .minwidthb, .minwidthc{
+  width: 720px;
+  height: 0px;
+}
+.minwidthc{
+  width: 438px;
+}
+...
+{{/code}}
+
+== presentation.css ==
+
+Refinement of ##screenlayout.css##. This is where borders, margins, paddings are set, font styling for objects not in ##elements.css## or ##classes.css##, along with some specific elements of the layout which are not affecting the general layout (where is the profile picture displayed, how is the comment author displayed, etc.).
+
+{{code language="css"}}
+.box,
+.main-content {
+  margin: 0.5em;
+}
+...
+{{/code}}
+
+== colors*.css ==
+
+This is the place where the skin gets painted. Without this file, the skin should be black and white only (except the blue links). Font color, background, border color.
+
+{{code language="css"}}
+.heading-1, .heading-1-1, .heading-1-1-1, .heading-1-1-1-1 {
+  color: #369;
+}
+ul.xwikiintra{
+  border-bottom-color: #DDD;
+  background-color: #EEE;
+}
+...
+{{/code}}
+
+= Special purpose files =
+
+== rss.css ==
+
+A few rules to format how the profile rss is displayed.
+
+== microformats.css ==
+
+Stylesheet to format the different microformats-enabled pages (user profile, blog, calendar...).
+
+== chwSkin.css ==
+
+Formatting for the Chart Wizard.
+
+== tdwSkin.css ==
+
+Formatting the Table Datasource Wizard (part of Chart Wizard).
+
+== print.css ==
+
+Formatting for the @media print.
+
+= Deprecated (soon to be removed) =
+
+== wiki.css ==
+
+It was supposed to format wiki generated syntax, like .wikilink and .heading-1-1.
+
+== xwiki.css ==
+
+It was one of the few files holding css (stage 1).
+
+== ie.css ==
+
+Some old hacks to make the default skin work in IE too.
+
+== style1/2/3.css ==
+
+Variants of the 'default' skin, with green, pink and yellow colors.
+
+== temp.css ==
+
+Used for some tests.
+
+= Possibly usable files =
+
+//if somebody makes the skin wizard//
+
+== customlayout.css ==
+
+A dynamic version of ##screenlayout.css## using properties defined in a skin object. Should be parsed by velocity.
+
+== customcolors.css ==
+
+Same, but for colors.</content>
+</xwikidoc>

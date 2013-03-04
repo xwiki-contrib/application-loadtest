@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ConsoleModule</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1309510550000</creationDate>
+  <date>1360950303000</date>
+  <contentUpdateDate>1309513435000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Console Module</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.ConsoleModule</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>369bca1b-5be4-484b-a7e0-fbb6b7f0f2a4</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.ConsoleModule</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>16dcdcee-74eb-411c-b011-525957bc560a</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+Goal: Ability to see application level logs from within XE
+
+= UI =
+
+* a new console tab in pages for all logs for the page
+* an admin page for all console logs with a livetable for filtering
+
+= Extensions programmers =
+
+* use current slf4j API
+
+= Framework =
+
+* idea: appender for slf4j (note: could use MDC for additional data: http://www.slf4j.org/api/org/slf4j/MDC.html)
+* centralized logs available from all nodes
+* idea: use activity stream
+* nice: real time addition of new logs (comet and co)
+* memory cache (eg last 100 logs) + block save (anti flood protection)
+* long term logging with compacting
+* system log vs application log
+* Requirement: current node id
+* Console Module / Application with API</content>
+</xwikidoc>

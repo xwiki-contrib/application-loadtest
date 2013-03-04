@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>SuggestImprovementsAndDynamicSearch</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1288614781000</creationDate>
+  <date>1360950305000</date>
+  <contentUpdateDate>1291901628000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Dynamic Search (a.k.a. "searchlight" or "livesearch" ) and suggest improvements</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.SuggestImprovementsAndDynamicSearch</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>16498031-9205-4c8f-8b9f-eb7a2a9bca25</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.SuggestImprovementsAndDynamicSearch</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>5057a42c-803f-4a5a-a729-133522cdeb63</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+== Description ==
+
+Aim of the dynamic search is to provided multi-sources typed live search results, content by default being provided by pre-configured lucene sources (example of possible pre-configured sources offered by default : page name and title, attachment content, page content, blog posts, etc.). Results are provided "as you type" in the top right search box, using an enhanced version of the [[suggest component&gt;&gt;platform:DevGuide.AutoSuggestWidget]] (that can for instance handle multiple typed search results).
+
+== Links ==
+
+* Suggest UI redesign proposals and discussions : http://incubator.myxwiki.org/xwiki/bin/view/Improvements/SuggestRedesignProposal
+
+== Initial plan proposal ==
+
+* Suggest UI redesign (look &amp; feel only) : 2.6RC2
+* Suggest widget enhancements :
+** Possibility to display multiple typed results (with result type icon and title) : 2.6 RC2
+** Possibility to query results against multiple sources : Facultative for now - should not be needed by the dynamic search
+* Dynamic search on top of the search input : 2.7
+** Find a name for it : livesearch ? searchlight ? ...
+** Sources configuration in the administration section
+** Generic lucene source implementation
+</content>
+</xwikidoc>

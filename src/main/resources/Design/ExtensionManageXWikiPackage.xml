@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ExtensionManageXWikiPackage</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.ExtensionManager</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1309244987000</creationDate>
+  <date>1360950306000</date>
+  <contentUpdateDate>1342187824000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Extension Manager - New XWiki packaging format</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>* Extension Descriptor format:
+** Name
+** Description
+** Categories (a list of well-known - to be defined - categories/tags that identify the content of the XAR, e.g. "Wiki Macros", "Rendering Macro", "Application", "Skin Extension", etc)
+** Author
+** Version
+** License
+** URL
+** Dependencies (on other Extensions, includes version ranges)
+** Version of XWiki Core required
+** Extra properties (for later extensibility)
+* The Extension Descriptor doesn't need to explicitly list pages since they can be found automatically.
+* Installation scripts: let extension provide install/uninstall/upgrade scripts for custom operations
+* Idea for layout:
+** ROOT/jars/*.jar
+** ROOT/pages/&lt;space&gt;/&lt;page&gt;.xml (translation pages have a suffix with the language appended)</content>
+</xwikidoc>

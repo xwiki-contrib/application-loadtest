@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>InstallationHSQL</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Installation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1165866978000</creationDate>
+  <date>1360950257000</date>
+  <contentUpdateDate>1360950257000</contentUpdateDate>
+  <version>1.1</version>
+  <title>HSQLDB Installation</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.InstallationHSQL</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>fe700abe-ccf2-4b55-b212-1cb4fe89f7ad</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>Follow these instructions:
+
+* HSQLDB is a very simple database to configure as you don't need to install nor to start it before being able to use it. It comes as a single JAR file named ##hsqldb*.jar##. If your XWiki WAR doesn't have it in ##WEB-INF/lib## you'll need to download it and copy it there. You can download it from the [[HSQLDB web site&gt;&gt;http://hsqldb.org/]] or directly from the [[Maven Central Repository&gt;&gt;http://repo1.maven.org/maven2/hsqldb/hsqldb/]].
+* Once this is done, you need to configure XWiki to use HSQLDB and to tell it where the database files will be created. To do this, edit the ##WEB-INF/hibernate.cfg.xml## file where you have expanded the XWiki WAR file and uncommented the HSQLDB part.
+
+{{warning}}
+If you intend to use HSQLDB in production you should probably tune it for a production usage. If you've installed the XWiki standalone distribution just be aware that it's not tuned to be production-ready. Also note that you would need to find a way to perform backups, live replication, administration tools etc. We would suggest using a more production-ready database such as MySQL or PostgreSQL if you can.
+{{/warning}}
+
+= Other optional ideas =
+
+* You can use a remote HSQLDB database instead of embedding it. To do this, just use a URL like ##jdbc:hsqldb:hsql:HOSTNAME...## instead of the ##jdbcc:hsqldb:file:..## URL. The major version of the hsqldb jar file must match the major version that the HSQLDB server is using.
+* If you want to use your app server facilities to manage your data sources (generally a better strategy), then you must follow these steps:
+** Put the ##hsqldb*.jar## file into your app server class path instead of in your web app (like in ##$CATALINA_HOME/common/lib##)
+** In ##hibernate.cfg.xml##, use the following settings in place of the HSQLDB block in the sample file. Specifically, do not set the url, user, etc. here and leave the provider_class unset (i.e. use the default value), since XWiki's implementation does not handle container-managed data sources:
+{{code}}
+&lt;property name="connection.datasource"&gt;java:/comp/env/jdbc/xwiki&lt;/property&gt;
+&lt;property name="dialect"&gt;org.hibernate.dialect.HSQLDialect&lt;/property&gt;
+{{/code}}
+** the final step is to manage the data source using app server facilities. With Tomcat, for example, you would map the //resource link// ##jcbc/xwikiDs## to a container-managed data source using the Admin web app or by editing the file ##conf/Catalina/*/xwiki.xml## (i.e. webapp-name + ".xml").</content>
+</xwikidoc>

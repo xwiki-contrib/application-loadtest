@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Features</web>
+  <name>XMLRPC</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Features.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1165962347000</creationDate>
+  <date>1360853348000</date>
+  <contentUpdateDate>1360853348000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XML-RPC API</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Features.XMLRPC</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>5e1c8b07-dc52-439b-8853-2a9465e56217</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}{{toc/}}{{/box}}
+
+XWiki instances can be accessed remotely using the XML-RPC protocol.
+
+&gt;XML-RPC is a remote procedure call (RPC) protocol which uses XML to encode its calls and HTTP as a transport mechanism.
+&gt;-[[Wikipedia&gt;&gt;http://en.wikipedia.org/wiki/XML-RPC]]
+
+XML-RPC makes it easy to build your own 3rd party applications which can connect to your XWiki instances. For example this feature can be helpful to integrate XWiki with other existing Java applications. To be more precise, the XML-RPC feature could be used to provide XWiki functionality to other applications. In such a case, XWiki acts as your content repository accessible directly as well as through your 3rd party applications.
+
+= Features =
+
+XWiki implements the most important part of the [[Confluence XML-RPC API&gt;&gt;https://developer.atlassian.com/display/CONFDEV/Confluence+XML-RPC+and+SOAP+APIs]].
+
+* Authenticated and anonymous access
+* Spaces: retrieval, creation and removal
+* Pages: retrieval, rendering, creation, history, update, search and removal
+* Attachments: retrieval(download), creation(upload), moving/renaming, removal
+* Comments: retrieval, creation and removal
+
+{{info}}The list of functions from the Confluence API not yet supported by XWiki is given in the description of [[XWIKI-1559&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-1559]].{{/info}}
+
+For more information about the Confluence XML-RPC API check out [[this documentation&gt;&gt;https://developer.atlassian.com/display/CONFDEV/Confluence+XML-RPC+and+SOAP+APIs]]. In the future we plan to extend this API with XWiki-specific features - any extension will be documented here.
+
+In addition, XWiki-specific extensions allow you to add, modify and remove objects via XML-RPC.
+
+= XML-RPC Clients =
+
+There are XML-RPC libraries for most programming languages.
+
+== Java Clients ==
+
+=== Apache XML-RPC Client ===
+
+For Java the most well-known one is [[Apache XML-RPC&gt;&gt;http://ws.apache.org/xmlrpc/]], which is also used in the implementation of XWiki (i.e. server-side). Here is an example which uses Apache XML-RPC directly in order to get the rendered content of a wiki page (for a much easier way to achieve the same result see the "Client-side Proxy for Java" section below).
+
+{{code language="java"}}
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Map;
+
+import org.apache.xmlrpc.XmlRpcException;
+import org.apache.xmlrpc.client.XmlRpcClient;
+import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
+
+public class RawXmlRpc
+{
+    public static void main(String[] args)
+        throws MalformedURLException, XmlRpcException
+    {
+        XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
+        URL url = new URL("http://127.0.0.1:8080/xwiki/xmlrpc");
+        config.setServerURL(url);
+        XmlRpcClient client = new XmlRpcClient();
+        client.setConfig(config);
+        
+        String token = (String)client.execute("confluence1.login",
+            new Object[] {"Admin", "admin"});
+        
+        Map page = (Map)client.execute("confluence1.getPage",
+            new Object[] {token, "Main", "WebHome"});
+        String pageId = (String)page.get("id");
+        String content = (String)page.get("content");
+        
+        String renderedContent = (String)client.execute(
+            "confluence1.renderContent",
+            new Object[] {token, "Main", pageId, content});
+        System.out.print(renderedContent);
+    }
+}
+{{/code}}
+
+In order for this to work you need to have commons-logging-1.1.1.jar, ws-commons-util-1.0.1.jar, xmlrpc-common-3.0.jar, and xmlrpc-client-3.0.jar in your classpath (version numbers are irrelevant).
+
+=== Client-side Proxy for Java ===
+
+{{warning}}Starting with XWiki 1.2 the Apache XML-RPC dynamic proxies are no longer supported.{{/warning}}
+
+You can build Java applications that use XWiki through the XML-RPC interface easier by using the client-side proxy that is part of XWiki. This proxy is based on [[Swizzle Confluence&gt;&gt;http://docs.codehaus.org/display/SWIZZLE/Swizzle+Confluence]] and eliminates most of the plumbing needed to use XML-RPC directly. For instance the example above is much simpler when rewritten to use the proxy.
+
+{{code language="java"}}
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+import org.xwiki.xmlrpc.model.XWikiPage;
+
+public class ProxyXmlRpc
+{
+    public static void main(String[] args) throws XWikiClientException
+    {
+        String url = "http://127.0.0.1:8080/xwiki/xmlrpc/confluence";
+        String user = "WikiUser";
+        String pass = "password";
+        XWikiXmlRpcClient rpc  = new XWikiXmlRpcClient(url);
+        rpc.login(user, pass);
+        XWikiPage page = rpc.getPage("Main.WebHome");
+        String rendered = rpc.renderContent(
+               page.getSpace(), page.getId(), page.getContent());
+        System.out.print(rendered);
+    }
+}
+{{/code}}
+
+In order for this to work you need to have commons-logging-1.1.1.jar, ws-commons-util-1.0.1.jar, xmlrpc-common-3.0.jar, xmlrpc-client-3.0.jar, [[xwiki-core-1.5.jar&gt;&gt;http://maven.xwiki.org/releases/com/xpn/xwiki/platform/xwiki-core/1.5/]], and [[swizzle-confluence-1.2-20080419-xwiki.jar&gt;&gt;http://maven.xwiki.org/externals/org/codehaus/swizzle/swizzle-confluence/1.2-20080419/]], [[xwiki-core-xmlrpc-client-1.5.jar&gt;&gt;http://maven.xwiki.org/releases/org/xwiki/platform/xwiki-core-xmlrpc-client/1.5/]], [[xwiki-core-xmlrpc-model-1.5.jar&gt;&gt;http://maven.xwiki.org/releases/org/xwiki/platform/xwiki-core-xmlrpc-model/1.5/]] in your classpath (version numbers are for the most part irrelevant).
+
+You can also try this Groovy script in an XWiki Page in your wiki (you need to add [[xwiki-core-xmlrpc-client-1.5.jar&gt;&gt;http://maven.xwiki.org/releases/org/xwiki/platform/xwiki-core-xmlrpc-client/1.5/]] to yours WEB-INF/lib.
+
+{{code}}
+&lt;%
+
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+import org.xwiki.xmlrpc.model.XWikiPage;
+
+String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+String user = "WikiUser";
+String pass = "password";
+XWikiXmlRpcClient rpc  = new XWikiXmlRpcClient(url);
+rpc.login(user, pass);
+XWikiPage page = rpc.getPage("Main.WebHome");
+println(page.getContent());
+String rendered = rpc.renderContent(
+page.getSpace(), page.getId(), page.getContent());
+println(rendered);
+
+%&gt;
+{{/code}}
+
+=== Manipulating Objects ===
+
+The following non-Confluence APIs are provided for manipulating XWiki objects:
+
+{{code}}
+    /* Objects */
+    public List/* List&lt;XWikiObjectSummary&gt; */getObjects(String token, String pageId) throws Exception;
+
+    public Map/* XWikiObject */getObject(String token, String pageId, String className, Integer id) throws Exception;
+
+    public Map/* XWikiObject */getObject(String token, String pageId, String guid) throws Exception;
+
+    public Map/* XWikiObject */storeObject(String token, Map objectMap) throws Exception;
+
+    public Map/* XWikiObject */storeObject(String token, Map objectMap, boolean checkVersion) throws Exception;
+
+    public Boolean removeObject(String token, String pageId, String className, Integer id) throws Exception;
+{{/code}}
+
+To update an object, you need to specify the className, id (number), and pageId in the objectMap, along with a propertyToValueMap which lists the fields you want to update.  For example, in perl:
+
+{{code}}
+    $xmlrpc-&gt;send_request('confluence1.storeObject', $token, {
+        'className' =&gt; 'MySpace.Person',
+        'id' =&gt; 1,
+        'pageId' =&gt; 'MySpace.People',
+        'propertyToValueMap' =&gt; RPC::XML::struct-&gt;new(
+            'firstName' =&gt; 'Fred',
+            'lastName' =&gt; 'Bloggs',
+        ),
+    });
+{{/code}}
+
+To add a new object, do the same thing but with an id of -1.
+
+=== Various Examples ===
+
+Check the [[various XML-RPC examples in Java&gt;&gt;XMLRPCJavaExamples]] for more details.
+
+== Groovy Client ==
+
+Simple Groovy sample:
+
+{{code language="none"}}
+import groovy.net.xmlrpc.*
+
+def proxy = new XMLRPCServerProxy("http://www.xwiki.org/xwiki/xmlrpc/confluence") 
+def token = proxy.confluence1.login("username","password")
+def pages = proxy.confluence1.getPages(token, "UserGuide")
+print pages
+{{/code}}
+
+== Perl Client ==
+
+Simple Perl sample using XML::RPC:
+
+{{code language="perl"}}
+#!/usr/bin/perl
+use XML::RPC;
+use strict;
+
+my ($result, $token);
+my $xmlrpc = XML::RPC-&gt;new('http://www.xwiki.org/xwiki/xmlrpc/confluence');
+$token = $xmlrpc-&gt;call( 'confluence1.login', 
+            ( 'username', 'password' ) );
+$result = $xmlrpc-&gt;call( 'confluence1.getPages', 
+            ( $token, 'UserGuide' ) );
+foreach my $elem (@{$result}) {
+    foreach my $key (keys( %{$elem})) {
+        printf "%s-&gt;%sn", $key, $elem-&gt;{$key};
+    }
+}
+{{/code}}
+
+== Python Client ==
+
+Example of uploading an attachment using python:
+
+{{code language="python"}}
+import xmlrpclib
+proxy = xmlrpclib.ServerProxy("http://localhost:8080/xwiki/xmlrpc/")
+token = proxy.confluence1.login("Admin","admin")
+page = proxy.confluence1.getPage(token, "Space.TargetPage")
+attachment = {'fileName':'TargetFileName.gif','contentType':'image/gif','comment':'ignored','pageId':page.get('id')}
+data = xmlrpclib.Binary(open("SomeImage.gif").read())
+proxy.confluence1.addAttachment(token, 0, attachment, data)
+{{/code}}
+
+== Ruby Client ==
+
+Example of connecting to the server and retrieving a page using ruby:
+
+{{code language="ruby"}}
+require 'xmlrpc/client'
+server = XMLRPC::Client.new2("http://localhost:8080/xwiki/xmlrpc/confluence")
+token = server.call("confluence1.login", "Admin", "admin")
+server.call("confluence1.getPage", token, "Sandbox.WebHome")
+{{/code}}</content>
+</xwikidoc>

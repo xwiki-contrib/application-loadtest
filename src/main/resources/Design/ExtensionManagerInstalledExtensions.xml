@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ExtensionManagerInstalledExtensions</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>ExtensionManager</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1322136656000</creationDate>
+  <date>1360950311000</date>
+  <contentUpdateDate>1322136718000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Installed extensions</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>Should be separated from the local repository:
+
+= XWiki databse
+
+Pros:
+
+* easier to backup
+* when a wiki is removed associated installed extensions index are automatically removed
+* can be searched
+
+Cons:
+
+* takes more time to list all installed extensions since all wikis have to be requested one by one
+* the database need to be ready before loading jar extensions which mean having more components impossible to install with extension manager if extension manager requires them
+
+= Separated database
+
+Pros:
+
+* can be searched
+
+Cons:
+
+* one more thing to backup
+
+= Lucene index
+
+Pros:
+
+* quickest search
+
+Cons:
+
+* one more thing to backup
+* hard to link extension with each other by dependencies
+
+= Local repository
+
+Pros:
+
+* current state :)
+
+Cons:
+
+* cannot search in it
+* one more thing to backup</content>
+</xwikidoc>

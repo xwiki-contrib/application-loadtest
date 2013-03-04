@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>JavaScriptAPI</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>DevGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1240376773000</creationDate>
+  <date>1360853421000</date>
+  <contentUpdateDate>1360853421000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki JavaScript API</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.JavaScriptAPI</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>b914ceb2-0e8b-4648-b7a3-7393b5781329</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+= Observable XWiki Events =
+
+Stay in touch with what happens in the wiki! XWiki will fire custom javascript events on certain moment and upon certain actions that occur in the navigation flow.
+
+Event names are build on the following model: ##xwiki:modulename:eventname##. Your JavaScript script or extension can get notified of such an event the following way:
+
+{{code language="javascript"}}
+document.observe("xwiki:modulename:eventname", function(event) {
+  // Here, do something that will be executed at the moment the event is fired
+  doSomething();
+
+  // The event can have an option memo object to pass to its observers some information:
+  console.log(event.memo.somethingINeedToKnow);
+});
+{{/code}}
+
+Check out the real examples below or read more about [[Prototype.js's event system&gt;&gt;http://prototypejs.org/doc/latest/dom/Element/fire/]].
+
+== DOM Events (xwiki.js) ==
+
+* **##xwiki:dom:loaded##**
+This event is similar to [[prototype's dom:loaded event&gt;&gt;http://prototypejs.org/doc/latest/dom/document/observe/]], with the difference that in the time-lapse between ##dom:loaded## and ##xwiki:dom:loaded##, XWiki may have transformed the DOM. Example of DOM transformations operated by XWiki is setting the right target of links that have rel="external" attribute so that the document can be XHTML valid and still have the desired effect, making internal rendering error messages expandable, insert document template handlers for links to non-existent documents, and so on. In the future there might be more transformations operated by XWiki upon DOM initialization. This event is meant for code to be notified of loading of the XWiki-transformed version of the initial DOM. As ##dom:loaded##, it can be used as follows:(((
+{{code language="javascript"}}
+document.observe("xwiki:dom:loaded", function(){
+  // Initialization that can rely on the fact the DOM is XWiki-tranformed goes here.
+});
+{{/code}})))
+(((
+{{info}}
+It is recommended to bind startup scripts to this event instead of ##window.load## or ##document.dom:loaded##.
+{{/info}}
+)))
+
+* **##xwiki:dom:loading##**
+##xwiki:dom:loading## is sent between ##dom:loaded## and ##xwiki:dom:loaded##, before XWiki changes the DOM. This is the event that should start all scripts making important DOM changes that other scripts should see.
+* **##xwiki:dom:updated##**
+This event is sent whenever an important change in the DOM occurs, such as loading new content in a dialog box or tab, or refreshing the document content. Scripts that add behavior to certain elements, or which enhance the DOM, should listen to this event as well and re-apply their initialization process on the updated content, the same way that the whole DOM is enhanced on ##xwiki:dom:loaded##. The list of new or updated elements is sent in the ##event.memo.elements## property. For example:(((
+{{code language="javascript"}}
+var init = function(elements) {
+  // Search for special content to enhance in each DOM element in the "elements" list and enhance it
+  elements.each(function(element) {
+    element.select('.someBehavioralClass').each(function(item) {
+      enhance(item);
+    });
+  });
+}
+['xwiki:dom:loaded', 'xwiki:dom:updated'].each(function(eventName) {
+  document.observe(eventName, function(event) {
+    init(event.memo &amp;&amp; event.memo.elements || [document.documentElement]);
+  });
+});
+{{/code}}
+
+{{warning}}
+If your script is loaded **deferred**, all these events may be triggered **before your script is executed** and therefore **before it has the ablity to observe these events**. Since 3.1.1, to prevent your handler to never being called, never use ##dom:loaded## anymore, and check ##XWiki.isInitialized## before waiting for ##xwiki:dom:loading##, and ##XWiki.domIsLoaded## before waiting for ##xwiki:dom:loaded##. If the flag is true, you should proceed immediately with your handler. Here is a simple construct to properly handle this:(((
+{{code}}
+function init() {
+  // This is your initialization handler, that you generally hook to xwiki:dom:loaded
+}
+(XWiki &amp;&amp; XWiki.domIsLoaded &amp;&amp; init()) || document.observe("xwiki:dom:loaded", init);
+{{/code}})))
+{{/warning}}
+
+== Document content events (actionButtons.js) ==
+
+* **##xwiki:document:saved##**
+This event is sent after the document has been successfully saved in an asynchronous request (i.e. after clicking the //Save and Continue// button).
+* **##xwiki:document:saveFailed##**
+This event is sent when a save and continue attempt failed for some reason. The XMLHttpRequest response object is sent in the memo, as ##event.memo.response##.
+
+== Action events (actionButtons.js) ==
+
+* **##xwiki:actions:cancel##** 
+This event is sent after the user clicks the "Cancel" button of an editor (Wiki, WYSIWYG, object, rights, etc.), but before actually cancelling the edit.
+* **##xwiki:actions:preview##** 
+This event is sent after the user clicks the "Preview" button of an editor (Wiki, WYSIWYG, object, rights, etc.), but before actually leaving the edit mode.
+* **##xwiki:actions:save##**
+This event is sent after the user clicks the "Save" or "Save &amp; Continue" button of an editor (Wiki, WYSIWYG, object, rights, etc.), but before actually submitting the form. A memo is available if you need to know if the intend is to continue after the save, in ##event.memo['continue']##. You can use it as follows:(((
+{{code language="javascript"}}
+document.observe("xwiki:actions:save", function(event){
+  var doContinue = event.memo['continue'];
+  if (doContinue) {
+    // do something specific
+  }
+});
+{{/code}})))
+(((
+{{warning}}
+While most properties can be accessed as ##event.memo.property##, this doesn't work with ##event.memo.continue## since ##continue## is a reserved keyword.
+{{/warning}}
+)))
+(((
+All these events contain as extra information, in the second parameter sent to event listeners (the memo), the original click event (if any, and which can be stopped to prevent the action from completing), and the form being submitted, as ##event.memo.originalEvent##, and ##event.memo.form## respectively.
+)))
+
+== Document extra events (xwiki.js) ==
+
+* **##xwiki:docextra:loaded##**
+This event is fired upon reception of the content of a document footer tab by AJAX. This event is useful if you need to operate transformations of the received content. You can filter on which tab content to operate (comments or attachment or information or ...) using the event memo. The DOM element in which the retrieved content has been injected is also passed to facilitate transformations.(((
+{{code language="javascript"}}
+document.observe("xwiki:docextra:loaded", function(event){
+   var tabID = event.memo.id;
+   if (tabID == "attachments") {
+     // do something with the attachments tab retrieved content.
+     doSomething(event.memo.element);
+   }
+});
+{{/code}}
+)))
+* **##xwiki:docextra:activated##**
+This event is fired upon activation of a tab. It differs from the loaded event since tabs are loaded only once if the user clicks going back and forth between tabs. This event will notify of each tab activation, just after the tab content is actually made visible. The tab ID is passed in the memo as for ##xwiki:docextra:loaded##
+
+== WYSIWYG events (XWikiWysiwyg.js) ==
+
+WYSIWYG has it's own custom [[events list&gt;&gt;extensions:Extension.WYSIWYG Editor Module#HCustomevents]].
+
+== Suggest events (ajaxSuggest.js) ==
+
+* **##xwiki:suggest:selected##** (since 2.3)
+This event is fired on the target input when a value was selected.
+
+== Fullscreen events (fullScreenEdit.js) ==
+
+* **##xwiki:fullscreen:enter##** (since 3.0 M3) (fired before entering full screen editing)
+* **##xwiki:fullscreen:entered##** (since 2.5.1) (fired after entering full screen editing)
+* **##xwiki:fullscreen:exit##** (since 3.0 M3) (fired before exiting full screen editing)
+* **##xwiki:fullscreen:exited##** (since 2.5.1) (fired after exiting full screen editing)
+* **##xwiki:fullscreen:resized##** (since 2.5.1)
+
+All events have the target DOM element in ##event.memo.target##.
+
+== Annotations events (AnnotationCode/Settings jsx) ==
+
+* **##xwiki:annotations:filter:changed##**
+* **##xwiki:annotations:settings:loaded##**
+
+== Livetable events (livetable.js) ==
+
+* **##xwiki:livetable:newrow##** (##event.memo.row## holds the new row)
+* **##xwiki:livetable:loadingEntries##** (since 2.3 RC1)
+* **##xwiki:livetable:receivedEntries##** (since 2.3 RC1) (##event.memo.data## contains the received JSON data)
+* **##xwiki:livetable:loadingComplete##** (since 2.4 M1) (##event.memo.status## contains the response status code)
+* **##xwiki:livetable:displayComplete##** (since 2.4 M1)
+* **##xwiki:livetable:ready##** (since 2.4.4)
+* **##xwiki:livetable:loading##** (since 3.1.1) (should be used in place of ##xwiki:dom:loading## to startup livetables)
+
+The livetable sends both generic events, named as above, and events specific to each livetable, containing the table name on the third position, such as ##xwiki:livetable:alldocs:loadingEntries##. The generic event has the table name in the memo, as ##event.memo.tableId##.</content>
+</xwikidoc>

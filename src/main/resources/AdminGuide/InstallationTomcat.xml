@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>InstallationTomcat</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Installation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1165866550000</creationDate>
+  <date>1360950256000</date>
+  <contentUpdateDate>1360950256000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Tomcat Installation</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.InstallationTomcat</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>71a3b292-2dec-4699-8902-e5867cfd55cc</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+= Installation Steps =
+
+* Download and install [[Tomcat&gt;&gt;http://tomcat.apache.org/]]. It's usually as simple as unzipping it in a directory. Let's call this directory //##TOMCAT_HOME##//.
+* Extract the [[XWiki WAR&gt;&gt;xwiki:Main.Download]] into a directory named ##xwiki## in ##//TOMCAT_HOME///webapps/##. The reason you're expanding the WAR is because you'll need to modify one configuration file from inside the WAR later on when you configure the database access.
+* Edit your //conf/server.xml// to set UTF-8 encoding: {{code}}&lt;Connector port="8080" ... URIEncoding="UTF-8"/&gt;{{/code}}
+
+== Activate headless mode ==
+
+If you're operating XWiki on a Linux server with no X11 libraries installed you have to enable headless mode for your Tomcat installation. Sometimes this is also needed on Windows platforms. Typical exceptions are:
+
+* //Exception: Could not initialize class sun.awt.X11.XToolkit//
+* //java.lang.InternalError: Can't connect to X11 window server using 'localhost:10.0' as the value of the DISPLAY variable//
+
+* On Linux create a file ##///TOMCAT_HOME///bin/setenv.sh## and insert the following code:
+{{code}}#!/bin/sh
+export JAVA_OPTS="${JAVA_OPTS} -Djava.awt.headless=true"{{/code}}.
+* On Windows create a file ##///TOMCAT_HOME///bin/setenv.bat## and insert the following code:
+{{code}}set JAVA_OPTS=%JAVA_OPTS% -Djava.awt.headless=true{{/code}}.
+* When running as a Windows service the ##setenv.bat## is not working. See registry ##HKEY_LOCAL_MACHINE\SOFTWARE\Apache Software Foundation\Procrun 2.0\//FOOBAR//\Parameters\Java## for similar settings.
+
+== Optional configuration ==
+
+* Edit your //conf/server.xml// to enable gzip compression: {{code}}&lt;Connector port="8080" ... compression="on" compressionMinSize="2048" compressableMimeType="text/html,text/xml,text/css,text/javascript,application/x-javascript"/&gt;{{/code}}
+* If you want to modify the port on which Tomcat will run, edit ##//TOMCAT_HOME///conf/server.xml/##. Search for ##8080## (sometimes ##8180## if you are under Linux) and replace with the port value you wish to use.
+* It is possible to setup a Tomcat Java Server as a UNIX Daemon - JSVC. Just follow [[these instructions&gt;&gt;http://www.malisphoto.com/tips/tomcatonosx.html?#Anchor-JSVC||target="new"]]. The only reason to make Tomcat a daemon is to make it runnable on the 80th port, which can be replaced by using NginX as a proxy on the 80th port and then forwarding to Tomcat to the 8080th port.
+
+=== Nginx proxying for Tomcat applications ===
+
+As Tomcat is not a true web server, it's worth to use it as backend. [[Nginx&gt;&gt;http://wiki.nginx.org/Main||rel="__blank"]] is one of the best solutions for the frontend web server.
+
+So, after a typical XWiki installation we have XWiki running on ##http:~/~/localhost:8080/xwiki##. Most probably, we want to access XWiki via ##http:~/~/mydomain.com## on standard 80 port. Tuning Nginx will give us the desired result:
+
+* create this file ##/etc/nginx/conf.d/tomcat.conf##
+* put the following code inside:(((
+{{code}}
+server {
+    listen       80;
+    server_name  mydomain.com;
+# Root to the XWiki application
+    root  opt/tomcat/webapps/xwiki;
+
+    location / {
+#All "root" requests will have /xwiki appended AND redirected to mydomain.com again
+        rewrite ^ $scheme://$server_name/xwiki$request_uri? permanent;
+    }
+
+    location ^~ /xwiki {
+# If path starts with /xwiki - then redirect to backend: XWiki application in Tomcat
+       proxy_pass http://localhost:8080/xwiki;
+
+    }
+}
+{{/code}}
+)))
+* restart nginx
+
+Now all ##http:~/~/mydomain.com/*## requests will lead to the XWiki application. Please note that these settings are basic. For more flexible solutions please refer to [[the Nginx documentation&gt;&gt;http://wiki.nginx.org/Main||rel="__blank"]].
+
+= Troubleshooting =
+
+== Out Of Memory Error ==
+
+When you run XWiki in Tomcat with the default settings, you may get an ##Out Of Memory## error (##java.lang.OutOfMemoryError: Java heap space## or ##java.lang.OutOfMemoryError: PermGen space##), especially if you're trying to import large files into your wiki. To solve this allocate more memory to the JVM. For Tomcat this can be done by setting the ##JAVA_OPTS## environment property (to allocate 1GB you would set ##JAVA_OPTS## to ##-Xmx1g##). Another important option is the ##MaxPermSize## parameter. Example: ##-XX:MaxPermSize=256m## allocates 256MB of permanent memory. It is recommended to allocate at least 512m for heap space, and 128m for PermGen space.
+
+On most Linux distributions, this can be done in ##/etc/tomcat//X///tomcat//X//.conf## or ##/etc/conf.d/tomcat//X//.conf## (where //X// is the version of Tomcat installed):
+
+{{code language="none"}}
+JAVA_OPTS="${JAVA_OPTS} -Xmx1024m -XX:MaxPermSize=256m"
+{{/code}}
+
+On Windows, if you are running Tomcat as a service then defining ##JAVA_OPTS## will not help. There is an utility provided in the ##bin## folder of your Tomcat installation (for example for Tomcat 5.x on Windows it's called tomcat5w.exe). It's a GUI tool which can be used to set various options including the heap size.
+
+== Java Security Manager ==
+
+By default Tomcat is configured to have the Java Security Manager turned on. See the [[sample policy file&gt;&gt;AdminGuide.InstallationWAR#HInstallandconfigureaServletContainer]] for more details.
+
+If you want to turn off the Java Security Manager for Tomcat, edit the Tomcat startup script. You might also want to check your ##/etc/init.d/tomcat## file or ##/etc/default/tomcat5.5##. You should see the following code:
+
+{{code}}
+# Use the Java security manager? (yes/no)
+TOMCAT5_SECURITY=
+{{/code}}
+
+Set it to ##no## to turn off the Security Manager.
+
+== Allowing "/" in page names ==
+
+Tomcat completely freaks out when there's a ##%2F## in URLs and it's not something that can be changed in XWiki. See [[this note&gt;&gt;http://tomcat.apache.org/security-6.html#Fixed_in_Apache_Tomcat_6.0.10]] for more information.
+
+You can configure Tomcat to allow this, by enabling :
+
+{{code}}
+org.apache.tomcat.util.buf.UDecoder.ALLOW_ENCODED_SLASH
+{{/code}}
+
+== SEVERE: Error listenerStart ==
+
+If you get this error in your Tomcat logs then you'll need to enable finer-grained logging configuration to see what's the problem. For Tomcat 6.x this involves copying the following content in a ##WEB-INF/classes/logging.properties## file:
+
+{{code}}
+org.apache.catalina.core.ContainerBase.[Catalina].level = INFO
+org.apache.catalina.core.ContainerBase.[Catalina].handlers = java.util.logging.ConsoleHandler
+{{/code}}</content>
+</xwikidoc>

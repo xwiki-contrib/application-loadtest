@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>PageLoadTime</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1299312950000</creationDate>
+  <date>1361190321000</date>
+  <contentUpdateDate>1361190321000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Page Load Time</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.PageLoadTime</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>31ec5283-c8d4-4fb8-b576-b8701cdd71f9</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.PageLoadTime</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>395fd0e7-5a46-428e-98f0-427d896a622f</guid>
+    <property>
+      <tags>
+        <value>investigation</value>
+      </tags>
+    </property>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+== Table of Content ==
+
+{{toc start="2" /}}
+
+== Objective ==
+
+The objective of this work is to improve XWiki's performance both perceived and real. XWiki is very powerfull and provides many possibilities thanks to it's modularity, many APIs and also to velocity. However this is quite costly as many JS/CSS are loaded, velocity processing is quite expensive.
+
+Ambitious Goals:
+
+* Divide by 2 the perceived (time to display) page loading time of the home page
+* Divide by 2 the average CPU load on the server of a standard XWiki install
+* Improve ranking (goal to define) of the tests by online tools
+* Provide recommandations and tools to application developers to check their developments for good performance
+
+== Discussions ==
+
+* [xwiki-devs] Investigation: Page Load Time http://markmail.org/thread/3vlyuhbaacgg6xom
+* [xwiki-users] Page Loading Optimization http://xwiki.markmail.org/thread/hpu6dm7y3b3uelt2
+* [xwiki-devs] WYSIWYG editor loading time http://xwiki.markmail.org/thread/m2h42zj3ysrtbrcv
+
+== Action Plan ==
+
+The following action plan is proposed for the Page Load Time work. It is of course not complete since we need the result of the evaluations to complete the Action Plan:
+
+|=Priority|=Description|=Who|=Workload|=Delay|=Details
+|High|Improve/Validate Page Load Time investigation and Action Plan | Community | Low | T+7 days | 
+|High|Validate performance measures | Community | Low | T+7 days | 
+|High|Provide sample Syntax 2.0 and Velocity content | Community | 1 day | T+7 days | 
+|Medium|Run Initial Manual load test report | QA/Developer | 1 day | T+14 days
+|Medium|Evaluate possibility of running automated performance measures | Core team | 3 day | T+20 days
+|Medium|Implement automated performance measures | Core team | 5-20 days (?) | T+? days
+|=Implement performance improvements |
+|Medium|Implement obvious performance improvements | Marius | 5-10 days | T+? days
+|Low|Implement other performance improvements based on reports | ? | ? | ? days
+
+
+== Performance measures ==
+
+It should focus on:
+
+- time to display the home page of XWiki on fresh loading
+- total load time including content post display
+- time to display an additional page
+- total load on the server and kilobytes transfered to load the home page
+- total load on the server and kilobytes transfered to load an additional page
+- time to open the edit mode (wysiwyg in particular)
+- time to render an empty page with no dynamic panels and the standard skin + time spent in each template
+- time to render a Syntax 2.0 complex document with many macros
+- time to render a velocity template with many variables and calls to XWiki apis
+
+
+These measurements should be done with a decently populated XWiki version. About 1000 pages created.
+
+== Solutions ==
+
+There are multiples approaches to make progress in this area.
+
+1/ Solution 1: Manual checking of performance and implementation of obvious fixes
+2/ Solution 2: [[Setup of a performance measurement mecanism&gt;&gt;Load Testing Plan]] which allows to track performance indicators accross versions
+3/ Solution 3: Use online testing tools that report performance issues
+4/ Solution 4: Profiling sample requests using YourKit
+
+We could also use all solutions in parallel. Now in order to define which aspects should be improved first we would need to understand where most of the time is spent. This will require a manual analysis of the different reports and proposals for changes.
+
+== How to propose changes ==
+
+The changes proposed should all include an evaluated improvements and an evaluated workload to implement
+
+(This following is an example. It's not real data)
+
+|=Change Proposed |= Estimated workload |= What page would gain |= Estimated gain 
+|Remove unused JS/CSS from Home page | 1 day | Perceived loading time | Win 10%
+
+== Manual checking of performance and implementation of obvious fixes ==
+
+A review of the latest XWiki version needs to be done and technical recommendations need to be made that would improve performance.
+
+The manual review should provide numbers for each of the 6 items listed. 
+
+Here is a [[sample performance report&gt;&gt;PageLoadTimeSampleReport]].
+
+Here is a [[first performance report&gt;&gt;PageLoadTimeReport30SnapShot1]].
+
+== Setup of a performance measurement mecanism which allows to track performance indicators accross versions ==
+
+We should study if we can include in our selenium tests, a measurement of the different performance indicators. An alternate solution is to have the QA team measure this indicators during the QA Test plan. In any case this measurement needs to be done with the same performing client browser and machine between versions.
+
+TODO for Marius: which indicators can be measured. What is the workload to implement and report.
+
+The performance measurement would allow to track evolution of performance and also show priorities on which we should focus.
+
+== Use online testing tools that report performance issues ==
+
+We can run reports using YSlow or tools like http://zoompf.com/ to report performance issues.
+
+Here is a report on xwiki.org (running 2.7) using zoompf:
+
+http://173-203-64-171.static.cloud-ips.com/ZoompfFree/scans/240d8d995b53f131ef8b5c1fd675bb0e/report.html
+
+Recommandations should be made by a person analyzing the report.
+
+== Profiling of Sample Request ==
+
+Specific scenarios should be made and profiled using YourKit. This will particularly help finding improvements in the core.
+
+Here is a report for a simple page with no content and no dynamic panels loaded using the Admin user:
+
+http://dev.xwiki.org/xwiki/bin/download/Design/PageLoadTimeReport30SnapShot1/SimplePageLoad.html
+
+Recommandations should be made by a person analyzing the report.
+
+== Proposed Changes ==
+
+|=Change Proposed |= Estimated workload |= What page would gain |= Estimated gain |=Comments
+|Cache getXWikiPreferences| 5 day | Minimal page loading time | Win 15% on the minimal page loading time (currently 200ms) 
++ Unknown win on general performance and CPU load
+|Cache getSkinFile in production mode| 5 day | Minimal page loading time | Win 15% on the minimal page loading time (currently 200ms) 
++ Unknown win on general performance and CPU load
+|Optimize XWikiRightsServiceImpl| LOT | ALL | Win minimum 15% on the minimal page loading time (currently 200ms) 
++ Unknown win on general performance and CPU load + particular win when having complex rights/groups/users
+|Optimize Home Page Activity Stream | ? | ? | Currently costs around 2 seconds which is a lot compared to the minimal time
+|Remove "Recent Modifications Panel" | 1 days | Minimal page loading time | Win 50ms on the minimal page loading time
+|Remove unused JS/CSS on home page | ? | Home page perceived loading time | Reduce initial loading time of home page. Currently 300KB JS/CSS (cost depends on the network)
+|Reduce JS/CSS sizes (use compression) | ? | All pages perceived loading time | Reduce initial loading time of all pages including admin and edit
+</content>
+</xwikidoc>

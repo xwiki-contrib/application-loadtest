@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>SOLRSearchIntegration</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1336545176000</creationDate>
+  <date>1360950336000</date>
+  <contentUpdateDate>1341033185000</contentUpdateDate>
+  <version>1.1</version>
+  <title>SOLR Search Integration</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.SOLRSearchIntegration</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>892f69d1-18ec-4434-a01f-593435f4c6e2</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.SOLRSearchIntegration</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>fc40699b-fa94-4367-84a9-d3ceafb2a5e0</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+
+= Project Description =
+
+ The idea of the project is to use Apache SOLR as the search engine for XWiki. XWiki is using Lucene as a core component for Wiki Search. Lucene is little hard to configure and doesn't support features like facet search, hit highlighting, customizing search relevancy using boost index out of the box. Solr stands out in its minimal configuration to implement the search engine.Few libraries and a couple of XML configuration files are sufficient to implement a well to do engine. Configuring multiple languages is easy in SOLR compared to Lucene.
+           
+Using SOLR, one can customize the indexing process by using required analyzers with selected tokenizers and set of filters on the dataset to generate highly customizable relevancy index. Through the front end, the user can select or configure the fields to be searched for and their weight which contributes to the document score. The SOLR component offers flexibility in the following ways.
+
+* Based on SOLR's schema and complementary information, the indexing process is customizable to only index and store as little information as needed. 
+* Through code customizability (exploiting the possibility of Groovy code in pages), the transformation of a user-query to a SOLR query should be
+   adjustable, far beyond the simple text-parsing (enabling, for example, the prohibition of some spaces, or the conversion to multiple fields based on input
+   parameters).
+* This component supports calibrating the search engine's parameter (such as the Dismax' parser coefficients, the analyzers usefulness, ...) 
+   by classical quantitative methods such as precision-and-recall, which any wiki master, or a collaborator, should be able to exploit and report.
+
+= Approach =
+
+ XWiki-platform-search module is split into api and solr implementation. We can have a single Wiki Search API exposed to xwiki and have multiple components with different implementations of SOLR like Embedded Solr server, a remote solr server hosted on a different source, indexing and querying the database instead of XWiki document objects.. etc..
+
+
+=== Solr API ===
+
+The following are the APIs proposed for Solr which can be used by any one of the XWiki's scripting language. 
+
+
+Following is the link to the search API. The design is aimed such that it could b used by lucene or solr component.
+
+[[https:~~/~~/dl.dropbox.com/u/2027256/apidocs/xwiki-platform-search-api/apidocs/index.html&gt;&gt;https://dl.dropbox.com/u/2027256/apidocs/xwiki-platform-search-api/apidocs/index.html||rel="__blank"]]
+
+Following is the link to the API of the Embedded Solr Server Implementation.
+
+[[https:~~/~~/dl.dropbox.com/u/2027256/apidocs/xwiki-platform-search-solrj/apidocs/index.html&gt;&gt;https://dl.dropbox.com/u/2027256/apidocs/xwiki-platform-search-solrj/apidocs/index.html||rel="__blank"]]
+</content>
+</xwikidoc>

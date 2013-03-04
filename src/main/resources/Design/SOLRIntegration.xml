@@ -1,0 +1,214 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>SOLRIntegration</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1315322457000</creationDate>
+  <date>1360950303000</date>
+  <contentUpdateDate>1320871979000</contentUpdateDate>
+  <version>1.1</version>
+  <title>SOLR Integration</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.SOLRIntegration</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>276a4a77-4ea9-4784-bd89-74e12a107484</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.SOLRIntegration</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>00d3c3e5-57fc-4039-af16-6e8acd3ac11c</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+= Introduction =
+
+The goal of this document is to start a discussion about how to integrate SOLR as a search engine for XWiki.
+
+SOLR is a search platform that is built on top of Lucene. It supports full-text search, hit highlighting, faceted search, dynamic clustering, database integration, rich document (e.g., Word, PDF) handling, and geospatial search. It uses a plugin architecture that allows the administrator to setup different type of analysers by combining tokenizers, filters etc. All of this is done declaratively using XML configuration files.
+
+SOLR is distributed as a web application (WAR) that needs to be installed in a servlet container and used via a HTTP protocol. However an [[EmbeddedSolrServer&gt;&gt;http://wiki.apache.org/solr/Solrj#EmbeddedSolrServer]] is also available which allows to start a SOLR core from within an application.
+
+= Configuration =
+
+SOLR needs to be configured using two XML files:
+* ##solrconfig.xml## which contains the handlers that will take care of indexing and searching documents
+* ##schema.xml## which defines the structure of what is stored in the index.
+
+The following links show the default version of [[solrconfig.xml&gt;&gt;http://svn.apache.org/repos/asf/lucene/dev/trunk/solr/example/solr/conf/solrconfig.xml]] and [[schema.xml&gt;&gt;http://svn.apache.org/viewvc/lucene/dev/trunk/solr/example/solr/conf/schema.xml?view=co&amp;revision=1141489&amp;content-type=text%2Fplain]]
+
+Actually the ##schema.xml## is tailored on an example provided with the SOLR distribution, but it is interesting because it contains a big section with field types definition that can be reused in other contexts.
+
+##solrconfig.xml## and ##schema.xml## are searched in the classpath so they can be packaged with a SOLR component. What could be interesting is to provide a way for override the ##schema.xml## with a version that contains specific customization for a specific use case. For example, the default ##schema.xml## contains analysers that are well suited for analysing english text. It would be nice to have a way for overriding this and use language specific tokenizers when needed.
+
+= Queries =
+
+The standard SOLR query parser is a superset of the Lucene query parser that supports:
+* Range queries 
+* Negative queries
+
+SOLR also supports faceted queries that allow to cluster results with respect to some criteria.
+
+Let's suppose that we have indexed three documents:
+
+* ##id="Main.WebHome",title="Test",author="fm",date="2010-10-10"##
+* ##id="Main.Test",title="foo",author="fm",date="2010-11-10"##
+* ##id="Main.Bar",title="bar",author="xw",date="2011-03-30"##
+
+##id##, ##title##, ##author## and ##date## are fields defined in the ##schema.xml## with the proper data types.
+
+Here is some interesting queries:
+
+##title:?e*## (all the documents whose title has an #e# as the second character); Result -&gt; ##Main.WebHome##, ##Main.Test##
+##-author:fm## (all the documents that have not been written by ##fm##); Result -&gt; ##Main.Bar##
+##date:[2010-10-01T00:00:00Z TO 2010-12-01T00:00:00Z]## (all the documents written between the 1st October 2010 and the 1st december 2010); Result -&gt; ##Main.WebHome##, ##Main.Test##
+
+We could also ask to cluster documents using ##author## as the facet field.
+
+In this case, depending on the query, a clustering information about how many documents in the result are associated to an author will be also provided.
+
+* ##facet="author", date:[2010-10-01T00:00:00Z TO 2010-12-01T00:00:00Z]## -&gt; ##Main.WebHome##, ##Main.Test##, ##[author:[fm (2), xw (0)]]##
+* ##facet="author", *:*## -&gt; ##Main.WebHome##, ##Main.Test##, ##Main.Bar##, ##[author:[fm (2), xw (1)]]##
+
+Since the standard query parser is a superset of the Lucence query parser, all Lucene queries will also work using this parser.
+
+It is to be noted that the parser can also be replaced. The SOLR distribution provides additional query parsers that could be used in specific situations (see [[subclasses of the QParserPlugin&gt;&gt;http://lucene.apache.org/solr/api/org/apache/solr/search/QParserPlugin.html]]
+
+== Example code ==
+
+Here it is a sample code that shows how to startup an EmbeddedSolrServer and perform some queries.
+
+{{code language="java"}}
+CoreContainer.Initializer initializer = new CoreContainer.Initializer();
+CoreContainer container = initializer.initialize();
+EmbeddedSolrServer solr = new EmbeddedSolrServer(container, "");
+        
+solr.deleteByQuery( "*:*" );
+        
+SolrInputDocument doc = new SolrInputDocument();
+doc.addField("id", "Main.WebHome");
+doc.addField("title", "Welcome to the wiki");
+doc.addField("content", "foo");
+doc.addField("author", "fm");
+doc.addField("date", new GregorianCalendar(2010, 9, 10).getTime());
+solr.add(doc);
+        
+doc = new SolrInputDocument();
+doc.addField("id", "Main.Test");
+doc.addField("title", "Test");
+doc.addField("content", "bar");
+doc.addField("author", "fm");
+doc.addField("date", new GregorianCalendar(2010, 10, 10).getTime());
+solr.add(doc);
+        
+doc = new SolrInputDocument();
+doc.addField("id", "Main.Bar");
+doc.addField("title", "bar");
+doc.addField("content", "bar");
+doc.addField("author", "xw");
+doc.addField("date", new GregorianCalendar(2011, 03, 03).getTime());
+solr.add(doc);        
+        
+solr.commit();
+        
+SolrQuery query = new SolrQuery();
+query.setQuery("date:[2010-10-01T00:00:00Z TO 2010-12-01T00:00:00Z]").
+      setFacet(true).
+      addFacetField("author").
+      setSortField("title", SolrQuery.ORDER.asc);            
+        
+QueryResponse response = solr.query(query);
+        
+System.out.format("%s\n", response.getFacetFields());
+        
+for(SolrDocument d : response.getResults()) {
+  System.out.format("%s %s\n", d.getFieldValue("title"), d.getFieldValue("date"));
+}
+{{/code}}
+
+= XWiki integration =
+
+Currently the search feature is provided by a Lucene plugin that contains all the logic for indexing, reindexing and querying the Lucene index.
+The idea is to move this to a Wiki component in order to get rid of the plugin.
+
+I created a small prototype which only starts the SOLR embedded server at startup and that is built using Java components.
+You can find it here: [[https://github.com/fmancinelli/xwiki-platform/tree/SOLR/xwiki-platform-core/xwiki-platform-search]]
+
+[[xwiki-platform-search-api&gt;&gt;https://github.com/fmancinelli/xwiki-platform/tree/SOLR/xwiki-platform-core/xwiki-platform-search/xwiki-platform-search-api]] defines the API of a ##SearchService## and its script service. This is the component that will be used for performing searches. In principle it could have the same API exposed by the plugin.
+
+[[xwiki-platform-search-solr&gt;&gt;https://github.com/fmancinelli/xwiki-platform/tree/SOLR/xwiki-platform-core/xwiki-platform-search/xwiki-platform-search-solr]], on the other hand, contains the actual implementation of the API based on SOLR. At the moment it only starts up the ##EmbeddedSolrServer##
+
+The backend to be used can be configured using the ##xwiki.cfg##
+
+An open question is whether we need this flexibility of we can choose to use SOLR as the default and only search engine.
+
+----
+
+In the [[discussion on the mailing list&gt;&gt;http://markmail.org/message/afeup6bsnz4jxg5a]], Paul Libbrecht suggested to use the DisMax handler and query parser for parsing queries. The DisMax handler is " is designed to process simple user entered phrases (without heavy syntax) and search for the individual words across several fields using different weighting (boosts) based on the significance of each field, and it should never throw an exception." ([[http://wiki.apache.org/solr/DisMax]])
+
+It can be tweaked by specifying the weights to assign to the different fields.
+
+For the schema Paul suggested something like:
+
+* text: full-text, exact tokens (whitespace analyzer)
+* text_standard: full-text, standard-analyzer (e.g. best for emails and URLs)
+* text_fr: stemmed with the french analyzer (filled if the document is recognized to be french)
+* text_de: ...
+* text_bits: makes any non-letter a token separator
+Same with title_*
+
+With a standard qf = title^3 title_standard^2 title_fr^1.5 title_en^1.5 title_de^1.5 title_bits^1.2 text^3 text_standard^2 text_fr^1.5 text_en^1.5 text_de^1.5 text_bits^1.2
+
+Dynamic fields might be used for handling translations: *_fr : text_fr.
+
+At the UI level everything stays the same but a checkbox that activates a text-field for entering a custom qf could be added.
+
+Facets handling/displaying is still to be investigated.
+
+As another suggestion, Paul said to integrate highlighting in the results (SOLR can provide text highlight spans as part of the results)</content>
+</xwikidoc>

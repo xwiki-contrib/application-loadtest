@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>CustomMapping</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1275296800000</creationDate>
+  <date>1360853401000</date>
+  <contentUpdateDate>1360853401000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Custom Mapping</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.CustomMapping</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>1e70f034-7014-4641-8a9d-62f969349819</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>Custom Mapping allows to map a XWiki Class (XClass) to its own database table (as opposed to XClasses that are not mapped and that use the standard, predefined, XWiki table scheme). Custom mapping can be useful for improving performances (when expecting a class to have a large number of instances for example), or for sharing external data (enterprise data, or other software data for example) with XWiki.
+
+Making use of custom mapping is a 3 step process:
+
+1. Define the actual Hibernate mapping for your XClass, in a ##hbm.xml## file (see the example below). This file should then be made available somewhere in the CLASSPATH (##WEB-INF/classes## or in your own JAR file that you put in ##WEB-INF/lib##).(((
+
+Example Mapping file (##mailinglist.hbm.xml##):
+
+{{code language="xml"}}
+&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"&gt;
+&lt;hibernate-mapping&gt;
+    &lt;class entity-name="Mailing.MailingMemberClass" table="mailing"&gt;
+        &lt;id name="id" type="integer" unsaved-value="any"&gt;&lt;column name="mam_id" not-null="true" /&gt;&lt;generator class="assigned" /&gt;&lt;/id&gt;
+        &lt;property name="member" type="text"&gt;&lt;column name="mam_member" /&gt;&lt;/property&gt;
+        &lt;property name="to" type="text"&gt;&lt;column name="mam_to" /&gt;&lt;/property&gt;
+        &lt;property name="from" type="text"&gt;&lt;column name="mam_from" /&gt;&lt;/property&gt;
+        &lt;property name="subject" type="text"&gt;&lt;column name="mam_subject" /&gt;&lt;/property&gt;
+        &lt;property name="smtphost" type="text"&gt;&lt;column name="mam_smtphost" /&gt;&lt;/property&gt;
+        &lt;property name="mailing" type="text"&gt;&lt;column name="mam_mailing" /&gt;&lt;/property&gt;
+        &lt;property name="status" type="text"&gt;&lt;column name="mam_status" /&gt;&lt;/property&gt;
+        &lt;property name="body" type="text"&gt;&lt;column name="mam_body" /&gt;&lt;/property&gt;
+        &lt;property name="alternative" type="text"&gt;&lt;column name="mam_alternative" /&gt;&lt;/property&gt;
+         &lt;/class&gt;
+&lt;/hibernate-mapping&gt;
+{{/code}}
+
+)))
+1. Reference your ##hbm.xml## file in the Hibernate configuration file located in ##WEB-INF/hibernate.cfg.xml##, by adding a ##mapping## element. For example:(((
+{{code language="xml"}}
+&lt;mapping resource="/some/package/mailinglist.hbm.xml"/&gt;
+{{/code}}
+)))
+1. Last, the XClass for which the mapping has been written should be set as containing a custom mapping. Unfortunately there's currently no way to set this using the XWiki Enterprise UI so you'll have to set it programmatically. The following Groovy snippet will do the trick (Remember that for Groovy code to be executed, the page that contains the code should be saved by a user having the programming right allowed on that document). Note that this could also be done in a Java component.
+(((
+{{code language="java"}}
+{{groovy}}
+classDocumentName = "Mailing.MailingMemberClass";
+classDoc = xwiki.getDocument(classDocumentName).getDocument();
+xml = classDoc.getxWikiClassXML();
+if (xml == null || "".equals(xml)) {
+    println("The document [" + classDocumentName + "] doesn't seem to "
+            + ((classDoc.isNew()) ? "exist." : "contain a class."));
+} else {
+    classDoc.getxWikiClass().setCustomMapping("internal");
+    xcontext.getContext().getWiki().saveDocument(classDoc, xcontext.getContext());
+    classDoc = xwiki.getDocument(classDocumentName).getDocument();
+    if ("internal".equals(classDoc.getxWikiClass().getCustomMapping())) {
+        println("Success.");
+    } else {
+        println("Failed to alter the custom mapping field.");
+    }
+}
+{{/groovy}}
+{{/code}}
+)))
+
+Once these 3 steps have been done, loading and saving of your XClass will go in the table you've defined in your custom Hibernate mapping file.
+
+{{info}}
+Since XWiki 3.5.2, 4.1.4, and 4.2M3, copying a document containing a custom mapped class does not make the copied class custom mapped anymore. This has been introduced to avoid the newly created class to be unusable and inconsistent with the available mapping.
+{{/info}}</content>
+</xwikidoc>

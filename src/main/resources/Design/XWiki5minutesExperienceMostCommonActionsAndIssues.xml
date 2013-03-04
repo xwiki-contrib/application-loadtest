@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>XWiki5minutesExperienceMostCommonActionsAndIssues</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.XWiki5minutesExperience</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1304939059000</creationDate>
+  <date>1360950325000</date>
+  <contentUpdateDate>1305130637000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki 5 minutes Experience Most Common Actions and Issues</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>We are launching this investigation called [["XWiki 5 minutes experience"&gt;&gt;XWiki5minutesExperience]] (for those who don't know, an investigation is the work before we actively work on a new development). In this case, the objective is to identify and simplify all the common things that admins and users are doing in their first five minutes of XWiki usage. The first step to this investigation is to identify all the actions they are doing and which issues they struggle with.
+
+This is where we need the help of our fellow XWiki users. Help us find out all the common actions (and problems with these actions) that users (actually admins and then normal users) are trying to do the first time they use XWiki.
+
+The listing of all actions and problems with be followed by studying the solutions we can implement to fix the situations reported. Some solutions might be very easy to implement and we will push then in the next release cycle, while some others will require more work and will be proposed as new work for the future release cycles.
+
+Make you voice heard as this can have a big impact on the XWiki ease of use.
+
+== Most Common Admin first 5 minutes actions ==
+
+* Installation
+* View home page
+* Create space
+** Edit home page of the space
+* Invite/Set user rights on spaces
+* Understand how things work (first edit, etc..)
+* Track activity/Follow changes from new users
+* First edits using Wysiwyg
+* Changing look and feel
+* Change the Admin password
+* Disable registration, set to authenticate users against corporate directory (LDAP)
+
+{{info}}
+"Please add any common admin actions you are thinking of
+{{/info}}
+
+== Most Common User first 5 minutes actions ==
+
+* View home page
+* Understand how things work (first edit, etc..)
+* Understand what is in this wiki and what it is about
+* Track activity/Follow changes
+* First edits using Wysiwyg
+* Update/complete their profile (avatar)
+
+{{info}}
+Please add any common user actions you are thinking of
+{{/info}}
+
+== List of issues ==
+
+* Home page
+** Home page is confusing (too many tech pages)
+* Access to documentation
+** No "getting started"
+** No guiding through features
+** No good access to documentation
+
+* Space creation/Invitation
+** No integrated process to create a space and invite users in this space
+** Dashboard not included on space creation
+** Rights is too complex
+
+* Follow changes from new users
+** No automatic subscription to Watch List
+** No real time notifications of changes (except RSS)
+
+* First edits using Wysiwyg
+** Copy paste from Word (users don't know that they should use the special button)
+
+* Changing look and feel
+** Changing logo could be improved
+
+* MySQL/Postgres/Oracle/Microsoft installation, admins who start the wiki get a 500 error if they have not edited their hibernate config file. Mediawiki walks the admin through the process of setting up a database and then writes a config file and asks them to move it.
+** Possibility of referencing external xwiki configuration files so the user does not have to open the .war file?
+
+{{info}}
+Please add any issues you are thinking of
+{{/info}}</content>
+</xwikidoc>

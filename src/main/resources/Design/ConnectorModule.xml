@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ConnectorModule</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1339526038000</creationDate>
+  <date>1360950333000</date>
+  <contentUpdateDate>1339580804000</contentUpdateDate>
+  <version>1.1</version>
+  <title>ConnectorModule</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.ConnectorModule</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>30946c6f-7927-473b-9f52-39830efcb57b</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.ConnectorModule</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>c3712001-1404-4804-a7c8-d87431cd768a</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+The objective of the Connector Module is to provide a common API to connect external systems to XWiki and make use of XWiki's capabilities to organize, edit and search the content from an external tool directory from XWiki.
+
+For example, suppose you have Salesforce account. Using XWiki you would like to be able to:
+
+* View selected data from some tables of the Salesforce account
+* Edit selected data or create new data directory from XWiki using XWiki's form system
+* Use XWiki's livetable system to navigate the Salesforce data
+* Link Salesforce data (or it's XWiki representation) directory from the XWiki Wysiwyg editor
+* Search Salesforce data directly from XWiki's lucene search engine
+* Insert content from Salesforce in a page using the Wysiwyg editor
+
+Of course you would want to be able to do this with any external tool. It could be:
+
+* Google Docs
+* Salesforce
+* SAP
+* JIRA or other Task tracking tools
+* A external database table
+
+A prototype of this is available for Salesforce and JIRA on the XWiki.org incubator:
+
+* [[Salesforce Prototype&gt;&gt;http://incubator.myxwiki.org/xwiki/bin/view/Mapping/LeadList]]: provides livetable including filters and pagination (with a max for 2000 items), view, edit and save of Salesforce Leads
+* [[JIRA Prototype&gt;&gt;http://incubator.myxwiki.org/xwiki/bin/view/Mapping/JiraIssuesList]]: provides livetable including filters and pagination (except key field) and view and edit (but not save) of JIRA Issues from jira.xwiki.org
+
+This prototpye already shows that the XWiki LiveTable system and Form system can be used to display and navigate data from an external system using SOAP (for Salesforce) or REST (for JIRA). There is no design issue to implement the same system for a database connection or any other remote system. Also both the Salesforce code and the JIRA code implement the same Groovy class, so it is definitively possible to share code in the two systems (livetable and display code).
+
+How it works:
+
+* The Groovy class implements the following APIs:
+** initConnector
+** connect
+** searchDocuments(query, nb, start)
+** getDocument(id)
+** saveDocument(doc, id)
+
+Thanks to the groovy class the data from an external document is loaded into an XWikiDocument and a specific XWiki Class. The view/edit/save code will display a standard XWiki Sheet and use standard XWiki api to retrieve the form data before calling the groovy class for actual saving. The livetable code currently has some specifics to generate the query in the language supported by Salesforce or JIRA (this code should be moved to the Groovy Class).
+
+Some issues and things to tackle to make this better:
+
+* the livetable code generates the query and the query language is always different. We could use a "standard" livetable as long as we use an internal language to represent the query and then transform it into the external tools' query language. XWQL could be used, although an Java object representation of the livetable query would be much simpler.
+* it was necessary to implement a view/edit/save loop instead of using XWiki's normal mecanism to implement view/edit/save. This is because there is no real XWiki document so no real XWiki URL to represent the external document. Either we would have to replicate data and create "empty" XWiki documents as placeholders for external documents or we should provide an XWiki Core mecanism to represent URLs of external documents (for example all URLs SalesforceLeads/{id} would represent the salesforce lead with id {id}. The view/edit/save mecanisms would then be automatically hooked to use the provided API to retrieve the data to display and then call the appropriate XWiki Sheet.
+* search and livesearch are not implemented. To implement search either we could replicate data or have a specific API to provide changes to the lucene engine. Each connector would be called regularly to update the lucene engine. 
+* linking to an external document from the Wysiwyg is not provided. If replicated pages are created then it's a no brainer. If not then the Wysiwyg editor needs to have some additional menus to link to external documents and these would have a browse/search using the connector's implementation to find the pages that you can link to.
+* wysiwyg macros are not provided: this is not a difficulty.
+* authentication: depending on the external tools OAuth is mandatory or a username/password authentication is used. When OAuth is used, then the authentication is "viewer" based, but can be remembered. This means the first time a user comes to the pages needing Authentication he will be asked to authorize XWiki to act on it's behalf on the external tool. This solution is good for viewing live data. It's not so good for indexing the data (though you can configure the indexer to use a certain authorized OAuth account).  The other system is simpler but all access is done under a certain user. This can cause security issues.
+
+The main issues of design are:
+
+1/ Hooking up the XWiki edit/view/save mecanism to actually save externally using the connector API
+2/ Deciding to use replicates or not (replicates would not work with high volume and cause replication issues)
+3/ Implement search and linking if replication is not used
+4/ Authentication
+
+</content>
+</xwikidoc>

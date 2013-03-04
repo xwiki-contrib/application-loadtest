@@ -1,0 +1,913 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Features</web>
+  <name>XMLRPCJavaExamples</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Features.XMLRPC</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1264196149000</creationDate>
+  <date>1361190297000</date>
+  <contentUpdateDate>1361190297000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XML-RPC Java Examples</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Features.XMLRPCJavaExamples</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>397fac33-8a13-4b5b-b8cb-2bfa12b5fe6b</guid>
+    <property>
+      <tags>
+        <value>xmlrpc</value>
+        <value>java</value>
+        <value>example</value>
+        <value>page</value>
+        <value>space</value>
+        <value>authentication</value>
+        <value>create</value>
+        <value>delete</value>
+        <value>update</value>
+        <value>attachment</value>
+        <value>user</value>
+        <value>groups</value>
+        <value>association</value>
+      </tags>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+= Requirements =
+
+The following libraries should be added to your application classpath:
+
+{{info}}
+Most of the libraries can be easily found in the WEB-INF/lib folder of your XWiki instance. As mentioned at [[platform:Features.XMLRPC]], version numbers of these libraries for the most part are irrelevant. In the examples listed here, XWiki version 2.1.1 is used.
+{{/info}}
+
+|=Library|=Source
+|commons-logging-1.1.1.jar|WEB-INF/lib folder of XWiki 2.1.1
+|ws-commons-util-1.0.2.jar|WEB-INF/lib folder of XWiki 2.1.1
+|xmlrpc-common-3.1.jar|WEB-INF/lib folder of XWiki 2.1.1
+|xmlrpc-client-3.1.jar|WEB-INF/lib folder of XWiki 2.1.1
+|xwiki-core-2.1.1.jar|WEB-INF/lib folder of XWiki 2.1.1
+|swizzle-confluence-1.2-20080419-xwiki.jar|WEB-INF/lib folder of XWiki 2.1.1
+|xwiki-core-xmlrpc-client-2.1.1.jar|Manually download the jar from [[Maven repository&gt;&gt;http://maven.xwiki.org/releases/org/xwiki/platform/xwiki-core-xmlrpc-client/2.1.1/]]
+|xwiki-core-xmlrpc-model-2.1.1.jar|WEB-INF/lib folder of XWiki 2.1.1
+
+= Authentication: Login Example =
+
+Try Providing an incorrect username &amp; password. The application will throw an exception
+For correct username &amp; password, the application will compile &amp; run successfully.
+
+{{code language="java"}}
+import java.net.MalformedURLException;
+import org.apache.xmlrpc.XmlRpcException;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+public class XmlRpcLogin {
+    public static void main(String[] args) throws MalformedURLException{
+
+        //URL of the xwiki instance
+        String url="http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user="Admin";
+        String pass="admin";
+
+        //Perform Login &amp; Authentication using above url address
+        try{
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+        rpc.login(user, pass);
+
+        }
+        catch(XmlRpcException e){
+            System.out.println("invalid username/password was specified or communication problem");
+        }
+    }
+}
+{{/code}}
+
+= Authentication: Logout Example =
+
+Let's build on the previous example where we "Logged In". We test logout action using a boolean variable since rpc.logout() method returns true on successful logout.
+
+{{code language="java"}}
+
+import java.net.MalformedURLException;
+import org.apache.xmlrpc.XmlRpcException;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+public class XmlRpcLogout {
+    public static void main(String[] args) throws MalformedURLException{
+
+        //Variable to test whether user logged out successfully. Default set to false
+         boolean loggedOut=false;
+
+        //URL of the xwiki instance
+        String url="http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user="Admin";
+        String pass="admin";
+        
+        try{
+       //Perform Login &amp; Authentication using above url address
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+        rpc.login(user, pass);
+       
+        //Log out action. Returns true if user successfully logged out
+        loggedOut=rpc.logout();
+        System.out.println(loggedOut);
+        }
+        catch(XmlRpcException e){
+            System.out.println("invalid username/password was specified or communication problem");
+        }
+    }
+}
+{{/code}}
+
+
+= Space: Get A List Of Spaces =
+
+Now, that we can log in and log out, let's move to finding out what's inside your wiki. How about a list of all the spaces inside the wiki. Compare the above two examples and you will see the new import that we added viz. the SpaceSummary class. 
+
+{{code language="java"}}
+
+import java.net.MalformedURLException;
+import java.util.List;
+import org.apache.xmlrpc.XmlRpcException;
+import org.codehaus.swizzle.confluence.SpaceSummary;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+public class SpaceList {
+
+    public static void main(String[] args) throws MalformedURLException {
+         //URL of the xwiki instance
+        String url="http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user="Admin";
+        String pass="admin";
+
+        //Perform Login &amp; Authentication using above url address
+        try{
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+        rpc.login(user, pass);
+
+            List&lt;SpaceSummary&gt; spaceList = rpc.getSpaces();
+            System.out.println("Total Number of Spaces: " +spaceList.size());
+            for(int i=0;i&lt;spaceList.size();i++){
+                System.out.println(spaceList.get(i).getKey());
+            }
+        rpc.logout();
+        }
+        catch(XmlRpcException e){
+            System.out.println("invalid username/password was specified or communication problem");
+        }
+    }
+}
+{{/code}}
+
+= Space: Create A Space =
+
+So far, we logged in, logged out &amp; also were able to see a list of spaces in the xwiki instance. Let's go ahead and create a new space. And not just that we will also assign the default home page for the space. In this example, we use "XMLRPC" as the space name &amp; "xmlrpc.WebHome" as the home page
+
+{{code language="java"}}
+import java.net.MalformedURLException;
+import org.apache.xmlrpc.XmlRpcException;
+import org.codehaus.swizzle.confluence.Space;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+
+public class CreateSpace {
+
+    public static void main(String[] args) throws MalformedURLException {
+        //URL of the xwiki instance
+        String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user = "Admin";
+        String pass = "admin";
+
+        //Perform Login &amp; Authentication using above url address
+        try {
+            XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+            rpc.login(user, pass);
+
+            //Create a Space object which holds the Key, Homepage, Name &amp; description.
+            //Key is visible name for the space
+            Space space = new Space();
+            space.setKey("XMLRPC");
+            space.setHomepage("xmlrpc.WebHome");
+            space.setName("xmlrpc");
+            space.setDescription("Demo Space Created To Test XMLRPC");
+
+            //One simple method adds the space created to your xwiki instance
+            rpc.addSpace(space);
+
+            rpc.logout();
+        } catch (XmlRpcException e) {
+            System.out.println("invalid username/password was specified or communication problem");
+        }
+    }
+}
+{{/code}}
+
+= Space: Delete A Space =
+
+Removal of a space is far more easier than creating one. All it requires is the "Key" (the visible name of the space) to be provided to the remove() method.
+
+{{warning}}
+Please note that deletion of space removes all pages in the space too. It is recommended to always make sure that the space is empty before deleting it.
+{{/warning}}
+
+{{code language="java"}}
+
+import java.net.MalformedURLException;
+import org.apache.xmlrpc.XmlRpcException;
+import org.codehaus.swizzle.confluence.Space;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+
+public class DeleteSpace {
+
+    public static void main(String[] args) throws MalformedURLException {
+        //URL of the xwiki instance
+        String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user = "Admin";
+        String pass = "admin";
+
+        //Perform Login &amp; Authentication using above url address
+        try {
+            XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+            rpc.login(user, pass);
+
+            //Delete the space which is reference by "XMLRPC" key
+            rpc.removeSpace("XMLRPC");
+
+            rpc.logout();
+        } catch (XmlRpcException e) {
+            System.out.println("invalid username/password was specified or communication problem");
+        }
+    }
+}
+{{/code}}
+
+= Page: Retrieve/Search A Page =
+
+A page is probably the most important unit of any wiki around which everything else is built. Spaces/Categories, Attachments, Comments, etc are more or less meaningless without a supporting page in a wiki system.
+One of the most widely performed action on any wiki has to be searching for pages. Searches may happen through search boxes provided in a wiki or may be through following links from one page to another. On the XMLRPC side too, searching pages has been given a lot of importance and quite a few methods are available for the same.
+Since, this topic is an important one, all the page retrieval/search examples [[can be found here&gt;&gt;XMLRPCJavaExamples2]]
+
+= Page: Create A Page =
+
+Now for the moment of truth. Addition of Pages to a Wiki is as simple as searching for them. Thankfully, the XWiki XMLRPC api has just the tools you need to do your job.
+At the very least, you would require the following three parameters to create a Page:
+
+1. Space - The Space where the Page is to be stored
+1. Title - The title for the Page
+1. Content - The content to be displayed inside the Page
+
+{{warning}}
+Please beware that using a title for an existing Page will overwrite all the contents of that Page. Make sure no Page *with the same title* exists in the same Space before you attempt to use the create Page functionality of XMLRPC.
+{{/warning}}
+
+In our example below, we would use
+
+|=Parameter|=Value
+|Space|demo code
+|title|New Page
+|Content|New Page Created
+{{info}}This is XMLRPC Test{{/info}}
+
+{{code language="java"}}
+import java.net.MalformedURLException;
+import org.apache.xmlrpc.XmlRpcException;
+import org.codehaus.swizzle.confluence.Page;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+
+public class CreatePage {
+
+    public static void main(String[] args) throws MalformedURLException, XmlRpcException {
+
+            //URL of the xwiki instance
+        String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user = "Admin";
+        String pass = "admin";
+
+
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+        try {
+
+            //Perform Login &amp; Authentication
+            rpc.login(user, pass);
+
+            //Create a Page object &amp; set it's three important attributes viz. Space, Title, Content
+            //Observe how the \\\\ has been used to create a new line in the final wiki Page
+            //Also, XWiki syntax can be passed as it is. Here, we passed the info macro
+            //The info macro would get rendered an info box in the Page
+            Page page = new Page();
+            page.setSpace("demo code");
+            page.setTitle("New Page");
+            page.setContent("New Page Created \\\\ {{info}}This is XMLRPC Test{{/info}}");
+
+            //Also set the parent Page to "demo code.WebHome" so that the "New Page" we created is not
+            //an orphan Page
+            page.setParentId("demo code.WebHome");
+
+
+            //Store the page object into XWiki
+            rpc.storePage(page);
+
+
+        } catch (XmlRpcException e) {
+            System.out.println("invalid username/password was specified or communication problem or ");
+            System.out.println(e);
+        } finally {
+            rpc.logout();
+        }
+    }
+}
+
+{{/code}}
+
+
+= Page: Get Page History =
+
+Now, that we are adding content to Pages, there are going to be versions of the same document. These versions are called History of the Page. The XWiki API has methods available to access the history of the Page. The class that would help us in this case is the XWikiPageHistorySummary class.
+
+{{info}}
+Please note that the methods of XWikiPageHistorySummary class only help you access the various historical revisions of the document &amp; not the content of the document itself. Eg. You would get to know that a particular Page called Main.WebHome has highest version as 4.1 or maybe 10.9. In order to access the content of the 4.1 revision of the document, you would have to use the [[Page retrieval code provided here&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/Features/XMLRPCJavaExamples2#HRetrievePageByMajorMinorVersion]] by passing the appropriate version of the document.
+{{/info}}
+
+{{code language="java"}}
+import java.net.MalformedURLException;
+import java.util.List;
+import org.apache.xmlrpc.XmlRpcException;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+import org.xwiki.xmlrpc.model.XWikiPageHistorySummary;
+
+
+public class PageHistory {
+
+    public static void main(String[] args) throws MalformedURLException, XmlRpcException {
+
+        //URL of the xwiki instance
+        String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user = "Admin";
+        String pass = "admin";
+
+
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+        try {
+
+            //Perform Login &amp; Authentication
+            rpc.login(user, pass);
+
+            //Create a XWikiPageHistorySummary object to hold all the revisions/history
+            //of the Main.WebHome Page
+            List&lt;XWikiPageHistorySummary&gt; hist = rpc.getPageHistory("Main.WebHome");
+
+            //Iterate through all the available versions for Main.WebHome
+            for(XWikiPageHistorySummary xphs:hist){
+
+                //Print the fully qualified name of the Page i.e. SpaceName.PageName
+                //In our example this would be Main.WebHome
+                System.out.println(xphs.getBasePageId());
+
+                //Print the historical page ID or name of the Main.WebHome page
+                //This would print something like:
+                //Main.WebHome?minorVersion=1&amp;language=&amp;version=2
+                //It means page=Main.WebHome, version=2, minor version=1 &amp; language=default
+                System.out.println(xphs.getId());
+
+                //Printing the version of Main.WebHome in the majorversion.minorversion format
+                System.out.println("Version: "+xphs.getVersion()+"."+xphs.getMinorVersion());
+
+                //Date when the Page was last modified
+                System.out.println(xphs.getModified());
+
+                //User who last modified the Page
+                System.out.println(xphs.getModifier());
+
+                //Just a seperator between various versions of the document when printing
+                //to console
+                System.out.println("------------------------------");
+                  }
+
+        } catch (XmlRpcException e) {
+            System.out.println("invalid username/password was specified or communication problem or ");
+            System.out.println(e);
+        } finally {
+            rpc.logout();
+        }
+    }
+}
+{{/code}}
+
+
+= Page: Update A Page =
+
+We saw code to search a Page, create a Page and get all it's revisions. Now, we move to updating a Page. In our example, we have used the Page called "Update Page" in the "demo code" Space. The basic intent is to get the content first from XWiki. Then add our updated content or "concatenate" new content with the existing content. Then, update the final content back to XWiki. Only the methods of the Page class &amp; the rpc.getPage() &amp; rpc.storePage() would be used here.
+
+{{warning}}It is strongly advised that if this is the first time you are using XWiki XMLRPC, go through the examples at the start of this article. Each example tries to build up on the previous one &amp; you would find understanding the API easier.{{/warning}} 
+
+{{code language="java"}}
+
+import java.net.MalformedURLException;
+import org.apache.xmlrpc.XmlRpcException;
+import org.codehaus.swizzle.confluence.Page;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+
+
+public class UpdatePage {
+
+    public static void main(String[] args) throws MalformedURLException, XmlRpcException {
+
+        //URL of the xwiki instance
+        String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user = "Admin";
+        String pass = "admin";
+
+
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+        try {
+
+            //Perform Login &amp; Authentication
+            rpc.login(user, pass);
+
+            //Create a Page object to hold our Document information
+            Page page = new Page();
+            //Fetch the required page. In our example, the page is in Space "demo code"
+            //and the Page is "Update Page"
+            page=rpc.getPage("demo code.Update Page");
+            //Fetch the content of the page &amp; store it in a string for temporary storage
+            //This is the present content of the Page
+            String presentContent=page.getContent();
+            //Create a string that will hold the new content that is to be added to the Page
+            String newContent="\\\\Some new content added";
+            //Set the content of the page as: present content + new content
+            //However, this page is not yet stored to XWiki. It only resides in your application
+            page.setContent(presentContent+newContent);
+            //Finally, store the "updated" Page to XWiki
+            rpc.storePage(page);
+            
+            //Just to make sure everything saved all right, fetch the content again for the Page
+            System.out.println(page.getContent());
+
+        } catch (XmlRpcException e) {
+            System.out.println("invalid username/password was specified or communication problem or ");
+            System.out.println(e);
+        } finally {
+            rpc.logout();
+        }
+    }
+}
+{{/code}}
+
+
+
+= Page: Remove A Page =
+
+Removal of Pages is straight forward. You are required to know the fully qualified name of the Page i.e. SpaceName.PageName (in our example, this would be "demo code.New Page"). We test the safe deletion of the Page using a boolean variable. The rpc.removePage() method returns true if the Page was successfully removed from the wiki.
+
+{{warning}}You would need to have the deletion rights assigned to the user credentials you are passing to the rpc.login() method{{/warning}}
+{{warning}}rpc.removePage() method does not completely delete a Page in ordinary circumstances. If you have a recycle bin option enabled (by default, it is enabled for XWiki), then the "removed/deleted Page" is stored in the recycle bin from where it will cleaned out as per the settings for recycle bin in the xwiki.cfg file of your XWiki instance.{{/warning}}
+
+{{code language="java"}}
+
+
+import java.net.MalformedURLException;
+import org.apache.xmlrpc.XmlRpcException;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+
+
+public class DeletePage {
+ public static void main(String[] args) throws MalformedURLException, XmlRpcException {
+
+        //URL of the xwiki instance
+        String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user = "Admin";
+        String pass = "admin";
+
+
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+        try {
+
+            //Perform Login &amp; Authentication
+            rpc.login(user, pass);
+
+            //Delete Page called "New Page" from Space called "demo code"
+            //Test deletion using a Boolean variable
+            Boolean b=rpc.removePage("demo code.New Page");
+            
+            //Should print "true" if deletion of page was successful
+            System.out.println(b);
+
+
+        } catch (XmlRpcException e) {
+            System.out.println("invalid username/password was specified or communication problem or ");
+            System.out.println(e);
+        } finally {
+            rpc.logout();
+        }
+    }
+}
+
+{{/code}}
+
+= Page: List Tags =
+
+Pages are tagged via objects of type XWiki.TagClass. Thus you can switch to object edit mode on any page and edit tags this way. This is also the way, done by XMLRPC-API.
+
+{{code language="java"}}
+import java.net.MalformedURLException;
+import java.util.List;
+
+import org.apache.xmlrpc.XmlRpcException;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+import org.xwiki.xmlrpc.model.XWikiObject;
+import org.xwiki.xmlrpc.model.XWikiObjectSummary;
+
+public class ListTags {
+   public static void main(String[] args) throws MalformedURLException,
+         XmlRpcException {
+
+      String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+      String user = "Admin";
+      String pass = "admin";
+
+      XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+      XWikiObjectSummary xosum = new XWikiObjectSummary();
+      xosum.setClassName("XWiki.TagClass");
+      // your page id
+      final String pageId = "Sandbox.Wdscfaq";
+      xosum.setPageId(pageId);
+      try {
+         // Perform Login &amp; Authentication
+         rpc.login(user, pass);
+
+         // retrieve current page object informations
+         XWikiObject xwo = rpc.getObject(xosum);
+         List&lt;String&gt; tags = (List&lt;String&gt;) xwo.getProperty("tags");
+         System.out.println("--- CURRENT TAGS -----------------------");
+         for (String tag : tags) {
+            System.out.println(tag);
+         }
+      } catch (Exception e) {
+         System.out.println(e.getMessage());
+      } finally {
+         rpc.logout();
+      }
+   }
+}
+{{/code}}
+
+= Page: Add Tags =
+
+Adding tags is a similar procedure to listening them. There are two starting points: a) retrieve current tags and a new one or b) set entirely new ones at once. Most often, you want to add tags, so this is one way to do it ...
+
+{{code language="java"}}import java.net.MalformedURLException;
+import java.util.List;
+
+import org.apache.xmlrpc.XmlRpcException;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+import org.xwiki.xmlrpc.model.XWikiObject;
+import org.xwiki.xmlrpc.model.XWikiObjectSummary;
+
+public class AddTags {
+   public static void main(String[] args) throws MalformedURLException, XmlRpcException {
+
+      String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+      String user = "Admin";
+      String pass = "admin";
+
+      XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+      XWikiObjectSummary xosum = new XWikiObjectSummary();
+      xosum.setClassName("XWiki.TagClass");
+      // your page id
+      String pageId = "Sandbox.Wdscfaq";
+      xosum.setPageId(pageId);
+      try {
+         // Perform Login &amp; Authentication
+         rpc.login(user, pass);
+
+         // retrieve current page object informations
+         XWikiObject xwo = rpc.getObject(xosum);
+         List&lt;String&gt; tags = (List&lt;String&gt;) xwo.getProperty("tags");
+         System.out.println("--- CURRENT TAGS -----------------------");
+         for (String tag : tags) {
+            System.out.println(tag);
+         }
+         System.out.println("--- NEW TAG -----------------------");
+         // add a new random tag
+         String tag = "NOW"+System.currentTimeMillis();
+         System.out.println(tag);
+         tags.add(tag);
+         rpc.storeObject(xwo);
+      } catch (XmlRpcException e) {
+         System.out.println(e.getMessage());
+      } finally {
+         rpc.logout();
+      }
+   }
+}
+{{/code}}
+
+= Attachment: List Attachments For Page =
+
+So far, we worked with the Spaces (which are like directories/folders), Pages (which are the actual documents inside directories/folders). Both, Spaces &amp; Pages can reside on their own &amp; still be meaningful. However, there are other entities such as Attachments/Comments which are meaningful only when attached to Pages.
+The first entity that we explore are Attachments. A very common operation in a Wiki is to attach files to an existing Page. However, let's start with an example where we assume that there are a number of attachments already associated with a Page. Our job here is to find out what are those attachments.
+
+{{error}}
+Please be aware that there are two class files for "Attachment" in two different packages and both look like they are exactly the same thing. One of them is the org.codehaus.swizzle.confluence.Attachment &amp; the other is the com.xpn.xwiki.api.Attachment. We use the former one which is org.codehaus.swizzle.confluence.Attachment. The other one is part of the XWiki Core &amp; used for Attachment related actions in the XWiki itself.
+{{/error}}
+
+{{code language="java"}}
+
+import org.codehaus.swizzle.confluence.Attachment;
+import java.net.MalformedURLException;
+import java.util.List;
+import org.apache.xmlrpc.XmlRpcException;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+
+public class AttachmentList {
+public static void main(String[] args) throws MalformedURLException, XmlRpcException {
+        //Replace the url with your xwiki server address
+        String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user = "Admin";
+        String pass = "admin";
+
+        //Perform Login &amp; Authentication using above url address
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+
+        try {
+            rpc.login(user, pass);
+
+            //Get the list of all attachments for the Page named "Main.Host Page"
+            List&lt;Attachment&gt; att = rpc.getAttachments("Main.Host Page");
+
+            //Iterate through all the attachments in the list obtained
+            for (Attachment attachment : att) {
+
+                //Name of the file attached to the "Main.Host Page"
+                System.out.println(attachment.getFileName());
+                //Size of the file (in Bytes)
+                System.out.println(attachment.getFileSize());
+                //Absolute URL of the attachment for direct access
+                System.out.println(attachment.getUrl());
+            }
+
+
+        } catch (XmlRpcException e) {
+            System.out.println("invalid username/password was specified or communication problem or ");
+            System.out.println(e);
+        } finally {
+            rpc.logout();
+        }
+    }
+}
+{{/code}}
+
+= Attachment: Add An Attachment To A Page =
+
+This is a simple example, how to add an attachment to a specific page.
+
+{{code language="java"}}
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+import org.codehaus.swizzle.confluence.Attachment;
+
+public class UploadAttachment {
+   public static void main(String[] args) {
+      File f = new File("xwiki.txt"); // put your file HERE
+
+      String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+      String user = "Admin";
+      String pass = "admin";
+
+      XWikiXmlRpcClient rpc = null;
+      try {
+         rpc = new XWikiXmlRpcClient(url);
+         rpc.login(user, pass);
+
+         // read file content into memory
+         FileInputStream fis = new FileInputStream(f);
+         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+         byte[] buffer = new byte[8192];
+         int read = -1;
+         while ((read = fis.read(buffer)) &gt; 0) {
+            baos.write(buffer, 0, read);
+         }
+         fis.close();
+
+         // prepare upload, set meta information
+         Attachment a = new Attachment();
+         a.setFileName(f.getName());
+         a.setFileSize(Long.toString(f.length()));
+         a.setPageId("Sandbox.WebHome"); // your page id
+
+         // do upload
+         // note: the first integer parameter has no impact,
+         // cause it gets ignored on the server side.
+         rpc.addAttachment(new Integer(f.getName().hashCode()), a, baos.toByteArray());
+      } catch (Exception e) {
+         e.printStackTrace();
+      } finally {
+         if (rpc != null) {
+            try {
+               rpc.logout();
+            } catch (Exception e2) {
+               // something real bad happens. 
+            }
+         }
+      }
+   }
+}
+{{/code}}
+
+= User: Create A New User =
+
+This is an Administrative function in XWiki &amp; needs Admin privileges for the User with whose credential we connect through the XML-RPC. Creating a new User involves the following steps:
+
+1. Create a Page with the desired "UserName" as the Page Name
+1. Create this Page in the "XWiki" space
+1. Set the properties of the newly created User
+
+Please read the comments in the example below to understand the detailed steps:
+
+{{code language="java"}}
+
+import java.net.MalformedURLException;
+import java.security.NoSuchAlgorithmException;
+import org.apache.xmlrpc.XmlRpcException;
+import org.codehaus.swizzle.confluence.Page;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+import org.xwiki.xmlrpc.model.XWikiObject;
+
+public class CreateUser {
+
+    public static void main(String[] args) throws MalformedURLException, XmlRpcException, NoSuchAlgorithmException {
+
+        //URL of the xwiki instance
+        String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user = "Admin";
+        String pass = "admin";
+
+
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+        try {
+            //Perform Login &amp; Authentication
+            rpc.login(user, pass);
+
+            //Create a Page object &amp; set it's three important attributes viz. Space, Title, Content
+            //In our example, testuser is the Page Name 
+            //We set the content of the Page to automatically load XWiki.XWikiUserSheet
+            //This sheet is used to display the User Profile in the default format
+            
+            Page page = new Page();
+            page.setSpace("XWiki");
+            page.setTitle("testuser");
+            page.setId("XWiki.testuser");
+            page.setContent("{{include document=\"XWiki.XWikiUserSheet\"/}}");
+            rpc.storePage(page);
+
+            //Set properties for the newly created user "testuser"
+            //List of all properties available in the XWiki.XWikiUsers class in your wiki
+            //Edit XWikiUsers class in class editing mode to access all properties or define new ones
+            
+            XWikiObject xobj = new XWikiObject();
+            xobj.setClassName("XWiki.XWikiUsers");
+            xobj.setId(-1);
+            xobj.setPageId("XWiki.testuser");
+            xobj.setProperty("first_name", "Test");
+            xobj.setProperty("last_name", "User");
+            xobj.setProperty("password","asdfjk");
+            rpc.storeObject(xobj);
+
+            //Finally, associate the user to the XWikiAllGroup
+            //We simply associate the XWiki.testuser Page to the XWiki.XWikiAllGroup Page
+            //Set the "member" property to the desired XWiki UserName
+            
+            XWikiObject xobjgrp = new XWikiObject();
+            xobjgrp.setClassName("XWiki.XWikiGroups");
+            xobjgrp.setId(-1);
+            xobjgrp.setPageId("XWiki.XWikiAllGroup");
+            xobjgrp.setProperty("member","XWiki.testuser");
+            rpc.storeObject(xobjgrp);
+
+        } catch (XmlRpcException e) {
+            System.out.println(e);
+        } finally {
+            rpc.logout();
+        }
+    }
+}
+
+{{/code}}
+
+= User: Add User To Groups =
+
+Adding User to Groups is a very simple task. This requires us to add the desired user to the properties of the Group in question. The example below details all the steps needed to complete this task:
+
+{{code langauge="java"}}
+
+import java.net.MalformedURLException;
+import java.security.NoSuchAlgorithmException;
+import org.apache.xmlrpc.XmlRpcException;
+import org.codehaus.swizzle.confluence.Page;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+import org.xwiki.xmlrpc.model.XWikiObject;
+
+public class AddUserToGroup {
+
+    public static void main(String[] args) throws MalformedURLException, XmlRpcException, NoSuchAlgorithmException {
+
+        //URL of the xwiki instance
+        String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user = "Admin";
+        String pass = "admin";
+
+
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+        try {
+            //Perform Login &amp; Authentication
+            rpc.login(user, pass);
+
+            //Associate an existing user to the XWikiAllGroup
+            //We simply associate the XWiki.testuser Page to the XWiki.XWikiAllGroup Page
+            //Set the "member" property to the desired XWiki UserName
+            //You may associate the member to any custom Group you may have created
+
+            XWikiObject xobjgrp = new XWikiObject();
+            xobjgrp.setClassName("XWiki.XWikiGroups");
+            xobjgrp.setId(-1);
+            xobjgrp.setPageId("XWiki.XWikiAllGroup");
+            xobjgrp.setProperty("member","XWiki.testuser");
+            rpc.storeObject(xobjgrp);
+
+        } catch (XmlRpcException e) {
+            System.out.println(e);
+        } finally {
+            rpc.logout();
+        }
+    }
+}
+
+{{/code}}
+</content>
+</xwikidoc>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>6TypesOfXWikiUsers</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>dev:UserExperience.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1251216455000</creationDate>
+  <date>1361190320000</date>
+  <contentUpdateDate>1361190320000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Personas: 6 types of XWiki Users</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.6TypesOfXWikiUsers</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>f463ca1b-88c0-4ee5-abb1-3f5db7db41c2</guid>
+    <property>
+      <tags>
+        <value>ux</value>
+        <value>usability</value>
+      </tags>
+    </property>
+  </object>
+  <content>
+= Introducing 6 types of XWiki Users =
+
+This page aims at identifying the main types of XWiki users and at describing their needs and expectations. A real user can be a combination of multiple/all user types. 
+
+== Non-Technical Users ==
+
+=== Reader ===
+
+* Find content
+* Read content
+* Follow what's happening on the wiki
+
+[[Full description of the Reader&gt;&gt;PersonaReader]]
+
+=== Content Editor ===
+
+* Add content
+* Edit content
+* Structure content
+* Encourage other people to work with them on wiki pages
+
+[[Full description of the Content Editor&gt;&gt;PersonaContentEditor]]
+
+=== Wiki Gardener ===
+
+* Rollback documents
+* Move stuff around (pages, files)
+* Delete documents (pages, comments)
+
+[[Full description of the Wiki Gardener&gt;&gt;PersonaWikiGardener]]
+
+== Technical Users ==
+
+=== Wiki Administrator ===
+
+* Get people in the wiki
+* Define who can do what
+* Get content in the wiki to get things started
+* Customize the wiki
+
+[[Full description of the Wiki Administrator&gt;&gt;PersonaWikiAdministrator]]
+
+=== System Administrator ===
+
+* Keep the wiki up and running
+* Backup the wiki
+* Upgrade the wiki to new versions
+
+[[Full description of the System Administrator&gt;&gt;PersonaSystemAdministrator]]
+
+=== Wiki Developer ===
+
+* Create applications in the wiki
+* Test applications
+* Deploy applications on one or many wikis
+* Wiki Designer
+** Manage (create, edit, delete) visual components (skins, icons, etc) for the wiki
+
+[[Full description of the Wiki Developer&gt;&gt;PersonaWikiDeveloper]]
+</content>
+</xwikidoc>

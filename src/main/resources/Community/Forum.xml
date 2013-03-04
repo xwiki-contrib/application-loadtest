@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>Forum</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Community.MailingLists</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1216196555000</creationDate>
+  <date>1361275317000</date>
+  <contentUpdateDate>1361275317000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Forum</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.Forum</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>a6dbad93-280a-4add-bf10-6ded58dc669f</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{html clean="false"}}
+&lt;a id="nabblelink" href="http://xwiki.475771.n2.nabble.com/"&gt;XWiki&lt;/a&gt;
+&lt;script src="http://xwiki.475771.n2.nabble.com/embed/f475771"&gt;&lt;/script&gt;
+{{/html}}</content>
+</xwikidoc>

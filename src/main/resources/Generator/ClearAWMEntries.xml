@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Generator</web>
+  <name>ClearAWMEntries</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Generator.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1360081476000</creationDate>
+  <date>1361199537000</date>
+  <contentUpdateDate>1361199537000</contentUpdateDate>
+  <version>1.1</version>
+  <title>ClearAWMEntries</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}
+#if ($request.delete == "small")
+  #set($documentList = $services.query.xwql("from doc.object('AWM Small Application.AWMSmallApplicationClass') as awmobject where doc.name &lt;&gt; 'AWMSmallApplicationTemplate'").execute())
+  #foreach ($document in $documentList)
+    #set($discard = $xwiki.getDocument($document).delete())
+  #end
+#end
+
+#if ($request.delete == "medium")
+  #set($documentList = $services.query.xwql("from doc.object('AWM Medium Application.AWMMediumApplicationClass') as awmobject where doc.name &lt;&gt; 'AWMMediumApplicationTemplate'").execute())
+  #foreach ($document in $documentList)
+    #set($discard = $xwiki.getDocument($document).delete())
+  #end
+#end
+
+#if ($request.delete == "large")
+  #set($documentList = $services.query.xwql("from doc.object('AWM Large Application.AWMLargeApplicationClass') as awmobject where doc.name &lt;&gt; 'AWMLargeApplicationTemplate'").execute())
+  #foreach ($document in $documentList)
+    #set($discard = $xwiki.getDocument($document).delete())
+  #end
+#end
+= Small AWM Application =
+
+ {{html}}
+       &lt;form class="xform" action="$doc.getURL('view', $request.queryString)"&gt;
+         &lt;div class="hidden&gt;
+           &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}"/&gt;
+           &lt;input type="hidden" name="delete" value="small"/&gt;
+         &lt;/div&gt;
+         &lt;p class="buttons"&gt;
+           &lt;span class="buttonwrapper"&gt;
+             &lt;input class="button" type="submit" name="" value="Clear AWM Small Applications Entries"/&gt;
+           &lt;/span&gt;
+         &lt;/p&gt;
+       &lt;/form&gt;
+  {{/html}}
+
+= Medium AWM Application =
+
+  {{html}}
+       &lt;form class="xform" action="$doc.getURL('view', $request.queryString)"&gt;
+         &lt;div class="hidden&gt;
+           &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}"/&gt;
+           &lt;input type="hidden" name="delete" value="medium"/&gt;
+         &lt;/div&gt;
+         &lt;p class="buttons"&gt;
+           &lt;span class="buttonwrapper"&gt;
+             &lt;input class="button" type="submit" name="" value="Clear AWM Medium Applications Entries"/&gt;
+           &lt;/span&gt;
+         &lt;/p&gt;
+       &lt;/form&gt;
+  {{/html}}
+
+= Large AWM Application =
+
+  {{html}}
+       &lt;form class="xform" action="$doc.getURL('view', $request.queryString)"&gt;
+         &lt;div class="hidden&gt;
+           &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}"/&gt;
+           &lt;input type="hidden" name="delete" value="large"/&gt;
+         &lt;/div&gt;
+         &lt;p class="buttons"&gt;
+           &lt;span class="buttonwrapper"&gt;
+             &lt;input class="button" type="submit" name="" value="Clear AWM Large Applications Entries"/&gt;
+           &lt;/span&gt;
+         &lt;/p&gt;
+       &lt;/form&gt;
+    {{/html}}
+
+{{velocity}}</content>
+</xwikidoc>

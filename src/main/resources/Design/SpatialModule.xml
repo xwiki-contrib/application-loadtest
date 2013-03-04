@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>SpatialModule</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1354461118000</creationDate>
+  <date>1360950332000</date>
+  <contentUpdateDate>1360950332000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Spatial Module</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.SpatialModule</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>3ca48873-774a-4186-a462-727fa27957e9</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.SpatialModule</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>cb659c69-f3e1-45f3-a9fd-70cba2556bb7</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+**Summary**
+The spatial module objective is to bring storage, indexing and querying facilities for geometry objects in XWiki.
+
+== Use cases ==
+
+* UC1: It should be possible to create XWiki applications that declare geometric objects fields in its XClass(es). Such geometric objects could be : coordinates (or point, or LatLon), shapes, polygons.
+* UC2: It should be possible to perform geometric operations and queries on those fields, such as computing distance, querying intersection, etc.
+
+== Implementation ideas ==
+
+=== XClass/geo data mapping strategy ===
+
+* Strategy A: One geometry field common for all objects. Property instances with values such as ##POINT(10 70)##, ##POLYGON((-10 30, -40 40, -10 -20, 40 20, 0 0, -10 30))##, etc.
+** Pros: 
+*** Generic, supports all objects upstart
+** Cons: 
+*** Not easy/possible to have a generic displayer/picker.
+*** Object type restrictions have to be implemented at the application level.
+*** {{info}}Idea: maybe have a field configuration select list (multivalued) that allows to restrict which objects are allowed (same as NumberClass with "integer", "long", etc.).{{/info}}
+* Strategy B: One geometry field per object : point, polygon, circle, etc.
+** Pros: 
+*** Isolated displayers/pickers
+*** Easier for application developers to restrict to one type of object
+** Cons:
+*** Must declare all object types possible as meta classes
+*** Probably too much different object types, will clutter the field type picker in the class editor
+
+=== Underlying implementation ===
+
+==== Storage ====
+
+Hibernate spatial. See http://www.hibernatespatial.org/
+
+Note: hibernate spatial is integrated in hibernate ORM starting in 4.x.
+
+==== Search ====
+
+The idea here is to use Solr Spatial Search module. See http://wiki.apache.org/solr/SolrAdaptersForLuceneSpatial4
+
+Related thread : http://xwiki.markmail.org/thread/gy6qtgtl2bfbosoa
+
+== Current status ==
+
+Some work started at: https://github.com/xwiki-contrib/module-spatial and https://github.com/jvelo/xwiki-platform/tree/feature-spatial
+
+== Q&amp;A ==
+**Q:** Does this relate anyhow to SVG and [[SVG Macro&gt;&gt;http://extensions.xwiki.org/xwiki/bin/view/Extension/SVG+Macro]]?
+**A:** 
+</content>
+</xwikidoc>

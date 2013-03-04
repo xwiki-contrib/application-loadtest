@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AWM Medium Application</web>
+  <name>AWMMediumApplicationTranslations</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Main.AWMMediumApplicationClass</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1360080364000</creationDate>
+  <date>1360158752000</date>
+  <contentUpdateDate>1360158752000</contentUpdateDate>
+  <version>1.1</version>
+  <title/>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>true</hidden>
+  <object>
+    <class>
+      <name>XWiki.TranslationDocumentClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <scope>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>scope</name>
+        <number>1</number>
+        <prettyName>Scope</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>GLOBAL|WIKI|USER|ON_DEMAND</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </scope>
+    </class>
+    <name>AWM Medium Application.AWMMediumApplicationTranslations</name>
+    <number>0</number>
+    <className>XWiki.TranslationDocumentClass</className>
+    <guid>b9e0e45a-7d32-49b8-a586-8f4f766b2a7f</guid>
+    <property>
+      <scope>ON_DEMAND</scope>
+    </property>
+  </object>
+  <content># Class fields
+AWM Medium Application.AWMMediumApplicationClass_title1=Title
+AWM Medium Application.AWMMediumApplicationClass_content1=Content
+AWM Medium Application.AWMMediumApplicationClass_user1=User
+AWM Medium Application.AWMMediumApplicationClass_shortText1=URL
+AWM Medium Application.AWMMediumApplicationClass_shortText2=email
+AWM Medium Application.AWMMediumApplicationClass_longText1=Address
+AWM Medium Application.AWMMediumApplicationClass_number1=Phone
+AWM Medium Application.AWMMediumApplicationClass_boolean1=Active
+
+# Live table generic keys
+awmmediumapplication.livetable.doc.title=Page title
+awmmediumapplication.livetable.doc.name=Page name
+awmmediumapplication.livetable.doc.space=Space
+awmmediumapplication.livetable.doc.fullname=Page full name
+awmmediumapplication.livetable.doc.author=Last Author
+awmmediumapplication.livetable.doc.creator=Creator
+awmmediumapplication.livetable.doc.date=Update date
+awmmediumapplication.livetable.doc.creationDate=Creation date
+awmmediumapplication.livetable._avatar=Avatar
+awmmediumapplication.livetable._images=Images
+awmmediumapplication.livetable._attachments=Attachments
+awmmediumapplication.livetable._actions=Actions
+awmmediumapplication.livetable._actions.edit=Edit
+awmmediumapplication.livetable._actions.delete=Delete
+awmmediumapplication.livetable.emptyvalue=-
+
+# Live table specific keys
+awmmediumapplication.livetable.title1=Title
+awmmediumapplication.livetable.content1=Content
+awmmediumapplication.livetable.user1=User
+awmmediumapplication.livetable.shortText1=URL
+awmmediumapplication.livetable.shortText2=email
+awmmediumapplication.livetable.longText1=Address
+awmmediumapplication.livetable.number1=Phone
+awmmediumapplication.livetable.boolean1=Active</content>
+</xwikidoc>

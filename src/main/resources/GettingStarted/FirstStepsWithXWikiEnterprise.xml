@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>GettingStarted</web>
+  <name>FirstStepsWithXWikiEnterprise</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>GettingStarted.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1233330887000</creationDate>
+  <date>1360950278000</date>
+  <contentUpdateDate>1360950278000</contentUpdateDate>
+  <version>1.1</version>
+  <title>First steps with XWiki Enterprise</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>GettingStarted.FirstStepsWithXWikiEnterprise</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>8c711931-5008-4977-bc43-7223e0e2b6ae</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>This section will guide you through a number of common actions that you may want to do when starting a new wiki. We divided it in 2 different parts depending on whether you're an user or an administrator. Here goes:
+
+= If you're an Administrator =
+
+In order to perform the following actions, you will need to login using the following credentials:
+
+* Username: Admin
+* Password: admin
+(((
+{{warning}}We strongly recommend you change the Admin's password to a secret one ASAP. To do so, please go to the Admin's profile page and click on "Change my password"{{/warning}}
+)))
+* [[Changing the logo and the panels&gt;&gt;GettingStarted.ChangingTheLogoAndThePanels]]
+* [[Creating new users&gt;&gt;GettingStarted.CreatingNewUsers]]
+* [[Setting user rights&gt;&gt;GettingStarted.SettingUserRights]]
+
+= If you're a User =
+
+In order to perform the following actions, you may need to login. Please ask your administrator for your login credentials.
+
+* [[Editing a page&gt;&gt;GettingStarted.EditingAPage]]
+* [[Page history&gt;&gt;GettingStarted.PageHistory]]
+
+Next: [[Going further with XWiki Enterprise&gt;&gt;GettingStarted.GoingFurther]]</content>
+</xwikidoc>

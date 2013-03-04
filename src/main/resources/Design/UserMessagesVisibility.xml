@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>UserMessagesVisibility</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1300495672000</creationDate>
+  <date>1360950307000</date>
+  <contentUpdateDate>1360950307000</contentUpdateDate>
+  <version>1.1</version>
+  <title>User Messages Visibility</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.UserMessagesVisibility</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>02e90c85-3d2a-4f1f-b261-73a7503f64f3</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.UserMessagesVisibility</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>dcc009ee-9078-47a8-9cd2-55d251fb4afd</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+Since the introduction of user messages, there are different types of events (wiki events, message stream events, group events...), different types of messages (public, direct, to group...), and different contexts (main page, user page, group page...). The goal of this design document is to establish what kind of events are displayed in each context.
+
+== Guests ==
+
+Guests on the main page should see:
+
+* all public messages
+* all accessible wiki activity
+
+Guests on a space homepage should see:
+
+* all messages targeted to that space
+* all accessible wiki activity in that space
+
+Guests on a user's profile tab should see:
+
+* all public messages from that user
+* accessible wiki activity from that user
+
+Guests on a group page should see:
+
+* all public messages from the group users
+* accessible wiki activity from the group users
+* TODO: group join/leave events
+
+== Registered users ==
+
+A user on the main page should see:
+
+* all his messages
+* all direct messages to and from him
+* all messages to his groups
+* all "to followers" messages from the followed users
+* all public messages
+* all accessible wiki activity
+
+A user on a space homepage should see:
+
+* all "to followers" messages from the followed users targeted to that space
+* all public messages targeted to that space
+* all accessible wiki activity in that space
+
+A user on his profile tab should see:
+
+* all his messages
+* all direct messages to and from him
+* wiki activity from himself
+
+A user on his Network tab should see:
+
+* all his messages (?)
+* all direct messages to and from (?) him
+* all "to followers" messages from the followed users
+* all public messages from the followed users
+* accessible wiki activity from the followed users
+
+A user on a followed user's profile tab should see:
+
+* all direct messages to and from him
+* all "to followers" messages from that user
+* all public messages from that user
+* all group messages from that user to the groups that are common for the two users (?)
+* accessible wiki activity from that user
+
+A user on another user's profile tab should see:
+
+* all direct messages to and from him
+* all public messages from that user
+* all group messages from that user to the groups that are common for the two users
+* accessible wiki activity from that user
+
+A user on one of their group's page should see:
+
+* all messages targeted to the group
+* all public messages from the group users
+* accessible wiki activity from the group users
+* TODO: group join/leave events
+
+(TODO: refactor the group page to also include an activity stream, reimplement as a ~{~{dashboard}})
+
+A user on another group's page should see:
+
+* all public messages from the group users
+* accessible wiki activity from the group users
+* TODO: group join/leave events</content>
+</xwikidoc>

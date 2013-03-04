@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>NginX</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Performances</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1261230673000</creationDate>
+  <date>1360853374000</date>
+  <contentUpdateDate>1360853374000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Setting up NginX</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.NginX</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>8e8f5a0a-3435-4459-9296-14f9903cf947</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{warning}}
+* This configuration is highly experimental and using it may be risky
+* You likely won't need NginX if you have just a couple of hundred users browsing your wiki
+{{/warning}}
+
+I'm running XWiki Enterprise on the Glassfish 2 Application Server.
+NginX listens on //vostrets.ru:80// and redirects HTTP queries to //vostrets.ru:8080// and thus NginX is referred to as "frontend" and Glassfish as "backend".
+Glassfish is installed in the ///user/local/glassfish/glassfish// folder.
+
+For more information you can consult the [[NginX manual&gt;&gt;http://wiki.nginx.org/Main]].
+
+I've configured my NginX as follows (**///etc/nginx.conf//**):
+
+{{code}}
+user www-data;
+worker_processes  1;
+
+events 
+{
+    worker_connections  1024;
+
+    use epoll;
+}
+
+http 
+{
+    include       mime.types;
+    default_type  application/octet-stream;
+ 
+    sendfile       on;
+    tcp_nopush     on;
+    tcp_nodelay    on;
+
+    gzip on;
+ 
+    server 
+    {
+	listen 80;
+
+        server_name  vostrets.ru;
+
+        # redirect all http://vostrets.ru/* requests to http://www.vostrets.ru/*
+        rewrite ^(.*) http://www.vostrets.ru$1 permanent;
+    }
+
+    server 
+    {
+        listen 80;
+
+        server_name  www.vostrets.ru;
+        
+        charset utf-8;
+
+        access_log  /var/log/nginx_access.log;
+
+        # count skin images for static data, though they are in "bin" path
+        location ~* ^/xwiki/bin/skin/(.*)\.(jpg|jpeg|gif|png|ico)$ 
+	{
+            access_log off;
+
+            rewrite ^/xwiki/bin/skin/(.*) /xwiki/$1 permanent;
+
+            expires max;
+        }
+
+        # fetch all the data, which doesn't lie in "bin" path, as static data
+        location ~* ^/xwiki(?!/bin/).+\.(jpg|jpeg|gif|png|ico|css|js)$
+	{
+            access_log off;
+
+            # ${root} is the path, where the static files lie (i.e. ${root}/xwiki/skins/toucan/logo.png)
+            root /user/local/glassfish/glassfish/domains/default_domain/applications/j2ee-modules;
+
+            expires max;
+        }
+
+        # forward all http://vostrets.ru/ requests to http://vostrets.ru:8080/
+        location /
+	{
+            proxy_pass              http://localhost:8080;
+            proxy_set_header        X-Real-IP $remote_addr;
+            proxy_set_header        X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header        Host $http_host;
+
+            expires 0m;
+        }
+
+        # ...
+    }
+}
+{{/code}}</content>
+</xwikidoc>

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ExtensionManagerRepositories</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.ExtensionManager</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1309244840000</creationDate>
+  <date>1360950298000</date>
+  <contentUpdateDate>1360688988000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Extension Manager - Repositories</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>= Nexus =
+
+Implements standard maven HTTP "protocol" but also add some REST based search and stuff like that.
+
+See:
+* http://nexus.xwiki.org/nexus/nexus-indexer-lucene-plugin/default/docs/index.html
+* http://nexus.xwiki.org/nexus/nexus-indexer-lucene-plugin/default/docs/rest.lucene.search.html
+* http://nexus.xwiki.org/nexus/nexus-core-documentation-plugin/core/docs/index.html
+* http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22org.sonatype.nexus%22%20AND%20a%3A%22nexus-rest-client-java%22
+
+= Ivy =
+
+http://ant.apache.org/ivy/
+
+Should not be too hard since they provide all the needed Java tools to deal with Ivy repositories.
+
+= bintray =
+
+https://bintray.com
+
+Some kind of Nexus from extension connector point of view.
+
+= Pypi =
+
+http://pypi.python.org/pypi
+
+The idea is to allow to easily install a python package to be used in ~{{python}} macro and any module using Jython (like the ~{{code}} macro for example).
+
+See http://sourceforge.net/projects/mavenjython/ for how to access Pypi in Java.
+
+= Debian repositories format =
+
+Why not ? It does not have to contains only linux bins.
+
+= Ruby Gems =
+
+Things like [[Raven&gt;&gt;http://raven.rubyforge.org/]] are putting java jars in theses repositories.</content>
+</xwikidoc>

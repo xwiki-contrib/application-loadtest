@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Features</web>
+  <name>ScalabilityPerformance</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>UserGuide\.FeaturesFeatures.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1165960007000</creationDate>
+  <date>1360853318000</date>
+  <contentUpdateDate>1360853318000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Scalability &amp; Performances</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Features.ScalabilityPerformance</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>3756ad81-5d61-41ab-b1dd-8733bf598295</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>XWiki is written in Java/Java EE. As such it scales as well as Java scales.
+
+= Virtual wikis =
+
+XWiki Enterprise supports multi-tenancy, i.e. the ability to run hundreds and thousands of wikis on the same JVM (same webapp).
+
+Some examples:
+* [[MyXWiki&gt;&gt;http://myxwiki.org/xwiki/bin/view/Main/WebHome]] currently hosts over 160 wikis on a single JVM
+* [[XWiki SAS Cloud&gt;&gt;http://network.xwiki.com]] currently hosts over 900 wikis.
+
+See the tutorial on [[how to set up a Virtual XWiki environment&gt;&gt;AdminGuide.Virtualization]] to learn more.
+
+= Clustering =
+
+XWiki provides an easy way to setup clustered instances of XWiki based on network events distribution. Clustering allows for 2 use cases:
+* Load distribution on several JVMs
+* Failover since if a machine is down the other ones are still available
+
+See [[AdminGuide.Clustering]] for more details.</content>
+</xwikidoc>

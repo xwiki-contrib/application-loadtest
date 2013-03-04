@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>InstallationOracle</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Installation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1176714168000</creationDate>
+  <date>1360950264000</date>
+  <contentUpdateDate>1360950264000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Oracle Installation</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.InstallationOracle</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>f2cbc229-441a-4afa-a9e9-ecd92da6d69d</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+= Installation steps =
+
+Steps:
+
+* Download and install a version of Oracle Database. For example [[Oracle Express&gt;&gt;http://www.oracle.com/technetwork/products/express-edition/downloads/index.html]].
+* Download the corresponding [[Oracle JDBC Drivers&gt;&gt;http://www.oracle.com/technetwork/database/features/jdbc/index-091264.html]] and copy the JAR (e.g. ##ojdbc6.jar## in ##WEB-INF/lib/##)
+* Start Oracle and connect to it with a DBA or system user. For example use the Oracle SQL*Plus command-line tool: {{code}}connect system;{{/code}}
+* Create the wiki user and schema:
+(((
+{{code}}
+create user xwiki
+identified by xwiki;
+{{/code}}
+)))
+* Create a tablespace (which is the Oracle term for what you know as a "database" on Microsoft SQL Server):
+(((
+{{code}}
+select *
+from   dba_data_files
+;
+--
+-- Pick an adequate name from the list above.
+--
+create tablespace xwiki
+datafile '/opt/SOMETHING/oracle/oradata/SID/xwiki01.dbf' 
+size 1m 
+autoextend on 
+maxsize 1g
+;
+{{/code}}
+)))
+* Create tables of the ##xwiki## user by default in the new tablespace:
+(((
+{{code}}
+alter user xwiki
+default tablespace xwiki
+temporary tablespace temp
+;
+alter user xwiki quota unlimited on xwiki
+;
+{{/code}}
+)))
+* Give sufficient privileges to the ##xwiki## user:(((
+{{code}}
+grant create session to xwiki;
+grant create table to xwiki;
+{{/code}}
+)))
+* Tell XWiki to use Oracle. To do this, edit the ##WEB-INF/hibernate.cfg.xml## file where you have expanded the XWiki WAR file and uncommented the Oracle part. Make sure to review the ##connection.url## property. For example a typical Oracle Express would be:{{code}}&lt;property name="connection.url"&gt;jdbc:oracle:thin:@localhost:1521:XE&lt;/property&gt;{{/code}}
+(((
+{{info}}
+**XE** is the default name of the ORACLE SID created by default by the installation for Oracle Express. If it is another you should change it. You can find the correct SID in ##app/oracle/product/10.2.0/server/NETWORK/ADMIN/tnsnames.ora## in the Oracle installation directory (for Windows).
+{{/info}}
+)))
+= Troubleshooting =
+
+== ORA-01400: cannot insert NULL into ("XWIKI"."XWIKILARGESTRINGS"."XWL_ID") ==
+
+This error can appear if you're using Oracle JDBC driver 10.2.0.1.0. The solution is to use version 10.2.0.2 or greater of the driver.
+
+== SetString can only process strings of less than 32766 chararacters ==
+
+If you see an error that says something like this:
+
+{{code}}
+Error number 3201 in 3: Exception while saving document XWiki.XWikiPreferences
+Wrapped Exception: could not update: [com.xpn.xwiki.doc.XWikiDocumentArchive#104408758]
+com.xpn.xwiki.XWikiException: Error number 3201 in 3: Exception while saving document XWiki.XWikiPreferences
+Wrapped Exception: could not update: [com.xpn.xwiki.doc.XWikiDocumentArchive#104408758]
+...
+Wrapped Exception:
+
+java.sql.SQLException: setString can only process strings of less than 32766 chararacters
+...
+{{/code}}
+
+Then that's because Oracle has a limitation of 32K for CLOBs. To overcome it you need to add the following 2 properties in the ##hibernate.cfg.xml## file, as specified in the installation steps section above:
+
+{{code}}
+&lt;property name="hibernate.connection.SetBigStringTryClob"&gt;true&lt;/property&gt;
+&lt;property name="hibernate.jdbc.batch_size"&gt;0&lt;/property&gt;
+{{/code}}</content>
+</xwikidoc>

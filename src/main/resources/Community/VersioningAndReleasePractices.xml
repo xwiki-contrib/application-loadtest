@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>VersioningAndReleasePractices</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>dev:Community.DevelopmentPractices</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1296466523000</creationDate>
+  <date>1360950294000</date>
+  <contentUpdateDate>1343109695000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Versioning &amp; Release Practices</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+= Version Types =
+
+General format: ##Major.Minor[.Bugfix|-milestone-number|-rc-number|-SNAPSHOT]##
+
+Examples:
+* XWiki Enterprise 2.4.2: Bugfix release
+* XWiki Enterprise 3.0-milestone-1: Milestone release
+* XWiki Enterprise 2.7-rc-1: Release Candidate release
+* XWiki Enterprise 3.0-SNAPSHOT: Snapshot release
+
+Explanations:
+* **Major** Releases (**2**.x, **3**.x): Start of a new [[Development Cycle&gt;&gt;#HReleaseCyclesandReleaseStrategy]]. Can contain non-backward compatible changes compared with the previous Cycle. 
+* **Minor** Releases (x.**5**, x.**6**): Mostly backward compatible from the user perspective. Can introduce new features provided they don't introduce non backward compatible changes from a user perspective. From time to time we allow some non backward compatible API changes too, following our [[deprecation strategy&gt;&gt;Community.DevelopmentPractices#HDeprecationStrategy]]. It's recommended for users to upgrade and follow minor releases since this it's much easier to regularly upgrade than done a large upgrade spanning several minors. Should check Release Notes in case some non-backward compatible changes are introduced (on the API side).
+* **Bugfix** Releases (x.y.**1**, x.y.**2**): Contains only bug fixes and is 100% backward compatible. It's always recommended to upgrade as soon as possible since the bug fixes can contain security fixes.
+* **Milestone** Releases (x.y**-milestone-1**, x.y**-milestone-2**): Intermediary release leading to a Minor release. There are usually between 1 to 3 milestones before a Minor release happens. We recommend users to try these out in order to provide us with feedback on the newly introduced features so that they can be fined tune and issues fixes before the Minor version is released. We do not recommend using Milestones in production though.
+* **Release Candidate** Releases (a.k.a RC Releases, x.y**-rc-1**, x.y**-rc-2**)): Candidates for the Minor release. We usually have 1 or 2 before the Minor release. A RC means that we consider the version to be releasable as a Minor version but we want a last round of testing from the community and users before we perform the Minor release.
+* **Snapshot** Releases (continuous x.y**-SNAPSHOT**, or timestamped x.y**-20110131.125707-122**, or revision numbered x.y**-SNAPSHOT.34017**): Snapshots builds happen every time there's a code commit and are performed by our [[Continuous Integration tool&gt;&gt;Community.DevelopmentPractices#HContinuousIntegration]]. It's not recommended to use these, and especially not in production. However, these releases are useful to verify for example that a bugfix is valid or to test some newly introduced feature and provide feedback for it. We are always in need of feedback and thus would like to have the maximum number of users try out our snapshots builds and let us now how they perform. Users can, of course, [[build&gt;&gt;Community.Building]] their own version from [[the source&gt;&gt;Community.SourceRepository]].
+
+= Release Cycles and Release Strategy =
+
+* We have a notion of **Release Cycles** which corresponds to Major Releases(((
+{{info}}
+The rationale for doing Major Releases:
+* It's a way to mark progress to the outside world and to be able to do open source marketing
+* It's a milestone in the project's life and it feels good to do it. It makes us developers feel proud of our achievements too.
+* It allows us to move forward since it's a good time to think back about what the xwiki project is and where it wants to go
+{{/info}}
+)))
+** A release cycle means all the release of the type X.N where X is the major and represent the cycle (and N is a non constrained number 0 &lt;= N &lt; infinity)
+** Duration: 6 minor releases (e.g. 2.0 till 2.5). That's approximatively 1 year since each minor release is about 2.5 months (see below)(((
+{{info}}
+Note: The rule about 6 minor releases is important for several reasons:
+* It implements timeboxing, our core tenet regarding releases
+* It allows us to not have to rediscuss when is the major going to happen every time
+* It allows us to know well in advance when the major release is going to happen and thus to adjust our commits during the whole cycle
+* It prevents "featuritis"
+{{/info}}
+)))
+*  When we release the last minor of the cycle we announce it:
+** Send mail mentioning that the cycle is over and that version X.N is the last minor release of that cycle (but there can still be bugfix releases: X.N.P)
+** In that mail, explain all the major features that were implemented during that release cycle (make a special Release Notes for a Cycle)
+
+* For minor releases we have the following release strategy:
+* a 3 weeks release cycles for milestones (+/- 1 week), between 1 to 3 milestones
+* a 2 weeks release cycles for RCs (+/- 1 week), usually 1 or 2 RCs
+* a 3 months release cycle for final versions (+/- 1 month)
+
+We're doing this for the following reasons:
+* Allow users to test the released milestones and provide feedback and thus help us stabilize them
+* Provide a good release rhythm so that users can see the project is alive and dynamic
+* Making a release forces us to be "clean" and to finish tasks that have been started as much as possible and not leave them in a 80% finished state. This includes documenting the release and testing it. If this is pushed to the end (like every 3 months or more) it never happens or is done very badly.
+
+= Release quality =
+
+All releases are as stable as possible. It is very unlikely that something will "blow up" in a new release, as the Continuous Integration setup assures that at almost any point XWiki is stable. Even snapshot builds, although not as thoroughly tested and not as polished as official releases, are most of the times stable. The short timespan dedicated to each version also imposes that no major code changes can occur during the development phase, so although some parts are "in development" between releases, most of the code should behave identically to the previous release.
+
+The main difference between a milestone and a final release, quality-wise, is that during milestones new features introduced are not yet tested in many different environments, so they might look badly in some browsers, or there might be problems on a different database, but this usually only affects new features introduced in that milestone. Something that was working in the previous stable version should still work in the new milestone.
+
+Between a milestone release and the final release, most of the development efforts go into testing and polishing the new features, so that the "stable" minor version is as stable as possible.
+
+The bugfix releases rarely solve critical bugs in their equivalent minor release, they usually backport bugs solved during the future release. These bugs aren't blockers, just things that need to be ironed out, so instead of waiting for the x.y.5 release, better try the most recent minor release, since it is almost as stable, but with even more bugs fixed and some new features.
+
+= Releases and SCM = 
+
+We use Git and follow these rules:
+* ##master## is our latest work, i.e. what will be the next release (you can check the [[Roadmap&gt;&gt;enterprise:Main.Roadmap]] for it)
+* We have a few stable branches (named using the pattern ##stable-&lt;version&gt;.x## (e.g. ##stable-4.1.x##) which are bugfix branches for past releases. When an important bug gets fixed on ##master## it's usually backported on those branches so that they get it when they're releasd (we don't have any Roadmap for bugfix branches - We just do them either when a critical bug is found, when people ask for it or when we consider there are enough fixes on them).
+* All releases have tags too (e.g. ##xwiki-commons-4.1.3## in the XWiki Commons git repository)
+* Developers are allowed to create feature branches when they work on experimental stuff that is not yet ready to be committed on ##master##. The plan is that they merge it later on on master when it's ready and remove the feature branch
+
+</content>
+</xwikidoc>

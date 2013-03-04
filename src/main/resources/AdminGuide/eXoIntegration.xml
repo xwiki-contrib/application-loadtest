@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>eXoIntegration</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1308845604000</creationDate>
+  <date>1361276562000</date>
+  <contentUpdateDate>1361276562000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Installing the eXo Enterprise WebOS integration WAR</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>{{warning}}
+The integration with eXo is still very experimental and the instructions below are not finalized yet. Proceed with caution!
+{{/warning}}
+
+== Install eXo WebOS ==
+
+* Download the latest version of eXo Portal on http://forge.objectweb.org/projects/exoplatform/ (version 2.0-Alpha-2 or greater is required).
+* Follow the eXo installation instructions located inside the Portal ZIP and try to login in the portal.
+
+== Install XWiki inside eXo ==
+
+* Stop eXo Portal.
+* Download the [[latest XWiki eXo WAR&gt;&gt;xwiki:Main.Download]]. You'll need version 1.0-beta-6 or above.
+* Create a directory //exo-tomcat/webapps/xwiki//.
+* Unzip the WAR in //exo-tomcat/webapps/xwiki// and rename the exploded directory to "xwiki".
+* Move the //ehcache.jar// from //xwiki/WEB-INF/lib// to //exo-tomcat/common/lib// (There are some conflicts with it that both XWiki/eXo will need to fix in future versions).
+* Remove all the eXo jars from //xwiki/WEB-INF/lib//
+* Configure XWiki's database as explained [[above&gt;&gt;#HInstallandconfigureaRelationalDatabase]].
+* Change in //xwiki.cfg//: xwiki.exo=1 to xwiki.exo=0. TODO: Explain why this is required as it is very counter-intuitive!
+* Restart eXo Portal.
+* You can now either import XWiki as a Portlet inside the Portal as described below or access XWiki directly by using the usual URL.
+* [[Change the skin to use the XWiki 1.0 skin&gt;&gt;AdminGuide.Skins#HChangingtheskin]]. This skin is compatible with the Portlet mode and specifically with eXo WebOS.
+* Import the [[default wiki XAR&gt;&gt;xwiki:Main.Download]] or use your own XWiki database.
+* Give the admin right to XWikiGuest
+* To be continued...
+
+== Use XWiki inside the WebOS ==
+
+Inside the WebOS, XWiki is seen as a Portlet and therefore must be imported in eXo through the PortletRegistry application. To do so you need to login as exoadmin / exo in eXo and go to the Administration desktop and use the PortletRegistry application. Click on the "Import Portlet Category" icon, you should now see XWiki in the list. You can now add the Portlet in your desktop page though the "Add Application" icon in the desktop dock.</content>
+</xwikidoc>

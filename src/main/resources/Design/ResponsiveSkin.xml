@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ResponsiveSkin</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1336225433000</creationDate>
+  <date>1361190319000</date>
+  <contentUpdateDate>1361190319000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Responsive Skin</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.ResponsiveSkin</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>78d7643e-47f4-46d4-b24a-dea4f8d0a047</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.ResponsiveSkin</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>c4d29d85-dc77-4c07-a9a1-f7599451dd57</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+= Goal =
+
+The goal of this project is to create a fluid and responsive skin for XWIKI in order to accommodate the wide range of web capable device.
+
+= Approach =
+
+Though the end result will be entirely fluid-changing as a web browser is resized-it will have semantic breakpoints (currently phone, tablet, desktop) in order to create a true tailored experience in common devices. As per UXBooth and StatCounter, these breakpoints will at the moment be (width in px): 320, 480(mobile), 640, 768(tablet), 1024,1366(desktop)). 480, 768. 1366 will be the focus of the first iteration. 
+
+After the general layout is completed, typography will be checked. Especially with the advent of super-phones with high-density px screen, this will be necessary. (Support from devs with phones to test real world scenarios would be appreciated (I have access to bb, (wvga) android, wp). 
+
+Images are removed except for a 2x2px  block for the dotted background (that itself could be removed) to speed up loading time and remove any additional server polling. 
+
+Design will be bottom up, as a result of the limitation of mobile devices. 
+
+= Tentative Timeline =
+
+--Hol--istic = overall layout of the skin.
+
+Week 1 [21 May - 25 May]. Design explorations: holistic view (UI wireframe) [90%]
+Week 2 [28 May - 1 June]. Design explorations: common widgets/features(UI wireframe) [100%][[http://enterprise.xwiki.org/xwiki/bin/view/Main/Features]] **MILESTONE 1: Clear concept of what is to be coded/written** [[http://extensions.xwiki.org/xwiki/bin/view/Main/WebHome#|t=extensions&amp;p=1&amp;l=30&amp;s=doc.creationDate&amp;d=desc&amp;name=app]]
+Week 3 [4 June - 8 June]. Raw Semantics that work cross platform [100%]
+Week 4 [11 June - 15 June]. Desktop implementation (holistic) (css &amp; js) [opera, chrome, safari, ie] [100%]
+Week 5 [18 June - 22 June]. Desktop implementation (holistic) (css &amp; js) [opera, chrome, safari, ie] (this weeks specifically watered down browser (eg. ie7, ie6?). begin perfecting fluidity of the responsive design (holistic) until tablet size/mobile size/device specific changes (eg. dropdown for mobile) [100%]
+Week 6 [25 June - 29 June]. perfecting fluidity of the responsive design (holistic) until tablet size/mobile size/device specific changes (eg. dropdown for mobile) [90%]  MILESTONE 2: Codes are written and ready to be implemented into XWiki.
+Week 7-9 [2 July - 13 July]. implementing into xwiki [40%] [midterm] **MILESTONE 3: Codes are implemented, and usable** 
+Week 9-10 [16 July - 27 July]. Choose priority of features to be worked on to be made responsive. Begin working on features that should be made responsive [100%] [search suggest, livetables, blog, color themes]
+Week 11 [30 July - 3 Aug]. Continue working on features   **MILESTONE 4: Chosen features are working and responsive** [100%]
+Week 12 [6 Aug - 10 Aug].  Clean up code/optimize/bug fixes etc. [100%]
+Week 13 [13 Aug]. **MILESTONE 5: Create distributable version**
+
+See how everything is actually developing (demo): [[http://jssolichin.com/xwiki]]
+Download src for implementation on XWiki: [[https://github.com/jssolichin/xo5]]
+
+= Explorations =
+
+* Utilizing true drop down in order to take advantage of a mobile OS' dropdown system (eg. {{html}}&lt;a href="iphone [[image:Design.ResponsiveSkin@http://qph.cf.quoracdn.net/main-qimg-047773f000eeb9037febd55aff32d10c"&gt; iPhone&lt;/a&gt;{{/html}}, further reference at{{html}}&lt;a href="http://open.blogs.nytimes.com/tag/ipad/"&gt; New York Times&lt;/a&gt; from their tablet app. a la &lt;a href="http://css-tricks.com/convert-menu-to-dropdown/"&gt; this&lt;/a&gt;{{/html}})
+* Should there be an attempt to support 100% non-javascript capable browser? esp. since some core functions of xwiki requires javascript (such as live tables) if I remember correctly.
+*how far back do we specifically support? ie6?
+
+= Mock up =
+
+Columns are removed, and everything is vertically stacked. The light grayish background will help to separate these widgets, since it will become unclear with everything stacked (new section or another widget?). Quicklinks font is bigger to facilitate small screens. Alternatively, like in "spaces" links, the links are given a gray background with a block display in order to help finger pressing while still keeping typography flow.
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/mobile.jpg]]
+
+= Mock up 2 =
+
+With the advice of the community, here is another version of the skin--this time more unique and less colibri:--
+
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/2/desktop.jpg]]
+
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/2/mobile.jpg]]
+
+= Mock up 3 =
+
+
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/3/desktop.jpg]]
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/3/desktop2.jpg]]
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/3/desktop3.jpg]]
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/3/desktop4.jpg]]
+
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/3/mobille.jpg]]
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/3/mobille2.jpg]]
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/3/mobille2.jpg]]
+
+This design divides navigation into 3, corresponding with borders. As the user hovers nears the edge, it would reveal the whole link/more info. The overflowed text serves to give them the idea there is more. By putting the navigation in the borders, it becomes more static in a way--that is on each new page, the "navigation links" placement will always be the same area. Also, by detaching the links from the content, its size has more flexibility allowing it to be bigger without interrupting the flow of text-- allowing for bigger size clickable area. 
+
+In the mobile version, instead of hovering, the user would click. So it's a bit similar to the Mobile Patterns[1] link Caty sent a while back since it is like a sidebar to be revealed kind of thing.
+
+Furthermore, this skin will really put the content front and center. And again, this mockup is incomplete, i just wanted to give you a heads up on this current exploration and was wondering your thoughts. 
+
+= Mock up 4 =
+
+ 
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/4/1.%20Home.png]]
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/4/2.%20Home-comm.png]]
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/4/3.%20Home-navhover.png]]
+
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/4/4.%20mobile.png]]
+[[image:Design.ResponsiveSkin@http://jssolichin.com/public/4/5.%20mobile-menu.png]]
+
+The idea is that the sidebar would be replicated, 
+but hidden in the mobile (except for the hint that it's there.)
+
+Everything non-content is combined. I think that if you are looking at the 
+comments/attachment/other sections, you are not thinking about navigating 
+away from the page so the nav section is not that needed. So this 
+consolidates/saves space. Let me know if this is the wrong mentality. 
+
+= Mock up 5 =
+
+ 
+http://jssolichin.com/public/4/4.%20Home-alt.png
+http://jssolichin.com/public/4/3.%20Home-navhover.png
+http://sdrv.ms/LO70JI
+
+= Mock up 5B =
+ 
+http://sdrv.ms/LLmQ5i
+
+The goal is to consolidate everything to a section. (breadcrumbs/where you 
+are &amp; navigation/supplementary info &amp; content) 
+eg. the page breadcrumb has been added into the global bread crumb (is this 
+possible?); all page navigation/meta are in the sidebar (such that, again, 
+the main area is just content, and the sidebar are all additional infos) 
+
+The way i'm envisioning the responsive design for the content is like this: 
+When the screen is big enough, it will become 2 column. as we hit smaller 
+screen (eg. tablet) it will become one column. Then finally, the page would 
+collapse such that only the header is visible for mobile (thus also 
+becoming a table of contents) until being tapped, which will open the div. 
+
+As mentioned before, the same "sidebar" will appear when you click the 
+navigation hint on mobile (so it will be in a way consistent). Though with 
+this development i should probably add more than navigation (eg. NAVIGATION 
+/ INFO / ETC. or something). 
+
+= Approach to color themes =
+
+In order to have the most diverse amount of color themes, the skin will have 2 options. One in which it uses xwiki's built in color themes (allowing the use of already sundry color themes available), and a second one which allows the user to choose a custom color theme made specifically for the skin (more unique and specific looking). </content>
+</xwikidoc>

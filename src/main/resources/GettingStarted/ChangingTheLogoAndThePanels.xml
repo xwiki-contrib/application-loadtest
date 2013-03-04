@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>GettingStarted</web>
+  <name>ChangingTheLogoAndThePanels</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>GettingStarted.FirstStepsWithXWikiEnterprise</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1233331473000</creationDate>
+  <date>1360853977000</date>
+  <contentUpdateDate>1360853977000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Changing the logo and the panels</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <attachment>
+    <filename>logo.png</filename>
+    <filesize>11446</filesize>
+    <author>xwiki:XWiki.ghlim</author>
+    <date>1274864721000</date>
+    <version>1.1</version>
+    <comment/>
+    <content>iVBORw0KGgoAAAANSUhEUgAAAGoAAABQCAIAAAB+oncLAAAAA3NCSVQICAjb4U/gAAAgAElEQVR4
+nG18S6xsWXJVxP6dX2bem+++++pVVZerutwfd1u4jSxkN5bcbeiWB8YIMAghwQgxYQAMEUPEDIYw
+QUwYMQYmIGQLCU+Q+AgjwKDuhq7/5713783M89u/YLDO2fdU2Tm4ypcv83xiR6xYsSL24ed/4jem
+aYoxdl3Xtu04jvM8t20bQjDG5JyZ2VobYwwhaK2JsjEmxjgMAzN3Xae19t5rrYkopUREzjnnXEpp
+miZrq6qqmDmEQETWWhHx3jOz1lprzcw5ZxFRSjGzs7W1NqU0z7PWum1bIhrHkZmVUiISYyQipVRK
+KYTgrMVJjTGUJcbILFrr2jrnXEz+dDrFGKuqstqEFFNKcwzMbIwRkXmecVW4BWYWEREhImYWUiHK
+17/5rT/967/+3nvv/bf/9l+7rtt17e3tTVs3P/rx/zFf+9rXlFLW2sPh0DTNOI4xxt1uZ4zRWqeU
+lFJ1XYcQLpdLSqlta6WU934YBiLa7XaHw8E5995778UY53lOKdV1fX19vd/vrbWffPLZbrdr2xbW
+zDkbY4wx8zzDXjnnlFLOGVfc1F1KCWumtRYRZmbmaZqstbA+jHu5XPq+/9l33y2mD7O/v78/nx+8
+97dPbm5vb32YfvzjH/d9/9prrx2vrn0MVdvgdDiviBhjnHMffvhhXddN0xhjsFTWWm0cK+tjds49
+e/bsl3/5l6+vr4f+QpTburm5ueFf+M2/RkQhhJxzjLHve2Y+Ho/MnFLq+15EYCDcFbMYY5RSIQSY
+o6qqqqq899ZaLGnOGZ6llKrrNoQgIrj5ra8ppWjzwid11cKv27bNOT88POSc27b9kneISAjBe1+8
+D2cnIpaMO1JKsaRyrpSS934KvmmaqqqIKMaY19flcqmqyjlHRN57eKXSdn84fvr5y33XxBjrun77
+7bf3u+54vBqG4eXLz83P//zPM7P3HhYMIVhrj8djSimlBI/b7/dt2yqljDGfffaJ1hpeMAxD3/cp
+JWPM8+fP4S8ppRijMabruq7rzuf+/v5+GIa6rne7HW4D1mRmeBxWe7FO5mmagADzPMPcbdseDocS
+ViXqiWgcBu99jJGZARpWLwtzf38f5rFt26qq4HHOuR/9359cXV11XQcvhhG991dXV8aYuq6dc/i5
+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
+</content>
+  </attachment>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>GettingStarted.ChangingTheLogoAndThePanels</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>2be20c1e-ad67-4395-90b5-a51792f98a19</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{toc start="2" "" ""/}}
+
+= Changing the logo and the panels =
+
+Changing the logo and the panels are the first actions you are likely to undertake when starting a new wiki. The following explanations apply to the toucan skin (the one with colored, white-striped panels).
+
+The following explanations provide you with basic explanations. Please refer to [[the skin page&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/Features/Skins]] and [[the complete skinning guide on XWiki.org&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/AdminGuide/Skins]] if you're willing to heavily customize your wiki.
+
+{{info}}Hint: open links in a new tab in order to keep this page available for reference throughout the process.{{/info}}
+
+== Changing the logo ==
+
+Many methods can be used to change your wiki's logo. The method described here is the simplest of all:
+
+* Choose an existing image or create a new one
+* Resize it so that it is 220 pixels wide and 80 pixels high
+* Save it as a PNG file and name it "logo.png"
+* Upload the image as an attachment [[right here.&gt;&gt;XWiki.DefaultSkin#Attachments]]
+
+== Changing your wiki's background color ==
+
+If you're using the toucan skin, you can also change your wiki's background color pretty easily:
+
+* Click on the "Administration" link at the top right of your page
+* Click on the "Presentation" button
+* In the "Default Stylesheet" field, replace "style.css" with one of the following:
+** "style-black.css" -&gt; will give your wiki a black background
+** "style-blue.css" -&gt; will give your wiki a blue background
+** "style-darkblue.css" -&gt; will give your wiki a dark blue background
+** "style-darkgray.css" -&gt; will give your wiki a dark gray background
+** "style-gray.css" -&gt; will give your wiki a gray background
+** "style-green.css" -&gt; will give your wiki a green background
+** "style-kaki.css" -&gt; will give your wiki a kaki background
+** "style-orange.css" -&gt; will give your wiki an orange background
+** "style-purple.css" -&gt; will give your wiki a purple background
+** "style-red.css" -&gt; will give your wiki a red background
+* Click on the "Save" button at the bottom of the page. Your wiki is now running under a new color scheme!
+
+== Changing your wiki's panels ==
+
+In XWiki Enterprise, you can control the look and feel of your wiki:
+
+* Click on the "Administration" link at the top right of your page
+* Click on the "Panel Wizard" button
+** The "Page Layout" tab allows you to define whether you want a right column, a left column, both or none.
+*** Click on the desired layout
+*** Click on "Save the new layout". Your wiki now has the columns you want it to!
+** The "Panel List" tab allows you to select which panels you want to display
+*** Drag &amp; Drop the panels you want to use from the middle of the page to the columns
+*** Drag &amp; Drop the panels you want to remove from the columns to the middle of the page
+*** Drag &amp; Drop the panels you want to move from one place in the column to another
+*** Once you're happy with the result, click on "Save the new layout" at the bottom of the page. Your wiki now has its new panels.
+
+{{info}}If you're experiencing problems using the Panel Wizard, please try using it with [[the Firefox browser.&gt;&gt;http://getfirefox.com/]]{{/info}}
+
+* Next: [[Creating new users&gt;&gt;GettingStarted.CreatingNewUsers]]</content>
+</xwikidoc>

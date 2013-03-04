@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>Committership</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1167296078000</creationDate>
+  <date>1360950289000</date>
+  <contentUpdateDate>1341925654000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Committership</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.Committership</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>3cb12697-5c21-4ef8-85fd-47ebbc34c596</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+Committers are long standing contributors who have been voted in to a level with more responsibilities to the XWiki project. They are interested in the XWiki project over the long run (this is different from a contributor who might be interested in contributing a fix to XWiki in order to help him using XWiki on a particular project). Committers are the people ensuring that the project is healthy and goes in the right direction.
+
+The list of Committers is available in the [[Hall of Fame&gt;&gt;Community.HallOfFame]].
+
+= Roles and Responsibilities of Committers =
+
+* Committers have write access to the [[source repository&gt;&gt;Community.SourceRepository]].
+* Committers must watch everything that goes in the source repository and ensure it's of good quality and matches with the direction of the project
+* Committers accept patches from [[Contributors&gt;&gt;Community.Contributing]] (through [[JIRA&gt;&gt;http://jira.xwiki.org]]), review them and when they are satisfied the quality and relevance is good enough, apply them.
+* Committers have a duty of following and participating to the [[XWiki mailing lists&gt;&gt;Community.MailingLists]] and answering when there are votes posted (identified with the //[VOTE]// keyword in the subject). See the voting section below.
+* Committers can (and should) propose to vote in new committers when they identify a contributor they judge adequate for the role. In which case they should send a vote to the list, proposing the new committer and explaining why that person is fit to become a committer in their opinion.
+* Committers should generally participate to project duties such as being a [[Release Manager&gt;&gt;DevelopmentPractices#HReleaseManagerRole]] or a [[Build Manager&gt;&gt;DevelopmentPractices#HBuildManagerRole]].
+
+= Voting =
+
+In general votes should be sent in case of big changes (whether it's about code or about processes or people). A vote is mandatory for voting in new committers or from removing committers. It's not necessary to send a vote when performing minor or even sometimes substantial modifications provided the author judges everyone would agree to them. This is called lazy consensus. However should someone objects to the code committed, the author must then be prepared to revert it if asked.
+
+* A successful vote must have at least 3 Committers answering
+* Votes are carried for 72 hours and the votes are tallied after this time is elapsed
+* A summary email containing the result of the vote must be sent by the person proposing the vote after the 72 hours have expired
+* Contributors can vote but their vote is only indicative and not binding.
+* Committers must vote as part of their duties
+* There are several possible votes:
+** +1 I agree and I'll help as I can
+** 0 I'm ok but I'm letting the other decide and I'll be happy with whatever the outcome is
+** -1 I'm against it and I veto the change
+* A vote cannot pass if a committer has voted -1. In that case the proponent should try to explain his rational to the vetoer and try to convince him to remove his veto. Possibly the proposal should also be reviewed and changed.
+
+= Active Committers =
+
+A Committer is considered **active** if he/she's been committing at least once in the past rolling year.
+
+= Emeritus Committers =
+
+If a Committer is no longer active his status can be changed (with his agreement) to Emeritus. This means that he'll no longer have write access to the repository and his votes will be non binding. However it also means that if at any point in the future he wants to contribute again to the XWiki project he'll just have to ask to get his rights back (without going through a vote).
+
+The rationale behind the Emeritus status is that non-active Committers make it more difficult to reach consensus in decisions as they are expected to vote and take part in discussions and they won't if they're not active in the project anymore.
+
+= How to become a Committer =
+
+Here's a good strategy to be voted in as a Committer:
+
+* Start [[contributing&gt;&gt;Community.Contributing]]
+* Send lots of good patches. A good patch is a patch that applies cleanly, meaning that the Committer who applies your patch doesn't have to do extra work like add documentation not provided, rework the code because it's of poor quality, add unit tests not provided, etc (yes we know the current XWiki code is currently subpar in these domains but we'd like to change this going forward! ;-)).
+* Show dedication and interest for XWiki over the long run. You must be interested in the project itself and not simply on fixing something because you need it for one of your projects. If this is the case then patches should be good enough.
+* After some time, the current Committers applying your patches will get fed up applying them and if they're of good quality you'll be proposed to become a Committer.</content>
+</xwikidoc>

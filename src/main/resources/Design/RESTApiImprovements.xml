@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>RESTApiImprovements</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1340642467000</creationDate>
+  <date>1360950312000</date>
+  <contentUpdateDate>1340646525000</contentUpdateDate>
+  <version>1.1</version>
+  <title>REST Api Improvements</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.RESTApiImprovements</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>cd49f0a0-fe0a-4a98-a1bc-4618e41f0934</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.RESTApiImprovements</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>843fdc39-5767-49d2-9e39-82a513299338</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+The objective of [[REST API&gt;&gt;platform:Features.XWikiRESTfulAPI]] Improvements is to complete the REST api with some missing features. These include:
+
+{{toc start=2 /}}
+
+A pull request for a prototype implementation of these requirements is available here:
+
+https://github.com/xwiki/xwiki-platform/pull/56/files#r1040052
+
+Not everything has an implementation (hidden docs and rendered content is not implemented yet). Other are not implementing according to this specification as some comments have already been made.
+
+Let's start from simple to complex:
+
+== Support for start and order parameter in queries returning large list of pages ==
+
+The search API has a number of elements fields but does not have a start field allowing to paginate to the next results.
+
+The proposal is to add a "start field" in the [[WikiSearchResource.java&gt;&gt;https://github.com/xwiki/xwiki-platform/blob/master/xwiki-platform-core/xwiki-platform-rest/xwiki-platform-rest-server/src/main/java/org/xwiki/rest/resources/wikis/WikiSearchResource.java]] (and SpaceSearchResource also) and in the [[BaseSearchResult.java&gt;&gt;https://github.com/xwiki/xwiki-platform/blob/master/xwiki-platform-core/xwiki-platform-rest/xwiki-platform-rest-server/src/main/java/org/xwiki/rest/resources/BaseSearchResult.java]]
+
+Currently only start has been implemented I realized there is an issue with that as "start" and "order" cannot work with the additive nature of the WikiSearchResources accross name, content, title and object searches.
+
+The proposal is to support "start" and "order" parameters only on queries having only one unique scope.
+
+{{warning}}VOTE to accept supporting "start" and "order" parameters only on queries having only one unique scope{{/warning}}
+
+* Proposal 1
+
+The default order would be by full page name.
+Alternate order would be descendent date.
+
+* Proposal 2 
+
+The proposed orders would be:
+
+* fullname
+* name
+* space
+* date
+* author
+* other ?
+
+Descendent and Ascendent order should be provided using the "orderdir" paramater.
+
+{{warning}}VOTE in search queries for just adding the descendent date order or add more order possibilities using order and orderdir param{{/warning}}
+
+== Support order parameter in page list
+
+The [[Pages Resource&gt;&gt;https://github.com/xwiki/xwiki-platform/blob/master/xwiki-platform-core/xwiki-platform-rest/xwiki-platform-rest-server/src/main/java/org/xwiki/rest/resources/pages/PagesResource.java]] has proper start and number parameters but is lacking an order parameter allowing to get the latest documents of a space.
+
+The proposal is to add the following parameter "order=date" which will allow to order by date descending.
+
+The query generated would be a manual query instead of the getSpaceDocsName query. Note that we need to query limited to the current language to avoid duplicates as "distinct" cannot be used with an order (at least in HSQLDB) and without distinct we would get duplicates. 
+
+{{code}}
+Query query = ("date".equals(order)) ? queryManager.createQuery("select doc.name from Document doc where doc.space=:space and language='' order by doc.date desc", "xwql") : queryManager.getNamedQuery("getSpaceDocsName");
+{{/code}} 
+
+Same open question as for the searches. We should be providing either only date descendent ordering or more ordering
+
+{{warning}}VOTE in page list queries for just adding the descendent date order or add more order possibilities using order and orderdir param{{/warning}}
+{{warning}}
+
+== Adding page version, author information and data information when missing ==
+
+Many page listing have only limited data about a page, making it difficult to perform offline sync or to display additional information about a page. By default or using a parameter we should provide the following data:
+
+* page version
+* page author
+
+Possible additional information could be:
+
+* page last update date
+* page creation date
+* page creator
+* number of attachments
+* number of comments
+
+{{warning}}VOTE to add page version and author fields to page and other resources{{/warning}}
+{{warning}}VOTE for adding the additional fields with or without a parameter "pagedetails=1"{{/warning}}
+
+== Hidden documents filter activation or deactivation in REST APIs ==
+
+It should be possible to activate or deactivate hidden documents filtering in the REST APIs by a parameter.
+
+{{warning}}VOTE for adding a parameter to show/hide hidden documents independent of user setting{{/warning}}
+
+Note: it's not clear to me at this point on how to implement this.
+
+== Adding pretty display of title and author names ==
+
+When displaying a list of documents (from searches or from page listing) or the list of spaces, it would be interesting to display additional informations:
+
+* display title of page or space
+* display name of the last author
+
+This is also true for attachment and comments author.
+Since this requires additional calls to the user pages it is proposed to implement this using a query parameter, which could be:
+
+"prettyNames=1"
+or
+"displayPrettyNames=1"
+
+The display title would be provided in a "displayTitle" field. 
+
+The space display title would be the display title of the home page of the space.
+
+{{warning}}VOTE to add the displayTitle field with or without the pagedetails=1 parameter or with it's own parameter displayTitle=1{{/warning}}
+{{warning}}VOTE to add the author display names with or without the displayPrettyNames parameter{{/warning}}
+
+== Support queries using XWQL, HQL and Lucene ==
+
+In order to allow more complex queries it should be allowed to run advanced queries using the REST API.
+Currently the search API is using a "scope" mecanism that is not compatible with complex queries.
+
+Therefore a new API is proposed in the wikis area called:
+
+/wikis/{wikiName}/searchQuery?query={query}[&amp;type={xwql,hql,lucene}&amp;scope={name,content,title,objects}][&amp;number=n][&amp;start=s][&amp;luceneOrder=field&amp;luceneScope={wikipage,file}][&amp;distinct=1][&amp;displayPrettyNames=1][&amp;wikis={wiki1,wiki2,...}]
+
+{{warning}}VOTE for supporting the searchQuery API at the wiki level with multi wiki support at the lucene level{{/warning}}
+
+== The rendered content should be accessible from REST apis ==
+
+The PageResources should allow for a parameter called "withrenderedcontent=1" allowing to access the HTML version of the content of the page as returned by $doc.getRenderedContent(). An additional parameter would allow the URLs to be absolute "withabsoluteurls=1". 
+
+{{warning}}VOTE for adding rendered content using the withrenderedcontent=1 param{{/warning}}
+{{warning}}VOTE for having absolute URLs in the rendered content using withabsoluteurls=1 param{{/warning}}
+</content>
+</xwikidoc>

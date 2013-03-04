@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>DebugXEWithEclipse_Troubleshoots</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DebugXEWithEclipse</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1212152988000</creationDate>
+  <date>1360950279000</date>
+  <contentUpdateDate>1307057747000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Troubleshoots</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.DebugXEWithEclipse_Troubleshoots</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>7c9a50e9-9db8-4fc3-abe7-2a8e91e57df6</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{toc/}}
+
+= Server startup failing with ##org.xwiki.container.servlet.XWikiServletContextListener## =
+
+If you follow the exception stack trace you will see: ##Caused by: java.lang.ClassNotFoundException: &lt;class&gt;##
+
+There are some possibilities:
+
+* Sometimes WTP "forgets" a dependency for some reason, most of the time you can fix it easily by cleaning the server. 
+Go to ##Servers## view, right click on your server and then click ##Clean...##. Then restart the server.
+* You imported a Maven Project into the workspace and forgot to add it to the Deployment Assembly. See [[Link Jar project to the web project&gt;&gt;Community.DebugXEWithEclipse_ImportJarProjects#HLinkJarprojecttothewebproject]]
+* The value you defined for the ##XWIKIPLATFORM## (see [[Mirror XEM war&gt;&gt;Community.DebugXEWithEclipse_MirrorWeb]]) contains spaces or other special characters.
+Eclipse may handle it well, but you may face problems when deploying it through WTP.
+
+= "Too many open files" on linux =
+
+Looks like by default (at least on Ubuntu) the limits of files to open is too low for the couple Eclipse3.4/M2Eclipse (I never had this with Eclipse 3.3).
+
+You add up this limit by editing ##/etc/security/limits.conf## file and putting:
+
+{{code language="none"}}
+* soft nofile 2048
+* hard nofile 2048
+{{/code}}
+
+= Fixed issues =
+
+Keeping them here in  case of a M2Eclipse regression.
+
+== I get "Error creating zip file xwiki-core.jar: duplicate entry: META-INF/LICENSE" when starting the server ==
+
+{{info}}
+I don't have this problem anymore with M2Eclipse 0.12 on Eclipse 3.6.
+{{/info}}
+
+XWiki use maven remote resource plugin to add ##LICENSE## and ##NOTICE## file in all xwiki generated jar and it's doing it by copying the files in output folders ##classes## and ##test-classes##. The problem is that Eclipse does not make any difference between ##classes## and ##test-classes## and build everything in the same jar and complains because there is files with the same entry name.
+
+There is some crappy solutions:
+
+* remove the META-INF folder from test-classes by hand each time you get the error.
+* remove the test-classes from the output folders in project Properties. This is easier when you are editing a lot the resources files because the META-INF folder is re-generated each time you modify anything.
+
+== When I look in a published jar It seems resources has not been built ==
+
+{{info}}
+I don't have this problem anymore with M2Eclipse 0.12 on Eclipse 3.6.
+{{/info}}
+
+M2Eclipse build resources only when it's modified and sometimes it comes that it forgot it for a reason I don't know.
+
+Just modify any resource of the jar project and save it and it should rebuild it correctly.
+
+Since m2eclipse 0.9.8 it's even worst since the resource are never built:
+The "safest" solution is to include resource back in the java build process: by default m2eclipse exclude all the resources to handle it itself but we don't really have use case where it's really needed. To include it back go to project Properties -&gt; Java Build Path and remove the filter (search src/main/resources "Excluded: ~*~*"). Don't remove the filter on test resource unless you want to launch unit tests from Eclipse. Some project has custom components overwrites for test so if you include it in the runtime you will break things. Until Eclipse itself support the difference between main and test like maven do we will always have this issue, there is not much M2Eclipse can do here.
+
+== My Eclipse can't stop crashing ==
+
+{{info}}
+I don't have this problem anymore with Eclipse 3.4 on Ubuntu Linux
+{{/info}}
+
+Environment : Linux + Eclipse 3.3
+
+The Eclipse configuration in eclipse.ini seems too fragile in term of memory at least in the linux version. You should give a try to the following configuration :
+
+{{code language="none"}}
+-showsplash
+org.eclipse.platform
+--launcher.XXMaxPermSize
+512M
+-vmargs
+-Xms1024m
+-Xmx1024m
+-Dosgi.bundlefile.limit=100
+-XX:MaxPermSize=512m
+{{/code}}
+
+{{velocity}}
+##########################################################################
+## NAVIGATOR
+#set($previous_tuto_page = 'WebStart')
+##set($next_tuto_page = '')
+#if($previous_tuto_page) [[previous&gt;&gt;DebugXEWithEclipse_$previous_tuto_page]] ~| #end[[home&gt;&gt;DebugXEWithEclipse]]#if($next_tuto_page) ~| [[next&gt;&gt;DebugXEWithEclipse_$next_tuto_page]]#end
+{{/velocity}}</content>
+</xwikidoc>

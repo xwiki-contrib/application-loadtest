@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>BuildingInIdea</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.Building</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1171457126000</creationDate>
+  <date>1360950288000</date>
+  <contentUpdateDate>1329227346000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Working with IntelliJ IDEA</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.BuildingInIdea</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>9e0a2577-055f-42de-9818-b3d44a417c79</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+= Install IntelliJ IDEA
+
+* Download and Install IntelliJ IDEA.
+* [[Setup IntelliJ IDEA so that it respects the code style of the XWiki project&gt;&gt;CodeStyle]].
+
+= Get the source for XWiki
+
+The source for XWiki is available via a [[source repository&gt;&gt;SourceRepository]].
+
+= Create an IntelliJ IDEA project
+
+IntelliJ IDEA supports Maven out of the box so all you need to do is open the ##pom.xml## file for the project you wish to build/debug.
+
+= Building sources
+
+In IDEA's menu, click on ##Build &gt; Make Project##.
+
+= Some problems you may face
+
+* **org.suigeneris.jrcs.rcs package problems**: IDEA will highlight and compilation may fail too depending on the version of IDEA you're using. The reason is because this package is called rcs which is a special name that is ignored by default by IntelliJ. Fix:
+** On old versions: ##File &gt; Settings... &gt; General &gt; ignore files and folders## : remove the ##rcs## and ##RCS## entries (you can safely remove this as xwiki does not use the rcs versioning system).
+** On more recent versions: ##File Types##, then ##Ignore Files and Folders## at the bottom. Remove ##rcs## from the list.
+</content>
+</xwikidoc>

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ExtensionManagerUI</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.ExtensionManager</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1309245747000</creationDate>
+  <date>1360950321000</date>
+  <contentUpdateDate>1339075143000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Extension Manager - UI</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>{{toc/}}
+
+See [[incubator&gt;&gt;http://incubator.myxwiki.org/xwiki/bin/view/Improvements/ExtensionManager]] for several UI mockups.
+
+= Free form description of the extension =
+
+Should definitely be more than a plain text but there is several choices for the storing format. Comments associated to extensions also have the same concern.
+
+== Any provided syntax ==
+
+* pros
+** wiki way
+** allow to do well integrated and nicer description more easily
+** works whatever the client used to displays it (as long as it as an implementation of XWiki Rendering). i.e. does not have to be a browser.
+
+* cons
+** less safe. But a white list of macro should probably do it, definitely not allow script macros.
+** slower display of the extension description. But not that expensive either since it's not going to be scripts anyway.
+** same than when choosing the font in a browser: it's possible the client does not support the syntax used (client with older version of XWiki etc...).
+
+== Server side rendered XHTML output ==
+
+* pros
+** safer for the client since there is no transformation (cannot exploit a bug in some macro)
+
+* cons
+** only work with XWiki Extension Repository
+** content bigger and so more things to transfer in client/server communication
+
+= Search =
+
+[[ExtensionManagerSearch]]
+
+= Social =
+
+[[ExtensionManagerSocial]]</content>
+</xwikidoc>

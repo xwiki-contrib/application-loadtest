@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ExtensionManagerSearch</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.ExtensionManager</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1309246669000</creationDate>
+  <date>1360950320000</date>
+  <contentUpdateDate>1327572581000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Extension Manager - Search</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>A simple search is already provided but we need to have something more details to be able to search and sort extension by specific criteria.
+
+= Query object =
+
+Pro:
+
+* Easy to manipulate for repository whatever the way it really store and search extension on its side.
+
+Cons:
+
+* Hard to expose in the UI
+
+= Query language =
+
+Pro:
+
+* easy to expose in the UI
+
+Cons:
+
+* the language to choose since it's a very big constraints for the repository implementation behind the scene.
+
+= Both =
+
+Meaning query object based API for the repository handler Java API and a syntax used in only in the UI and then converted to query objects.</content>
+</xwikidoc>

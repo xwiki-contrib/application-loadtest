@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>BestPractices</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1165350314000</creationDate>
+  <date>1360853390000</date>
+  <contentUpdateDate>1360853390000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Best Practices</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.BestPractices</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>f7e17833-80e0-4fe1-a6b5-73456d725746</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+= Where to put code? =
+
+Since xwiki allows you to put code both in wiki pages and in Java you might wonder where you should put your code. Here are some general guidelines:
+
+* Don't put "business logic" code in wiki pages. Use Java for that. This gives you nice IDEs, the ability to easily debug the code and the ability to write automated unit tests. Generally speaking it makes it easy on maintenance.
+* In general put the minimum amount of scripts in your wiki pages since that makes it harder to maintain.
+* The only scripts that you may put in wiki pages are "presentation logic" code.
+
+Said differently you should use the [[MVC&gt;&gt;http://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller]] approach by separating your Model (what we called "business logic" above) from your View (what we called "presentation logic" above).
+
+= XWiki Application Organization =
+
+This [[Best Practices document&gt;&gt;Best Practices XWiki Application Organization]] explains how to best organize an XWiki Application. 
+
+= Check for Object existence in Class Sheets documents =
+
+Class sheet documents should be written using the following construct (this is an example for displaying documents containing XWiki.XWikiUsers objects):
+
+{{code language="velocity"}}
+#set($obj = $doc.getObject("XWiki.XWikiUsers"))
+#if(!$obj)
+  1 User Sheet
+  This stylesheet must be applied on a document containing a XWiki.XWikiUsers object.
+#else
+  1 $msg.get("userProfile", [$xwiki.getUserName($doc.fullName, false)])
+  ...
+#end
+{{/code}}
+
+{{info}}
+The 'if' tests first for the non existence. This is so that XWiki can extract the title from the //1 User Sheet//, which is a proper title to display when viewsing the sheet page, instead of the computed name which will usually display something wrong.
+{{/info}}
+
+= Handling errors when using xredirect for non-Javascript UIs =
+
+When writing an UI with JavaScript, AJAX takes care of forwarding your action to a background service replying with success or with an error that is then displayed to the user in the same page.
+
+Without JavaScript, we usually use the xredirect query parameter to specify the current page (and state) to which we want to come back after performing an action (by pressing a button, link, submitting a form, etc.).
+
+One common problem when writing UIs without JavaScript in this way is error handling. In other words, how do you handle the situation when the service that you use to perform your action throws an error?
+
+A simplified code for this in the background service that produces the error is:
+
+{{code language="velocity"}}
+#handleRequest($success)
+#if ($success)
+  #if ($request.action == 'get' || $request.xpage == 'plain')
+    ## JavaScript call here.
+    Action was successful.
+  #elseif ("$!request.xredirect" != '')
+    ## No-JavaScript here. Redirect.
+    $response.sendRedirect($request.xredirect)
+  #end
+#else
+  #if ($request.action == 'get' || $request.xpage== 'plain')
+    ## JavaScript call here.
+    Action was NOT successful.
+    $response.setStatus(403)
+  #elseif ("$!request.xredirect" != '')
+    ## No-JavaScript here. What now!? Redirect?
+    #handleErrorHere($request.xredirect)
+  #end
+#else
+{{/code}}
+
+The idea is that you want to pass the error message to the UI but you don`t have a clear way of doing it, like you have for AJAX calls (response code and response text). A solution is to use the Session in order to pass your error message. You set the error in the service and, in the UI, you read and remove it so that it is only displayed once.
+
+For the background service, it translates to:
+
+{{code language="velocity"}}
+...
+  #elseif ("$!request.xredirect" != '')
+    ## No-JavaScript here. Redirect and forward error message.
+    #set ($errorMessageKeyPrefix = "myModule.error.")
+    $request.session.setAttribute("${errorMessageKeyPrefix}${request.xredirect}", 'Action was NOT successful')
+    $response.sendRedirect($request.xredirect)
+  #end
+...
+{{/code}}
+
+On the UI side:
+
+{{code language="velocity"}}
+...
+  #set ($xredirect = $doc.getURL($context.action, $!{request.queryString}))
+  #set ($errorMessageKeyPrefix = "myModule.error.")
+  #set ($errorMessage = $request.session.getAttribute("${errorMessageKeyPrefix}${xredirect}"))
+  #if ("$!errorMessage" != '')
+    ## Clean the error and display the message.
+    #set ($discard = $request.session.removeAttribute("${errorMessageKeyPrefix}${xredirect}"))
+    {{error}}$errorMessage{{/error}}
+  #end
+...
+{{/code}}
+
+Note that using xredirect's value as session key (prefixed or not) is a good idea because:
+
+1. it's already there in both the UI (for sending it as parameter) and the background service (received as parameter)
+1. it acts like a namespace, ensuring that the error will only be displayed for the current page/request.
+
+Using a prefix as above allows you to have multiple components (wiki macros, gadgets, etc.) in the same page using the same mechanism without collisions.
+
+This method works together with the whole purpose for which we are doing the redirect in the first place (so that the user can refresh the page without re-sending the action or re-posting a form), ensuring that after the first display, on a refresh, the error goes away.</content>
+</xwikidoc>

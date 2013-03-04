@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>LiveTable20Macro</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1253613274000</creationDate>
+  <date>1360950310000</date>
+  <contentUpdateDate>1334578752000</contentUpdateDate>
+  <version>1.1</version>
+  <title>New Livetable Macro as a XWiki Syntax 2.0 macro</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.LiveTable20Macro</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>5231a02c-9879-4651-990d-a269174040cb</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.LiveTable20Macro</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>21cc3d19-f4b7-42ce-bc70-061d579bb5d8</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+{{toc/}}
+
+= Livetable Macro =
+
+{{code}}
+{{livetable source="hint of livetable data source component" id="..." tags="true|false" order="asc|desc" params="param=value,..." ...}}
+// Optional definition of how to display columns, it's optional as column definition will be defined in the returned JSON
+columnname1: { "sort" : "true", "filter" : "true", "visible" : "true" }
+columnname2: { "sort" : "true", "filter" : "true", "visible" : "true" }
+...
+columnnameN: { "sort" : "true", "filter" : "true", "visible" : "true" }
+{{/livetable}}
+{{/code}}
+
+== Livetable Data Source ==
+
+* They are java components with one method ##Map generateData()##
+* We have a LivetableDataSourceClass with an "id" (the component hint), and the document content acting as the content for the data source that return the Map (store it in some context variable)
+* Works the same as Wiki Macros
+* Thus data source can be defined either in Java or in wiki pages
+
+== REST Services ==
+
+* A REST Service receives the calls from the livetable JS and return JSON by calling the Livetable Data Source corresponding the passed hint
+
+== Script Service ==
+
+* A Livetable SS is provided to call a given Livetable DS from a wiki DS for example
+* Example of a wiki DS that customize some other DS:(((
+{{code}}
+## Customize params for the DS here
+...
+#set ($map = $services.livetable.generateData())
+## Customize generate Map here
+...
+## Save back the map
+$services.livetable.saveData($map)
+{{/code}}
+)))
+
+== UC: display table from XClass ==
+
+{{code}}
+{{livetable source="xclass" params="class=XWiki.XWikiUsers"/}}
+{{/code}}
+
+To make it even easier to use we'll have a new wiki macro:
+
+{{code}}
+{{classes class="XWiki.XWikiUsers"/}}
+{{/code}}
+
+== UC: data is small enough to be in memory ==
+
+* In a custom wiki DS:
+{{code}}
+{{velocity}}
+#set ($map = .. construct map ...)
+...
+#set ($filteredMap = $services.livetable.filter($map)) &lt;-- filter map based on livetable params: offset, start, number of items, sort column and order, etc
+$services.livetable.saveData($filteredMap)
+{{/velocity}}
+{{/code}}
+
+== UC: Displays documents ==
+
+{{code}}
+{{livetable source="documents" params="query=..."/}}
+{{/code}}
+
+To make it even easier to use we'll have a new wiki macro:
+
+{{code}}
+{{documents query="...where clause of a XWQL query..."/}} 
+{{/code}}
+
+Note: Can be used for AllDocs or Space index.
+</content>
+</xwikidoc>

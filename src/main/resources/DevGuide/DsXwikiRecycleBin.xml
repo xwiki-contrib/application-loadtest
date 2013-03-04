@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>DsXwikiRecycleBin</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.DatabaseSchema</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1234446199000</creationDate>
+  <date>1361190312000</date>
+  <contentUpdateDate>1361190312000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki Attachment Recycle Bin (xwikiattrecyclebin)</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.DsXwikiRecycleBin</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>c3038fa1-c7e1-4d54-9fd2-1fb936f3d166</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>This table contains the deleted attachments:
+
+|=|=Column Name|=Datatype|=Not null|=auto inc|=flags|=Default Value|=Comments
+|[[image:DevGuide.DsXwikiRecycleBin@DevGuide.DatabaseSchema@db_key.gif]]|XWA_ID|BIG_INT(20)|[[image:DevGuide.DsXwikiRecycleBin@DevGuide.DatabaseSchema@db_check.gif]]|[[image:DevGuide.DsXwikiRecycleBin@DevGuide.DatabaseSchema@db_check.gif]]| |0|
+|[[image:DevGuide.DsXwikiRecycleBin@DevGuide.DatabaseSchema@db_field.gif]]|XDA_DOC_ID|BIG_INT(20)|[[image:DevGuide.DsXwikiRecycleBin@DevGuide.DatabaseSchema@db_check.gif]]|| ||UNIQUE
+|[[image:DevGuide.DsXwikiRecycleBin@DevGuide.DatabaseSchema@db_field.gif]]|XWA_FILENAME|VARCHAR(255)|[[image:DevGuide.DsXwikiRecycleBin@DevGuide.DatabaseSchema@db_check.gif]]|| | |UNIQUE
+|[[image:DevGuide.DsXwikiRecycleBin@DevGuide.DatabaseSchema@db_field.gif]]|XWA_DATE|DATETIME|[[image:DevGuide.DsXwikiRecycleBin@DevGuide.DatabaseSchema@db_check.gif]]|| |0000-00-00 00:00:00|UNIQUE
+|[[image:DevGuide.DsXwikiRecycleBin@DevGuide.DatabaseSchema@db_field.gif]]|XDA_DOC_NAME|VARCHAR(255)| || |null| 
+|[[image:DevGuide.DsXwikiRecycleBin@DevGuide.DatabaseSchema@db_field.gif]]|XDA_DELETER|VARCHAR(255)|| ||null| 
+|[[image:DevGuide.DsXwikiRecycleBin@DevGuide.DatabaseSchema@db_field.gif]]|XDA_XML|LONGTEXT|[[image:DevGuide.DsXwikiRecycleBin@DevGuide.DatabaseSchema@db_check.gif]]| ||| </content>
+</xwikidoc>

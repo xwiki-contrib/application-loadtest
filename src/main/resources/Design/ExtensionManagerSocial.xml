@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ExtensionManagerSocial</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>ExtensionManager</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1303819358000</creationDate>
+  <date>1360950328000</date>
+  <contentUpdateDate>1309248979000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Extension Manager - Social</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>{{toc/}}
+
+= Social API =
+
+Add social APIs to the repository API. For repositories supporting it obviously.
+
+It can more or less be defined as anything not in the Extension java class. Since all theses can change anytime on server it's never downloaded/stored with the extension description but instead requested to the repository only when displaying them. That give several choices for them: would be either directly requested to the repository in ajax or pass though the wiki server.
+
+== Authenticate to repository ==
+
+* have a user to deal with the repository for all social features
+* allow the repository to filter extensions
+** allowed extensions
+** payed extensions, etc.
+
+== Grades ==
+
+Give grades to extensions
+
+== Comments ==
+
+Add comments associated to extensions
+
+== Share extensions ==</content>
+</xwikidoc>

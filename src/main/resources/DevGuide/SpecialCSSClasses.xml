@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>SpecialCSSClasses</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.FrontendResources</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1288961860000</creationDate>
+  <date>1360853408000</date>
+  <contentUpdateDate>1360853408000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Special CSS Classes</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.SpecialCSSClasses</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>52ae4790-b0ec-4e49-bda9-1109638ae008</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>= Special CSS Classes =
+
+XWiki has some special classes that are used in certain conditions to assure consistency and enhance functionality. The following classes are defined at least starting with [[the Colibri Skin&gt;&gt;extensions:Extension.Colibri Skin]]:
+
+{{toc/}}
+
+== A. General classes ==
+
+* **##.hidden##**  
+  use to 'display: none' elements
+
+* **##.invisible##**  
+  use to 'visibility: hidden' elements
+
+* **##.clearfloats##**  
+  use to clear floats when using floated containers, in order to keep the parent's layout correct
+
+* **##.separator##**
+  use to contain separators ( {{html}}&amp;#183;{{/html}} , | ) 
+  used in #document-info and blog .entry-footer
+
+* **##.itemCount##**
+  use to contain numeric values that describe quantitative information about an item 
+  used in #docExtraTabs, #document-info, .blog-category-level
+  example: Comments (1)
+
+* **##.noitems##**
+  use to contain empty state messages 
+  used in #docextrapanes
+  example: 'No comments for this document', 'No attachments for this document'
+
+* **##.icon##**
+  use for icon buttons ([[example&gt;&gt;DevGuide.StandardIconClasses||anchor='iconClass']])
+  used in .icon.rss in 'Quick Links' panel
+
+* **##.hasIcon##**
+  use for elements that also have a background-icon attached ([[example&gt;&gt;DevGuide.StandardIconClasses||anchor="hasIconClass"]])
+  works in pair with other classes that specify the icon that will be used (ex: .iconRSS, .tmEdit, .etc)
+  used in menus
+
+* **##.loading##**
+  sets an animated GIF as being the background image (center aligned) of the element
+  generally used on Ajax requests in order to express the loading status
+  example of usage: on loading each of the Annotations, Comments, Attachments, History and Informations tabs
+
+* **##.column##** + (**##.full##** | **##.half##** | **##.third##**)
+  classes for generic (1|2|3) column layout 
+
+== B. Classes used for Form elements ==
+
+=== B1. Buttons containers ===
+
+* **##.buttonwrapper##**
+  use as an external container for buttons (required for Toucan skin)
+
+* **##.buttonwrapper .button##**
+  use ##.button## on ##input## or ##a## elements to display as buttons
+
+* **##.secondary.button##**
+  use for secondary actions, like ##cancel##
+
+* **##.icon-button##**
+** **##.icon-button.add-button##**
+** **##.icon-button.remove-button##**
+  use for small icon actions, like ##add## and ##remove## ([[example&gt;&gt;DevGuide.StandardIconClasses||anchor='iconButtonClass']])
+
+* **##.button.disabled##**
+  use to display a button in it's disabled state
+
+=== B2. Behavior classnames ===
+
+* **##.withTip##**
+  introduced in [[XWIKI-4163&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-4163]]
+  description: automatically hides and reinserts the default text for input fields, acting as a tip.
+  warning: will be replaced by the ##placeholder## attribute introduced in HTML5s
+
+* **##.suggestDocuments##**
+  introduced in [[XWIKI-5301&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-5301]]
+  description: all input fields with classname suggestDocuments will receive an autocomplete control suggesting document names.
+
+* **##.suggestSpaces##**
+  introduced in [[XWIKI-5657&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-5301]] (XWiki 2.6 RC2)
+  description: all input fields with classname suggestSpaces will receive an autocomplete control suggesting space names.
+
+* **##.suggestUsers##**
+  introduced in [[XWIKI-5649&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-5649]] (XWiki 2.6 RC2)
+ description: all input fields with classname suggestUsers will receive an autocomplete control suggesting document names of documents that contains user objects
+
+* **##.suggestGroups##**
+  introduced in [[XWIKI-5649&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-5649]] (XWiki 2.6 RC2)
+ description: all input fields with classname suggestGroups will receive an autocomplete control suggesting document names of documents that contains group objects
+
+* **##.suggested##**
+ description: blocks normal browser autocomplete and initializes the suggest object early instead of waiting for the field to be focused (if the suggests is declared on focus).
+
+* **##.maximizable##**
+  introduced in [[XWIKI-5660&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-5660]] (XWiki 2.6 RC2)
+ description: offers a link for users to maximize the element on which this classname is applied, making it possible to view that element in fullscreen mode. {{warning}}needs to be used together with a skinx call to the ##uicomponents/widgets/fullScreen.js## script{{/warning}}
+
+== Further References ==
+
+* XWiki's structure is defined in templates that generate specific layout classes (.main, #mainContentArea, etc)
+** [[XWiki CSS Layout&gt;&gt;AdminGuide.CSSLayout]] //(outdated)//
+* XWiki provides by default a [[list of Skins&gt;&gt;Features.Skins]], each with it's own characteristics
+** [[XWiki Albatross CSS Files&gt;&gt;AdminGuide.CSS files]] //(deprecated)//
+
+* When writing CSS code for XWiki there are some [[code style rules&gt;&gt;http://dev.xwiki.org/xwiki/bin/view/Community/XhtmlCssCodeStyle]] that need to be followed in order to assure consistency and quality.</content>
+</xwikidoc>

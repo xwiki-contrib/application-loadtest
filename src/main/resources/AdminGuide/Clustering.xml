@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>Clustering</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1251800046000</creationDate>
+  <date>1360853352000</date>
+  <contentUpdateDate>1360853352000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Clustering</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.Clustering</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>48c36da9-42fc-4ac6-a16e-d0af50a11a34</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>XWiki provides an easy way to setup clustered instances of XWiki based on network events distribution.
+
+= Features =
+
+* events synchronization between XWiki instances
+* multiple clustering channels
+* possibility to start/stop the clustering channel at runtime
+
+= Setup =
+
+== Enable event distribution ==
+
+To enable event distribution in an XWiki instance go to ##xwiki.properties## file and set the property ##observation.remote.enabled## to ##true##.
+
+== Setup communication channels ==
+
+Then you need to create a JGroups configuration file for each different cluster group you want to setup.
+
+For this go to the ##/WEB-INF/observation/remote/jgroups## folder and add one xml file by clustering group. Generally there is only one for a simple cluster.
+
+You can look at [[the JGroups wiki page&gt;&gt;https://community.jboss.org/wiki/JGroups]] for a good documentation on how to setup JGroups configuration files.
+
+If you have IPv6 on your server, you are also advised to read [[this IPv6 article&gt;&gt;https://community.jboss.org/wiki/IPv6]]. Defining -Djava.net.preferIPv4Stack=true when launching the JVM is probably your best bet in most cases. If your really want to use IPv6 for your channels, you should probably upgrade JGroup to version 2.10.0.GA and use a JVM 6 at least.
+
+== Start communication channels ==
+
+The name of the xml file matches the identifier of the channel.
+
+To indicate which channels to start when XWiki starts list them in the property ##observation.remote.channels## of the ##xwiki.properties## file.
+
+== Choose network adaptor implementation to use ==
+
+By default only JGroups implementation is provided, but it's possible to add more. See the [[Remote Observation Module&gt;&gt;extensions:Extension.Observation Module Remote#HAddcustomnetworkadaptor]] for more details.
+
+= More =
+
+See the [[Remote Observation Module&gt;&gt;extensions:Extension.Observation Module Remote]] for more details of the event distribution features and extension capabilities.
+
+Follow the [[test clustering tutorial&gt;&gt;AdminGuide.DistributedEventClusterSetup]] for a complete tutorial on how to setup a simple cluster between two instances of XWiki on the same server.</content>
+</xwikidoc>

@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>WebHome</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Main.Documentation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1165313896000</creationDate>
+  <date>1360950268000</date>
+  <contentUpdateDate>1360950268000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Developer's Guide</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.WebHome</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>673426c0-4ea6-425f-bae6-4b8c8e9f53cc</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{velocity filter="none"}}
+{{html clean="false" wiki="true"}}
+#startfloatingbox()
+If you are interested in participating to&lt;br/&gt; the XWiki project development itself or&lt;br/&gt; in building it from sources, you&lt;br/&gt; should refer to the [[Community wiki&gt;&gt;dev:Main.WebHome]].&lt;br/&gt; You still have a question?&lt;br/&gt; [[Subscribe to the mailing lists!&gt;&gt;dev:Community.MailingLists]]
+#endfloatingbox()
+{{/html}}
+{{/velocity}}
+
+XWiki is a [[second generation wiki&gt;&gt;platform:Main.SecondGenerationWiki]] that provides all the basic content management and administration features of common wikis, but with much more. XWiki takes the wiki approach to a whole new level by providing enhanced features and capabilities. With XWiki, you can build simple applications, extend the platform with custom plugins, or even build complex Web applications. 
+
+= Reference documentation =
+
+; **[[XWiki Architecture&gt;&gt;platform:DevGuide.Architecture]]**
+: Understanding how XWiki is architected.
+
+; **[[XWiki Data Model&gt;&gt;platform:DevGuide.DataModel]]**
+: You should start by understanding XWiki's data model of Classes, Properties, and Objects. They'll be needed to build applications at the presentation (document) level.
+
+; **[[XWiki Scripting&gt;&gt;platform:DevGuide.Scripting]]**
+: Once you understand XWiki's Data Model you'll be able to program directly in the documents you edit. XWiki integrates both Velocity and Groovy scripting. Together, Classes and Scripting will allow you to create basic to complex web applications at the XWiki document layer without the need for compiling code or deploying software components.
+
+; **[[XWiki API Guide&gt;&gt;platform:DevGuide.APIGuide]]**
+: Guide that explains the main XWiki APIs.
+
+; **[[Front-end Resources&gt;&gt;platform:DevGuide.FrontendResources]]**
+: A description of the tools and frameworks used in XWiki. You'll find information about how you can use external libraries such as  YUI and SmartClient and internal XWiki libraries for your the development of your in-wiki applications or for the development of XWiki products themselves. You'll also find the documentation of StyleSheet resources created specifically for the XWiki project.
+
+; **[[XWiki Module Reference&gt;&gt;extensions:Main.WebHome]]**
+: Reference documentation for the various Modules of XWiki.
+
+; **[[Saving Data&gt;&gt;platform:DevGuide.SavingData]]**
+: Description of all the possibilities you have to save Data from within the XWiki Platform
+
+= Tutorials and Guides =
+
+; **[[Creating a FAQ application&gt;&gt;platform:DevGuide.FAQTutorial]]**
+: Demonstrates how to combine Classes and Scripting to produce a FAQ application, much like the one you can find on this Wiki [[FAQ page&gt;&gt;xwiki:FAQ.WebHome]]. This is a very simple application that makes use of XWiki's classes, properties, and objects. It also introduces the concept of Authoring Templates and Page Design Sheets. Completing this tutorial is a recommended prerequisite for anyone who wants to build custom applications on the XWiki engine at the document or presentation layer.
+\\
+; **[[Creating a Groovy Class&gt;&gt;platform:DevGuide.GroovyClassHelloWorldTutorial]]**
+: Demonstrates how to put Groovy code in one page and then reuse it by importing it from another page.
+\\
+; **[[Writing an Event Listener in Groovy&gt;&gt;platform:DevGuide.GroovyNotificationTutorial]]**
+: Explains how to write an [[Event Listener&gt;&gt;extensions:Extension.Observation Module]] in Groovy in order to perform some action when an event happens in the wiki. Examples of events are Document changed, Object modified, and more.
+\\
+; **[[Creating a TODO application in XWiki&gt;&gt;http://www.theserverside.com/tt/articles/article.tss?l=XWiki]]**
+: Another helpful tutorial to using XWiki's classes, velocity scripts, hibernate queries for a dashboard.
+ Shows well the power of XWiki.
+\\
+; **[[Creating a form with validation and tooltips&gt;&gt;platform:DevGuide.Creating a form with validation and tooltips]]**
+: Quick and efficient tutorial to set-up validation using regular expression and groovy scripts, as well as tooltips
+\\
+; **[[Writing XWiki Rendering Macros&gt;&gt;platform:DevGuide.WritingMacros]]**
+: How to develop XWiki Rendering macros (available in XWiki Syntax 2.0 only)
+\\
+; **[[Writing an XWiki Component&gt;&gt;platform:DevGuide.WritingComponents]]**
+: Getting started with the new XWiki components architecture: introduction to this new design, a step-by-step guide to writing an XWiki component (the recommended way of creating XWiki plugins) and some guidelines and development good practices in this area.
+\\
+; **[[Skin eXtensions&gt;&gt;platform:DevGuide.SkinExtensionsTutorial]]**
+: Illustrate XWiki's [[Skin eXtensions&gt;&gt;platform:Features.Skins#HSkinseXtensions]] mechanism that allows developers to pull extra Javascript and stylesheet files on demand or for all wiki pages without modifying the wiki templates and skin. The tutorial guides through the creation of minimal stylesheet and Javascript extensions, and continues with a complete exemple of a real-world extension to demonstrate the power of XWiki's skin eXtensions!
+\\
+; **[[Internationalizing Applications&gt;&gt;platform:DevGuide.InternationalizingApplications]]**
+: Learn how to write internationalized applications.
+\\
+; **[[Creating New XClass Property Types&gt;&gt;platform:DevGuide.CreatingNewXClassPropertyTypes]]**
+: See how you can easily extend the [[class editor&gt;&gt;platform:Features.PageEditing#HClasseseditingmode]] with new custom property types.
+\\
+; **[[Custom Mapping&gt;&gt;platform:DevGuide.CustomMapping]]**
+: Learn how to use Custom Mapping when you need to map XWiki Classes to your own database tables or when you need extra performance for complex data.
+\\
+; **[[Creating Plugins&gt;&gt;platform:DevGuide.CreatingPlugins]]**
+: After you've learnt how to write applications at the document level you may want to go further and program plugins in Java to extend XWiki's view engine, as well as add hooks into different parts of the core engine.
+\\
+; **[[Best Practices&gt;&gt;platform:DevGuide.BestPractices]]**
+: A set of best practices for developing applications with XWiki.
+
+= Further reading =
+
+; **[[XWiki API Reference&gt;&gt;platform:DevGuide.API]]**
+: The API is available as a JavaDoc. It presents the objects and properties that you can access with scripting.
+\\
+; **[[Database Schema&gt;&gt;platform:DevGuide.DatabaseSchema]]**
+: For advanced users who like to know everything, check out the database tables created by XWiki.
+
+= Draft documentation =
+
+See the [[Draft space of the Development Wiki&gt;&gt;dev:Drafts.WebHome]].</content>
+</xwikidoc>

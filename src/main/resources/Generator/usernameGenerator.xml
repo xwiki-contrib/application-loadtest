@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Generator</web>
+  <name>usernameGenerator</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1360063517000</creationDate>
+  <date>1361198502000</date>
+  <contentUpdateDate>1361198502000</contentUpdateDate>
+  <version>1.1</version>
+  <title>usernameGenerator</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>{{velocity}}
+#set($count = 5)
+#if($request.createUsers)
+  #foreach ($number in [1..$count])
+    ## Generate first random number
+    #set($firstRandom = $mathtool.random(1, 10000))
+    ## Generate second random number
+    #set($secondRandom = $mathtool.random(1, 10000))
+    #set($username = "${firstRandom}${secondRandom}")
+    #set($doc = $xwiki.getDocument("XWiki", $username))
+    $doc.setTitle($username)
+    $doc.setParent("xwiki:Main.UserDirectory")
+    ## We populate the XWiki.XWikiUsers Object
+    #set($object = $doc.newObject('XWiki.XWikiUsers'))
+    #set($discard = $object.set("first_name", "$firstRandom"))
+    #set($discard = $object.set("last_name", "$secondRandom" ))
+    #set($discard = $object.set("email", "${firstRandom}.${secondRandom}@xwiki.org"))
+    #set($discard = $object.set("password","password" ))
+    #set($discard = $object.set("company","XWiki SAS QA Division" ))
+    #set($discard = $object.set("blog", "http://xwiki.org" ))
+    #set($discard = $object.set("blogfeed","http://xwiki.org" ))
+    #set($discard = $object.set("comment", "Hello, I am a dummy User"))
+    #set($discard = $object.set("usertype", "Simple"))
+    #set($discard = $object.set("active", "true"))
+    #* The following are not used or required in order to have a valid user
+    #set($discard = $object.set("active"))
+    #set($discard = $object.set("default_language"))
+    #set($discard = $object.set("imtype"))
+    #set($discard = $object.set("imaccount"))
+    #set($discard = $object.set("editor"))
+    #set($discard = $object.set("usertype", "simple"))
+    #set($discard = $object.set("accessibility"))
+    #set($discard = $object.set("displayHiddenDocuments"))
+    #set($discard = $object.set("timezone"))
+    #set($discard = $object.set("skin"))
+    #set($discard = $object.set("avatar"))
+    #set($discard = $object.set("address"))
+    *#
+    ## Add the Dashboard.UserDashboardPreferencesClass Object
+    #set($object = $doc.newObject('Dashboard.UserDashboardPreferencesClass'))
+    #set($discard = $object.set("displayOnMainPage", "false"))
+    ## Add the XWiki.WatchListClass Object
+    #set($object = $doc.newObject('XWiki.WatchListClass'))
+    #set($discard = $object.set("displayOnMainPage", "false"))
+    ## Add rights to AdminGroup to edit the page
+    #set($object = $doc.newObject('XWiki.XWikiRights'))
+    #set($discard = $object.set("groups", "XWiki.XWikiAdminGroup"))
+    #set($discard = $object.set("levels", "edit"))
+    #set($discard = $object.set("allow", "true"))
+    ## Add rights for the user to edit his own profile page
+    #set($object = $doc.newObject('XWiki.XWikiRights'))
+    #set($discard = $object.set("users", "XWiki.Test"))
+    #set($discard = $object.set("levels", "edit"))
+    #set($discard = $object.set("allow", "true"))
+    #set($document = $doc.getDocument())
+    #set($creationDateStart = $datetool.toDate("yyyy-MM-dd", "2009-01-01"))
+    #set($creationDateEnd = $datetool.toDate("yyyy-MM-dd", "2012-01-01"))
+    #set($creationDateStartTimestamp = $creationDateStart.getTime())
+    #set($creationDateEndTimestamp = $creationDateEnd.getTime())
+    #set($randomCreationDateStamp = $mathtool.random($creationDateStartTimestamp, $creationDateEndTimestamp))
+    #set($randomCreationDate = $datetool.toDate($randomCreationDateStamp))
+    #set($discard = $document.setCreationDate($randomCreationDate))
+    #set($discard = $document.setDate($randomCreationDate))
+    #set($discard = $document.setContentUpdateDate($randomCreationDate))
+    ##set($discard = $document.setVersion("1.1"))
+    #set($discard = $document.setCreator($context.user))
+    #set($discard = $document.setAuthor($context.user)) 
+    #set($discard = $document.setContentAuthor($context.user))
+    #set($discard = $document.setMetaDataDirty(false))
+    #set($discard = $document.setContentDirty(false))
+    #set($discard = $document.incrementVersion())
+    #set($discard = $context.context.getWiki().getVersioningStore().updateXWikiDocArchive($document, false, $context.context))
+    #set($discard = $context.context.put("activitystream_requestid", $util.nl))
+    #set($discard = $doc.save())
+    ## Add the user to XWiki.XWikiGroups
+    #set($adoc = $xwiki.getDocument("XWiki.XWikiAllGroup"))
+    #set($object = $adoc.newObject('XWiki.XWikiGroups'))
+    #set($discard = $object.set("member", "XWiki.Test"))
+    #set($discard=$adoc.save())
+    Created username [[$username&gt;&gt;XWiki.${username}]]
+  ## end of foreach loop
+  #end
+#else
+  {{info}}This page will generate $count usernames. If you want to change the value, please edit this document.{{/info}}
+
+  {{html}}
+    &lt;form class="xform" action="$doc.getURL('view', $request.queryString)"&gt;
+      &lt;div class="hidden&gt;
+        &lt;input type="hidden" name="form_token" value="$!{services.csrf.getToken()}"/&gt;
+        &lt;input type="hidden" name="createUsers" value="noMatter"/&gt;
+      &lt;/div&gt;
+      &lt;p class="buttons"&gt;
+        &lt;span class="buttonwrapper"&gt;
+          &lt;input class="button" type="submit" name="" value="Generate Users"/&gt;
+      &lt;/span&gt;
+      &lt;/p&gt;
+    &lt;/form&gt;
+  {{/html}}
+#end
+{{/velocity}}</content>
+</xwikidoc>

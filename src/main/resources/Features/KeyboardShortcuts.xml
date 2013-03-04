@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Features</web>
+  <name>KeyboardShortcuts</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Features.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1205315748000</creationDate>
+  <date>1360950251000</date>
+  <contentUpdateDate>1360950251000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki Keyboard Shortcuts</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>Features.KeyboardShortcuts</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>4fdbf580-e0eb-47ab-9427-3446f48a9974</guid>
+    <property>
+      <cache>long</cache>
+    </property>
+    <property>
+      <code>.keyboard td {
+  border: none;
+  line-height: 2em;
+  vertical-align: top;
+}
+
+.keyboard .description {
+  line-height: 1.4em;
+  max-width: 50em;
+  *width: 50em; /* IE7 */
+}
+
+.keyboard .shortcut {
+  display: inline-block;
+  *display: inline; /* IE7 */
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+.keyboard .shortcut p {
+  *display: inline; /* IE7 */
+}
+
+.key {
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  border-radius: 5px;
+  background-color: #fafafa;
+  background: -moz-linear-gradient(270deg , #fff 70%, #EFEFEF) repeat scroll 0 0 transparent;
+  *background-color: #fafafa;
+  border: 1px solid #ddd;
+  display: inline-block;
+  *display: inline; /* IE7 */
+  min-width: 10px;
+  padding: 4px 8px;
+  *line-height: 2em; /* IE6 */
+  text-align: center;
+}</code>
+    </property>
+    <property>
+      <name>Keyboard Shortcuts Style</name>
+    </property>
+    <property>
+      <parse/>
+    </property>
+    <property>
+      <use>currentPage</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Features.KeyboardShortcuts</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>cdf2c007-83aa-4a22-9477-c3cabe5036d3</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{velocity}}
+$xwiki.ssx.use("Features.KeyboardShortcuts")
+{{/velocity}}
+
+{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+**Since XWiki Enterprise version 1.4M1**, you can use keyboard shortcuts to use some XWiki features. Keyboard shortcuts help you save time since you never have to take your hands off the keyboard to use the mouse.
+
+= Using keyboard shortcuts =
+
+== View Mode ==
+
+{{info}}
+View keyboard shortcuts are only available to advanced users, preventing simple users to get unexpected behavior when pressing keyboard keys by mistake
+{{/info}}
+
+=== a) Edit Actions ===
+
+(% class="keyboard" summary="Keyboard Shortcuts for View Mode in order to activate edit actions" %)
+| (% class="shortcut" %)
+(((
+(% class="key" %)E
+))) |Edit the page using the default edition mode
+| (% class="shortcut" %)
+(((
+(% class="key" %)K
+))) |Edit the page in wiki edition mode
+| (% class="shortcut" %)
+(((
+(% class="key" %)G
+))) |Edit the page using the WYSIWYG editor
+| (% class="shortcut" %)
+(((
+(% class="key" %)F
+))) |Inline Form
+| (% class="shortcut" %)
+(((
+(% class="key" %)R
+))) |Edit page access rights
+| (% class="shortcut" %)
+(((
+(% class="key" %)O
+))) |Edit page objects
+| (% class="shortcut" %)
+(((
+(% class="key" %)S
+))) |Edit class
+
+=== b) View Actions ===
+
+(% class="keyboard" summary="Keyboard Shortcuts for View Mode in order to activate view actions" %)
+| (% class="shortcut" %)
+(((
+(% class="key" %)C
+))) |Go to page comments
+| (% class="shortcut" %)
+(((
+(% class="key" %)A
+))) |Go to page attachments
+| (% class="shortcut" %)
+(((
+(% class="key" %)H
+))) |Go to page history
+| (% class="shortcut" %)
+(((
+(% class="key" %)D
+))) |View page wiki code
+
+=== c) Other Actions ===
+
+(% class="keyboard" summary="Keyboard Shortcuts for View Mode in order to activate other actions" %)
+| (% class="shortcut" %)
+(((
+(% class="key" %)F2
+))) |Rename page
+| (% class="shortcut" %)
+(((
+(% class="key" %)Delete
+))) |Delete page
+
+== Edit Wiki &amp; Edit Inline Mode ==
+
+{{warning}}
+While in Inline Edit mode and focusing on a WYSIWYG edit area, the keyboard shortcuts listed below  won't work since the WYSIWYG editor grabs all the key pressed events.
+{{/warning}}
+
+(% class="keyboard" summary="Keyboard Shortcuts for Edit Wiki and Inline Mode" %)
+| (% class="shortcut" %)
+(((
+(% class="key" %)Alt(%%) + (% class="key" %)C
+)))|Cancel edition
+| (% class="shortcut" %)
+(((
+(% class="key" %)Alt(%%) + (% class="key" %)P
+)))|Preview the page without saving
+| (% class="shortcut" %)
+(((
+(% class="key" %)Alt(%%) + (% class="key" %)Shift(%%) + (% class="key" %)S
+)))|Save and continue to edit the page
+| (% class="shortcut" %)
+(((
+(% class="key" %)Alt(%%) + (% class="key" %)S
+)))|Save and view the page
+
+== Edit WYSIWYG Mode ==
+
+{{include document="WysiwygEditorShortcuts"/}}
+
+== Preview Mode ==
+
+(% class="keyboard" summary="Keyboard Shortcuts for Preview Mode" %)
+| (% class="shortcut" %)
+(((
+(% class="key" %)Alt(%%) + (% class="key" %)C
+))) |Cancel edition
+| (% class="shortcut" %)
+(((
+(% class="key" %)Alt(%%) + (% class="key" %)B
+))) |Back to the edition
+| (% class="shortcut" %)
+(((
+(% class="key" %)Alt(%%) + (% class="key" %)Shift(%%) + (% class="key" %)S
+))) |Save and continue to edit the page
+| (% class="shortcut" %)
+(((
+(% class="key" %)Alt(%%) + (% class="key" %)S
+))) |Save and view the page
+
+== Annotations ==
+
+(% class="keyboard" summary="Keyboard Shortcuts for Annotations" %)
+| (% class="shortcut" %)
+(((
+(% class="key" %)Ctrl(%%) + (% class="key" %)M
+))) |Annotate a piece of text
+
+== Navigation ==
+
+(% class="keyboard" summary="Keyboard Shortcuts for Navigation" %)
+| (% class="shortcut" %)
+(((
+(% class="key" %)Ctrl(%%) + (% class="key" %)G
+))) (% class="separator" %)or(%%) (% class="shortcut" %)
+(((
+(% class="key" %)Meta(%%) + (% class="key" %)G
+)))|Jump to any page in the wiki 
+
+= Configuring keyboard shortcuts =
+
+== Modifying keyboard shortcuts ==
+
+* Create a new page in your wiki, for example //XWiki.KeyboardShortcuts// and paste the following content inside:(((
+{{code}}
+core.shortcuts.view.edit=e
+core.shortcuts.view.wiki=k
+core.shortcuts.view.wysiwyg=g
+core.shortcuts.view.inline=f
+core.shortcuts.view.rights=r
+core.shortcuts.view.objects=o
+core.shortcuts.view.class=s
+core.shortcuts.view.comments=c
+core.shortcuts.view.attachments=a
+core.shortcuts.view.history=h
+core.shortcuts.view.information=i
+core.shortcuts.view.code=d
+core.shortcuts.view.delete=Delete
+core.shortcuts.view.rename=F2
+core.shortcuts.edit.cancel=Alt+C
+core.shortcuts.edit.backtoedit=Alt+B
+core.shortcuts.edit.preview=Alt+P
+core.shortcuts.edit.saveandcontinue=Alt+Shift+S
+core.shortcuts.edit.saveandview=Alt+S
+{{/code}}
+)))
+* Modify entries in this list at your convenience
+* Save the page
+* Go to the wiki administration into the "//Programming//" category
+* At the bottom, add //XWiki.KeyboardShortcuts// to the "//Internationalization Document Bundles//" list
+
+== Adding your own shortcuts ==
+
+You can add your own keyboard shortcuts in a few javascript lines :
+
+{{code language="html"}}
+&lt;script type="text/javascript"&gt;
+//&lt;![CDATA[
+  shortcut.add("Ctrl+Alt+n", function() { alert("Hey there! Congratulations on typing this one ;)"); });
+//]]&gt;
+&lt;/script&gt;
+{{/code}}
+
+{{html clean="false"}}
+&lt;script type="text/javascript"&gt;
+  shortcut.add("Ctrl+Alt+n", function() { alert("Hey there! Congratulations on typing this one ;)"); }, {'propagate':false} );
+&lt;/script&gt;
+{{/html}}
+
+Try the snippet by pressing (% class="key" %)**Ctrl**(%%) + (% class="key" %)**Alt**(%%) + (% class="key" %)**n**(%%).
+
+Also check the [[complete documentation&gt;&gt;http://www.openjs.com/scripts/events/keyboard_shortcuts/]].
+
+== Removing keyboard shortcuts ==
+
+To remove a shortcut adapt this snippet to your needs :
+
+{{code language="html"}}
+&lt;script type="text/javascript"&gt;
+//&lt;![CDATA[
+  shortcut.remove("Ctrl+Alt+n");
+//]]&gt;
+&lt;/script&gt;
+{{/code}}
+
+{{html clean="false"}}
+&lt;script type="text/javascript"&gt;
+function removeCtrlAltN() {
+  shortcut.remove("Ctrl+Alt+n");
+}
+&lt;/script&gt;
+&lt;a onclick="removeCtrlAltN(); return false;" href="#"&gt;Click here to try the snippet, it will remove the Ctrl+Alt+n shortcut&lt;/a&gt;.
+{{/html}}
+
+== Removing all shortcuts at once ==
+
+{{code language="html"}}
+&lt;script type="text/javascript"&gt;
+//&lt;![CDATA[
+  for (binding in shortcut.all_shortcuts) {
+    shortcut.remove(binding);
+  }
+//]]&gt;
+&lt;/script&gt;
+{{/code}}
+
+{{velocity}}
+#if (!$isGuest &amp;&amp; $isAdvancedUser)
+{{html clean="false"}}
+&lt;script type="text/javascript"&gt;
+//&lt;![CDATA[
+function removeAll() {
+  for (binding in shortcut.all_shortcuts) {
+    shortcut.remove(binding);
+  }
+}
+//]]&gt;
+&lt;/script&gt;
+&lt;a onclick="removeAll(); return false;" href="#"&gt;Click here to try the snippet, it will disable all keyboard shortcuts&lt;/a&gt;.
+{{/html}}
+#end
+{{/velocity}}
+
+== Credits ==
+
+XWiki keyboard shortcuts are powered by [[openjs.com shortcut library&gt;&gt;http://www.openjs.com/scripts/events/keyboard_shortcuts/]].</content>
+</xwikidoc>

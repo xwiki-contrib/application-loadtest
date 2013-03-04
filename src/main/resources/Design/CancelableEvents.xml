@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>CancelableEvents</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1282128346000</creationDate>
+  <date>1360950333000</date>
+  <contentUpdateDate>1360950333000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Cancelable events</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.CancelableEvents</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>441132d0-daac-4feb-8189-8ad880db29c3</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.CancelableEvents</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>5a34508e-1710-46a8-aa25-8937bbc2a56b</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+= General goal =
+
+Be able to use event to cancel actions.
+
+= Use case =
+
+* cancel document saving
+* cancel script execution
+** for security reasons (e.g. nested scripts)
+** because of errors in initialization
+* ...
+
+= Proposal =
+
+{{code language="java"}}
+interface CancelableEvent extends Event
+{
+  boolean isCanceled();
+
+  void cancel();
+
+  void cancel(String reason);
+
+  String getReason();
+}
+
+class AbstractCancelableEvent implements CancelableEvent
+{
+  private boolean canceled = false;
+
+  private String reason;
+
+  public boolean isCanceled()
+  {
+    return this.canceled;
+  }
+
+  public void cancel()
+  {
+    this.cancel = true;
+  }
+
+  public void cancel(String reason)
+  {
+    this.reason = reason;
+  }
+
+  public String getReason()
+  {
+    retrun this.reason;
+  }
+}
+{{/code}}
+
+A cancelable event implements CancelableEvent and any listener of this event can cancel the event by calling #cancel() method. Then the sender of the event uses #isCanceled() to know it has to cancel the action.</content>
+</xwikidoc>

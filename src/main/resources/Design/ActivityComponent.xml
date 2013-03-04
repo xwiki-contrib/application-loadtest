@@ -1,0 +1,282 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ActivityComponent</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1249389697000</creationDate>
+  <date>1360950312000</date>
+  <contentUpdateDate>1252069689000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Activity Component</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.ActivityComponent</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>94dd7a21-35c3-4591-8cf0-ef022671281f</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.ActivityComponent</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>ee281978-02f7-4b09-a793-baece49d719f</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+== Goal ==
+
+Log events fired by xwiki-observation into a dedicated table in the database, allowing cheap retrieval of activity within various scopes: farm, wiki, space.
+
+== Architecture proposal ==
+
+**Summary:**
+
+ * Additions to the Event interface
+ ** Event getParent() allowing parent/child relationship management for events generated after some previous event
+ ** Date getDate() time at which the event occurred
+ ** Object getSource() get the source of the event from the event itself
+ ** Object getData() get of the data associated to the event from the event itself
+ * Externalization of the event matching feature into dedicated classes
+ * Creation of a criteria component made of current com.xpn.xwiki.criteria.* classes
+
+**Important notes:**
+
+ * This design page is a Work in Progress. 
+ * The problem with the current proposal is that the persistence manager has to know the events it receives to be able to perform the matching between criteria fields and anonymous params in the database. A possible solution could be to add some meaningful fields in the event table: wiki, space, fullName, user.
+ * Since we want to be able to add persistent events dynamically we might not be able to use hibernate (we don't want to add a new implementer class to the hibernate mapping each time we implement PersistentEvent). //To be verified//.
+
+=== Structure ===
+
+**xwiki-observation-local**
+
+{{code}}
+|-- ./EventListener.java (i)
+|-- ./ObservationManager.java (i)
+|-- ./event
+|   |-- ./event/AbstractDocumentEvent.java (implements PersistentEvent)
+|   |-- ./event/ActionExecutionEvent.java
+|   |-- ./event/AllEvent.java
+|   |-- ./event/ApplicationStartedEvent.java
+|   |-- ./event/ApplicationStoppedEvent.java
+|   |-- ./event/DocumentDeleteEvent.java
+|   |-- ./event/DocumentSaveEvent.java
+|   |-- ./event/DocumentUpdateEvent.java
+|   |-- ./event/Event.java (i)
+|   |-- ./event/PersistentEvent.java (i) (extends Event)
+|   `-- ./event/criteria
+|       |-- ./event/criteria/AbstractDocumentEventCriteria.java
+|       |-- ./event/criteria/ActionExecutionEventCriteria.java
+|       |-- ./event/criteria/ApplicationStartedEventCriteria.java
+|       |-- ./event/criteria/ApplicationStoppedEventCriteria.java
+|       |-- ./event/criteria/DocumentDeleteEventCriteria.java
+|       |-- ./event/criteria/DocumentSaveEventCriteria.java
+|       |-- ./event/criteria/DocumentUpdateEventCriteria.java
+|       |-- ./event/criteria/EventCriteria.java (i)
+|   `-- ./event/matching
+|       |-- ./event/filter/AlwaysMatchingEventMatcher.java
+|       |-- ./event/filter/EventMatcher.java (i)
+|       |-- ./event/filter/FixedNameEventMatcher.java
+|       `-- ./event/filter/RegexEventMatcher.java
+`-- ./internal
+    `-- ./internal/DefaultObservationManager.java
+{{/code}}
+
+**xwiki-observation-persistence**
+
+{{code}}
+|-- ./EventPersistenceManager.java (i)
+`-- ./internal
+    `-- ./internal/DefaultEventPersistenceManager.java (implements EventPersistenceManager, EventListener)
+{{/code}}
+
+==== PersistentEvent ====
+
+{{code syntax="java"}}
+public interface PersistentEvent extends Event
+{
+    String getId();
+    String getParentId();
+
+    String getString1();
+    String getString2();
+    String getString3();
+    String getString4();
+    String getString5();
+    String getString6();
+    String getString7();
+    String getString8();
+    String getString9();
+    String getString10();
+
+    String getText1();
+    String getText2();
+    String getText3();
+
+    float getNumber1();
+    float getNumber2();
+    float getNumber3();
+
+    Date getDate1();
+    Date getDate2();
+    Date getDate3();
+}    
+{{/code}}
+
+==== EventPersistenceManager ====
+
+{{code syntax="java"}}
+import org.xwiki.criteria.Period; // allows to match events between two dates
+import org.xwiki.criteria.Scope; // allows to match events fired from a farm, a wiki, a space, a document
+import org.xwiki.criteria.Users; // allows to match events fired by a given list of users
+
+public interface EventPersistenceManager
+{
+    List&lt;Event&gt; getEvents(Event eventType, Period periodCriterion, Scope scopeCriterion, int start, int offset);
+
+    List&lt;Event&gt; getEvents(Event eventType, Users userCriterion, Period periodCriterion, Scope scopeCriterion, int start, int offset);
+
+    // To be extended
+}
+{{/code}}
+
+==== activity.hbm.xml ====
+
+{{code syntax="xml"}}
+&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD//EN"
+        "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd"&gt;
+&lt;hibernate-mapping&gt;
+	&lt;class name="org.xwiki.activity.internal.DefaultActivityEvent" table="activityevent"&gt;
+		&lt;id name="id" type="string" unsaved-value="undefined"&gt;
+			&lt;column name="id" length="255" not-null="true" /&gt;
+			&lt;generator class="assigned" /&gt;
+		&lt;/id&gt;
+		&lt;property name="date" type="timestamp"&gt;
+			&lt;column name="date" /&gt;
+		&lt;/property&gt;
+		&lt;property name="class" type="string"&gt;
+			&lt;column name="class" length="255" /&gt;
+		&lt;/property&gt;
+		&lt;property name="parentId" type="string"&gt;
+			&lt;column name="parentId" length="255" /&gt;
+		&lt;/property&gt;
+
+                &lt;!-- String parameters --&gt;
+             
+		&lt;property name="string1" type="string"&gt;
+			&lt;column name="string1" length="255" /&gt;
+		&lt;/property&gt;
+		&lt;property name="string2" type="string"&gt;
+			&lt;column name="string2" length="255" /&gt;
+		&lt;/property&gt;
+		&lt;property name="string3" type="string"&gt;
+			&lt;column name="string3" length="255" /&gt;
+		&lt;/property&gt;
+		&lt;property name="string4" type="string"&gt;
+			&lt;column name="string4" length="255" /&gt;
+		&lt;/property&gt;
+		&lt;property name="string5" type="string"&gt;
+			&lt;column name="string5" length="255" /&gt;
+		&lt;/property&gt;
+		&lt;property name="string6" type="string"&gt;
+			&lt;column name="string6" length="255" /&gt;
+		&lt;/property&gt;
+		&lt;property name="string7" type="string"&gt;
+			&lt;column name="string7" length="255" /&gt;
+		&lt;/property&gt;
+		&lt;property name="string8" type="string"&gt;
+			&lt;column name="string8" length="255" /&gt;
+		&lt;/property&gt;
+		&lt;property name="string9" type="string"&gt;
+			&lt;column name="string9" length="255" /&gt;
+		&lt;/property&gt;
+		&lt;property name="string10" type="string"&gt;
+			&lt;column name="string10" length="255" /&gt;
+		&lt;/property&gt;
+
+		&lt;property name="string10" type="string"&gt;
+			&lt;column name="string10" length="255" /&gt;
+		&lt;/property&gt;
+
+                &lt;!-- Text parameters --&gt;
+
+		&lt;property name="text1" type="string"&gt;
+			&lt;column name="text1" length="2000" /&gt;
+		&lt;/property&gt;
+		&lt;property name="text2" type="string"&gt;
+			&lt;column name="string10" length="2000" /&gt;
+		&lt;/property&gt;
+		&lt;property name="text3" type="string"&gt;
+			&lt;column name="text3" length="2000" /&gt;
+		&lt;/property&gt;
+
+                &lt;!-- Number parameters --&gt;
+
+		&lt;property name="number1" type="float"&gt;
+			&lt;column name="number1" /&gt;
+		&lt;/property&gt;
+		&lt;property name="number2" type="float"&gt;
+			&lt;column name="number2" /&gt;
+		&lt;/property&gt;
+		&lt;property name="number3" type="float"&gt;
+			&lt;column name="number3" /&gt;
+		&lt;/property&gt;
+
+                &lt;!-- Date parameters --&gt;
+
+		&lt;property name="date1" type="timestamp"&gt;
+			&lt;column name="date1" /&gt;
+		&lt;/property&gt;
+		&lt;property name="date2" type="timestamp"&gt;
+			&lt;column name="date2" /&gt;
+		&lt;/property&gt;
+		&lt;property name="date3" type="timestamp"&gt;
+			&lt;column name="date3" /&gt;
+		&lt;/property&gt;
+	&lt;/class&gt;
+&lt;/hibernate-mapping&gt;
+{{/code}}</content>
+</xwikidoc>

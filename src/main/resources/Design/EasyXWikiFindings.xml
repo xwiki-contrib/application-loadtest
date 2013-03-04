@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>EasyXWikiFindings</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.ImproveXWikiUserExperience</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1253117101000</creationDate>
+  <date>1361190322000</date>
+  <contentUpdateDate>1361190322000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Easy XWiki</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.EasyXWikiFindings</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>339ab231-f7ac-42b4-bc7d-2bc4312b0035</guid>
+    <property>
+      <tags>
+        <value>ux</value>
+        <value>usability</value>
+      </tags>
+    </property>
+  </object>
+  <content>
+= Easy XWiki =
+
+{{toc/}}
+
+Here is a summary of what people said about making XWiki Enterprise easier to use.
+
+{{warning}}
+Work in Progress
+{{/warning}}
+
+== User Interface ==
+
+=== Dashboard ===
+
+==== Spaces ====
+
+* Give more information about each space
+* Use the title of the space's homepage as a title for the whole space
+* Create space descriptors?
+
+==== Recent Changes ====
+
+* There should be no changes displayed when starting a new wiki
+* Since a new wiki has had no activity going on, why are some modifications displayed?
+* System page modifications should be hidden for normal users
+
+==== Tag Cloud ====
+
+* The tag cloud is hidden at the bottom of the list of spaces and hard to see
+
+=== Page Actions ===
+
+We should have only information available from the view mode, not stuff scattered all around the place, the user should be able to see 3 main things:
+
+* where am I?
+* what am I doing?
+* what can I do?
+
+Things should be easily answered by looking at the page. Right now we do not have a functional model that encompasses all this.
+
+==== Action bar ====
+
+* move the action bar (edit, show, watch...) closer to page content
+* shortcuts should be described in the action menu
+* use icons in the action bar to make it easier to understand
+* splitting the action bar between local and global actions and create 2 menus
+** global one -&gt; administration, create new content, manage watchlist
+** page menu -&gt; actions related to the current page
+
+==== Logged-in / Logged-out ====
+
+* When not logged-in -&gt; edit action is hidden
+** display the edit action as disabled to let people know it's a wiki
+** on a public website you don't want to see the action bar for guests anyway
+
+==== Page creation ====
+
+* streamline the link creation process -&gt; make it faster, more simple
+** make document information more visible
+* page creation panel on the right side that isn't good
+** when in the blog interface, it duplicates the creation panel (context issue)
+** should be a button
+** where is the page created? which other pages is the created page related to?
+** all create actions made contextual to the wiki (from treeview, from wikilinks)
+* add tags, categories when creating a page
+
+=== Titles ===
+
+* page title issue -&gt; name vs title, it's confusing
+* use document titles instead of page names as much as possible
+** uniform name management when creating new pages
+
+=== Avatars ===
+
+* comments lack the user avatar
+* make user avatars easy to use (macro)
+
+=== Other ===
+
+* too much information in search results, in the dashboard -&gt; when you open it for the first time there's a lot of information but the user doesn't know where it comes from
+* create panel should be improved -&gt; create space is in the wrong place
+* treeview navigation is confusing, it's hard to understand its logic right now
+* information about comments, attachments, history to put at the top of the page? -&gt; nobody sees them
+
+=== Consistency ===
+
+* same skin for the administration as for everything else
+* unify the looks of the edit and view mode
+** in-place editing
+** same place, same configuration, nothing different but the edit
+
+== Configuration &amp; Administration ==
+
+=== Configuration ===
+
+* first interaction -&gt; first thing the user sees when the homepage is displayed -&gt; display additional information for the first time -&gt; steps you have to do to configure your wiki. Basic steps required to make your wiki work. Popup?
+* hidden pages / spaces -&gt; all pages in the space are hidden = hidden space?
+
+=== Administration ===
+
+* New spaces appear once I've logged in as an Admin. Why?
+* Create accounts for new users -&gt; I don't really know where to go. 
+* What is the order of icons in the administration? Why is it like that?
+** Explanatations for each item in administration (captions, tooltips)
+** Why OpenOffice? What is it doing here? It's an option.
+** Registration is confusing
+* Administration: drop-down &amp; "Show available categories" button put together. Why is that so?
+** The drop-down menu isn't self-explanatory, it doesn't tell anything about itself
+** "Add new user" should be at the top of the page
+** Clicking on "Create new user" launches a popup -&gt; various interaction styles
+*** what's mandatory, what's optional?
+*** no error messages, information gets lost
+*** email field not used by default
+*** automatically generate a password for the user (-&gt; invitation manager)
+*** configuring registration options / process in XWiki in complicated
+*** **email addresses are hidden in the user profile**
+*** user profile -&gt; actions are not in the right place
+** put user into a group
+*** group names suck, system groups are not identified as such
+*** edit button -&gt; what am I editing, group name of group members? Right now renaming a group will break configured rights
+*** on a group page -&gt; "add user to group" button
+*** local &amp; global users -&gt; what does that mean on a standard XE instance?
+** configuring rights
+*** rights inheritance
+*** it's dangerous to change XWikiAllGroup and XWikiAdminGroup rights yet it can be done easily
+*** the deny warning is painful
+*** select the rights you want and then apply them -&gt; make the rights transactional (button to save)
+*** revert rights to the default setting button
+*** describe every right and explain how to set them
+* sometimes configuration cannot be achieved but through objects -&gt; an interface should always be available to make this explicit
+** hide technical pages even from admin, the admin shouldn't see everything -&gt; like in windows, let people see / hide hidden documents
+
+== Help ==
+
+* Add an "Help" panel between Search and Quick Links
+* Make the link to the user guide more obvious
+* Contextual help
+* Make the help more obvious
+** when there's only one user in the wiki, display all the help, message disappears once another user has been created
+* make the user guide easier to find, it cannot be found easily right now
+
+== Language ==
+
+* Create language-specific distribution
+** Select the language from the installer
+** Choose the language of your wiki from the installer
+* translations are painful and confusing to setup -&gt; hard to find, hard to set, translations don't appear in all pages at once, when on a given page it's hard to know in which languages it has been translated.
+** lack of feedback when setting up translations</content>
+</xwikidoc>

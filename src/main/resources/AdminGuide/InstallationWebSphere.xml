@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>InstallationWebSphere</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Installation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1176994837000</creationDate>
+  <date>1360853378000</date>
+  <contentUpdateDate>1360853378000</contentUpdateDate>
+  <version>1.1</version>
+  <title>WebSphere installation</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.InstallationWebSphere</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>f67e40c0-ce8a-4830-9183-f0d2ed8f2af3</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{info}}
+These instructions cover WebSphere V6.1; other versions may differ.
+{{/info}}
+
+= Install the XWiki application =
+
+* Start the application server if it isn't running:(((
+{{code language="none"}}$WAS_HOME/bin/startServer.sh server1{{/code}}
+)))
+* Start the console. The default URLs are:
+** http://localhost:9060/ibm/console/logon.jsp (non-secure)
+** https://localhost:9043/ibm/console/logon.jsp (secure)
+* Expand the Applications menu and click on "Install New Application"
+* Fill in the following:
+** Full path to [[XWiki WAR&gt;&gt;xwiki:Main.Download]]
+** Context root to /xwiki
+* Click "Next"; at this point if your WAR file is on a different machine from the server it will be copied over.
+* Fill in each screen and click "Next" for each of them:
+** Step 1: You may want to modify the application name
+** Step 2: Nothing to do
+** Step 3: The jdbc/XWikiDS is not used by XWiki, but you still need to fill it out. Simply click "Browse..." under Target Resource JNDI Name, choose the "Default Datasource" and click "Apply"
+** Step 4: Nothing to do
+** Step 5: Click "Finish"
+* A screen with the results is displayed next. At this point the changes have not been written to the file system. Click on the "Save" button to finish the installation step.
+
+= Configure WebSphere =
+
+* WebSphere v6.1 does not have the PNG MIME type configured by default, so you need to do so. If you do not follow this step, you'll get a NullPointerException at com.xpn.xwiki.web.SkinAction.isJavascriptMimeType.
+** In the Console, expand "Environment" and select "Virtual Hosts"
+** Click on the default_host link (or whatever host you installed XWiki onto)
+** Click on the "MIME types" link
+** Click "New" to add a new MIME type
+** Fill out the form this way:
+*** MIME Type: image/png
+*** Extensions: PNG png
+* Click "OK", save the configuration and restart the server</content>
+</xwikidoc>

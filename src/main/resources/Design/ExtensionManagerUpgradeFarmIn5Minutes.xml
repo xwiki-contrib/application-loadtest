@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ExtensionManagerUpgradeFarmIn5Minutes</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>ExtensionManager</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1331733743000</creationDate>
+  <date>1360950298000</date>
+  <contentUpdateDate>1331738154000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Upgrade Farm In 5 Minutes</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>The goal is to make as easy as possible to upgrade an XWiki distribution (XE, XEM, etc...). For now this page does not includes WAR upgrade and mostly concentrate on product upgrade.
+
+= Requirement =
+
+Whatever the solution, the following is required:
+
+* conflict resolution UI:
+** live system to let java xar merger ask to the client what to do when finding a conflict
+** UI to to display the conflict and answer what to do
+
+* we need the current XARs in all wikis to be already installed with Extension Manager (so that it's able to find them safely compare versions etc...). Not too hard for main wiki, a bit harder for subwiki which are generally based on a wiki copy from template
+** in wiki manager when creating a wiki from a template mark all the extensions installed for the copied template as installed for the new wiki too (not very hard with the existing EM API)
+** instead of using a template to create wiki, indicate the applications installed for all wiki which mean that when you create a new wiki thoses application will be automatically imported. Does not cover the use case where you have to do some custom configuration in the template like right, home page etc.
+** indicate in wiki pages instead of local repository what extensions are installed on the wiki. Problem is that it makes it very fragile since a wiki page is not safe, can be deleted by mistkake etc.
+
+=== The quick way ===
+
+* put Extension Manager UI in a velocity template or a light version of Extension Manager (like we do for the import) so that it makes easier to install XE the first time with it
+* then two way of upgrading:
+** let the user select XE
+*** put XE in extensions.xwiki.org so that it can be found
+*** allow to choose which version to install (instead of always the last version like it is right now in the UI)
+** upgrade all the found extensions to the last version compatible to core extensions
+*** introduce upgrade plan job, to display it in the UI and choose what to actually upgrade
+
+=== The nice way ===
+
+Introduce the long awaited first access install/upgrade UI and propose to upgrade the product XAR
+
+* have the product id and corresponding xar extension id indicated somewhere in the war (so that it knows if it should install xwiki-enterprise-ui, xwiki-manager-ui, etc.). The version is already provided by version.properties. We could deprecate it and have everything in a product.properties file for example. Will also be nicer for the footer since right now we put the product name in the XWikiPreferences file which is not very nice. Having those informations also make possible to list the product itself as a core extension which makes possible to put it as dependency of an extension (easier for some quick xar extension for which the author does not really knows from what module comes what he is using).
+* decide of a way to know it's actually the first start or that the install or upgrade process has not been completed yet. Easiest that come to my mind is a status in a table of the DB with what we find in the production.properties to compare it with the current one.
+* in the same process also list the new versions of compatible extensions that are not in the product tree of dependencies. To separate "real" extensions from the product upgrade.
+
+As a bonus in this solution we don't need to have XE/XEM in extensions.xwiki.org since it would know the id from product.properties. Also standard EM UI stays in a separated xar extension and we just do a separated product install/upgrade UI which use the same APIs.</content>
+</xwikidoc>

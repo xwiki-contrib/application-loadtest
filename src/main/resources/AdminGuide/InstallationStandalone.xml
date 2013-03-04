@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>InstallationStandalone</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Installation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1327483607000</creationDate>
+  <date>1360853366000</date>
+  <contentUpdateDate>1360853366000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Installing the Standalone Distribution</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>{{warning}}
+If you install on Windows 7 and if you're using a version of XWiki &lt; 4.1 then you'll need to be careful **not** to install in the ##Program Files## directory. This is because of new security measures in Windows 7 which prevent from writing in the ##Program Files## directory. A possible location is at the root of your C drive (e.g. ##C:\XWiki Enterprise##).
+{{/warning}}
+
+This is by far the easiest way to install XWiki. 
+
+Before you start make sure you've read the [[System Requirements&gt;&gt;AdminGuide.Installation#HPrerequisites]].
+
+First, choose your [[preferred version&gt;&gt;xwiki:Main.Download]]. We are offering 3 packaging for ease of installation:
+* A Windows exe. Simply execute it and follow the instructions. Do not close the DOS Windows that shows up. This is the XWiki server running, instead point your browser to ##{{{http://www.localhost:8080/}}}##.(((
+{{warning}}
+Make sure you install with a user who has administration rights and run the installed XWiki server with that same user. Otherwise you might get some permission problems. They can be fixed by giving permission to the other user to write in the directories XWiki writes to. Those depend on the XWiki version you use:
+* Before 4.0.1 and 4.1M1, 4.1M2: The directory where you installed XWiki Enterprise (the default location is ##C:\Program Files\XWiki Enterprise##)
+* 4.0.1 and 4.1: ##C:\XWiki Enterprise##
+* 4.2M1+: The XWiki Data directory in ##%APPDATA%\XWiki\&lt;version&gt;\data##
+{{/warning}}
+)))
+* A generic Installer that works on all platforms. It requires Java to be installed on your system. Simply double-click on it and follow the instructions.
+* A zip version. Unzip it in any directory of your choice (let's call it ##XWIKIHOME##).
+
+The Windows installer creates shortcuts to start and stop XWiki in your Windows start menu. Launch the Wiki using "start".
+
+If you've used the zip file or generic Installer, go to the directory where you've installed XWiki (##XWIKIHOME##) and run ##start_xwiki.bat## in Windows or ##start_xwiki.sh## on Unix. To stop it, run the ##stop_xwiki.bat## script on Windows and ##stop_xwiki.sh## on Unix or Mac. On Mac you will need to use //"Open with Terminal"// or run this script from the Terminal.
+
+Concerning the Generic Installer, you can use this command to launch the installation: //java -jar &lt;name_of_installer_file.jar&gt;//
+
+Once XWiki is started point your browser to ##{{{http://localhost:8080/}}}## and then go to the [[User's Guide&gt;&gt;enterprise:UserGuide.WebHome]] to learn how to use XWiki.
+
+In some cases, you might already have a Web Server running on port 8080. If this happens you have to use another port, specified by passing an argument to the start script (e.g. using the port 8081, as in ##start_xwiki.sh 8081##).
+
+{{info}}
+You can log in using the default ##Admin## user (first letter is capitalized). The default password is ##admin## (lowercase).
+{{/info}}</content>
+</xwikidoc>

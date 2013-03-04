@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>GroovyClassHelloWorldTutorial</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.Tutorials</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1171572631000</creationDate>
+  <date>1360950274000</date>
+  <contentUpdateDate>1360950274000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Creating a Groovy Class</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.GroovyClassHelloWorldTutorial</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>d70afbc0-15a2-4fb4-95c0-a73e9a77f8b8</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+In general, creating a Groovy class in a wiki page is not really recommended and usually it's nicer to create code in Java and make it available to XWiki pages through [[Script Services&gt;&gt;extensions:Extension.Script Module]].
+
+However there might be a few cases when it's handy to create a Groovy class in a wiki page and reuse it from several other wiki pages.
+
+= In XWiki Syntax 2.0+ =
+
+* Create a page, for example ##Groovy.HelloWorldClass## containing:
+(((
+{{info}}
+This page must have been saved by a user with programming [[rights&gt;&gt;platform:Features.RightsManagement]] to be executed.
+{{/info}} 
+
+{{code}}
+{{groovy}}
+class HelloWorld
+{
+  String say()
+  {
+    return "Hello World"
+  }
+}
+{{/groovy}}
+{{/code}}
+)))
+* Use this Groovy class from another wiki page, say from ##Main.HelloWorldFromGroovy##:
+(((
+{{info}}
+This page must have been saved by a user with programming [[rights&gt;&gt;platform:Features.RightsManagement]] to be executed.
+{{/info}}
+
+{{code}}
+{{include document="Groovy.HelloWorldClass"/}}
+
+{{groovy}}
+println new HelloWorld().say()
+{{/groovy}}
+{{/code}}
+)))
+
+Now when you view ##Main.HelloWorldFromVelocity## you'll see: {{code}}Hello World{{/code}}
+
+{{info}}
+* Note that with this strategy it's not possible to call the ##HelloWorld## class from Velocity and you'll need to use a Groovy macro to see it.
+* Several variables such as ##xwiki##, ##doc##, ##xcontext## are already bound to the Groovy execution context and can be used. See the [[Scripting page&gt;&gt;DevGuide.Scripting]] for more details.
+{{/info}}
+
+= In XWiki Syntax 1.0 =
+
+You'll need to use the ##XWiki.parseGroovyFromPage## API method. This method allow you to instantiate a Groovy class from both Velocity and Groovy scripts.
+
+* Create a new page, for example ##Groovy.HelloWorldClass## containing:
+(((
+{{info}}
+* This page must have been saved by a user with programming [[rights&gt;&gt;platform:Features.RightsManagement]] to be executed.
+* When creating a page that has to be accessed via ##parseGroovyFromString## make sure you do not have opening and closing groovy identifiers.
+{{/info}}
+
+{{code}}
+/* Groovy Class #* */
+
+class HelloWorldClass
+{
+  def xwiki
+  def context
+
+  void setObjects(xwiki, context)
+  {
+    setXWiki(xwiki)
+    setContext(context)
+  }
+
+  void setXWiki(xwiki)
+  {
+    this.xwiki = xwiki
+  }
+
+  void setContext(context)
+  {
+    this.context = context
+  }
+
+  String say()
+  {
+    return "Hello World"
+  }
+}
+
+/* *# */
+{{/code}}
+
+{{info}}
+* Notice the trick of putting a Velocity comment in the Groovy comment so that the code is not parsed by Velocity.
+* As you can see, we can get and store the XWiki and Context objects in the class to be able to use them; their use is not illustrated in this tutorial though.
+{{/info}}
+)))
+
+== Instantiate and use your class from Velocity ==
+
+* Create a new page, for example ##Main.HelloWorldFromVelocity## containing:
+(((
+{{code}}
+#set($groovyObject = $xwiki.parseGroovyFromPage("Groovy.HelloWorldClass"))
+$groovyObject.setObjects($xwiki, $context)
+$groovyObject.say()
+{{/code}}
+)))
+
+* See the result. Feeling groovy ? ;)
+
+== Instantiate and use your class from Groovy ==
+
+* Create a new page, for example ##Main.HelloWorldFromGroovy## containing:
+(((
+{{info}}
+This page must have been saved by a user with programming [[rights&gt;&gt;platform:Features.RightsManagement]] to be executed.
+{{/info}}
+
+{{code}}
+&lt;%
+groovyObject = xwiki.parseGroovyFromPage("Groovy.HelloWorldClass")
+groovyObject.setObjects(xwiki, context)
+print groovyObject.say()
+%&gt;
+{{/code}}
+)))</content>
+</xwikidoc>

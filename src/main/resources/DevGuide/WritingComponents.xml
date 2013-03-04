@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>WritingComponents</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.Tutorials</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1222948609000</creationDate>
+  <date>1360950271000</date>
+  <contentUpdateDate>1360950271000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Writing XWiki Components</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.WritingComponents</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>d443578b-8571-4dce-af59-a7da571efccb</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+This tutorial guides you through the creation of a XWiki component, which is a way to extend or customize the XWiki platform. Indeed the XWiki platform is composed of components and it's possible to replace the default implementations with your own implementations. It's also possible to add new component implementations to extend the platform such as by implementing new [[Rendering Macros&gt;&gt;DevGuide.RenderingMacroTutorial]].
+
+{{info}}
+Components replace the older plugin architecture which has been deprecated a while ago.
+{{/info}}
+
+You should start by reading the [[Reference document on XWiki Components&gt;&gt;extensions:Extension.Component Module]].
+
+= Let's get started! =
+
+Enough talking, let's see some code!
+
+In the following tutorial we will guide you through writing a simple component, helping you to quickly get oriented in the XWiki components world and explaining how it works.
+
+== Creating a XWiki component using Maven ==
+
+As you've read in the [[XWiki Component Reference&gt;&gt;extensions:Extension.Component Module]] writing a component is  a three-steps process (component interface, component implementation and registration of component).
+
+To make it easier for you to get started, we have created a [[Maven Archetype&gt;&gt;http://maven.apache.org/archetype/maven-archetype-plugin/]] to help create a simple component module with a single command. 
+
+After you've [[installed Maven&gt;&gt;http://maven.apache.org/]], open a shell prompt an type: {{code language="none"}}mvn archetype:generate{{/code}}.
+
+This will list all archetypes available on Maven Central. If instead you wish to directly use the XWiki Component Archetype, you can directly type (update the version to use the version you wish to use):
+
+{{code language="none"}}
+mvn archetype:generate \
+  -DarchetypeArtifactId=xwiki-commons-component-archetype \
+  -DarchetypeGroupId=org.xwiki.commons \
+  -DarchetypeVersion=3.3
+{{/code}}
+
+Then follow the instructions. For example:
+
+{{code language="none"}}
+vmassol@tmp $ mvn archetype:generate
+[INFO] Scanning for projects...
+[INFO]                                                                         
+[INFO] ------------------------------------------------------------------------
+[INFO] Building Maven Stub Project (No POM) 1
+[INFO] ------------------------------------------------------------------------
+[INFO] 
+[INFO] &gt;&gt;&gt; maven-archetype-plugin:2.0:generate (default-cli) @ standalone-pom &gt;&gt;&gt;
+[INFO] 
+[INFO] &lt;&lt;&lt; maven-archetype-plugin:2.0:generate (default-cli) @ standalone-pom &lt;&lt;&lt;
+[INFO] 
+[INFO] --- maven-archetype-plugin:2.0:generate (default-cli) @ standalone-pom ---
+[INFO] Generating project in Interactive mode
+[INFO] No archetype defined. Using maven-archetype-quickstart (org.apache.maven.archetypes:maven-archetype-quickstart:1.0)
+Choose archetype:
+...
+493: remote -&gt; org.xwiki.commons:xwiki-commons-component-archetype (Make it easy to create a maven project for creating XWiki Components.)
+...
+Choose a number or apply filter (format: [groupId:]artifactId, case sensitive contains): 152: 493
+Choose org.xwiki.commons:xwiki-commons-component-archetype version: 
+1: 3.3-milestone-1
+2: 3.3-milestone-2
+3: 3.3-SNAPSHOT
+Choose a number: 3:
+Define value for property 'groupId': : com.acme
+Define value for property 'artifactId': : example
+Define value for property 'version':  1.0-SNAPSHOT: : 
+Define value for property 'package':  com.acme: : 
+Confirm properties configuration:
+groupId: com.acme
+artifactId: example
+version: 1.0-SNAPSHOT
+package: com.acme
+ Y: : Y
+[INFO] ----------------------------------------------------------------------------
+[INFO] Using following parameters for creating project from Archetype: xwiki-commons-component-archetype:3.3-SNAPSHOT
+[INFO] ----------------------------------------------------------------------------
+[INFO] Parameter: groupId, Value: com.acme
+[INFO] Parameter: artifactId, Value: example
+[INFO] Parameter: version, Value: 1.0-SNAPSHOT
+[INFO] Parameter: package, Value: com.acme
+[INFO] Parameter: packageInPathFormat, Value: com/acme
+[INFO] Parameter: package, Value: com.acme
+[INFO] Parameter: version, Value: 1.0-SNAPSHOT
+[INFO] Parameter: groupId, Value: com.acme
+[INFO] Parameter: artifactId, Value: example
+[INFO] project created from Archetype in dir: /private/tmp/example
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 7:58.355s
+[INFO] Finished at: Tue Dec 06 17:18:00 CET 2011
+[INFO] Final Memory: 7M/81M
+[INFO] ------------------------------------------------------------------------
+{{/code}}
+
+Then go in the created directory (##example## in our example above) and run ##mvn install## to build your component.
+
+== The Component explained ==
+
+Assume, for the following explanations, that the package you used is ##com.acme##
+
+Navigating in the component project folder, you will see the following standard Maven project structure:
+
+{{code language="none"}}
+pom.xml
+src/main/java/com/acme/HelloWorld.java
+src/main/java/com/acme/internal/DefaultHelloWorld.java
+src/main/java/com/acme/internal/HelloWorldScriptService.java
+src/main/resources/META-INF/components.txt
+src/test/java/com/acme/HelloWorldTest.java
+{{/code}}
+
+which corresponds to the default files created: the ##HelloWorld## interface (a.k.a component role), its implementation ##DefaultHelloWorld## (component implementation), a test class for this component ##HelloWorldTest##, the component declaration file ##components.txt## and the Maven project ##pom.xml## file. The ##HelloWorldScriptService## file is described below when we explain how to make the component's API available to wiki pages.
+
+If you have a look in ##pom.xml## you'll notice the following dependencies:
+
+{{code language="xml"}}
+  &lt;dependencies&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.xwiki.commons&lt;/groupId&gt;
+      &lt;artifactId&gt;xwiki-commons-component-api&lt;/artifactId&gt;
+      &lt;version&gt;${commons.version}&lt;/version&gt;
+    &lt;/dependency&gt;
+    &lt;!-- Testing dependencies --&gt;
+    &lt;dependency&gt;
+      &lt;groupId&gt;org.xwiki.commons&lt;/groupId&gt;
+      &lt;artifactId&gt;xwiki-commons-test&lt;/artifactId&gt;
+      &lt;version&gt;${commons.version}&lt;/version&gt;
+      &lt;scope&gt;test&lt;/scope&gt;
+    &lt;/dependency&gt;
+  &lt;/dependencies&gt;
+{{/code}}
+
+The code above defines the dependency on the ##xwiki-core-component-api## in the core which is where XWiki Component notions are defined. There's also a dependency on ##xwiki-core-shared-tests## which provides helper classes to easily test components.
+
+The interface file (##HelloWorld.java##) contains the definition of a regular Java interface and looks like this: 
+
+{{code language="java"}}
+@ComponentRole /* annotation used for declaring the service our component provides */
+public interface HelloWorld 
+{
+    String sayHello(); 
+}
+{{/code}}
+
+Keep in mind that this interface specifies the API that other components can use on your component. In our case, we'll build a polite component that can ##sayHello()##.
+
+Then we have the implementation of the interface, the ##DefaultHelloWorld## class. 
+
+{{code language="java"}}
+@Component /* annotation used for declaring a component implementation */
+@Singleton /* annotation used for defining the component as a singleton */
+public class DefaultHelloWorld implements HelloWorld
+{{/code}}
+
+Note that optionally, there is a ##@Named## annotation to specify a component //hint//. This is useful especially when we want to distinguish between several implementations for the same type of component. Image we had a special HelloWorld implementation taking the greeting message from a database; it could look like:
+
+{{code language="java"}}
+@Component
+@Named("database")
+public class DatabaseHelloWorld implements HelloWorld
+{{/code}}
+
+Then the ##sayHello## in ##DefaultHelloWorld## is basic in this example:
+
+{{code language="java"}}
+/**
+ * Says hello by returning a greeting to the caller.
+ *
+ * @return A greeting.
+ */
+public String sayHello()
+{
+   return "Hello world!";
+}
+{{/code}}
+
+And now, the ##components.txt## file, in which component implementations present in this jar are specified for the ##ComponentManager## to register them.
+
+{{code language="none"}}
+com.acme.internal.DefaultHelloWorld
+{{/code}}
+
+= How to find my component and use it? =
+
+== From other components ==
+
+To access your component from another component we use the components engine, and specify the dependencies, leaving instantiation and component injection to the be handled by the component manager.
+
+In order to use the ##HelloWorld## component, you need a reference to it in the the component that uses it. For this, you should use a member variable in the implementation of the using component, for example, a ##Socializer## component will need to be able to say hello to the world:
+
+{{code}}
+@Component
+@Singleton
+public class DefaultSocializer implements Socializer 
+{
+    [...]
+
+    /** Will be injected by the component manager */
+    @Inject
+    private HelloWorld helloWorld;
+
+    /** Will be injected by the component manager */
+    @Inject
+    @Named("database")
+    private HelloWorld databaseWorld;
+
+    [...]
+}
+{{/code}}
+
+Note the ##@Inject## annotation, which instructs the component manager to inject the required component where needed.
+
+And that's it, you can now use the ##helloWorld## member anywhere in the ##DefaultSocializer## class freely, without further concerns, it will be assigned by the component manager provided that the ##HelloWorld## component is on the classpath at runtime when the ##Socializer## is used. Such as:
+
+{{code}}
+public class DefaultSocializer implements Socializer 
+{
+    [...]
+
+    public void startConversation() 
+    {
+        this.helloWorld.sayHello();
+        
+        [...]
+    }
+
+    [...]
+}
+{{/code}}
+
+More, note that all through the process of defining a communication path between two components, we never referred components implementations, all specifications being done through //roles// and //interfaces//: the implementation of a service is completely hidden from any code external to the component.
+
+== From non-components java code (e.g. older plugins) ==
+
+For this kind of usages, since we cannot use the component-based architecture advantages and the "magic" of the component manager, the XWiki team has created a helper method that acts like a bridge between component code and non-component code, the ##com.xpn.xwiki.web.Utils.getComponent(String role, String hint)## that gets the specified component instance from the component manager and returns it. As seen in the previous sections, the hint is an optional identifier, additional to ##role##, used to differentiate between implementations of the same interface: the //roles// identify services while the hints help differentiate between implementations. The ##getComponent## function also has a signature without the ##hint## parameter, that uses the default hint.
+
+To use our greetings provider component, we would simply invoke:
+
+{{code}}
+HelloWorld greeter = Utils.getComponent(HelloWorld.class);
+greeter.sayHello();
+
+HelloWorld databaseGreeter = Utils.getComponent(HelloWorld.class, "database");
+greeter.sayHello();
+{{/code}}
+
+{{warning}}
+Even if the object returned by this function is an instance of the ##DefaultHelloWorld##, you should never declare your object of the implementation type nor cast to implementation instead of interface.
+{{/warning}}
+
+A component is represented by its interface, the implementation for such a service can be provided by any code, any class so relying on the implementation type is neither good practice (since the interface contract should be enough for a component), nor safe. In the future, a maven enforcer plugin will be setup in the build lifecycle, so that any reference to component implementations (located in an "internal" subpackage) will cause build errors.
+
+{{info}}
+The usage of ##Utils.getComponent()## functions is highly discouraged, reserved for this type of situations, when you need to access a component from non-componentized code. For the componentized code, you should use either dependency declaration at 'compile-time' (as shown before with annotations) or, if you need to resolve components dependencies at runtime, use the ##ComponentManager##, which you can access by implementing the Composable interface  as described in the [[Component Module Reference&gt;&gt;extensions:Extension.Component Module]].
+{{/info}}
+
+== From wiki pages ==
+
+Components can be made accessible to wiki pages by writing a ##ScriptService## implementation. They can then be accessed using any provided scripting language (velocity, groovy, python, ruby, php, etc).
+
+Let's make our ##sayHello## method accessible:
+
+{{code language="java"}}
+@Component
+@Named("hello")
+@Singleton
+public class HelloWorldScriptService implements ScriptService
+{
+    @Inject
+    private HelloWorld helloWorld;
+
+    public String greet()
+    {
+        return this.helloWorld.sayHello();
+    }
+}
+{{/code}}
+
+{{info}}
+The component hint used (the ##hello## part in the ##@Component##) is the name under which the script service will be accessible from scripting languages.
+{{/info}}
+
+For example to access it in Velocity you'd write: {{code language="velocity"}}$services.hello.greet(){{/code}}.
+
+From Groovy: {{code language="groovy"}}services.hello.greet(){{/code}}.
+
+Now for our script service to work we need to register it as a component and thus add it to the ##META-INF/components.txt## file:
+
+{{code language="none"}}
+...
+com.acme.internal.HelloWorldScriptService
+{{/code}}
+
+We also need to make the Script Service infrastructure available in our classpath. This is done by adding the following in your ##pom.xml## file:
+
+{{code language="xml"}}
+&lt;dependency&gt;
+  &lt;groupId&gt;org.xwiki.commons&lt;/groupId&gt;
+  &lt;artifactId&gt;xwiki-commons-script&lt;/artifactId&gt;
+  &lt;version&gt;${commons.version}&lt;/version&gt;
+&lt;/dependency&gt;
+{{/code}}
+
+= Accessing Legacy code =
+
+By legacy we mean old XWiki code that hasn't been moved to components yet.
+
+== The XWiki data model ==
+
+Since the XWiki data model (documents, objects, attachments, etc.) reside in the big, old ##xwiki-core## module, and since we don't want to add the whole core and all its dependencies as a dependency of a simple lightweight component (this would eventually lead to a circular dependency, which is not allowed by maven), the current strategy, until the data model is completely turned into a component, is to use a //bridge// between the new component architecture and the old ##xwiki-core##.
+
+In short, the way this works is based on the fact that implementations for a component don't have to be in the same ##.jar## as the interface, and there is no dependency //from// the component interface //to// the actual implementation, only the other way around. So, we made a few simple components that offer basic access to XWiki documents, and declare the classes in ##xwiki-core## as the default implementation for those components.
+
+If your component needs to access the XWiki data model, it will use the components from the ##xwiki-core-bridge## module for that. Note that these interfaces are rather small, so you can't do everything that you could with the old model. If you need to add some methods to the bridge, feel free to propose it on the [[mailing list&gt;&gt;dev:Community.MailingLists]].
+
+For example:
+
+{{code}}
+@Component
+@Singleton
+public class DefaultHelloWorld implements HelloWorld
+{
+    /** Provides access to documents. Injected by the Component Manager. */
+    @Inject
+    private DocumentAccessBridge documentAccessBridge;
+
+    [...]
+
+    private String getConfiguredGreeting()
+    {
+        return documentAccessBridge.getProperty("XWiki.XWikiPreferences", "greeting_text");
+    }
+{{/code}}
+
+=== Querying the data model ===
+
+Queries can be performed by using an instance of a QueryManager, which can be obtained and used as follows :
+
+{{code}}
+QueryManager queryManager = (QueryManager) componentManager.getInstance(QueryManager.class);
+Query query = queryManager.createQuery(xwqlstatement,Query.HQL);
+List&lt;Object&gt; results = query.execute();
+{{/code}}
+
+{{info}}
+A reference to a ComponentManager can be obtained through injection, as explained on the [[Component module extension page&gt;&gt;extensions:Extension.Component Module#HGettingaccesstotheComponentManager]].
+{{/info}}
+
+== The XWiki context ==
+
+Note that the XWiki context is deprecated. It was an older way of keeping track of the current request, which had to be passed around from method to method, looking like a [[ball and chain&gt;&gt;http://en.wikipedia.org/wiki/Ball_and_chain]] present everywhere in the code.
+
+In the component world, the current request information is held in an **[[execution context&gt;&gt;http://maven.xwiki.org/site/xwiki-core-parent/xwiki-core-context/apidocs/org/xwiki/context/ExecutionContext.html]]**. This is actually more powerful than the old XWiki context, as it is a generic execution context, and you can create one anytime you want and use it anyway you want. And you don't have to manually pass it around with all method calls, as execution contexts are managed by the **[[Execution component&gt;&gt;http://maven.xwiki.org/site/xwiki-core-parent/xwiki-core-context/apidocs/org/xwiki/context/Execution.html]]**, which you can use just like any other XWiki component.
+
+In short, if you want to get access to the execution context (which holds context information inserted by the new components), you must declare an injection point on the ##Execution## component (located in the ##xwiki-commons-context## module), and then you can write:
+
+{{code}}
+/** Provides access to the request context. Injected by the Component Manager. */
+    @Inject
+    private Execution execution;
+
+    [...]
+
+    private void workWithTheContext()
+    {
+        ExecutionContext context = execution.getContext();
+        // Do something with the execution context
+    }
+{{/code}}
+
+If you still need to access the old XWiki context, then you can get a reference to it from the execution context, but you should not cast it to an ##XWikiContext##, which would pull the whole xwiki-core as a dependency, but to a ##Map##. You won't be able to access all the properties, like the current user name or the URL factory, but you can access anything placed in the internal map of the XWikiContext.
+
+{{code}}
+private void workWithTheContext()
+    {
+        ExecutionContext context = execution.getContext();
+        Map&lt;Object, Object&gt; xwikiContext = (Map&lt;Object, Object&gt;) context.getProperty("xwikicontext");
+        // Do something with the XWiki context
+    }
+{{/code}}
+
+If you want not just to use the execution context, but to make something available in every execution context, you can create an implementation of the [[ExecutionContextInitializer&gt;&gt;http://maven.xwiki.org/site/xwiki-core-parent/xwiki-core-context/apidocs/org/xwiki/context/ExecutionContextInitializer.html]] component, and populate newly created execution contexts, just like with [[velocity contexts&gt;&gt;#HFromwikipages]].
+
+== Code outside components ==
+
+You can use external libraries as in any other maven module, just declare the right dependencies in your module's ##pom.xml##.
+
+As a general rule, you should **not** work with any non-componentized XWiki code, as the way the old code was designed leads to an eventual dependency on the whole ##xwiki-core## module, which we are trying to avoid. If the component you are writing is needed by other modules (which is the case with most components, since a component which isn't providing any usable/used services is kind of useless), then this will likely lead to an eventual cyclic dependency, which will break the whole build.
+
+If you need some functionality from the old core, consider rewriting that part as a new component first, and then use that new component from your code. You should ask first on the [[devs mailing list&gt;&gt;dev:Community.MailingLists]], so that we can design and implement it collaboratively.
+
+If the effort needed for this is too large, you can try creating a bridge component, by writing just the interfaces in a new module, and make the classes from the core the default implementation of those interfaces. Then, since in the end the xwiki-core, the bridge component and your component will reside in the same classpath, plexus will take care of coupling the right classes. Be careful when writing such bridges, as they are short lived (since in the end all the old code will be replaced by proper components), and if the future real component will have a different interface, then you will have to rewrite your code to adapt to the new method names, or worse, the new component logic.
+
+= Deploying the Component =
+
+Now that we have a functioning Component let's build it and deploy it to a XWiki Enterprise instance:
+
+* To build the component, issue ##mvn install##. This generates a JAR in the ##target## directory of your project.
+* To install it into a XWiki Enterprise instance, just copy that JAR file in ##XE_WAR_HOME/WEB-INF/lib## where ##XE_WAR_HOME## is where the XWiki Enterprise WAR is deployed.
+
+Your component is now ready for service.
+
+Enjoy!
+
+= See also =
+
+* [[extensions:Extension.Component Module]]</content>
+</xwikidoc>

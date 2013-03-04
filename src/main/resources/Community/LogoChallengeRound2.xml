@@ -1,0 +1,383 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>LogoChallengeRound2</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.LogoChallenge</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1270121368000</creationDate>
+  <date>1360852489000</date>
+  <contentUpdateDate>1360852489000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki Logo Challenge, round 2</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.StyleSheetExtension</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <cache>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>cache</name>
+        <number>5</number>
+        <prettyName>Caching policy</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>long|short|default|forbid</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </cache>
+      <code>
+        <disabled>0</disabled>
+        <name>code</name>
+        <number>2</number>
+        <prettyName>Code</prettyName>
+        <rows>20</rows>
+        <size>50</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.TextAreaClass</classType>
+      </code>
+      <name>
+        <disabled>0</disabled>
+        <name>name</name>
+        <number>1</number>
+        <prettyName>Name</prettyName>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.StringClass</classType>
+      </name>
+      <parse>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>yesno</displayType>
+        <name>parse</name>
+        <number>4</number>
+        <prettyName>Parse content</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </parse>
+      <use>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>0</multiSelect>
+        <name>use</name>
+        <number>3</number>
+        <prettyName>Use this extension</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <separators> ,|</separators>
+        <size>1</size>
+        <unmodifiable>0</unmodifiable>
+        <values>currentPage=Always on this page|onDemand=On demand|always=Always on this wiki</values>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </use>
+    </class>
+    <name>Community.LogoChallengeRound2</name>
+    <number>0</number>
+    <className>XWiki.StyleSheetExtension</className>
+    <guid>27bff225-e7ed-4972-813c-56d312a4dda2</guid>
+    <property>
+      <cache>forbid</cache>
+    </property>
+    <property>
+      <code>.infomessage {
+  background-image: url("$xwiki.getSkinFile('icons/silk/photo_link.gif')");
+  background-color: #EEF5FF;
+  color: #333;
+}
+.infomessage a {
+  font-weight: bold;
+  color: #07A;
+}</code>
+    </property>
+    <property>
+      <name/>
+    </property>
+    <property>
+      <parse>1</parse>
+    </property>
+    <property>
+      <use>onDemand</use>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.LogoChallengeRound2</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>28bd2ff5-36ab-420c-ac9c-7fb2c0490325</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{info}}Summary:
+[[Round 1&gt;&gt;http://dev.xwiki.org/xwiki/bin/view/Community/LogoChallenge]]
+[[Round 2&gt;&gt;http://dev.xwiki.org/xwiki/bin/view/Community/LogoChallengeRound2]]
+Discussions: 
+    http://xwiki.markmail.org/thread/5swfzrjl4fu22teh
+    http://xwiki.markmail.org/thread/pkdd5kijpt2yqeph
+    http://xwiki.markmail.org/thread/zygvtwvg2ra4mffm{{/info}}
+
+{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc depth="3"/}}
+{{/box}}
+
+{{velocity output="false"}}$xwiki.ssx.use($doc.fullName){{/velocity}}
+
+Votes are now closed for the new [[XWiki.org logo&gt;&gt;LogoChallenge]], and, according to [[this count&gt;&gt;http://spreadsheets.google.com/ccc?key=0Ah6DqXzfHT2vdHV5Ty1LX3lKU3U5V3M4YmNFSXEzcVE&amp;hl=en]], they seem pretty tight for 12A, 12E, 15, 16B, and proposals 4 and 19 were also mentioned by a significant number of voters. So, a second round of votes is necessary.
+
+Before the new round starts, the authors of these 6 proposals are kindly asked to do the following by Wednesday, if not already done in round 1:
+
+* correct any inaccuracies that might have appeared in the name
+* try to integrate any constructive feedback that came with the votes
+* polish the design (if they consider it necessary)
+* provide the requested variations for .org, enterprise and office
+* provide samples for light and dark background
+* provide a black&amp;white version
+* provide a 16X16 icon containing the logo or a representative part of the logo
+* provide a nice "Powered by XWiki" button that goes with the logo
+* provide a mockup/screenshot with the logo used in the current skin, [[colibri&gt;&gt;attach:colibri.png]]
+* provide a mockup/screenshot with the logo used in the future [[xwiki.org skin&gt;&gt;attach:xwikiorg.png]]
+
+Authors should upload their final versions as attachments to this page.
+
+= Timeline =
+
+* 01-07/Apr/10 : Authors of the finalist proposals submit final versions of the logo
+* 08/Apr/10 : Beginning of second round of votes
+* 15/Apr/10 (midnight GMT) : End of votes 
+
+= Vote =
+
+You can send your vote on the [[mailing list&gt;&gt;MailingLists]], in reply to the announcement email.
+
+Each voter can grant a whole +1 to only one of the finalists.
+
+**IMPORTANT:** Before choosing a logo based on your personal preference, please try to also ask yourself the following questions:
+
+* Is it distinctive? Note that it should not resemble other logos, **[[including the XWiki SAS/xwiki.com logo&gt;&gt;http://thor.info.uaic.ro/evalica/img/x_logo_xwiki.png]]**.
+* Is it easy to remember and recognize?
+* Does it blend in smoothly with the Colibri skin?
+* Is the design scalable? Could it (or parts of it) be successfully used in a 16X16 icon? Would it look good on a very large poster?
+* Can it be used (as it is, or adapted) on both light and dark backgrounds?
+* What would it look like in black and white (not just grayscale)? It's ok if some details are lost, but it needs to still look attractive and keep the main features.
+
+Motivating your vote also helps better understand what qualities a logo evokes in people's minds.
+
+= Finalist proposals =
+
+== Proposal 4A ==
+
+{{error}}
+Some people feel that this logo resembles the [[Google Nexus One logo&gt;&gt;http://www.google.com/phone/]]. Only vote for this logo if you don't find it too similar.
+{{/error}}
+
+{{info}}[[Original proposal&gt;&gt;attach:pencils.png]]{{/info}}
+
+=== Negative feedback from voters for the original proposal ===
+
+* //The font is too "skinny" and gives me the impression that it's not properly antialiased. I understand that a bolder font could compromise the result, but maybe another skinny font could be chosen//
+**Author's answer**: Used a darker and thicker shape for the word "XWiki".
+
+* //xwiki (including the X) written next to the crayons with a bolder font (I find the one used in 17 and 18 nice).//
+**Author's answer**: Written the X in text, and used a darker and thicker shape for the word "XWiki". Indeed, this seems to be a good idea.
+
+* //different colors for the pencils//
+**Author's answer**: Done, hopefully the color palette looks happier now.
+
+* //Appart for not being easy to scale, I feel 4 is not readable for newcomers, using only 2 pencils, could probably helps there.//
+**Author's answer**: Indeed, the pencil quartet is not very easy to scale down. To overcome this, only the pencil tips could be displayed for very small sizes, as it was done for the icons; however, the expressiveness of the result //is// arguable. Concerning readability, this should have improved after following the previous suggestions.
+
+* //Thicker pencils so that the X is more obvious//
+**Author's answer**: This is probably no longer necessary, because the "X" in XWiki is written in text, and it no longer relies on the shape created by the pencils. 
+
+=== New version ===
+
+{{info}}[[Black pencils and documents&gt;&gt;attach:4-pencils-paper.png]]{{/info}}
+
+**"Evolution" (not for the vote)**
+
+{{info}}[[Coloured pencils and pixels&gt;&gt;attach:4-pencils-pixels.png]] (a combination of the original 4A and 4C)
+[[Coloured pencils&gt;&gt;attach:4-pencils.png]]{{/info}}
+
+=== Page mockups ===
+
+{{info}}[[Integration with the default Colibri skin&gt;&gt;attach:4-colibri.png]]
+[[Integration with the future xwiki.org&gt;&gt;attach:4-xwikiorg.png]]{{/info}}
+
+== Proposal 12A ==
+
+{{error}}
+Some people feel that this logo resembles the [[XWiki SAS logo&gt;&gt;http://www.xwiki.com/]]. Only vote for this logo if you don't find it too similar.
+{{/error}}
+
+**Author**:
+I agree and I didn`t continue to make any proposal for this.
+I couldn`t find  a way to modify it in order not to be almost similar with [[XWiki SAS logo&gt;&gt;http://www.xwiki.com/]] or Atlassian ..  (except [[this:) &gt;&gt;attach:finalanime.png]] )
+
+{{info}}[[Original proposal&gt;&gt;attach:cipvers6.png]]{{/info}}
+
+== Proposal 12E ==
+
+{{error}}
+Some people feel that this logo resembles the [[XWiki SAS logo&gt;&gt;http://www.xwiki.com/]]. Only vote for this logo if you don't find it too similar.
+{{/error}}
+
+**Author**: I agree. At the time I made it I didn`t consider this aspect. I considered that familiarity with the old version is a good idea. 
+
+{{info}}[[Original proposal&gt;&gt;attach:cipvers10.png]]{{/info}}
+
+=== Negative feedback from voters for the original proposal ===
+
+* //Bears a strong resemblance to an [[American telephone company&gt;&gt;http://wigab.com/images/site/2007-01/blog/44-Cingular_Dropped_Out.jpg]].//
+**Author's answer**: It might be a good observation but Cingular company is rebranded under AT&amp;T since 2005. (visit [[http://www.cingular.com]] )
+
+* //Not sure it would be nice on a dark backgroud//
+**Author's answer**: ..with little workarounds
+
+* //Contains asymmetric and amorphous (which means no internal structure) letter X (the cornerstone letter in logo)//
+**Author's answer**: -
+
+* //Could be interesting as a continuation on the initial theme, but it would be less distinctive with XWiki.com, probably a nice evolution for them not for the open-source one.//
+**Author's answer**: -
+
+* //It looses in drawability and single color//
+**Author's answer**: Yes, it looses in drawability somehow. Monochrome looks good, I think.
+
+=== New version ===
+
+{{info}}[[new one&gt;&gt;attach:final1.png]]{{/info}}
+
+=== Page mockups ===
+
+{{info}}[[colibri&gt;&gt;attach:fainal1colibri.png]]
+[[org&gt;&gt;attach:fainal1orgsite.png]]{{/info}}
+
+== Proposal 15 ==
+
+{{error}}
+Some people feel that this logo resembles the [[Atlassian logo&gt;&gt;http://www.atlassian.com/software/confluence/images/banner.png]]. Only vote for this logo if you don't find it too similar.
+{{/error}}
+
+{{info}}[[original proposal&gt;&gt;attach:XwikiProposal.jpg]]{{/info}}
+
+=== Negative feedback from voters for the original proposal ===
+
+* //Uses a hyphen which is not in the name//
+**Author's answer**: (optional)
+
+* //I think we can adopt the font and colors [[picked by Ecaterina&gt;&gt;attach:Community.LogoChallenge@evalicaP2.png]], if it's possible to make a merge//
+**Author's answer**: (optional)
+
+* //I find the logo too similar to Atlassian logo (any basic human based logo would look too Atlassiannish to me I think)//
+**Author's answer**: (optional)
+
+* //Just noticed that applying the "firm" pattern will result in [[Jira&gt;&gt;http://www.atlassian.com/software/jira/]] / [[Confluence&gt;&gt;http://www.atlassian.com/software/confluence/]] logo.//
+**Author's answer**: (optional)
+
+* //Without dash, in red or another color, avoiding blue (even if I like it) and probably using a more curved font to improve, if needed, the clear difference it have with the Atlassian logo.//
+**Author's answer**: (optional)
+
+* //I think the "-" should be removed between the "X" and "Wiki" and that the case should be switched from "X-WIKI" to "XWiki"//
+**Author's answer**: (optional)
+
+* //It still looks to me too much around the atlassian logo (yeah, any human shape would do it)//
+**Author's answer**: (optional)
+
+=== New version (includes page mockups) ===
+
+{{info}}[[New proposal&gt;&gt;attach:XWIKI.jpg]] (including integration in the Colibri skin and the new XWiki.org skin){{/info}}
+
+== Proposal 16B ==
+
+{{info}}[[Original proposal&gt;&gt;attach:boomerang-b.png]]{{/info}}
+
+=== Negative feedback from voters for the original proposal ===
+
+* //16 evoke to me some inflexibility or technicality, which is frightening.//
+**Author's answer**: The new version with a slanted ##W## intends to look a bit more friendly.
+
+* //I showed it to a couple friends and they were unable to read it as "XWiki". I already know it's supposed to mean "XWiki" but I'm afraid it's not readable enough for other people.//
+**Author's answer**: Moved the ##&lt;## closer to the first ##i##, so that it's easier to read as ##K##. The slanted ##W## is also likely to help readability. Testing this again on non-XWiki developers is a good idea.
+
+* //There could be a color issue but the shape would make it recognizable easily.//
+**Author's answer**: -
+
+=== New version ===
+
+{{info}}[[Default palette&gt;&gt;attach:16-default-slanted.png]]{{/info}}
+
+**Variations for different color themes**
+
+{{info}}[[Fruit salad palette&gt;&gt;attach:16-fruit-slanted.png]]
+[[Seaside palette&gt;&gt;attach:16-seaside-slanted.png]]{{/info}}
+
+**Variations using the original shape (straight W)**
+
+{{info}}[[Straight W, default palette&gt;&gt;attach:16-default-straight.png]]
+[[Straight W, fruit salad palette&gt;&gt;attach:16-fruit-straight.png]]
+[[Straight W, seaside palette&gt;&gt;attach:16-seaside-straight.png]]{{/info}}
+
+=== Page mockups ===
+
+{{info}}[[Integration with the default Colibri skin&gt;&gt;attach:16-colibri.png]]
+[[Integration with the future xwiki.org&gt;&gt;attach:16-xwikiorg.png]]{{/info}}
+
+== Proposal 19 ==
+
+{{info}}[[Original proposal&gt;&gt;attach:planchelogosOKvect4.jpg]]{{/info}}
+
+=== Negative feedback from voters for the original proposal ===
+
+* //Contains asymmetric and amorphous (which means no internal structure) letter X (the cornerstone letter in logo)//
+**Author's answer**: (optional)
+</content>
+</xwikidoc>

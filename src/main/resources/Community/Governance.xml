@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>Governance</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Main.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1268730841000</creationDate>
+  <date>1360950287000</date>
+  <contentUpdateDate>1268753921000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Project Governance</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.Governance</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>7701210f-bc4a-4eef-83af-83cf967a139f</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>The XWiki open source project is governed by its [[Committers&gt;&gt;Community.Committership]]. All important rules are decided by the XWiki committers, for the sake of the XWiki project and its community.
+
+== XWiki.org Governance ==
+
+Here are the rules related to the XWiki.org Governance that the XWiki project follows:
+* XWiki.org is controlled by the XWiki committers. This means that important changes brought to it should be discussed/voted on the list, using the same practices as for code commits.
+* XWiki.org stays open in edit mode to all external contributors (and XWiki committers continue to monitor it to remove spam, fix problems, do gardening, etc)
+* We allow listing commercial offerings in 3 zones, where companies/individuals who are the "Makers of XWiki" can advertise their services/packages related to the XWiki project:
+** On the download page (for "business" packages, subscriptions, hosting) or with a "Products" tab in some top level horizontal navigation to differentiate "Projects" (i.e. community) from "Products" (commercial offerings)
+** On the support page (for services: support, consulting)
+** In the Extensions wiki, companies can list XWiki extensions, be them open source or not, free or not. The only requirement is that the license and conditions are clearly mentioned.
+* In order for a Company (or Individual) to qualify for being listed on the Download or Support page, it needs to be recognized as one of the "Makers of XWiki", i.e. it needs to justify that is has brought substantial participation to the XWiki open source project. In order to ensure this, we require that the company/individual have at least one **active** [[Committer&gt;&gt;Community.Committership]] (The notion of active is defined in the [[Committership page&gt;&gt;Community.Committership]]).
+* The commercial offerings are listed in the order of their contribution levels, the biggest contributor getting the top spot. In order to keep it simple the contribution level corresponds to the number of active Committers.
+* XWiki.org should always remain a site for the XWiki open source community and we should always be careful that it never becomes too "corporate" since it's a site done by the Community and for the Community.
+* [[Contributors&gt;&gt;Community.Contributing]] are rewarded for their contributions in commit messages and by being listed in the [[Hall of Fame&gt;&gt;Community.HallOfFame]].
+* Companies sponsoring the XWiki open source project are listed in the [[Supporters page&gt;&gt;xwiki:Main.Supporters]].
+</content>
+</xwikidoc>

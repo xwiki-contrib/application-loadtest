@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ExtensionManagerIndexer</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>ExtensionManager</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1303819215000</creationDate>
+  <date>1360950302000</date>
+  <contentUpdateDate>1316680981000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Extension Manager - Indexer</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>{{toc/}}
+
+http://jira.xwiki.org/jira/browse/XWIKI-6193
+
+We need to put all extensions descriptors from all repository in some index to be able to search among them quickly.
+
+= Implementation =
+
+How to implement that ?
+
+== Maven Indexer (former Nexus Indexer) ==
+
+http://maven.apache.org/maven-indexer/
+
+That's what is used by M2Eclipse to index maven project for pretty much the same need.
+
+Pros:
+
+* designed for that
+* we need to use that anyway to download indexes from maven repositories and parse them
+* built in remote maven repositories index incremental fetcher
+
+Cons:
+
+* very maven oriented and it will miss some informations we want
+* stored in a file somewhere
+* does not store dependencies
+
+== A custom Lucene index ==
+
+Pros:
+
+* full text search
+* Maven Indexer is using Lucene too so that's a good sign I guess
+* more control over the information stored compared to Maven Indexer
+
+Cons:
+
+* have to develop it (should not be too hard either)
+* stored in a file somewhere
+* not designed to store dependencies relations
+
+== JCR ==
+
+I don't knows it very well
+
+Pros:
+
+* full text search capabilities
+* can store dependencies relations
+
+?:
+
+* scoring
+
+== XWiki database ==
+
+Pro:
+
+* no need to store some file somewhere
+* easier to store dependencies relations
+
+Cons:
+
+* fill the database with datas which are not really needed since that's after all only a cache to speedup things
+* Lucene is better for full text search which is the main use case
+
+== Other SQL based database ==
+
+== Other NoSQL based database ==
+
+= Getting repositories indexes =
+
+== Maven ==
+
+== No index provided ==
+
+First thing: the simplest possible maven repository does not provide any index of any kind which mean for theses one the only way is to follow link in a HTTP request and it probably takes ages to do (actually probably not since these kind of repository are generally small repositories with one project or so) but it's not very hard ;)
+
+=== archetype-catalog.xml ===
+
+Very easy to parse but contains almost nothing: groupid, artifactid and version. Nothing else...
+
+That means we will need to download all the pom.xml in that repository to get useful informations so it's pretty slow too.
+
+=== Nexus indexes ===
+
+Very complete (even contains Java classes for jar artifact for example and we could imagine provide wiki pages for a xar artifact since Nexus is extendable).
+
+Problems:
+
+* a real pain to parse it: it's a zipped Lucene index used as it is by Maven Indexer. Not really what we could call a standard index format when exposing implementation details like this...
+There is of course a way to list all artifacts using Maven Indexer itself but that's a very big dependency just to read it...
+* it's not really a Maven standard thing. It will probably be soon since nexus index just moved from Sonatype to Maven community but never with the current name ("nexus-maven-repository-index") which it's pretty nexus oriented</content>
+</xwikidoc>

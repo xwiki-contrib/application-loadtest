@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>InstallationH2</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>platform:AdminGuide.Installation</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1275548271000</creationDate>
+  <date>1361190307000</date>
+  <contentUpdateDate>1361190307000</contentUpdateDate>
+  <version>1.1</version>
+  <title>H2 Installation</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.InstallationH2</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>a12ecc82-55b5-459c-bbfb-684031b0ff9f</guid>
+    <property>
+      <tags>
+        <value>Hibernate</value>
+        <value>H2</value>
+        <value>JDBC</value>
+        <value>hibernate.cfg.xml</value>
+        <value>DB</value>
+      </tags>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}{{toc/}}{{/box}}
+
+[[H2&gt;&gt;http://www.h2database.com/html/main.html]] is a fast, free, in memory or disc based java database.
+
+This document assumes you know how to set up a database, and use it, so this just details how to use [[H2&gt;&gt;http://www.h2database.com/html/main.html]].
+
+= Changes to Hibernate.cfg.xml =
+
+There are two ways you can connect to your database, either via a server managed JDBC pool or by a hibernate managed pool.
+
+== When using a JDBC datasource ==
+
+{{code language="xml"}}
+&lt;property name="connection.datasource"&gt;java:comp/env/jdbc/XWikiDS&lt;/property&gt;
+&lt;property name="dialect"&gt;org.hibernate.dialect.H2Dialect&lt;/property&gt;
+{{/code}}
+
+== When letting hibernate manage your pools ==
+
+{{code language="xml"}}
+&lt;property name="connection.url"&gt;jdbc:h2:tcp://remotehost/xwiki23&lt;/property&gt;
+&lt;property name="connection.username"&gt;xwiki&lt;/property&gt;
+&lt;property name="connection.password"&gt;xwikipw&lt;/property&gt;
+&lt;property name="connection.driver_class"&gt;org.h2.Driver&lt;/property&gt;
+&lt;property name="dialect"&gt;org.hibernate.dialect.H2Dialect&lt;/property&gt;
+&lt;property name="connection.provider_class"&gt;com.xpn.xwiki.store.DBCPConnectionProvider&lt;/property&gt;
+&lt;property name="connection.pool_size"&gt;20&lt;/property&gt;
+{{/code}}
+
+= H2 Database =
+
+For those who are wondering how I got H2 running on a remote machine, the command line I used is: 
+
+{{code language="bash"}}
+java -cp ./h2-1.2.136.jar org.h2.tools.Server -web -tcp -tcpAllowOthers -baseDir /var/spool/javadb/h2
+{{/code}}
+
+Thus any database you create will be stored in this location, so with the above example I will have a database called ##/var/spool/javadb/h2/xwiki23##.</content>
+</xwikidoc>

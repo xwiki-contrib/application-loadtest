@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>Upgrade</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1327485615000</creationDate>
+  <date>1360853375000</date>
+  <contentUpdateDate>1360853375000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Upgrading an XWiki Installation</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>There are different parts of XWiki that you may want to upgrade:
+
+{{toc/}}
+
+= Upgrading webapp =
+
+The general strategy is to [[download the WAR distribution&gt;&gt;xwiki:Main.Download]] and to replace your current installed WAR. Make sure you don't copy on top since this could leave some old files around which would make XWiki fail (like if old JARs are lying around in ##WEB-INF/lib##). 
+
+Before replacing your current WAR, make sure you [[back it up, including configuration and data files&gt;&gt;AdminGuide.Backup]].
+
+Some additional operations may be required for upgrading and you must check the [[release notes&gt;&gt;xwiki:ReleaseNotes.WebHome]] for all the versions from the version you're upgrading from up to the new version you're installing. It's also possible that new features are available and that some configuration files need to be modified. If this is the case then it'll be specified in the release notes.
+
+Note that the database schema is automatically upgraded when needed. All you need to do is to ensure your ##xwiki.cfg## file is correctly configured to perform the migration. Here's a relevant excerpt from the ##xwiki.cfg## file:
+
+{{code language="none"}}
+#-# Whether migrations are enabled or not. Should be enabled when upgrading, but for a better startup time it is better to
+#-# disable them in production.
+xwiki.store.migration=1
+
+#-# Whether to exit after migration. Useful when a server should handle migrations for a large database, without going
+#-# live afterwards.
+# xwiki.store.migration.exitAfterEnd=0
+
+#-# Indicate the list of databases to migrate.
+#-# to upgrade all wikis database set xwiki.store.migration.databases=all
+#-# to upgrade just some wikis databases set xwiki.store.migration.databases=xwiki,wiki1,wiki2
+#-# Note: the main wiki is always migrated whatever the configuration.
+# xwiki.store.migration.databases=
+{{/code}}
+
+{{warning}}
+From a failed migration the database tables **DATABASECHANGELOG** and **DATABASECHANGELOGLOCK** may be left over.
+Ensure that these tables are dropped before restarting a failed migration.
+{{/warning}}
+
+= Upgrading wiki documents =
+
+You may want to upgrade to a newer version of the Default Wiki XAR in order to benefit from the latest changes. As mentioned in the [[Installing the Default Wiki XAR section&gt;&gt;InstallationWAR#HInstallingtheDefaultWikiXAR]] you should be very careful and when doing the import make sure you selectively decide what pages you wish to import. More specifically the following pages should be imported with great care:
+
+* XWiki.XWikiPreferences: This page contains some configuration of your wiki (it overrides the configuration defined in ##xwiki.cfg##). If you import a new version of this page you'll lose any customization you may have made such as the skin to use, the rights for your wiki, etc.
+* XWiki.WebPreferences, Main.WebPreferences, and all other spaces WebPreferences pages: Same as XWiki.XWikiPreferences but at the level of a space
+* XWiki.XWikiAllGroup (list of registered users) and XWiki.AdminGroup (list of Admins): If you have existing users and import a new version of these pages, you'll find that your users do not belong to these groups anymore and thus may not be able to edit pages, log in, etc. You'll need to add them again to the right groups
+* XWiki.Admin: This page contains the Admin user with the default password. If you import it you'll create a security hole. Thus it's very important not to import this page
+* *.*Config: These are configuration pages and thus must not be overwritten. Some examples:
+** XWiki.RegistrationConfig: Contains Registration configuration of your wiki
+** Invitation.InvitationConfig: Configuration for the [[Invitation Application&gt;&gt;extensions:Extension.Invitation Application]]
+* XWiki.XWikiServerXwiki (multi wiki): This page contains the server descriptors and wiki properties
+* Any other page you have modified, such as Main.WebHome, a modified Panel, etc.
+
+{{info}}
+Starting with XWiki 4.2 you are able to use the Extension Manager to perform XAR upgrades that support automatic merges and conflict resolution.
+{{/info}}
+
+== Let's clean it up ==
+
+* Expand the XWiki WAR that you installed in your servlet container (the one that contains the JDBC drivers to access your database) into a new folder, using ##jar xvf xwiki-enterprise-web-3.1.war## or avoid this step if you performed an export/import data migration (you already expanded it)
+* Merge your old configuration files you have backed up (see above) with the new versions. Take care that if some changes were already made (probably because of database configuration when you installed the JDBC drivers) they could be lost, so take care when making these changes
+* Install this new folder as the ##xwiki## application in your servlet container (by copying the folder to the servlet filesystem space or by packing it in a WAR file and deploying it in the container's administration interface)
+
+At this point all is set and you can experience your old wiki data over the new XWiki core!</content>
+</xwikidoc>

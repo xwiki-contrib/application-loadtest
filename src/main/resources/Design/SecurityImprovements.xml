@@ -1,0 +1,446 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>SecurityImprovements</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1272880411000</creationDate>
+  <date>1361275965000</date>
+  <contentUpdateDate>1361275965000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Security Improvements</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.SecurityImprovements</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>6a80507a-9ce7-4112-a441-d6116c1f489e</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>Design.SecurityImprovements</name>
+    <number>0</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>48ff3151-6d72-46a9-b378-8e2d7b581f50</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <levels>view,comment,edit,delete</levels>
+    </property>
+    <property>
+      <users>xwiki:XWiki.nickless</users>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>Design.SecurityImprovements</name>
+    <number>1</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>eee23cd4-cd5f-4568-a814-824adb545c2c</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiCommittersGroup</groups>
+    </property>
+    <property>
+      <levels>view,comment,edit,delete</levels>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>Design.SecurityImprovements</name>
+    <number>2</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>cb93a0d7-c98c-4f59-b553-3ddbb3ae8ffa</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <groups>xwiki:XWiki.XWikiAdminGroup</groups>
+    </property>
+    <property>
+      <levels>delete,edit,comment,view</levels>
+    </property>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.XWikiRights</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <allow>
+        <defaultValue>1</defaultValue>
+        <disabled>0</disabled>
+        <displayFormType>select</displayFormType>
+        <displayType>allow</displayType>
+        <name>allow</name>
+        <number>4</number>
+        <prettyName>Allow/Deny</prettyName>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.BooleanClass</classType>
+      </allow>
+      <groups>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>groups</name>
+        <number>1</number>
+        <picker>1</picker>
+        <prettyName>Groups</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.GroupsClass</classType>
+      </groups>
+      <levels>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>select</displayType>
+        <multiSelect>1</multiSelect>
+        <name>levels</name>
+        <number>2</number>
+        <prettyName>Levels</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>3</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.LevelsClass</classType>
+      </levels>
+      <users>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>users</name>
+        <number>3</number>
+        <picker>1</picker>
+        <prettyName>Users</prettyName>
+        <relationalStorage>0</relationalStorage>
+        <separator> </separator>
+        <size>5</size>
+        <unmodifiable>0</unmodifiable>
+        <classType>com.xpn.xwiki.objects.classes.UsersClass</classType>
+      </users>
+    </class>
+    <name>Design.SecurityImprovements</name>
+    <number>3</number>
+    <className>XWiki.XWikiRights</className>
+    <guid>449f1d33-5205-4b6d-a42e-ad1940e2466b</guid>
+    <property>
+      <allow>1</allow>
+    </property>
+    <property>
+      <levels>view,comment,edit,delete</levels>
+    </property>
+    <property>
+      <users>xwiki:XWiki.abusenius</users>
+    </property>
+  </object>
+  <content>== A list of all known security bugs ==
+
+This is a list of security bugs from JIRA (most of them confidential) and Security Report by Madison Gurkha B.V. (in dutch).  I tried to briefly explain the details of the issue in case it was not clear from the summary (JIRA issue summary) and give an estimate of issue severity for each bug.
+
+You can view the list of currently open security bugs in JIRA using this search filter: [["Open security issues"&gt;&gt;http://jira.xwiki.org/jira/secure/IssueNavigator.jspa?mode=hide&amp;requestId=10650]].
+Another filter lists all unassigned open security issues with attached patches ("patch" keyword is present): [["Patched security issues"&gt;&gt;http://jira.xwiki.org/jira/secure/IssueNavigator.jspa?mode=hide&amp;requestId=10652]].
+
+This list is probably incomplete, feel free to improve it.
+
+Severity is split into "Risk", i.e. how easy it is to exploit the vulnerability, and "Effect", i.e. how serious the damage of a successful attack can be.  It is given for "Public" wikis (everyone can view pages and register), "Private" wikis (only registered users have access, registration is closed) and "Internal" wikis (access only for registered users from the intranet).
+
+|=  |=Risk    |=Effect
+|(L)ow  |Attacker must be an insider, vulnerability relies on the presence of other issues |The vulnerability is not directly exploitable, but may reveal useful information for other attacks
+|(M)oderate |User interaction is needed (e.g. social engineering), attacker must have an account with edit rights |Stealing cookies, privilege escalation, attack is harder to control
+|(H)igh  |Remotely exploitable, no user interaction is needed, simple to exploit |Arbitrary code execution (JavaScript, Velocity etc.), arbitrary SQL queries, access to confidential documents, etc.
+
+Issues from the Security Report have a note with the original severity ranking (risk/effect).
+
+|=(% colspan="6" %) |=(% colspan="2" %)Public |=(% colspan="2" %)Private |=(% colspan="2" %)Internal |=\\
+|=# |=Type |=Key  |=Notes |=Summary  |=Short Description |=Risk |=Effect |=Risk |=Effect |=Risk |=Effect |=Created
+|(% name="i" %) |privileges |[[XWIKI-5223&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-5223]]| |XWiki2.0 syntax injection possible everywhere xwiki2 code generates a page with user input |Remote God exploit |H |H |H |H |M |H |2010-05-26
+|(% name="i" %) |cookies |[[XWIKI-5155&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-5155]]|report: M/M |HTTP header injection via xredirect parameter |Makes possible to inject cookies using Set-Cookie: header, possibly inject malicious data into server logs (doesn't work on Jetty, fixed on Tomcat 5.5, see [[tomcat mailinglist&gt;&gt;http://mail-archives.apache.org/mod_mbox/tomcat-dev/200803.mbox/%3C47E96A99.40808@hanik.com%3E]]) |M |L |M |L |L |L |2010-05-03
+|(% name="i" %) |csrf |known |report: M/M |CSRF everywhere |Allows accessing arbitrary functionality when a privileged user views a malicious page or clicks a malicious link, also works across domains |H |M |M |H |M |H | 
+|(% name="i" %) |csrf |[[XWIKI-4873&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-4873]] |not confidential |Security Issue: Editing pages using URL | |H |M |M |H |M |H |2010-02-10
+|(% name="i" %) |dos |[[XWIKI-1119&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-1119]]  | |Potential DoS attack using Login or Search forms  |Via SQL injection (stacked queries are not allowed, but expensive operations are) |H |M |H |M |L |M |2007-04-22
+|(% name="i" %) |dos |[[XWIKI-5059&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-5059]]  | |Highly effective DoS attacks possible using $xwiki.getURLContent($doc.getExternalURL())  |New thread is created for every request |M |M |L |M |L |M |2010-03-29
+|(% name="i" %) |info |configuration|report: M/L |Versions of various installed services are leaked over HTML and headers |Apache Tomcat, XWiki Enterprise etc. This might help to prepare attacks based on known security bugs |M |L |M |L |L |L | 
+|(% name="i" %) |privileges |[[XWIKI-1002&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-1002]]  | |Panels and menus are executed with the context of the main document viewed  |Privilege escalation (also PR) via inclusion |M |H |L |H |L |H |2007-03-19
+|(% name="i" %) |privileges |[[XWIKI-1898&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-1898]]  | |Programming rights leak when generating TOC for a different document  | |M |H |L |H |L |H |2007-11-26
+|(% name="i" %) |privileges|[[XWIKI-2110&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-2110]]  | |Groovy contained in comments is executed if page editor has programmig rights  |Reported for 1.0 syntax. Arbitrary scripts can be executed if page was saved with PR |M |H |L |H |L |H |2008-02-12
+|(% name="i" %) |privileges|[[XWIKI-2344&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-2344]]  | |Code can be executed on user's page using the blogfeed  |Reported for 1.0 syntax. Arbitrary scripts can be executed when viewed by a privileged user |M |H |M |H |M |H |2008-04-28
+|(% name="i" %) |privileges|[[XWIKI-2581&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-2581]]  | |WebPreferences HTTP Meta Infos privil3g3 escalation for Girliz  |Arbitrary scripts can be executed |M |H |L |H |L |H |2008-07-24
+|(% name="i" %) |privileges |[[XPMAIL-23&gt;&gt;http://jira.xwiki.org/jira/browse/XPMAIL-23]]  | |sendMailFromTemplate should check rights on the document which is being used as a template  |Users can send themselves any document regardless of access rights |M |M |L |M |L |H |2010-03-15
+|(% name="i" %) |privileges |[[XWIKI-5024&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-5024]]  | |Security issue: Velocity script may receive more access rights once viewed by a more privileged user than its author  |Privilege escalation (also PR) when viewed by a privileged user |M |H |L |H |L |H |2010-03-18
+|(% name="i" %) |privileges |[[XWIKI-5027&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-5027]]  | |In Syntax 2.0, programming rights may be inherited by inclusion which may leads to security issues  |Privilege escalation (also PR) via inclusion |M |H |L |H |L |H |2010-03-19
+|(% name="i" %) |privileges |[[XWIKI-5180&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-5180]] | |Privilege escalation (PR) via velocity macros |An unprivileged user (can edit only his profile) can gain PR |M |H |L |H |L |H |2010-05-12
+|(% name="i" %) |server |known |report: M/M |HTTP protocol is used |Somebody could eavesdrop on traffic to collect user names, cookies etc. |M |L |M |M |L |M | 
+|(% name="i" %) |server |configuration |report: L/M |HTTP TRACE method is enabled on the server |It can be used to read HttpOnly cookies from JS (needs XSS to be present) |L |M |L |M |L |M | 
+|(% name="i" %) |reflected xss |[[XWIKI-4756&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-4756]]  | |URL parameters which are read into html forms present reflective XSS vulnerability.  |Arbitrary JS execution (stealing cookies, access to arbitrary wiki functionality with the rights of another user) even for unregistered users via. social engineering (logged-in users must click on a malicious link) |M |M |M |M |M |M |2010-01-18
+|(% name="i" %) |reflected xss |[[XWIKI-4872&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-4872]]  | |Security issue: Reflection XSS in search field  | |M |M |M |M |M |M |2010-02-10
+|(% name="i" %) |stored xss |[[XWIKI-2107&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-2107]]  |edit comments |Comments XSS vulnerability  |Arbitrary JS execution (stealing cookies, using arbitrary wiki functionality with the rights of another user) for registered users and guests if anonymous comments with CAPTCHA are enabled |M |H |L |H |L |H |2008-02-11
+|(% name="i" %) |stored xss |[[XWIKI-4757&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-4757]]  | |Persistant XSS vulnerabulity through document titles.  | |M |H |L |H |L |H |2010-01-18
+|(% name="i" %) |stored xss |[[XWIKI-4819&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-4819]]  |dupe: 2107 |XSS hole in edit comments / version history.  | |M |H |L |H |L |H |2010-01-30
+|(% name="i" %) |stored xss |[[XE-602&gt;&gt;http://jira.xwiki.org/jira/browse/XE-602]]  | |Security Issue: An unprivileged user is allowed to use HTML/JavaScript in his/her profile  | |H |H |L |H |L |H |2010-02-10
+|(% name="i" %) |stored xss |[[XWIKI-4874&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-4874]]  |dupe: 3953 |Restrict unsafe HTML/JavaScript features of Wiki syntax to trusted users  | | | | | | | |2010-02-10
+|(% name="i" %) |stored xss |[[XWIKI-4875&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-4875]]  | |Security issue: Arbitrary HTML code can be used in comments  | |H |H |L |H |L |H |2010-02-10
+|(% name="i" %) |stored xss |known |report: M/H |Stored XSS using HTML macros | |M |H |L |H |L |H | 
+|(% name="i" %) |stored xss |[[XWIKI-3953&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-3953]] |not confidential |Require a safe way to disable html macro | | | | | | | |2009-06-08
+|(% name="i" %) | |[[XPMAIL-7&gt;&gt;http://jira.xwiki.org/jira/browse/XPMAIL-7]]  | |Only users with Admin rights should be allowed to use the MailSender plugin  |Spamming is possible since mails can be sent by everyone without any restrictions |M |L |L |L |L |L |2008-03-11
+|(% name="i" %) | |[[XWIKI-4876&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-4876]]  | |Security issue: First comment in a profile is mistaken for the personal information  |Currently, users can inject JS into profiles of other users |M |M |L |M |L |M |2010-02-10
+|(% name="i" %) | |known |report: L/H |Access to the administration interface is possible over internet |It is possible to brute-force admin password and get full access |L |M |L |H |L |H | 
+|(% name="i" %) ||[[XE-655&gt;&gt;http://jira.xwiki.org/jira/browse/XE-655]]|report: L/M |"Forgot password" could be misused |The e-mail of a registered user is shown on the confirmation page, somebody with access to it can change the password |L |L |L |M |L |L |2010-05-03
+|(% name="i" %) ||[[XAADMIN-20&gt;&gt;http://jira.xwiki.org/jira/browse/XAADMINISTRATION-20]]|report: M/M |It is possible to change the password without knowing the current one |Somebody who has stolen the cookies, hashed password or has access to the browser while user is logged in can change the password |M |M |M |M |L |M |2009-02-19
+|(% name="i" %) |file access |[[XWIKI-5168&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-5168]] | |Arbitrary filesystem write access from velocity |A user with edit rights can modify arbitrary files on the server |M |H |L |H |L |H |2010-05-07
+
+{{html wiki="false"}}
+&lt;script&gt;
+var a = document.getElementsByName("i");
+var n = 1;
+for (x in a) {
+  a[x].innerHTML=n;
+  n++;
+}
+&lt;/script&gt;
+{{/html}}</content>
+</xwikidoc>

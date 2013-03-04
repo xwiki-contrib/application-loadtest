@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>DocGuide</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>1</translation>
+  <parent>Community.Contributing</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1254585672000</creationDate>
+  <date>1361190316000</date>
+  <contentUpdateDate>1361190316000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Documentation Guide</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Community.DocGuide</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>6a5f9c09-e0fa-46d5-b748-79f64b87df68</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+= General Remarks =
+
+This document is meant to provide best practices on how the XWiki.org documentation should be written and maintained.
+Either you write XWiki documentation on a regular basis or you want to make more simple contributions it's best you read the following guidelines.
+
+On XWiki.org documentation efforts usually go towards:
+
+* Fixing bugs
+* Improving existing documentation
+* Keeping pages up to date with the latest changes in XWiki
+* Creating new documentation for new features, applications, procedures, etc.
+
+{{info}}
+See a list of [[pending documentation todos&gt;&gt;http://jira.xwiki.org/secure/IssueNavigator.jspa?reset=true&amp;jqlQuery=project+%3D+XWIKIORG+AND+status+%3D+Open+ORDER+BY+priority+DESC&amp;mode=hide]].
+{{/info}}
+
+= Requirements =
+
+The following things are important when contributing to documentation:
+
+* Your will ;)
+* Having basic English skills, as all documentation should be written in English (since you are reading this guide, your skills are more than enough)
+* You must be registered as an xwiki.org user (use the "Register" link on the top right) 
+* Reading this guide
+
+= Fixing bugs =
+
+Sometimes you will encounter trivial bugs, like:
+
+* Grammar errors
+* Typing errors
+* Broken links
+* Other "one" word bugs
+
+Such bugs should be fixed directly in the page. You don't need to ask someone, just fix them :) Please, in doing so don't forget to:
+
+* Mark the changes as "minor" 
+* Write a short comment describing the fix
+
+That's all!
+
+= Updating existing pages =
+
+Any documentation can become obsolete or just not be good enough from your point of view. In these cases, if you want to upgrade/improve the documentation, you shouldn't make changes directly in the documentation page. Rewriting the documentation can take very long and nobody wants to have unbaked bread. Please proceed as follows:
+
+1. Make sure the documentation you are planning to add applies to the two most recent releases. 
+1. If you're unsure about the changes you want to make, you may ask the [[XWiki community&gt;&gt;Community.MailingLists]] before starting the rework.
+1. Create a new page on the [[Draft&gt;&gt;Drafts.WebHome]] space.
+1. Flag the original page as "under revision" with a link to the draft you have created:(((
+{{code}}
+{{info}}
+This page is being reworked at the moment, therefore you shouldn't modify the present document. To bring changes to the page please see the current [[Draft &gt;&gt; your-draft-url]].
+{{/info}}
+{{/code}}
+)))
+1. Reference the original page from your draft:(((
+{{code}}
+{{info}}
+This page is a draft for the [[PageName &gt;&gt; original-page-url]]. The rework should be completed until &lt;date&gt;.
+{{/info}}
+{{/code}}
+)))
+1. If you are adding information about a new feature or documenting changes in an existing feature make sure you also specify the release during which those additions/changes were introduced. This will make it easier for readers to see if the information applies to them.
+1. Once you have completed the draft, please notify the community on the [[user mailing list&gt;&gt;Community.MailingLists]].
+1. After the community agrees with the improvements and possibly offers new suggestions you may replace the original page with the updated draft.
+1. The draft must be removed after that, in order to avoid duplicate pages.
+
+= When to create a new page =
+
+Before building a new page you should first search for that piece of information in the existing documentation. You may find that:
+
+* A similar page already exists and portraits the situation you were about to describe. Make sure you also check the [[Drafts page&gt;&gt;Drafts.WebHome]]. Somebody may be already working on a similar page. If so, you could contact her/him and help.
+* There is a page on XWiki.org that only covers part of the message you were about to convey. You can write additional information to the existing page.
+* There is no documentation on your choice of topic. At this point you may create a new page.
+
+= How to create new pages =
+
+Now that you've decided you're creating a new page you should take notice of the following steps:
+
+1. If there are no similar pages on the [[Drafts page&gt;&gt;Drafts.WebHome]], add a link to your draft followed by a short description.
+1. At this point you could inform the community on the [[user mailing list&gt;&gt;Community.MailingLists]] about your plans. Most probably you will get helpful suggestions and even find contributors.
+1. After you have completed the draft, please notify the XWiki community on the [[user mailing list&gt;&gt;Community.MailingLists]].
+1. After the community has reviewed the document and additional improvements have been made the original page can be replaced with the draft.
+1. Make sure you remove the draft after the original page has been updated, in order to avoid duplicate pages.
+1. If you are not replacing an original page, but want to create a new page altogether and you are not sure where it's best to add it you can ask on the [[user mailing list&gt;&gt;Community.MailingLists]] or on IRC what the best place is. The community will most likely point you to the right wiki &amp; space.
+
+= Text editing =
+
+You've decided to make a new document or improve an existing one. Chances are you'll want to add new text and/or bring changes to existing paragraphs. When editing the text in a document it's best to:
+
+* Write the page title in the title field
+* Use headings to mark the different sets of information
+* Use bold to emphasize important pieces of text
+* Use bullets to make content easier to skim through
+
+When you're done typing don't forget to review your text for typos and/or mistakes before submitting it.
+
+= Macros =
+
+Macros can help you better visualize information within a page. You should use:
+
+* The [[code macro&gt;&gt;extensions:Extension.Code Macro]] to insert pieces of code
+* The [[info macro&gt;&gt;extensions:Extension.Info Macro]] to highlight important information
+* The [[warning macro&gt;&gt;extensions:Extension.Warning Macro]] to let readers know of possible issues they might come across
+* The [[toc macro&gt;&gt;extensions:Extension.TOC Macro]] to create a table of content for large documents covering a long array of information.
+
+= Linking =
+
+* Now that you have added text you should use links to point to other useful resources outside the page
+* Don't use URLs for links to xwiki.org. If the URL format or the domain get changed the links will be broken. You should use the ##wiki:Space.Name## notation instead.
+* More information about links, including differences between the different syntaxes, can be found by reading the [[XWiki Syntax page&gt;&gt;platform:Main.XWikiSyntax#HLinks]]
+
+= Screen shots / Images =
+
+It is recommended to use images to illustrate the content you are writing about. There are some practices it's best to follow with respect to images:
+
+* Use names that are suggestive
+* Only have screenshots of the latest skin
+* You should save your images only as PNG.
+* To give documentation a homogeneous look we recommend using four standard width sizes for screenshots:              
+** Extra Large: width of the image : 960px; (used for whole interface screens)
+** Large: width of the image : 650px;
+** Medium: width of the image : 350px;
+** Small: width of the image : 150px;
+* Adding a black border of 1px around images to separate them from the content is a good practice
+* You should add a piece of text in italics under images that describes what that image is about 
+* If your image is part of a bullet list, that image should be aligned to the text in the bullets. For this purpose we use(((
+{{code}}
+* Some text here(((
+{{image reference="Community.DocGuide@someimage.extension"/}}
+)))
+{{/code}}
+)))
+
+= Syntax =
+
+* When you're not sure about the appropriate syntax you should use please consult the [[XWiki Syntaxes Page&gt;&gt;platform:Main.XWikiSyntax]]
+* Pages should be written in 2.0 or 2.1 syntax
+* When converting a page from 1.0 to 2.0/2.1 syntax you should look at the end result and make sure nothing was broken in the process. Double check that comments have been properly converted as well.
+* Avoid using HTML code and use [[XWiki Syntax&gt;&gt;platform:Main.XWikiSyntax]] instead
+
+= Preview &amp; Save =
+
+* It's preferable to click preview when editing a page to view your changes before you save the document. This way you don't send notifications to people following that page (by IRC, mail or RSS) each time you make a minor addition.
+* When changing a document you should write a short comment describing the changes you introduced. This way everyone can stay up to date with no need to check the "History" tab.
+* If you are making small improvements make sure you check the "Is minor edit" checkbox before saving your page.
+
+= Attachments =
+
+* If you want to replace an attachment with a newer version you shouldn't delete the old attachments. Just save the new attachment under the same name and a new version will be created for the old attachment.
+* File extensions should  be in lowercase letters (this is not mandatory, but it's recommended for better versioning). E.g. If you use both upper and lower cases for Image.png &amp; Image.PNG you'll get two different attachments with separate versions.
+* If you're using multiple words to name your attachments, it's best that each word starts with a capital letter, making the file name easy to scan. E.g.: CreagePage.png, RemoveSpace.png, TopBarRenameToucan.png
+
+= Making your page accessible on the wiki =
+
+Once you've successfully created and edited a page it's equally important to make sure other people can reach that page as well.
+
+* When you create a new document it's best to set a parent for that page. Setting parents to documents allows for easy creation of hierarchies, as deep as you want.
+* You should also add links from other pages towards the document you have just created. 
+
+= Moving a page =
+
+If you decide to move a page you should not remove the old page altogether. Use the old document to point to the new page. This way users that have the old link saved can still reach the information they are interested in by finding their way to the new URL. You can use the [[redirect macro&gt;&gt;extensions:Extension.Redirect]] to link the new page from the old page.
+
+= Start contributing =
+
+Now that you've read how you should create and modify documentation you can start contributing yourself. Not sure what to work on? Here's a [[list of pending to do's&gt;&gt;http://jira.xwiki.org/secure/IssueNavigator.jspa?reset=true&amp;jqlQuery=project+%3D+XWIKIORG+AND+status+%3D+Open+ORDER+BY+priority+DESC&amp;mode=hide]].</content>
+</xwikidoc>

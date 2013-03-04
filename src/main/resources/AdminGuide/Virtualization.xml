@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>Virtualization</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1169721304000</creationDate>
+  <date>1360950253000</date>
+  <contentUpdateDate>1360950253000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Creating a Multi-tenant environment</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.Virtualization</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>9dae1472-81fb-4a7f-b2d2-f9731039effb</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}{{toc/}}{{/box}}
+
+A [[multi-tenant&gt;&gt;http://en.wikipedia.org/wiki/Multitenancy]] setup (a.k.a "virtual mode", "multi-wiki" or "farm mode") allows you to have several wikis running on the same XWiki instance (i.e. in the same JVM).
+
+Each wiki has its own database schema, thus allowing for a complete data separation between the different wikis in the same instance.
+
+The main advantage of multi-tenancy is performance optimization. A single XWiki instance on a physical machine (thus a single Servlet Container) will perform much better than having several XWiki instances running on the same machine, which wouldn't scale. As an example known XWiki multi-tenant instances host several thousands hundreds to several thousands wikis on a single XWiki instance.
+
+= Requirements =
+
+The multi-tenancy feature currently works only on some databases:
+* Databases known to work are: MySQL, Oracle and HSQLDB (starting with XWiki 4.3M1)
+* PostgreSQL is currently not supported as the JDBC driver doesn't support setCatalog() for changing databases. That's because PostgreSQL connections are pointed to a specific database at connection time (see jira issue [[XWIKI-1960&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-1960]])
+* [[Derby is currently not supported&gt;&gt;http://jira.xwiki.org/browse/XWIKI-8244]]
+
+In addition to having a supported database you'll also need:
+* Choosing one instance of XWiki that has been installed on your network. The database name for this wiki should be ##xwiki##. If you've still got to install the XWiki instance, please refer to [[the installation guide&gt;&gt;AdminGuide.Installation]] and install XWiki Enterprise first
+* Admin privileges on this XWiki instance
+* You need to be sure that the ##xwiki## user used to create the main database has the correct permissions to be able to create other schemas since each subwiki will create a new database schema
+* You need to be able to restart the java container (e.g. Tomcat or Jetty), or can have this restarted on demand.
+** The ##xwiki.cfg## file will also have to be modified, so you will need to have write access to this file on the server
+
+= Set up =
+
+* Stop your XWiki instance, edit the ##WEB-INF/xwiki.cfg## file, look for the ##xwiki.virtual## property and set it to ##1##: {{code}}xwiki.virtual=1{{/code}}
+* Restart your XWiki instance
+* Install the [[Wiki Manager Application&gt;&gt;extensions:Extension.Wiki Manager Application]]
+
+Starting with XWiki Enterprise 3.3 you can easily install the Wiki Manager Application using the Extension Manager by following these steps:
+* Go to the administration page and click on "Add Extensions" under "Extension Manager"
+* Click on "Advanced search" and enter the following information:
+** extension id: ##org.xwiki.platform:xwiki-platform-wiki-manager-ui##
+** extension version: ##4.3## (adapt to the version you wish to install; make it match the version of the XWiki Enterprise you're using)
+* Click "Search"
+* Click "Install"
+* Click "Apply"
+* Verify that the Wiki Manager extension is correctly installed by navigating to the [[WikiManager WebHome page&gt;&gt;http://localhost:8080/xwiki/bin/view/WikiManager/WebHome]] which should now exist
+
+You now have a multi-tenant installation and can proceed to use the [[Wiki Manager Application&gt;&gt;extensions:Extension.Wiki Manager Application]] to create subwikis.</content>
+</xwikidoc>

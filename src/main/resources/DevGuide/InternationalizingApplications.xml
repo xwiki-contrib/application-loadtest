@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>InternationalizingApplications</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1195650138000</creationDate>
+  <date>1360950270000</date>
+  <contentUpdateDate>1360950270000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Writing Internationalized XWiki Applications</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.InternationalizingApplications</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>20303f6a-a8bd-4f0e-a033-4135dd2b3ef8</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+= Tutorials =
+
+* [[Tutorial for Internationalizing a Form&gt;&gt;DevGuide.TranslationsTutorial]]
+
+= Using properties located in XWiki pages =
+
+* Create a page that will host your key/value pairs
+* Enter all the key/value pairs in that page ({{warning}}use the wiki editor{{/warning}}). For example:(((
+{{code language="none"}}
+greeting=hello
+welcome=Welcome
+withparams=I can {0} pass {1} {2} params too using the Java MessageFormat syntax
+{{/code}}
+)))
+* Do the same for all the translations you want.(((
+{{info}}
+To enable multiple languages you'll need to go to the Administration page and set MultiLingual to true and list the different languages you wish to use in the Languages field.
+{{/info}}
+)))
+* Tell XWiki that your page is a Document Bundle by going to the Administration page, selecting the "Programming" icon and entering it in the "Internationalization Document Bundles" field. You can specify several pages, separated by commas.(((
+{{info}}
+When creating "Internationalization Document Bundles", you should avoid naming the pages with names that include spaces. For example, a document name of Main.My Messages could cause issues, instead, use Main.MyMessages
+{{/info}}
+)))
+* Alternatively you can also specify the list of Internationalization Document Bundles in ##xwiki.cfg## under the key ##xwiki.documentBundles##.
+* On the page where you want to use the internationalized message, use:(((
+{{code}}
+$msg.get("key")
+$msg.get("key", ["param1", "param2", ...])
+{{/code}}
+
+where ##key## is the key for the message to retrieve. Parameters can also be passed as is shown in the second syntax above.
+)))
+
+= I18n of XWiki Objects =
+
+This is currently not implemented (see our logged issue: [[XWIKI-69&gt;&gt;http://jira.xwiki.org/browse/XWIKI-69]]). There are 2 workarounds you can use:
+
+* Have several objects, one for each language, with a language field, and then decide which object to use (for example in a Class Sheet, based on the current language):(((
+{{code language="none"}}
+$doc.getObject('Your.Class', 'lang', $context.language')
+## Will select the object whose 'lang' property is set to the current language
+{{/code}}
+)))
+* Use Velocity scripting to do an IF in your object. For example, you could have:(((
+{{code language="none"}}
+#if ($context.language == "fr")
+  French texts
+#else
+  Default texts
+#end
+{{/code}}
+)))
+
+= Using the static Resource Bundles =
+
+* Stop your XWiki instance
+* Extract the ##ApplicationResources*.properties## file for your language from the ##WEB-INF/lib/xwiki-*oldcore-*.jar## file and put them in your ##WEB-INF/classes## directory
+* Edit this file and add/modify the key/value pairs you need for your application
+* In your document, use the following to get the value associated with a key: {{code language="none"}}$msg.get("key"){{/code}}
+
+This will get the value from the Resource Bundle corresponding to the current language you are using in XWiki.
+</content>
+</xwikidoc>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>GettingStarted</web>
+  <name>WhatIsAWiki</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>GettingStarted.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1233325155000</creationDate>
+  <date>1360853985000</date>
+  <contentUpdateDate>1360853985000</contentUpdateDate>
+  <version>1.1</version>
+  <title>What is a wiki and what can it be used for?</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>GettingStarted.WhatIsAWiki</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>c1d82200-43e8-480e-bb46-a769177961b8</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>A wiki is a website that you can edit online easily. 
+
+Whenever you want to modify a page, click on the "edit" button, make your changes and save the page. The modified page now replaces the previous version. This makes it easy to update the website and have people contribute content. Each version of the page is stored in the page history and can be reverted to if needed.
+
+On top of this basic feature set, most wikis include additional features such as access rights management and notifications.
+
+The core advantage of a wiki compared with traditional Content Management Systems and ECM lies in its flexibility and the ease with which new pages can be added and linked to.
+
+Thanks to their flexibility and ease of use, wikis can be used to address a wide range of situations:
+
+* Share information about a given topic (knowledge base, product catalog, documentation)
+* Manage a project (organize an event, create a product, setup a new tool)
+* Communicate with other people (as a website, an intranet or an extranet)
+* And much more!
+
+Basically, a wiki can be used whenever you want to use a flexible platform to centralize information and share it with other people. It comes as a handy replacement to email when many-to-many communication takes place and information needs to be made available to every participant in one place.
+
+* Next: [[What's special about XWiki Enterprise?&gt;&gt;GettingStarted.WhatsSpecialAboutXWikiEnterprise]]</content>
+</xwikidoc>

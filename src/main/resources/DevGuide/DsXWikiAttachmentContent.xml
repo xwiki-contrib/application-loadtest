@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>DsXWikiAttachmentContent</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.DatabaseSchema</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1234393379000</creationDate>
+  <date>1361190311000</date>
+  <contentUpdateDate>1361190311000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki Attachment Content (xwikiattachment_content)</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.DsXWikiAttachmentContent</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>a96d857c-5c58-4b0a-bdcd-5c9d84e13ffb</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>This table stores the attachment content:
+
+|=|=Column Name|=Datatype|=Not null|=auto inc|=flags|=Default Value|=Comments
+|[[image:DevGuide.DsXWikiAttachmentContent@DevGuide.DatabaseSchema@db_key.gif]]|XWA_ID|BIG_INT(20)|[[image:DevGuide.DsXWikiAttachmentContent@DevGuide.DatabaseSchema@db_check.gif]]|| |0| 
+|[[image:DevGuide.DsXWikiAttachmentContent@DevGuide.DatabaseSchema@db_field.gif]]|XWA_CONTENT|LONGBLOB|[[image:DevGuide.DsXWikiAttachmentContent@DevGuide.DatabaseSchema@db_check.gif]]|| || </content>
+</xwikidoc>

@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>ExtensionManager</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1166352997000</creationDate>
+  <date>1360950325000</date>
+  <contentUpdateDate>1342187771000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Extension Manager</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.ExtensionManager</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>94a323a6-3c66-4d77-9c52-58fd14115334</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+{{toc/}}
+
+Extension Manager already exist, you can see documentation about its current state on [[extensions:Extension.Extension Module]].
+
+This page is about future features and improvements of Extension Manager.
+
+= UI =
+
+[[ExtensionManagerUI]]
+
+= Upgrade Farm In 5 Minutes =
+
+[[ExtensionManagerUpgradeFarmIn5Minutes]]
+
+= Installed extensions =
+
+[[ExtensionManagerInstalledExtensions]]
+
+= Return back information to the server =
+
+The idea is to give some information to the server when it support it:
+
+* extension has been installed succesfully
+* extension installing failed
+* extension has been uninstalled
+* ...
+
+= Virtual extensions as dependency =
+
+Virtual extension are already implemented but one thing is missing: put virtual extension as dependency.
+
+== pom.xml extension ==
+
+Define how to indicate a dependency that maven will obviously be unable to find itself.
+
+== Find the extension ==
+
+Also need a way to find an extension by one of its supported features. Easy to add this in XWiki repository but not so much in maven repository where we can't easily search.
+
+= Extension index =
+
+[[ExtensionManagerIndexer]]
+
+= Advanced repository search API =
+
+[[ExtensionManagerSearch]]
+
+= Repositories =
+
+[[ExtensionManagerRepositories]]
+
+= Install an extension not coming from a repository =
+
+{{todo/}}
+
+= New XWiki packaging format =
+
+[[ExtensionManageXWikiPackage]]
+
+= Social =
+
+[[ExtensionManagerSocial]]
+
+= Misc =
+
+* add possibility to reinstall an extension (to restore it when a page has been removed by mistake or something like that)
+* internationalize extension manager
+
+= Ideas (less obviously useful) =
+
+* add enable/disable extension support ([[XWIKI-5704&gt;&gt;http://jira.xwiki.org/jira/browse/XWIKI-5704]])
+
+= Links and things to look at =
+
+* [[Debian Policy Manual&gt;&gt;http://www.debian.org/doc/debian-policy/]] and especially [[Declaring relationships between packages&gt;&gt;http://www.debian.org/doc/debian-policy/ch-relationships.html]] for inspiration
+* [[Aether&gt;&gt;https://docs.sonatype.org/display/AETHER/Home]]: official maven atifact resolving and dedpendency management library
+* [[Apache Ivy&gt;&gt;http://groovy.codehaus.org/Grapes+and+grab%28%29]]: looks like [[groovy is using that as a library&gt;&gt;http://groovy.codehaus.org/Grapes+and+grab%28%29]] so could we (even if i could not find any reference to that on the Ivy website). It also supports maven so it could also be an alternative to Aether
+* OSGi
+* http://blog.caucho.com/tag/pomegranate/ (see also the comments at http://blog.caucho.com/?p=211)
+* [[Apache ACE&gt;&gt;http://incubator.apache.org/ace/]]
+* [[Commet&gt;&gt;http://en.wikipedia.org/wiki/Comet_%28programming%29]] to be used for question/answer UI</content>
+</xwikidoc>

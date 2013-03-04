@@ -1,0 +1,344 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Features</web>
+  <name>XMLRPCJavaExamples2</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Features.XMLRPCJavaExamples</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1264196188000</creationDate>
+  <date>1360950251000</date>
+  <contentUpdateDate>1360950251000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XML-RPC Java Example - Retrieve/Search Pages</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Features.XMLRPCJavaExamples2</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>09322cfc-5dd6-4ee8-bca6-e73502f21ebc</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}{{toc/}}{{/box}}
+
+This page is dedicated to providing examples of various methods available to retrieve/search pages through the XML-RPC Client Side Proxy for Java.
+
+= Retrieve Page By Fully Qualified Name =
+
+This is more of a page retrieval than a page search since it is assumed that we already know the fully qualified name of the page (Fully Qualified Name = Space Name.Page Name eg. Main.WebHome)
+
+{{code language="java"}}
+import java.net.MalformedURLException;
+import org.apache.xmlrpc.XmlRpcException;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+import org.xwiki.xmlrpc.model.XWikiPage;
+
+public class RetrieveByName
+{
+    public static void main(String[] args) throws MalformedURLException{
+
+      //URL of the xwiki instance
+        String url="http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user="Admin";
+        String pass="admin";
+
+        //Perform Login &amp; Authentication using above url address
+        try{
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+        rpc.login(user, pass);
+
+        //Pass the fully qualified name eg. Main.WebHome
+        XWikiPage page= rpc.getPage("Main.WebHome");
+
+        //Display the URL of the page at Main.WebHome
+        System.out.println(page.getUrl());
+        
+        rpc.logout();
+        }
+        catch(XmlRpcException e){
+            System.out.println("invalid username/password was specified or communication problem or ");
+            System.out.println(e);
+        }
+    }
+}
+{{/code}}
+
+= Retrieve Page By Major Version =
+
+We can retrieve a page by it's fully qualified name and also any major version of that page. Here we are attempting to retrieve major version 2.1 of the page Main.WebHome. 
+{{warning}}
+If the version 2.1 of the page Main.WebHome does not exist you will be greeted with an error such as:
+Failed to invoke method getPage in class com.xpn.xwiki.xmlrpc.XWikiXmlRpcApiImpl: Error number 3205 in 3: Version 2.1 does not exist while reading document Main.WebHome
+{{/warning}}
+
+{{code language="java"}}
+import java.net.MalformedURLException;
+import org.apache.xmlrpc.XmlRpcException;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+import org.xwiki.xmlrpc.model.XWikiPage;
+
+public class RetrieveByName
+{
+    public static void main(String[] args) throws MalformedURLException{
+
+      //URL of the xwiki instance
+        String url="http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user="Admin";
+        String pass="admin";
+
+        //Perform Login &amp; Authentication using above url address
+        try{
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+        rpc.login(user, pass);
+
+        //Pass the fully qualified name eg. Main.WebHome
+        XWikiPage page= rpc.getPage("Main.WebHome",2);
+
+        //Display the URL of the page at Main.WebHome
+        System.out.println(page.getContent());
+        
+        rpc.logout();
+        }
+        catch(XmlRpcException e){
+            System.out.println("invalid username/password was specified or communication problem or ");
+            System.out.println(e);
+        }
+    }
+}
+{{/code}}
+
+= Retrieve Page By Major &amp; Minor Version =
+
+Carefully observe the rpc.getPage() method in this example. The getPage() is an overloaded method and in this case accepts the fully qualified page name followed by the major version followed by the minor version.
+
+{{code language="java"}}
+import java.net.MalformedURLException;
+import org.apache.xmlrpc.XmlRpcException;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+import org.xwiki.xmlrpc.model.XWikiPage;
+
+public class RetrieveByName
+{
+    public static void main(String[] args) throws MalformedURLException{
+
+      //URL of the xwiki instance
+        String url="http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user="Admin";
+        String pass="admin";
+
+        //Perform Login &amp; Authentication using above url address
+        try{
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+        rpc.login(user, pass);
+
+        //Pass the fully qualified name eg. Main.WebHome
+        XWikiPage page= rpc.getPage("Main.WebHome",3,1);
+
+        //Display the URL of the page at Main.WebHome
+        System.out.println(page.getContent());
+        
+        rpc.logout();
+        }
+        catch(XmlRpcException e){
+            System.out.println("invalid username/password was specified or communication problem or ");
+            System.out.println(e);
+        }
+    }
+}
+{{/code}}
+
+= Retrieve Page By Language =
+
+In a multilingual wiki you can lookup a page by it's language. The same overloaded method rpc.getPage() is called here. Note the "de" in rpc.getPage(). "de" is used to find the German Version of this page. You could use any of the 21 languages supported by XWiki as listed [[here&gt;&gt;http://platform.xwiki.org/xwiki/bin/view/Features/I18N]] provided you've turned on multilingual support for your XWiki instance and also created pages in a particular language.
+
+{{code language="java"}}
+package search;
+
+import java.net.MalformedURLException;
+import org.apache.xmlrpc.XmlRpcException;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+import org.xwiki.xmlrpc.model.XWikiPage;
+
+public class RetrieveByName
+{
+    public static void main(String[] args) throws MalformedURLException{
+
+      //URL of the xwiki instance
+        String url="http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user="Admin";
+        String pass="admin";
+
+        //Perform Login &amp; Authentication using above url address
+        try{
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+        rpc.login(user, pass);
+
+        //Pass the fully qualified name eg. Main.WebHome
+        XWikiPage page= rpc.getPage("Main.WebHome","de");
+
+        //Display the URL of the page at Main.WebHome
+        System.out.println(page.getContent());
+        
+        rpc.logout();
+        }
+        catch(XmlRpcException e){
+            System.out.println("invalid username/password was specified or communication problem or ");
+            System.out.println(e);
+        }
+    }
+}
+{{/code}}
+
+= Retrieve All Pages For A Space =
+
+Let's move on to build a small application that would help you list all the pages in your wiki instance. Let's say, you want to build an expandable tree in your java application. The tree node would be the name of the space. Once, you click over it, it would expand to list all the pages in that space. One of the best examples for this would be [[the XEclipse tool&gt;&gt;xeclipse:Main.WebHome]]. Observe the windows explorer/tree style navigation in the various screenshots.
+
+We make use of the rpc.getPages() method in our example. The input is the space name (in our example it is the space "Main").
+
+{{code language="java"}}
+package search;
+
+
+import java.net.MalformedURLException;
+import java.util.List;
+import org.apache.xmlrpc.XmlRpcException;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+import org.xwiki.xmlrpc.model.XWikiPageSummary;
+
+public class PagesInSpace {
+
+    public static void main(String[] args) throws MalformedURLException {
+
+        //URL of the xwiki instance
+        String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user = "Admin";
+        String pass = "admin";
+
+        //Perform Login &amp; Authentication using above url address
+        try {
+            XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+            rpc.login(user, pass);
+
+            //Pass the "space" name to the getPages method below
+            List&lt;XWikiPageSummary&gt; result = rpc.getPages("Main");
+
+            //Print name of the Page, Title &amp; absolute URL for the Pages
+            for (XWikiPageSummary rs : result) {
+
+                System.out.println("---" + rs.getId() + "---");
+                System.out.println("---" + rs.getTitle() + "---");
+                System.out.println("---"+rs.getUrl()+"---");
+
+            }
+
+        } catch (XmlRpcException e) {
+            System.out.println("invalid username/password was specified or communication problem.");
+            System.out.println(e.getCause());
+        }
+    }
+}
+
+{{/code}}
+
+= Search Page In Wiki =
+
+This API could be called a "Search" in the true sense. This is far more than just a simple Page retrieval. We are required to pass keywords for search to the rpc.search() method along with the number of results we want to be returned. 
+
+{{info}}
+As of XWiki 2.1.1, the results obtained by changing keyword positions will vary. For instance, the results for "a new day" would be different from the results for "day a new". If you would only like to implement the search feature &amp; wish to get more accurate results, you could use [[the XWiki RESTful services&gt;&gt;platform:Features.XWikiRESTfulAPI]] (especially, the tag search). However, this would require that all your searchable documents be tagged appropriately in the XWiki instance.
+{{/info}}
+
+{{info}}
+The results obtained are based on the rights &amp; privileges granted to the user whose credential you are passing in the rpc.login() method.
+{{/info}}
+
+{{code language="java"}}
+
+import java.net.MalformedURLException;
+import java.util.List;
+import org.apache.xmlrpc.XmlRpcException;
+import org.codehaus.swizzle.confluence.SearchResult;
+import org.xwiki.xmlrpc.XWikiXmlRpcClient;
+
+public class XWikiXMLRPCSearch {
+
+    public static void main(String[] args) throws MalformedURLException, XmlRpcException {
+        //Replace the url with your xwiki server address
+        String url = "http://localhost:8080/xwiki/xmlrpc/confluence";
+
+        //Replace user &amp; pass with desired xwiki username &amp; password
+        String user = "Admin";
+        String pass = "admin";
+        
+        //Perform Login &amp; Authentication using above url address
+        XWikiXmlRpcClient rpc = new XWikiXmlRpcClient(url);
+        rpc.login(user, pass);
+
+        //Replace string to search in the rpc.search() method below
+        //Specify the number of results to be returned in rpc.search() as 5
+        List&lt;SearchResult&gt; result = rpc.search("text I want to search", 5);
+
+
+        //Print obtained results to console if result is not empty
+        if (result.size() != 0) {
+            for (int i = 0; i &lt; result.size(); i++) {
+                System.out.println(result.get(i).getTitle());
+            }
+        } //Print standard message if result is empty
+        else {
+            System.out.println("No Results To Display");
+        }
+    }
+}
+
+{{/code}}</content>
+</xwikidoc>

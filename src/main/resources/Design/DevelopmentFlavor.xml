@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Design</web>
+  <name>DevelopmentFlavor</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Design.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1353233393000</creationDate>
+  <date>1360950332000</date>
+  <contentUpdateDate>1353233423000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Development Flavor</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <name>Design.DevelopmentFlavor</name>
+    <number>0</number>
+    <className>XWiki.DesignClass</className>
+    <guid>7ae77c65-a0b6-4b4a-b0fc-848d352fb386</guid>
+  </object>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>Design.DevelopmentFlavor</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>79f5ff16-339f-4e59-8286-c66c1f3a4aca</guid>
+  </object>
+  <content>{{include document="XWiki.DesignClassSheet"/}}
+
+* First, from the point of view of the XWiki project I believe it could be a game changer if we did it right since it has the potential of being adopted by projects around the world and thus making them discover xwiki as a result. And since they're developers they would be able to take advantage of XWiki's development features and contribute back to the project through extensions for example.
+
+* Ideally it would be awesome that this project be started independently of the XWiki project I think and just use XWiki as the platform since it's a full fledged project with a different goal than the XWiki project itself. 
+
+* We need to finish the Flavor idea by allowing the DM to list flavors.
+
+* Some ideas of content for this Development Project flavor:
+** A home page dashboard about metrics of your project. These metrics would be retried from external sources. Examples:
+*** Statistics about commits using Git/GitHub
+*** Latest emails (taken from mailman or other mailing list software, possibly by subscribing the project to a mailing list so that it gets the emails)
+*** Latest issues (taken from JIRA for example)
+*** Screenshot example: http://incubator.myxwiki.org/xwiki/bin/view/Improvements/XWikiOrgProposal2#HCommunityHome
+** A Release application to help perform releases
+** A forum application, for example the Mail Archive Application done by Jeremie which would need to be improved to add ability to post from it
+** A Release notes application
+** The Blog application
+** Ability to generate a whole PDF for the project's documentation for a given version
+** A modern and nice skin (either Lyrebird or the new Skin proposal: http://incubator.myxwiki.org/xwiki/bin/view/Improvements/Skin4x)
+** A layout configured for the flavor
+** Future: a simple issue tracker (or integrate one) for those who want an all-in-one solution. However keep the external issue tracker possibility for those already having an issue tracker
+** Some predefined templates for creating well known project pages: source repository, build, hall in fame, project documentation home page, etc
+** The IRC Bot application
+** Bundle the JIRA macro
+** Bundle the FAQ application
+** A Roadmap application
+
+* Of course we should use this flavor on xwiki.org itself. And we could move some of the modules we currently have in platform and that would make more sense there (jira macro, IRC Bot application, FAQ application, etc).
+
+</content>
+</xwikidoc>

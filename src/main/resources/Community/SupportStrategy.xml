@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>SupportStrategy</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.WebHome</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1333460092000</creationDate>
+  <date>1360950284000</date>
+  <contentUpdateDate>1333460265000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Support Strategy</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.1</syntaxId>
+  <hidden>false</hidden>
+  <content>We have defined different support strategies, which allows us to have a global scaffolding to know what we should support or not (and thus, for example, not have to send a vote email every time a new version of a browser or a database is released).
+
+* [[Browser Support Strategy&gt;&gt;BrowserSupportStrategy]]: Strategy we use to decide which browsers to support
+* [[Database Support Strategy&gt;&gt;DatabaseSupportStrategy]]: Strategy we use to decide which databases to support</content>
+</xwikidoc>

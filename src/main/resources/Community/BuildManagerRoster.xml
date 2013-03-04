@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>Community</web>
+  <name>BuildManagerRoster</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>Community.DevelopmentPractices</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1308035695000</creationDate>
+  <date>1360950282000</date>
+  <contentUpdateDate>1350637526000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Build Manager Roster</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <content>|=Start Date|=End Date|=Build Manager
+|30/05/2011|05/06/2011|[[xwiki:XWiki.cjdelisle]]
+|06/06/2011|12/06/2011|[[xwiki:XWiki.VincentMassol]]
+|13/06/2011|19/06/2011|[[xwiki:XWiki.ThomasMortagne]]
+|20/06/2011|26/06/2011|[[xwiki:XWiki.sdumitriu]]
+|27/06/2011|03/07/2011|[[xwiki:XWiki.mflorea]]
+|04/07/2011|10/07/2011|(nobody, we had a process issue, fixed now)
+|11/07/2011|17/07/2011|[[xwiki:XWiki.jvelo]]
+|18/07/2011|24/07/2011|[[xwiki:XWiki.sdumitriu]]
+|25/07/2011|31/07/2011|(nobody, Sergiu failed to hand over)
+|01/08/2011|07/08/2011|[[xwiki:XWiki.VincentMassol]] (taking over from Sergiu who has still not handed over and who's not doing the Build Manager duty)
+|08/08/2011|09/08/2011|[[xwiki:XWiki.VincentMassol]]
+|09/08/2011|16/08/2011|[[xwiki:XWiki.cjdelisle]]
+|16/08/2011|21/08/2011|[[xwiki:XWiki.cjdelisle]] and [[xwiki:XWiki.VincentMassol]]
+|22/08/2011|28/08/2011|[[xwiki:XWiki.VincentMassol]] and [[xwiki:XWiki.ThomasMortagne]]
+|29/08/2011|04/09/2011|[[xwiki:XWiki.mflorea]]
+|05/09/2011|11/09/2011|[[xwiki:XWiki.sdumitriu]]
+|12/09/2011|18/09/2011|[[xwiki:XWiki.jvelo]]
+|19/09/2011|25/09/2011|[[xwiki:XWiki.jvelo]] (failed to hand over and not done very seriously...)
+|26/09/2011|02/10/2011|[[xwiki:XWiki.mflorea]]
+|03/10/2011|07/10/2011|[[xwiki:XWiki.ThomasMortagne]]
+|10/10/2011|14/10/2011|[[xwiki:XWiki.enygma]]
+|17/10/2011|21/10/2011|[[xwiki:XWiki.sdumitriu]]
+|22/10/2011|30/10/2011|[[xwiki:XWiki.sdumitriu]]
+|31/10/2011|06/11/2011|[[xwiki:XWiki.mflorea]]
+|07/11/2011|11/11/2011|[[xwiki:XWiki.ThomasMortagne]]
+|14/11/2011|18/11/2011|[[xwiki:XWiki.dgervalle]] and [[xwiki:XWiki.VincentMassol]]
+|21/11/2011|25/11/2011|[[xwiki:XWiki.enygma]]
+|28/11/2011|04/12/2011|[[xwiki:XWiki.sdumitriu]]
+|05/12/2011|11/12/2011|[[xwiki:XWiki.cjdelisle]]
+|12/12/2011|08/01/2012|Nobody specifically
+|09/01/2011|15/01/2012|[[xwiki:XWiki.mflorea]]
+|16/01/2011|22/01/2012|[[xwiki:XWiki.mflorea]]
+|23/01/2012|29/01/2012|[[xwiki:XWiki.ThomasMortagne]]
+|30/01/2012|05/02/2012|[[xwiki:XWiki.ThomasMortagne]]
+|06/01/2012|12/02/2012|[[xwiki:XWiki.ThomasMortagne]], [[xwiki:XWiki.VincentMassol]] and [[xwiki:XWiki.mflorea]]
+|13/02/2012|28/03/2012|Nobody specifically
+
+= Statistics =
+
+{{groovy}}
+import org.xwiki.rendering.block.*
+
+def userCountMap = [:]
+def tableBlock = doc.getDocument().getXDOM().getChildrenByType(TableBlock.class, false).get(0)
+tableBlock.getChildrenByType(TableRowBlock.class, false).each() { rowBlock -&gt;
+  def cellContentBlock = rowBlock.getChildrenByType(TableCellBlock.class, false).get(2)
+  def users = cellContentBlock.getChildrenByType(LinkBlock.class, false)
+  users.each() {  linkBlock -&gt;
+    def user = linkBlock.getReference().getReference(); 
+    def count = userCountMap.get(user)
+    if (count == null) {
+      count = 1
+    } else {
+      count++
+    }
+    userCountMap.put(user, count)
+  }
+}
+
+//println "{{chart type='pie' source='inline' params='range:B1-B${userCountMap.size()};series:columns;' title='Build Managers'}}"
+println "|=Build Manager|=Count"
+userCountMap.each() { user, count -&gt;
+  println "|[[${user}]]|${count}"
+}
+//println "{{/chart}}"
+
+{{/groovy}}</content>
+</xwikidoc>

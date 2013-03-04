@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>DevGuide</web>
+  <name>Best Practices XWiki Application Organization</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>DevGuide.BestPractices</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1211276082000</creationDate>
+  <date>1360853390000</date>
+  <contentUpdateDate>1360853390000</contentUpdateDate>
+  <version>1.1</version>
+  <title>Best Practices: XWiki Application and Modules Organization</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>DevGuide.Best Practices XWiki Application Organization</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>77fd779b-4666-482b-858a-04bd4e907630</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+{{warning}}
+This document is still a draft. Note that the current content also reflects the view of its authors and NOT the view of the XWiki development team. We'll need to agree with the content before we can consider any of these best practices.
+{{/warning}}
+
+= Introduction =
+
+This document has the objective of describing how to best write an XWiki Application or Module. It explains:
+
+* It describes the different parts that can make an XWiki Application
+* How to organize the pages in spaces and how to name the pages
+* Naming conventions for the different pages, the translations, the CSS
+* Conventions for the Application documentation
+
+An Application is made of several modules. What we will describe here is how to organize each of these modules.
+
+= General Organization =
+
+A module should separate its data and its code. Modules should be built to be able to have data in several XWiki spaces, which allows to instanciate the module multiple times. 
+
+{{warning}}
+It is therefore important that an application most often displays data from the current space.
+{{/warning}}
+
+The only exception would be for applications that would spread multiple spaces on purpose. However, it should be most often possible to handle this by having space level sheets showing only data from the current space and global sheets showing data from the whole Wiki.
+
+= Naming Conventions =
+
+== Module Name ==
+
+It is best to choose a module name between 5 and 10 characters. Your module name should represent your data well. The wiki module name is usually using capital letters. The module name used in the CSS or Javascript or Translations strings is in lower case.
+
+{{info}}
+We will use throughout this document the module name 'MyModule' to show the naming conventions.
+{{/info}}
+
+It is very important to gather most of the logic code in the Code space. For this we should use macros and sheets (included using includeInContext). 
+
+== Spaces ==
+
+* Code Space(((
+{{info}}
+The code space should be names by the module name suffixed by Code. In our example this would be: MyModuleCode
+{{/info}}
+)))
+* Data Space(((
+{{info}}
+The default data space should be name by the module name. In our example this would be: MyModule
+{{/info}}
+)))
+
+== Classes ==
+
+The classes should be stored in the code space and should be suffixed by 'Class'. The properties of the classes should be camel case. They should be written in english and represent their meaning as much as possible. The 'title' and 'name' property should be kept for a field that can be used as a title for the document. Eg:
+* expireDate
+* externalRef
+
+{{info}}
+The class definition should be stored in the Code space: MyModuleCode.MyModuleClass
+{{/info}}
+
+There can be multiple classes per module.
+
+== Sheets ==
+
+The sheets is used for coding the presentation of a document of your class. The template is a sample document that can be used to pre-initialize data in your documents using this class.
+
+{{info}}
+A sheet page should be stored in the code space and start by the class name followed by the Sheet word: MyModuleCode.MyModuleClassSheet
+{{/info}}
+
+There is usually only one sheet per class.
+
+A sheet should be coded only using the XWiki Public API. It should be made to work both in view more or in edit mode (inline). A good example of a sheet that uses many functions available (tooltips and validation) is available in [[this tutorial&gt;&gt;DevGuide.Creating a form with validation and tooltips]].
+
+== Templates ==
+
+{{info}}
+A template page should be stored in the code space and start by the class name followed by the Template word: MyModuleCode.MyModuleClassTemplate
+{{/info}}
+
+There is usally one template per class, but it is possible to have multiple templates, though this requires more user-interface work.
+
+== Translations ==
+
+Translations are used to store strings to translate the user interface of your application. 
+
+{{info}}
+Translations should be stored in the code space in a page called Translations: MyModuleCode.Translations. Each language has it's own translated wiki page.
+{{/info}}
+
+The translations strings are each on one line and should be prefixed by the module name in lower case and by the sub-module or page name in which it is used:
+
+{{code}}
+mymodule.sheet.title=Title
+mymodule.sheet.description=Description
+mymodule.sheet.errormessage.cannotsave=The document {0} cannot be saved
+{{/code}}
+
+Translations strings can contain wiki syntax or HTML which can be interpreted. You have to be extra carefull to not use wiki syntax or HTML without knowing it (for example &lt; &gt; &amp; are special characters). Parameters named {0} {1} {2} can be used in translations.
+
+== CSS ==
+
+{{warning}}
+**[[SkinExtensions&gt;&gt;extensions:Extension.Skin Extension Plugin]] should always be used on XWiki versions where they are available.**
+{{/warning}}
+
+CSS should use a similar naming convention as translations. CSS can be stored either in skins files or in wiki pages.
+
+{{code language="css"}}
+.mymodule-sheet-p {
+ // etc..
+}
+#mymodule-sheet-title {
+ // etc..
+}
+{{/code}}
+
+When stored in wiki pages CSS should be surrounded by the pre and slash-pre macros that prevent wiki syntax to be executed in the content.
+
+{{info}}
+If stored in Wiki pages the CSS page should be stored in the code space and suffixed with CSS: MyModuleCode.CSS or MyModuleCode.SubModuleCSS
+{{/info}}
+
+{{info}}
+If stored in skins the CSS page should be named by the module: mymodule.css
+{{/info}}
+
+== Javascript ==
+
+{{warning}}
+**[[SkinExtensions&gt;&gt;extensions:Extension.Skin Extension Plugin]] should always be used on XWiki versions where they are available.**
+{{/warning}}
+
+Modules can provide Javascript to extend the functionnality of the wiki
+
+JS functions should be named by the module:
+
+{{code language="javascript"}}
+function mymodule-init() {
+}
+function mymodule-openwindow() {
+}
+etc..
+{{/code}}
+
+JS have the same constraints as CSS files and need to be protected by pre and slash-pre when stored in wiki pages.
+
+{{info}}
+If stored in Wiki pages the Javascript page should be stored in the code space and suffixed with JS: MyModuleCode.JS or MyModuleCode.SubModuleJS
+{{/info}}
+
+{{info}}
+If stored in skins the Javascript page should be named by the module: mymodule.js
+{{/info}}
+
+== Macros ==
+
+Macros should be used extensively to modularize the code in the wiki. Macros can be stored in wiki pages or in skins files. 
+
+{{info}}
+If stored in Wiki pages the macros page should be stored in the code space and suffixed with Macros: MyModuleCode.Macros or MyModuleCode.SubModuleMacros
+{{/info}}
+
+{{info}}
+If stored in skins the macros page should be named by the module: mymodulemacros.vm
+{{/info}}
+
+Macros should be named by the module and the submodule or page that uses it:
+
+{{code language="velocity"}}
+## comment explaining the macro
+#macro(mymodule_sheet_header $param1 $param2)
+
+#end ## end macro sheet_footer
+
+## comment explaining the macro
+#macro(mymodule_sheet_footer $param1 $param2)
+
+#end ## end macro sheet_footer
+{{/code}}
+
+== Groovy ==
+
+Groovy should be used when more logic is needed. There can be one or multiple groovy classes in the module. If possible we should stick to one module. Functions should use the submodule or page in the function names when it makes sense.
+
+Example code is:
+
+{{code language="java"}}
+public class Groovy {
+ def context;
+
+ public setContext(context) {
+  this.context = context;
+ }
+
+ public sheetAdd(param1, param2) {
+   return param1 + param2;
+ }
+}
+{{/code}}
+
+Groovy code can be instanciated in velocity using 
+
+{{code}}
+#set($mymodule = $xwiki.parseGroovyFromPage("MyModuleCode.Groovy"))
+$module.setContext($context)
+$module.sheetAdd($param1, $param2)
+{{/code}}
+
+{{info}}
+Groovy code should be stored in the code space and suffixed with Groovy: MyModuleCode.Groovy or MyModuleCode.SubModuleGroovy or MyModuleCode.PageGroovy
+{{/info}}
+
+== Plugins ==
+
+Plugins are optional possibilities offered to developers of modules, as an alternative solution to groovy. Plugins should be name using the module name.
+
+Plugins should be instanciated this way:
+
+{{code}}
+#set($mymodule = $xwiki.mymodule)
+$module.sheetAdd($param1, $param2)
+{{/code}}
+
+== Comments and Documentation ==
+
+We should document all pages in the wiki that contain code. For this we should use a standard documentation comment:
+
+{{code}}
+#**
+ * This is page for foo
+ *
+ * @author	XXX
+ * @progrights  This page requires programming rights
+ *#
+{{/code}}
+
+We should document macros 
+
+{{code}}
+#**
+ * This is macro for foo
+ *
+ * @param footext Represents the footext
+ * @param secondargument Represents the second argument
+ * @author	XXX
+ *#
+{{/code}}
+
+These comments are modeled after javadoc and parsable by velocidoc (http://sourceforge.net/projects/velocidoc/). We will have to modify the source code to parse the wiki pages using velocidoc.</content>
+</xwikidoc>

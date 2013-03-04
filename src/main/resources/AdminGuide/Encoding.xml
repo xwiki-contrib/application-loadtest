@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<xwikidoc>
+  <web>AdminGuide</web>
+  <name>Encoding</name>
+  <language/>
+  <defaultLanguage/>
+  <translation>0</translation>
+  <parent>AdminGuide.Configuration</parent>
+  <creator>xwiki:XWiki.Admin</creator>
+  <author>xwiki:XWiki.Admin</author>
+  <customClass/>
+  <contentAuthor>xwiki:XWiki.Admin</contentAuthor>
+  <creationDate>1174388047000</creationDate>
+  <date>1360950258000</date>
+  <contentUpdateDate>1360950258000</contentUpdateDate>
+  <version>1.1</version>
+  <title>XWiki Character Encoding Configuration</title>
+  <template/>
+  <defaultTemplate/>
+  <validationScript/>
+  <comment/>
+  <minorEdit>false</minorEdit>
+  <syntaxId>xwiki/2.0</syntaxId>
+  <hidden>false</hidden>
+  <object>
+    <class>
+      <name>XWiki.TagClass</name>
+      <customClass/>
+      <customMapping/>
+      <defaultViewSheet/>
+      <defaultEditSheet/>
+      <defaultWeb/>
+      <nameField/>
+      <validationScript/>
+      <tags>
+        <cache>0</cache>
+        <disabled>0</disabled>
+        <displayType>input</displayType>
+        <multiSelect>1</multiSelect>
+        <name>tags</name>
+        <number>1</number>
+        <prettyName>Tags</prettyName>
+        <relationalStorage>1</relationalStorage>
+        <separator>|</separator>
+        <separators>|,</separators>
+        <size>30</size>
+        <unmodifiable>0</unmodifiable>
+        <values/>
+        <classType>com.xpn.xwiki.objects.classes.StaticListClass</classType>
+      </tags>
+    </class>
+    <name>AdminGuide.Encoding</name>
+    <number>0</number>
+    <className>XWiki.TagClass</className>
+    <guid>1af19a21-03eb-4f03-adeb-deafd0f8f9ba</guid>
+    <property>
+      <tags/>
+    </property>
+  </object>
+  <content>{{box cssClass="floatinginfobox" title="**Contents**"}}
+{{toc/}}
+{{/box}}
+
+Below you have the configuration for UTF-8. Note that this is valid for XWiki 1.0 b5 and above. Easier configuration might be provided for upcoming releases.
+
+= XWiki encoding =
+
+Change the charset enconding in these XWiki files:
+
+* **web.xml**: locate the filter class ##com.xpn.xwiki.web.SetCharacterEncodingFilter## and change it to UTF-8. It should look like this:
+(((
+{{code language="xml"}}
+&lt;filter&gt;
+    &lt;filter-name&gt;Set Character Encoding&lt;/filter-name&gt;
+    &lt;filter-class&gt;com.xpn.xwiki.web.SetCharacterEncodingFilter&lt;/filter-class&gt;
+    &lt;init-param&gt;
+      &lt;param-name&gt;encoding&lt;/param-name&gt;
+      &lt;param-value&gt;UTF-8&lt;/param-value&gt;
+    &lt;/init-param&gt;
+&lt;/filter&gt;
+{{/code}}
+)))
+* **xwiki.cfg** : locate the line containing ##xwiki.encoding## and change it to look like this:
+(((
+{{code}}
+xwiki.encoding = UTF-8
+{{/code}}
+)))
+
+= HTML encoding =
+
+Change the HTML encoding in XWiki through Administration ~-~-&gt; Preferences ~-~-&gt; Presentation ~-~-&gt; HTTP Meta information. 
+
+{{warning}}
+This is Administration ~--&gt; Presentation then look for Header ~--&gt; HTTP Meta Information in more recent XWiki default wikis
+{{/warning}}
+
+Inside this textbox locate the **Content-type** meta tag and make it look like this, changing the encoding to UTF-8
+
+{{code language="xml"}}
+&lt;meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /&gt;
+{{/code}}
+
+{{warning}}
+This step is not needed if you have the following. Instead that line can be left alone.
+{{/warning}}
+
+{{code language="xml"}}
+&lt;meta http-equiv="Content-Type" content="text/html; charset=$!xwiki.encoding" /&gt;
+{{/code}}
+
+= Hibernate configuration =
+
+Add the following lines in the ##hibernate.cfg.xml## file:
+
+{{code language="xml"}}
+&lt;property name="connection.useUnicode"&gt;true&lt;/property&gt;
+&lt;property name="connection.characterEncoding"&gt;UTF-8&lt;/property&gt;
+{{/code}}
+
+= MySQL configuration =
+
+It's common practice that the MySQL configuration file, in *nix systems is located in $$/etc/mysql/my.cnf##:
+
+{{code}}
+[client]
+default-character-set=utf8
+[mysqld]
+default-character-set=utf8
+character-set-server = utf8
+collation-server = utf8_bin
+{{/code}}
+
+= Servlet Container =
+
+== Jetty ==
+
+{{code}}echo off
+rem set LANG=fr_FR.ISO8859-1
+set LANG=en_US.UTF-8
+set JETTY_PORT=8080
+set JETTY_HOME=.
+java %JAVA_OPTS% -Djetty.port=%JETTY_PORT% -Djetty.home=%JETTY_HOME% -Dfile.encoding=UTF-8 -jar %JETTY_HOME%/start.jar
+{{/code}}
+
+Instead of the config system variable LANG you can use JVM properties.
+
+{{code}}
+-Duser.language=en
+-Duser.country=US
+{{/code}}
+
+in server startup script.
+
+== Tomcat ==
+
+In order to enable UTF-8 in tomcat, you have to add
+
+{{code}}
+URIEncoding="UTF-8"
+{{/code}}
+
+to each connector enabled/used in ##conf/server.xml##. For example the non-SSL HTTP Connector should read:
+
+{{code language="xml"}}
+&lt;Connector port="8080" maxHttpHeaderSize="8192"
+    maxThreads="150" minSpareThreads="25" maxSpareThreads="75"
+    enableLookups="false" redirectPort="8443" acceptCount="100"
+    connectionTimeout="20000" disableUploadTimeout="true"
+    URIEncoding="UTF-8"/&gt;
+{{/code}}
+
+{{warning}}
+In case you're using AJP to connect Tomcat and httpd, make sure you add this attribute to the AJP connector.
+{{/warning}}
+
+== [[Glassfish&gt;&gt;http://glassfish.java.net/]] ==
+
+To run XWiki with UTF-8 in Glassfish you will need to recreate the **xwiki-enterprise.war** file and do a change to the glassfish config. First, in the Administration GUI under Domain =&gt; General =&gt; Locale enter **en_US.UTF-8**.
+
+Now you will need to add all the aforementioned changes from this document to the files in the war file, create a new warfile, and deploy that one to your glassfish installation. This is required due to the fact that Glassfish will not accept changes to a deployed web.xml file. So you need to deploy a ready changed **web.xml** file inside your war file because all subsequent changes to the deployed **web.xml** file in the filesystem are totally ignored.
+
+Create a new directory that we will use as a temporary place to edit our war file:
+
+{{code}}
+mkdir xwikitmp
+{{/code}}
+
+Unpack the warfile:
+
+{{code}}
+cd xwikitemp;jar xvf ../xwiki-enterprise-web-1.5.war
+{{/code}}
+
+Edit the files as mentioned in the beginning of this article:
+
+* wiki.cfg
+* web.xml
+* hibernate.cfg.xml
+
+Now let's create a new warfile which contains all the changes:
+
+{{code}}
+jar cvf ../xwiki-enterprise-web-local-1.5.war .
+{{/code}}
+
+Now you can deploy your new .war file to Glassfish and it will have all the changes in it and wll be correctly deployed.
+
+= System config =
+
+Add the following variables to your system:
+
+{{code}}
+LANG = en_US.UTF-8
+{{/code}}
+
+[[Credits&gt;&gt;http://markmail.org/message/qitvntzz7cwpyo2w]]
+
+= OpenOffice import =
+
+If OpenOffice import turns characters into question marks or HTML Entity you need to edit **registrymodifications.xcu** located in user profile used by the OO server by adding:
+
+{{code}}
+&lt;item
+oor:path="/org.openoffice.Office.Common/Filter/HTML/Export"&gt;&lt;prop
+oor:name="Encoding" oor:op="fuse"&gt;&lt;value&gt;76&lt;/value&gt;&lt;/prop&gt;&lt;/item&gt;
+{{/code}}
+
+[[Credits&gt;&gt;http://lists.xwiki.org/pipermail/users/2011-November/021004.html]]</content>
+</xwikidoc>
